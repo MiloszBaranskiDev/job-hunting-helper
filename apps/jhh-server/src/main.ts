@@ -1,14 +1,14 @@
-import express from 'express';
+import { Express } from 'express';
+import * as dotenv from 'dotenv';
+import { JhhServerApp } from '@jhh/jhh-server/app';
 
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+dotenv.config();
 
-const app = express();
+const host: string = process.env.HOST ?? 'localhost';
+const port: number = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
-});
+const app: Express = JhhServerApp();
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`hello on http://${host}:${port}`);
 });
