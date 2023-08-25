@@ -10,7 +10,8 @@
           "test",
           "e2e"
         ],
-        "accessToken": "OTliZTM0ZTEtMzA4Yi00ZTU0LTk5OTgtZjNjMzJhMDk0YmExfHJlYWQtd3JpdGU="
+        "accessToken": "OTliZTM0ZTEtMzA4Yi00ZTU0LTk5OTgtZjNjMzJhMDk0YmExfHJlYWQtd3JpdGU=",
+        "useDaemonProcess": false
       }
     }
   },
