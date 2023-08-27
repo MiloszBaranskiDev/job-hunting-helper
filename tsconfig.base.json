@@ -18,9 +18,19 @@
     "paths": {
       "@jhh/jhh-client/shell": ["libs/jhh-client/shell/src/index.ts"],
       "@jhh/jhh-server/app": ["libs/jhh-server/app/src/index.ts"],
+      "@jhh/jhh-server/controller/user": [
+        "libs/jhh-server/controller/user/src/index.ts"
+      ],
       "@jhh/jhh-server/db": ["libs/jhh-server/db/src/index.ts"],
-      "@jhh/jhh-server/router": ["libs/jhh-server/router/src/index.ts"],
-      "@jhh/shared/enums": ["libs/shared/enums/src/index.ts"]
+      "@jhh/jhh-server/middleware/auth": [
+        "libs/jhh-server/middleware/auth/src/index.ts"
+      ],
+      "@jhh/jhh-server/router/api": ["libs/jhh-server/router/api/src/index.ts"],
+      "@jhh/jhh-server/router/user": [
+        "libs/jhh-server/router/user/src/index.ts"
+      ],
+      "@jhh/shared/enums": ["libs/shared/enums/src/index.ts"],
+      "@jhh/shared/interfaces": ["libs/shared/interfaces/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

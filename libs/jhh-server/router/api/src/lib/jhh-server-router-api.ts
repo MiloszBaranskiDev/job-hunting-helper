@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { ApiRoutes } from '@jhh/shared/enums';
 
-export function JhhServerRouter(): Router {
+export function JhhServerRouterApi(): Router {
   const router: Router = Router();
 
-  router.get(ApiRoutes.test, (req, res) => {
+  router.get(ApiRoutes.Test, (req, res) => {
     res.send('Hello World!');
   });
 
