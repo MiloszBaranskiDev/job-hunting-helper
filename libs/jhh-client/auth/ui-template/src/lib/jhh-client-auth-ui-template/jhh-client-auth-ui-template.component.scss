@@ -1,0 +1,80 @@
+.authTemplate {
+  &__header {
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color__primary);
+    border-top-left-radius: var(--radius__base);
+    border-top-right-radius: var(--radius__base);
+
+    * {
+      color: white;
+    }
+
+    .mat-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 42px;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 500;
+      margin-left: 6px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__content {
+    margin: 15px 0 30px 0;
+    padding: 20px;
+
+    h2 {
+      text-align: center;
+      position: relative;
+      padding-bottom: 12px;
+      margin-bottom: 30px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 45px;
+        height: 2px;
+        background-color: var(--color__primary);
+      }
+    }
+
+    ::ng-deep {
+      button {
+        margin: 0 auto;
+        display: block;
+      }
+    }
+  }
+
+  &__icons {
+    margin: 0 20px;
+    padding: 20px;
+    border-top: 1px solid var(--color__divider);
+
+    ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      li {
+        a {
+          .mat-icon {
+            width: 28px;
+            height: 28px;
+          }
+        }
+      }
+    }
+  }
+}

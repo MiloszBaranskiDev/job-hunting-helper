@@ -1,0 +1,19 @@
+<section class="authTemplate">
+  <header class="authTemplate__header">
+    <mat-icon>archive</mat-icon>
+    <h1>Job Hunting Helper</h1>
+  </header>
+  <div class="authTemplate__content">
+    <h2>{{heading}}</h2>
+    <ng-content select="[auth-form]"></ng-content>
+  </div>
+  <div class="authTemplate__icons" *ngIf="icons.length > 0">
+    <ul>
+      <li *ngFor="let icon of icons">
+        <a [href]="icon.link" target="_blank" rel="noopener noreferrer">
+          <mat-icon [svgIcon]="icon.name"></mat-icon>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

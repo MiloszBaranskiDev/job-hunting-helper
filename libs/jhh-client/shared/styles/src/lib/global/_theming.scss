@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@import "@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -12,67 +13,57 @@ $jhh-font-family: 'Lexend Deca';
 
 $jhh-typography: mat.define-typography-config(
   $font-family: $jhh-font-family,
-  $headline-1:
-    mat.define-typography-level(
-      $font-size: 96px,
-      $font-weight: 600,
-    ),
-  $headline-2:
-    mat.define-typography-level(
-      $font-size: 60px,
-      $font-weight: 600,
-    ),
-  $headline-3:
-    mat.define-typography-level(
-      $font-size: 48px,
-      $font-weight: 600,
-    ),
-  $headline-4:
-    mat.define-typography-level(
-      $font-size: 34px,
-      $font-weight: 600,
-    ),
-  $headline-5:
-    mat.define-typography-level(
-      $font-size: 24px,
-      $font-weight: 600,
-    ),
-  $headline-6:
-    mat.define-typography-level(
-      $font-size: 20px,
-      $font-weight: 600,
-    ),
-  $subtitle-1:
-    mat.define-typography-level(
-      $font-size: 20px,
-      $font-weight: 600,
-    ),
-  $subtitle-2:
-    mat.define-typography-level(
-      $font-size: 18px,
-      $font-weight: 600,
-    ),
-  $body-1:
-    mat.define-typography-level(
-      $font-size: 16px,
-      $font-weight: 400,
-    ),
-  $body-2:
-    mat.define-typography-level(
-      $font-size: 14px,
-      $font-weight: 400,
-    ),
-  $caption:
-    mat.define-typography-level(
-      $font-size: 14px,
-      $font-weight: 400,
-    ),
-  $button:
-    mat.define-typography-level(
-      $font-size: 14px,
-      $font-weight: 400,
-    ),
+  $headline-1: mat.define-typography-level(
+    $font-size: 96px,
+    $font-weight: 500,
+  ),
+  $headline-2: mat.define-typography-level(
+    $font-size: 60px,
+    $font-weight: 500,
+  ),
+  $headline-3: mat.define-typography-level(
+    $font-size: 48px,
+    $font-weight: 500,
+  ),
+  $headline-4: mat.define-typography-level(
+    $font-size: 34px,
+    $font-weight: 500,
+  ),
+  $headline-5: mat.define-typography-level(
+    $font-size: 26px,
+    $font-weight: 500,
+  ),
+  $headline-6: mat.define-typography-level(
+    $font-size: 22px,
+    $font-weight: 500,
+  ),
+  $subtitle-1: mat.define-typography-level(
+    $font-size: 20px,
+    $font-weight: 500,
+  ),
+  $subtitle-2: mat.define-typography-level(
+    $font-size: 18px,
+    $font-weight: 500,
+  ),
+  $body-1: mat.define-typography-level(
+    $font-size: 16px,
+    $font-weight: 400,
+  ),
+  $body-2: mat.define-typography-level(
+    $font-size: 14px,
+    $font-weight: 400,
+  ),
+  $caption: mat.define-typography-level(
+    $font-size: 14px,
+    $font-weight: 400,
+  ),
+  $button: mat.define-typography-level(
+    $font-size: 14px,
+    $font-weight: 500,
+  ),
 );
+
+@include mat.typography-hierarchy($jhh-typography);
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -86,17 +77,32 @@ $jhh-client-warn: mat.define-palette(mat.$red-palette);
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $jhh-client-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $jhh-client-primary,
-      accent: $jhh-client-accent,
-      warn: $jhh-client-warn,
-    ),
-    typography: $jhh-typography,
-  )
+    (
+      color: (
+        primary: $jhh-client-primary,
+        accent: $jhh-client-accent,
+        warn: $jhh-client-warn,
+      ),
+      typography: $jhh-typography,
+    )
 );
+
+:root {
+  --color__bg: white;
+  --color__text: #000000de;
+  --color__icon: #a0aec0;
+  --color__divider: #E2E8F0;
+  --color__primary: #{mat-color($jhh-client-primary)};
+  --color__accent: #{mat-color($jhh-client-accent)};
+  --color__warn: #{mat-color($jhh-client-warn)};
+  --color__red: #{mat-color($jhh-client-warn)};
+  --color__green: #2ecc55;
+  --radius__base: 14px;
+}
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($jhh-client-theme);
+
+

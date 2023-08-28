@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { JhhClientShellComponent } from '@jhh/jhh-client/shell';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, JhhClientShellComponent],
+  imports: [RouterModule],
   selector: 'jhh-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

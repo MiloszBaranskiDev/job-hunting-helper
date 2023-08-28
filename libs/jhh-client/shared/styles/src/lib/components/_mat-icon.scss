@@ -1,0 +1,8 @@
+.mat-icon {
+  color: var(--color__icon);
+
+  &:hover {
+    transition: ease color .3s !important;
+    color: var(--color__primary);
+  }
+}
