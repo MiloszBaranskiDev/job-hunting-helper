@@ -8,6 +8,7 @@
     <ng-content select="[auth-form]"></ng-content>
   </div>
   <div class="authTemplate__icons" *ngIf="icons.length > 0">
+    <mat-divider></mat-divider>
     <ul>
       <li *ngFor="let icon of icons">
         <a [href]="icon.link" target="_blank" rel="noopener noreferrer">
