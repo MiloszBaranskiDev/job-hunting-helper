@@ -1,0 +1,45 @@
+{
+  "name": "jhh-client-shared-ui-ngrx-action-resolver-service",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/shared/ui-ngrx/action-resolver-service/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/shared/ui-ngrx/action-resolver-service",
+        "main": "libs/jhh-client/shared/ui-ngrx/action-resolver-service/src/index.ts",
+        "tsConfig": "libs/jhh-client/shared/ui-ngrx/action-resolver-service/tsconfig.lib.json",
+        "assets": [
+          "libs/jhh-client/shared/ui-ngrx/action-resolver-service/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/jhh-client/shared/ui-ngrx/action-resolver-service/**/*.ts",
+          "libs/jhh-client/shared/ui-ngrx/action-resolver-service/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/jhh-client/shared/ui-ngrx/action-resolver-service/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

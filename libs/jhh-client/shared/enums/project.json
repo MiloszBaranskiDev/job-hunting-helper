@@ -1,0 +1,43 @@
+{
+  "name": "jhh-client-shared-enums",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/shared/enums/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/shared/enums",
+        "main": "libs/jhh-client/shared/enums/src/index.ts",
+        "tsConfig": "libs/jhh-client/shared/enums/tsconfig.lib.json",
+        "assets": ["libs/jhh-client/shared/enums/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/jhh-client/shared/enums/**/*.ts",
+          "libs/jhh-client/shared/enums/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/jhh-client/shared/enums/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
