@@ -9,7 +9,7 @@ export function JhhServerRouterUser(): Router {
 
   router.post(ApiRoutes.CreateNewUser, controller.createNewUser);
   router.post(ApiRoutes.SignIn, controller.signIn);
-  router.post(ApiRoutes.GetUser, JhhServerMiddlewareAuth, controller.getUser);
+  router.get(ApiRoutes.GetUser, JhhServerMiddlewareAuth, controller.getUser);
 
   return router;
 }
