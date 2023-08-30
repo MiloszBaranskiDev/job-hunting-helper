@@ -11,12 +11,22 @@ export function JhhServerControllerUser() {
 
   const createNewUser = async (req, res): Promise<void> => {
     try {
-      let { username, password } = req.body;
+      let { username, password, confirmPassword } = req.body;
 
       username = username.trim();
       password = password.trim();
+      confirmPassword = confirmPassword.trim();
 
-      const validationError: string = validateFields(username, password);
+      const validationError: string | null = validateFields(
+        username,
+        password,
+        confirmPassword,
+        {
+          usernameRequired: true,
+          passwordRequired: true,
+          confirmPasswordRequired: true,
+        }
+      );
       if (validationError) {
         res.status(400).json({ error: validationError });
         return;
@@ -53,15 +63,19 @@ export function JhhServerControllerUser() {
     try {
       let { username, password } = req.body;
 
-      if (!username || !password) {
-        res
-          .status(400)
-          .json({ message: 'Both username and password are required.' });
-        return;
-      }
-
       username = username.trim();
       password = password.trim();
+
+      const validationError: string | null = validateFields(
+        username,
+        password,
+        null,
+        { usernameRequired: true, passwordRequired: true }
+      );
+      if (validationError) {
+        res.status(400).json({ error: validationError });
+        return;
+      }
 
       const user: User | null = await prisma.user.findUnique({
         where: {
@@ -89,8 +103,50 @@ export function JhhServerControllerUser() {
     }
   };
 
+  const getUser = async (req, res): Promise<void> => {
+    try {
+      let { username } = req.body;
+
+      username = username.trim();
+
+      const validationError: string | null = validateFields(
+        username,
+        null,
+        null,
+        { usernameRequired: true }
+      );
+      if (validationError) {
+        res.status(400).json({ error: validationError });
+        return;
+      }
+
+      type UserType = Omit<User, 'password'>;
+      const user: UserType | null = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+        select: {
+          id: true,
+          createdAt: true,
+          username: true,
+        },
+      });
+
+      if (!user) {
+        res.status(404).json({ message: 'User not found.' });
+        return;
+      }
+
+      res.status(200).json(user);
+    } catch (error) {
+      console.error('Error during fetching user:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
   return {
     createNewUser,
     signIn,
+    getUser,
   };
 }
