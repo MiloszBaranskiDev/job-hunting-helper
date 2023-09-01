@@ -61,19 +61,20 @@ export function JhhServerControllerUser() {
 
   const signIn = async (req, res): Promise<void> => {
     try {
-      let { username, password } = req.body;
+      const { username, password } = req.body;
 
-      username = username.trim();
-      password = password.trim();
+      if (!username && !password) {
+        res.status(400).json({ error: 'Username and password are required.' });
+        return;
+      }
 
-      const validationError: string | null = validateFields(
-        username,
-        password,
-        null,
-        { usernameRequired: true, passwordRequired: true }
-      );
-      if (validationError) {
-        res.status(400).json({ error: validationError });
+      if (!username) {
+        res.status(400).json({ error: 'Username is required.' });
+        return;
+      }
+
+      if (!password) {
+        res.status(400).json({ error: 'Password is required.' });
         return;
       }
 
@@ -96,7 +97,7 @@ export function JhhServerControllerUser() {
       }
 
       const token = createJWT(user);
-      res.status(200).json({ token });
+      res.status(200).json({ data: { token } });
     } catch (error) {
       console.error('Error during authentication:', error);
       res.status(500).json({ message: 'Internal Server Error' });

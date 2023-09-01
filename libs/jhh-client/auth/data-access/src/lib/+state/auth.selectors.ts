@@ -19,6 +19,11 @@ export const selectAuthLoginInProgress = createSelector(
   (state: AuthState) => state.loginInProgress
 );
 
+export const selectAuthLoginError = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.loginError
+);
+
 export const selectAuthRegisterInProgress = createSelector(
   selectAuthState,
   (state: AuthState) => state.registerInProgress

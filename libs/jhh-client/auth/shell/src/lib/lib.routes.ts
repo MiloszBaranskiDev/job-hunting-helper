@@ -8,6 +8,7 @@ import {
   AuthEffects,
   authReducer,
 } from '@jhh/jhh-client/auth/data-access';
+import { AuthFeatureEffects } from '@jhh/jhh-client/auth/feature';
 
 export const JhhClientAuthShellRoutes: Route[] = [
   {
@@ -15,7 +16,7 @@ export const JhhClientAuthShellRoutes: Route[] = [
     component: JhhClientAuthShellComponent,
     providers: [
       provideState(AUTH_FEATURE_KEY, authReducer),
-      provideEffects(AuthEffects),
+      provideEffects(AuthEffects, AuthFeatureEffects),
     ],
     children: [
       {

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ActionResolverService } from './action-resolver.service';
 
-describe('ActionResolverServiceService', () => {
+describe('ActionResolverService', () => {
   let service: ActionResolverService;
 
   beforeEach(() => {

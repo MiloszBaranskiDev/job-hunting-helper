@@ -5,7 +5,7 @@ import * as AuthSelectors from './auth.selectors';
 import * as AuthActions from './auth.actions';
 import { User } from '@jhh/shared/interfaces';
 import { AuthService } from '../services/auth.service';
-import { ActionResolverService } from '@jhh/jhh-client/shared/ui-ngrx/action-resolver-service';
+import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
 @Injectable()
 export class AuthFacade {
@@ -21,6 +21,10 @@ export class AuthFacade {
 
   loginInProgress$: Observable<boolean> = this.store.pipe(
     select(AuthSelectors.selectAuthLoginInProgress)
+  );
+
+  loginError$: Observable<string | null> = this.store.pipe(
+    select(AuthSelectors.selectAuthLoginError)
   );
 
   registerInProgress$: Observable<boolean> = this.store.pipe(
