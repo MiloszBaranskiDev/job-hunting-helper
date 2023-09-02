@@ -7,8 +7,8 @@ export function JhhServerRouterUser(): Router {
   const router: Router = Router();
   const controller = JhhServerControllerUser();
 
-  router.post(ApiRoutes.CreateNewUser, controller.createNewUser);
   router.post(ApiRoutes.SignIn, controller.signIn);
+  router.post(ApiRoutes.CreateNewUser, controller.createNewUser);
   router.get(ApiRoutes.GetUser, JhhServerMiddlewareAuth, controller.getUser);
 
   return router;

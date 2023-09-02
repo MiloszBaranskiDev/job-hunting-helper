@@ -3,32 +3,57 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 import { User } from '@jhh/shared/interfaces';
 import createJWT from './utils/create-jwt';
 import hashPassword from './utils/hash-password';
-import validateFields from './utils/validate-fields';
-import comparePasswords from './utils/compare-passwords';
+import validateUserPassword from './utils/validate-user-password/index';
+import { RegisterFieldsLength } from '@jhh/shared/enums';
 
 export function JhhServerControllerUser() {
   const prisma: PrismaClient = JhhServerDb();
 
   const createNewUser = async (req, res): Promise<void> => {
     try {
-      let { username, password, confirmPassword } = req.body;
+      const { username, password, confirmPassword } = req.body;
 
-      username = username.trim();
-      password = password.trim();
-      confirmPassword = confirmPassword.trim();
+      if (!username || !password || !confirmPassword) {
+        res.status(400).json({ message: 'All fields are required.' });
+        return;
+      }
 
-      const validationError: string | null = validateFields(
-        username,
-        password,
-        confirmPassword,
-        {
-          usernameRequired: true,
-          passwordRequired: true,
-          confirmPasswordRequired: true,
-        }
-      );
-      if (validationError) {
-        res.status(400).json({ error: validationError });
+      if (/\s/.test(username)) {
+        res
+          .status(400)
+          .json({ message: 'Username should not contain whitespace' });
+        return;
+      }
+
+      if (/\s/.test(password)) {
+        res
+          .status(400)
+          .json({ message: 'Password should not contain whitespace' });
+        return;
+      }
+
+      if (
+        username.length < RegisterFieldsLength.MinUsernameLength ||
+        username.length > RegisterFieldsLength.MaxUsernameLength
+      ) {
+        res.status(400).json({
+          message: `Username must be between ${RegisterFieldsLength.MinUsernameLength} and ${RegisterFieldsLength.MaxUsernameLength} characters`,
+        });
+        return;
+      }
+
+      if (
+        password.length < RegisterFieldsLength.MinPasswordLength ||
+        password.length > RegisterFieldsLength.MaxPasswordLength
+      ) {
+        res.status(400).json({
+          message: `Password must be between ${RegisterFieldsLength.MinPasswordLength} and ${RegisterFieldsLength.MaxPasswordLength} characters`,
+        });
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        res.status(400).json({ message: 'Passwords do not match' });
         return;
       }
 
@@ -39,7 +64,7 @@ export function JhhServerControllerUser() {
       });
 
       if (existingUser) {
-        res.status(400).json({ error: 'Username already exists' });
+        res.status(400).json({ message: 'Username already exists' });
         return;
       }
 
@@ -51,11 +76,10 @@ export function JhhServerControllerUser() {
       });
 
       const token = createJWT(user);
-      res.json({ token });
+      res.status(200).json({ data: { token } });
     } catch (err) {
       console.error(err);
-
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   };
 
@@ -64,17 +88,19 @@ export function JhhServerControllerUser() {
       const { username, password } = req.body;
 
       if (!username && !password) {
-        res.status(400).json({ error: 'Username and password are required.' });
+        res
+          .status(400)
+          .json({ message: 'Username and password are required.' });
         return;
       }
 
       if (!username) {
-        res.status(400).json({ error: 'Username is required.' });
+        res.status(400).json({ message: 'Username is required.' });
         return;
       }
 
       if (!password) {
-        res.status(400).json({ error: 'Password is required.' });
+        res.status(400).json({ message: 'Password is required.' });
         return;
       }
 
@@ -89,9 +115,12 @@ export function JhhServerControllerUser() {
         return;
       }
 
-      const isValid = await comparePasswords(password, user.password);
+      const isValidPassword = await validateUserPassword(
+        password,
+        user.password
+      );
 
-      if (!isValid) {
+      if (!isValidPassword) {
         res.status(401).json({ message: 'Invalid password.' });
         return;
       }
@@ -99,27 +128,14 @@ export function JhhServerControllerUser() {
       const token = createJWT(user);
       res.status(200).json({ data: { token } });
     } catch (error) {
-      console.error('Error during authentication:', error);
+      console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
 
   const getUser = async (req, res): Promise<void> => {
     try {
-      let { username } = req.body;
-
-      username = username.trim();
-
-      const validationError: string | null = validateFields(
-        username,
-        null,
-        null,
-        { usernameRequired: true }
-      );
-      if (validationError) {
-        res.status(400).json({ error: validationError });
-        return;
-      }
+      const { username } = req.body;
 
       type UserType = Omit<User, 'password'>;
       const user: UserType | null = await prisma.user.findUnique({

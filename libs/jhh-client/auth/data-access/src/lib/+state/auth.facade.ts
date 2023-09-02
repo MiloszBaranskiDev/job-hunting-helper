@@ -31,6 +31,10 @@ export class AuthFacade {
     select(AuthSelectors.selectAuthRegisterInProgress)
   );
 
+  registerError$: Observable<string | null> = this.store.pipe(
+    select(AuthSelectors.selectAuthRegisterError)
+  );
+
   getUser$: Observable<User | null> = this.store.pipe(
     select(AuthSelectors.selectAuthUser)
   );

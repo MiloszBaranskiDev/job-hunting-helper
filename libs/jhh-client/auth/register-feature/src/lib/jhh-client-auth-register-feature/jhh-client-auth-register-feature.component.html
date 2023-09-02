@@ -1,27 +1,80 @@
 <jhh-auth-ui-template [heading]="'Register'">
-  <form auth-form [formGroup]="formGroup">
+  <form auth-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" placeholder="Username">
+      <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('username')?.hasError('minlength')">
+        Minimum length of username is {{registerFieldsLength.MinUsernameLength}} characters
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('username')?.hasError('maxlength')">
+        Maximum length of username is {{registerFieldsLength.MaxUsernameLength}} characters
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('username')?.hasError('whitespace')">
+        Username cannot contain whitespace.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Password">
+      <input
+        matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true" formControlName="password"
+        placeholder="Password" (input)="validatePasswords()">
       <mat-icon matSuffix (click)="hidePassword = !hidePassword">
         {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+        Minimum length of password is {{registerFieldsLength.MinPasswordLength}} characters
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('maxlength')">
+        Maximum length of password is {{registerFieldsLength.MaxPasswordLength}} characters
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('whitespace')">
+        Password cannot contain whitespace.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Confirm Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="confirmPassword"
-             placeholder="Confirm Password">
+      <input
+        matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true" formControlName="confirmPassword"
+        placeholder="Confirm Password" (input)="validatePasswords()">
       <mat-icon matSuffix (click)="hidePassword = !hidePassword">
         {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
     </mat-form-field>
 
-    <button mat-flat-button color="primary" type="submit">Create account</button>
+    <mat-error class="password-match-error" *ngIf="formGroup.hasError('confirmPasswordMismatch')">
+      Passwords do not match.
+    </mat-error>
+
+    <ng-container *ngIf="(registerInProgress$ | async) || (registerError$ | async)">
+      <div class="authTemplate__status">
+        <ng-container *ngIf="registerInProgress$ | async; else notLoading">
+          <mat-spinner></mat-spinner>
+        </ng-container>
+        <ng-template #notLoading>
+          <ng-container *ngIf="registerError$ | async as error">
+            <mat-error>
+              {{ error }}
+            </mat-error>
+          </ng-container>
+        </ng-template>
+      </div>
+    </ng-container>
+
+    <div class="authTemplate__buttons">
+      <button
+        mat-flat-button color="primary" type="submit"
+        [disabled]="!formGroup.valid || (registerInProgress$ | async)">
+        Submit
+      </button>
+      <a [routerLink]="clientRoutes.LoginSlash" mat-stroked-button>Log in</a>
+    </div>
   </form>
 </jhh-auth-ui-template>

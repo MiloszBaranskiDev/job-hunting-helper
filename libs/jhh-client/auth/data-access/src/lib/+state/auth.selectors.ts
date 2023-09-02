@@ -28,3 +28,8 @@ export const selectAuthRegisterInProgress = createSelector(
   selectAuthState,
   (state: AuthState) => state.registerInProgress
 );
+
+export const selectAuthRegisterError = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.registerError
+);

@@ -6,9 +6,10 @@ export const AUTH_FEATURE_KEY = 'auth';
 
 export interface AuthState {
   token: string | null;
-  registerInProgress: boolean;
   loginInProgress: boolean;
   loginError: string | null;
+  registerInProgress: boolean;
+  registerError: string | null;
   getUserInProgress: boolean;
   user: User | null;
 }
@@ -19,9 +20,10 @@ export interface AuthPartialState {
 
 export const initialAuthState: AuthState = {
   token: null,
-  registerInProgress: false,
   loginInProgress: false,
   loginError: null,
+  registerInProgress: false,
+  registerError: null,
   getUserInProgress: false,
   user: null,
 };
@@ -46,9 +48,10 @@ const reducer: ActionReducer<AuthState> = createReducer(
     ...state,
     registerInProgress: true,
   })),
-  on(AuthActions.registerFail, (state) => ({
+  on(AuthActions.registerFail, (state, { payload }) => ({
     ...state,
     registerInProgress: false,
+    registerError: payload.error.message,
   })),
   on(AuthActions.registerSuccess, (state, { payload }) => ({
     ...state,
