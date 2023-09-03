@@ -18,6 +18,11 @@ import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-templa
 import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
+enum FormFields {
+  Username = 'username',
+  Password = 'password',
+}
+
 @Component({
   selector: 'jhh-login-feature',
   standalone: true,
@@ -42,6 +47,7 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
   readonly clientRoutes: typeof ClientRoutes = ClientRoutes;
+  readonly formFields: typeof FormFields = FormFields;
 
   formGroup: FormGroup;
   hidePassword: boolean = true;
@@ -50,6 +56,10 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
   loginError$: Observable<string | null> = this.authFacade.loginError$;
 
   ngOnInit(): void {
+    this.initFormGroup();
+  }
+
+  initFormGroup() {
     this.formGroup = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -59,8 +69,9 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const username = this.formGroup.get('username')?.value;
-      const password = this.formGroup.get('password')?.value;
+      const username = this.formGroup.get(FormFields.Username)?.value;
+      const password = this.formGroup.get(FormFields.Password)?.value;
+
       this.authFacade.login(username, password).pipe(first());
     }
   }

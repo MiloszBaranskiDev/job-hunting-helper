@@ -2,20 +2,21 @@
   <form auth-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput formControlName="username" placeholder="Username">
-      <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+      <input matInput [formControlName]="formFields.Username" placeholder="Username">
+      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError('required')">
         Username is required
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true" formControlName="password"
+      <input matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
+             [formControlName]="formFields.Password"
              placeholder="Password">
       <mat-icon matSuffix (click)="hidePassword = !hidePassword">
         {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
-      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+      <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError('required')">
         Password is required
       </mat-error>
     </mat-form-field>
