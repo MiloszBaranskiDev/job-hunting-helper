@@ -18,7 +18,7 @@ export const authGuard: CanActivateFn = (
   const token: string = authFacade.getToken();
 
   if (token) {
-    router.createUrlTree([ClientRoutes.HomeSlash]);
+    router.navigate([ClientRoutes.HomeSlash]);
     return false;
   } else {
     return true;

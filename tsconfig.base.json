@@ -29,12 +29,18 @@
       "@jhh/jhh-client/auth/login-feature": [
         "libs/jhh-client/auth/login-feature/src/index.ts"
       ],
+      "@jhh/jhh-client/auth/public": [
+        "libs/jhh-client/auth/public/src/index.ts"
+      ],
       "@jhh/jhh-client/auth/register-feature": [
         "libs/jhh-client/auth/register-feature/src/index.ts"
       ],
       "@jhh/jhh-client/auth/shell": ["libs/jhh-client/auth/shell/src/index.ts"],
       "@jhh/jhh-client/auth/ui-template": [
         "libs/jhh-client/auth/ui-template/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/shell": [
+        "libs/jhh-client/dashboard/shell/src/index.ts"
       ],
       "@jhh/jhh-client/shared/config": [
         "libs/jhh-client/shared/config/src/index.ts"

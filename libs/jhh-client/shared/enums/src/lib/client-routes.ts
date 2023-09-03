@@ -1,6 +1,6 @@
 export enum ClientRoutes {
-  Home = '',
-  HomeSlash = '/',
+  Home = 'home',
+  HomeSlash = '/home',
   Login = 'login',
   LoginSlash = '/login',
   Register = 'register',
