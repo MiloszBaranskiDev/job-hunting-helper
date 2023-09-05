@@ -9,7 +9,7 @@ import { RegisterFieldsLength } from '@jhh/shared/enums';
 export function JhhServerControllerUser() {
   const prisma: PrismaClient = JhhServerDb();
 
-  const createNewUser = async (req, res): Promise<void> => {
+  const register = async (req, res): Promise<void> => {
     try {
       const { username, password, confirmPassword } = req.body;
 
@@ -76,14 +76,15 @@ export function JhhServerControllerUser() {
       });
 
       const token = createJWT(user);
-      res.status(200).json({ data: { token } });
+      delete user.password;
+      res.status(200).json({ data: { token, user } });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
 
-  const signIn = async (req, res): Promise<void> => {
+  const login = async (req, res): Promise<void> => {
     try {
       const { username, password } = req.body;
 
@@ -111,7 +112,7 @@ export function JhhServerControllerUser() {
       });
 
       if (!user) {
-        res.status(401).json({ message: 'User not found.' });
+        res.status(404).json({ message: 'User not found.' });
         return;
       }
 
@@ -126,44 +127,16 @@ export function JhhServerControllerUser() {
       }
 
       const token = createJWT(user);
-      res.status(200).json({ data: { token } });
+      delete user.password;
+      res.status(200).json({ data: { token, user } });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
 
-  const getUser = async (req, res): Promise<void> => {
-    try {
-      const { username } = req.body;
-
-      type UserType = Omit<User, 'password'>;
-      const user: UserType | null = await prisma.user.findUnique({
-        where: {
-          username: username,
-        },
-        select: {
-          id: true,
-          createdAt: true,
-          username: true,
-        },
-      });
-
-      if (!user) {
-        res.status(404).json({ message: 'User not found.' });
-        return;
-      }
-
-      res.status(200).json(user);
-    } catch (error) {
-      console.error('Error during fetching user:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-
   return {
-    createNewUser,
-    signIn,
-    getUser,
+    register,
+    login,
   };
 }

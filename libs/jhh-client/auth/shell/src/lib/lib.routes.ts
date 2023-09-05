@@ -6,7 +6,6 @@ import { JhhClientAuthShellComponent } from './container/jhh-client-auth-shell.c
 import {
   AUTH_FEATURE_KEY,
   AuthEffects,
-  AuthFacade,
   authReducer,
 } from '@jhh/jhh-client/auth/data-access';
 import { AuthFeatureEffects } from '@jhh/jhh-client/auth/feature';
@@ -16,7 +15,6 @@ export const JhhClientAuthShellRoutes: Route = {
   path: '',
   component: JhhClientAuthShellComponent,
   providers: [
-    AuthFacade,
     provideState(AUTH_FEATURE_KEY, authReducer),
     provideEffects(AuthEffects, AuthFeatureEffects),
   ],

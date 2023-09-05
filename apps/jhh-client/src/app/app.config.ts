@@ -5,13 +5,16 @@ import {
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    AuthFacade,
     provideEffects(),
     provideStore(),
     provideStoreDevtools({
@@ -23,6 +26,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
   ],
 };

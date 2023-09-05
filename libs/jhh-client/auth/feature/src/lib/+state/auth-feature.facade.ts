@@ -10,6 +10,7 @@ export class AuthFeatureFacade {
 
   loginOrRedirect() {
     const token: string = this.authFacade.getToken();
+
     if (token) {
       this.authFacade.saveToken(token);
     } else {

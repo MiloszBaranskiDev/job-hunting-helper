@@ -38,7 +38,6 @@ enum FormFields {
     RouterLink,
     MatProgressSpinnerModule,
   ],
-  providers: [AuthFacade],
   templateUrl: './jhh-client-auth-login-feature.component.html',
   styleUrls: ['./jhh-client-auth-login-feature.component.scss'],
 })

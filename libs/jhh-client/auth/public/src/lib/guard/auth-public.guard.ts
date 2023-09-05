@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { inject } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { filter, first, map, Observable, tap } from 'rxjs';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { AuthPublicFacade } from '../+state/auth-public.facade';
 
@@ -21,14 +21,8 @@ export const authPublicGuard: CanActivateFn = (
         authPublicFacade.loginOrRedirect();
       }
     }),
-    // first((token: string) => !!token),
-    // switchMap(() => this.authPublicFacade.user$),
-    // tap((user: User) => {
-    //   if (!user) {
-    //     this.authPublicFacade.getUser();
-    //   }
-    // }),
-    // first((user: User) => !!user),
+    filter((token): token is string => token !== null),
+    first(),
     map(() => true)
   );
 };

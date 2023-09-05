@@ -68,7 +68,6 @@ function passwordsMatch(group: FormGroup): ValidationErrors | null {
     MatProgressSpinnerModule,
     MatProgressBarModule,
   ],
-  providers: [AuthFacade],
   templateUrl: './jhh-client-auth-register-feature.component.html',
   styleUrls: ['./jhh-client-auth-register-feature.component.scss'],
 })

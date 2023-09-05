@@ -11,7 +11,9 @@ export class AuthFeatureEffects {
   private readonly actions$: Actions = inject(Actions);
   private readonly router: Router = inject(Router);
 
-  navigateHome = () => this.router.navigate([ClientRoutes.HomeSlash]);
+  navigateHome = () => {
+    this.router.navigate([ClientRoutes.HomeSlash]);
+  };
 
   createNavigationEffect = (action: ActionCreator) =>
     createEffect(

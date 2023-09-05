@@ -9,11 +9,6 @@ export const selectAuthToken = createSelector(
   (state: AuthState) => state.token
 );
 
-export const selectAuthUser = createSelector(
-  selectAuthState,
-  (state: AuthState) => state.user
-);
-
 export const selectAuthLoginInProgress = createSelector(
   selectAuthState,
   (state: AuthState) => state.loginInProgress
@@ -32,4 +27,9 @@ export const selectAuthRegisterInProgress = createSelector(
 export const selectAuthRegisterError = createSelector(
   selectAuthState,
   (state: AuthState) => state.registerError
+);
+
+export const selectAuthUser = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.user
 );

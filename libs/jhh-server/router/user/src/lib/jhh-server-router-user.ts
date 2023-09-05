@@ -1,15 +1,13 @@
 import { Router } from 'express';
 import { ApiRoutes } from '@jhh/shared/enums';
 import { JhhServerControllerUser } from '@jhh/jhh-server/controller/user';
-import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
 
 export function JhhServerRouterUser(): Router {
   const router: Router = Router();
   const controller = JhhServerControllerUser();
 
-  router.post(ApiRoutes.SignIn, controller.signIn);
-  router.post(ApiRoutes.CreateNewUser, controller.createNewUser);
-  router.get(ApiRoutes.GetUser, JhhServerMiddlewareAuth, controller.getUser);
+  router.post(ApiRoutes.Login, controller.login);
+  router.post(ApiRoutes.Register, controller.register);
 
   return router;
 }

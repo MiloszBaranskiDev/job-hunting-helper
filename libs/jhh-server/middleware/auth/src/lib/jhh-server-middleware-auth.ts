@@ -6,7 +6,7 @@ export function JhhServerMiddlewareAuth(req, res, next): void {
 
   if (!bearer) {
     res.status(401);
-    res.json({ message: 'not authorized' });
+    res.json({ message: 'Not authorized' });
     return;
   }
 
@@ -14,7 +14,7 @@ export function JhhServerMiddlewareAuth(req, res, next): void {
 
   if (!token) {
     res.status(401);
-    res.json({ message: 'not valid token' });
+    res.json({ message: 'Not valid token' });
     return;
   }
 
@@ -25,7 +25,7 @@ export function JhhServerMiddlewareAuth(req, res, next): void {
   } catch (e) {
     console.error(e);
     res.status(401);
-    res.json({ message: 'not valid token' });
+    res.json({ message: 'Not valid token' });
     return;
   }
 }

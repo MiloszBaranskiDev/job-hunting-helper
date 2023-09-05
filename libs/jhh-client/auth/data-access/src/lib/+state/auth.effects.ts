@@ -5,7 +5,6 @@ import { fetch } from '@nrwl/angular';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
 import {
-  GetUserSuccessPayload,
   LoginSuccessPayload,
   RegisterSuccessPayload,
 } from '@jhh/jhh-client/auth/interfaces';
@@ -48,23 +47,6 @@ export class AuthEffects {
           ),
         onError: (action, error) =>
           AuthActions.registerFail({ payload: error }),
-      })
-    )
-  );
-
-  getUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.getUser),
-      fetch({
-        run: () =>
-          this.authService
-            .getUser()
-            .pipe(
-              map((res: GetUserSuccessPayload) =>
-                AuthActions.getUserSuccess({ payload: res })
-              )
-            ),
-        onError: (action, error) => AuthActions.getUserFail({ payload: error }),
       })
     )
   );

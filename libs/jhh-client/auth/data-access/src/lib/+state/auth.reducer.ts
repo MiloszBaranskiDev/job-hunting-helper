@@ -10,7 +10,6 @@ export interface AuthState {
   loginError: string | null;
   registerInProgress: boolean;
   registerError: string | null;
-  getUserInProgress: boolean;
   user: User | null;
 }
 
@@ -24,7 +23,6 @@ export const initialAuthState: AuthState = {
   loginError: null,
   registerInProgress: false,
   registerError: null,
-  getUserInProgress: false,
   user: null,
 };
 
@@ -43,6 +41,7 @@ const reducer: ActionReducer<AuthState> = createReducer(
     ...state,
     loginInProgress: false,
     token: payload.token,
+    user: payload.user,
   })),
   on(AuthActions.register, (state) => ({
     ...state,
@@ -57,6 +56,7 @@ const reducer: ActionReducer<AuthState> = createReducer(
     ...state,
     registerInProgress: false,
     token: payload.token,
+    user: payload.user,
   })),
   on(AuthActions.saveToken, (state, { payload }) => ({
     ...state,
@@ -67,19 +67,6 @@ const reducer: ActionReducer<AuthState> = createReducer(
     ...state,
     token: null,
     user: null,
-  })),
-  on(AuthActions.getUser, (state) => ({
-    ...state,
-    getUserInProgress: true,
-  })),
-  on(AuthActions.getUserFail, (state) => ({
-    ...state,
-    getUserInProgress: false,
-  })),
-  on(AuthActions.getUserSuccess, (state, { payload }) => ({
-    ...state,
-    getUserInProgress: false,
-    user: payload.data,
   }))
 );
 

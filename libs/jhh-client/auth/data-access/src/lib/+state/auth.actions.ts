@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  GetUserSuccessPayload,
   LoginPayload,
   LoginSuccessPayload,
   RegisterPayload,
@@ -18,9 +17,6 @@ export enum Type {
   RegisterSuccess = '[Auth] Register Success',
   SaveToken = '[Auth] Save Token',
   Logout = '[Auth] Logout',
-  GetUser = '[Auth] Get User',
-  GetUserFail = '[Auth] Get User Fail',
-  GetUserSuccess = '[Auth] Get User Success',
 }
 
 export const login = createAction(
@@ -59,15 +55,3 @@ export const saveToken = createAction(
 );
 
 export const logout = createAction(Type.Logout);
-
-export const getUser = createAction(Type.GetUser);
-
-export const getUserFail = createAction(
-  Type.GetUserFail,
-  props<{ payload: HttpErrorResponse }>()
-);
-
-export const getUserSuccess = createAction(
-  Type.GetUserSuccess,
-  props<{ payload: GetUserSuccessPayload }>()
-);

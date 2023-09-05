@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as AuthSelectors from './auth.selectors';
 import * as AuthActions from './auth.actions';
-import { User } from '@jhh/shared/interfaces';
 import { AuthService } from '../services/auth.service';
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
@@ -35,12 +34,12 @@ export class AuthFacade {
     select(AuthSelectors.selectAuthRegisterError)
   );
 
-  getUser$: Observable<User | null> = this.store.pipe(
-    select(AuthSelectors.selectAuthUser)
-  );
-
   saveToken(token: string): void {
     this.store.dispatch(AuthActions.saveToken({ payload: { token: token } }));
+  }
+
+  getToken(): string {
+    return this.authService.getToken();
   }
 
   login(username: string, password: string) {
@@ -69,13 +68,5 @@ export class AuthFacade {
 
   logout(): void {
     this.store.dispatch(AuthActions.logout());
-  }
-
-  getToken(): string {
-    return this.authService.getToken();
-  }
-
-  getUser(): void {
-    this.store.dispatch(AuthActions.getUser());
   }
 }
