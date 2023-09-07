@@ -1,5 +1,7 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+
 import * as AuthActions from './auth.actions';
+
 import { User } from '@jhh/shared/interfaces';
 
 export const AUTH_FEATURE_KEY = 'auth';

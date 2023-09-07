@@ -14,14 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { first, Observable } from 'rxjs';
+
 import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-template';
+
 import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
-
-enum FormFields {
-  Username = 'username',
-  Password = 'password',
-}
+import { FormFields } from './enums/form-fields';
+import { FormErrorKey } from './enums/form-error-key';
 
 @Component({
   selector: 'jhh-login-feature',
@@ -47,6 +46,7 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
 
   readonly clientRoutes: typeof ClientRoutes = ClientRoutes;
   readonly formFields: typeof FormFields = FormFields;
+  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
 
   formGroup: FormGroup;
   hidePassword: boolean = true;

@@ -1,10 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import * as AuthSelectors from './auth.selectors';
 import * as AuthActions from './auth.actions';
-import { AuthService } from '../services/auth.service';
-import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+import { AuthService } from '../services/auth/auth.service';
+
+import { ActionResolverService } from '@jhh/jhh-client/shared/utils-ngrx';
 
 @Injectable()
 export class AuthFacade {
@@ -34,14 +36,6 @@ export class AuthFacade {
     select(AuthSelectors.selectAuthRegisterError)
   );
 
-  saveToken(token: string): void {
-    this.store.dispatch(AuthActions.saveToken({ payload: { token: token } }));
-  }
-
-  getToken(): string {
-    return this.authService.getToken();
-  }
-
   login(username: string, password: string) {
     return this.actionResolverService.executeAndWatch(
       AuthActions.login({
@@ -64,6 +58,14 @@ export class AuthFacade {
       AuthActions.Type.RegisterSuccess,
       AuthActions.Type.RegisterFail
     );
+  }
+
+  saveToken(token: string): void {
+    this.store.dispatch(AuthActions.saveToken({ payload: { token: token } }));
+  }
+
+  getToken(): string {
+    return this.authService.getToken();
   }
 
   logout(): void {

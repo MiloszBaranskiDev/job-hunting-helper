@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 import { Router } from '@angular/router';
+
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+
+import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 
 @Injectable()
 export class AuthFeatureFacade {

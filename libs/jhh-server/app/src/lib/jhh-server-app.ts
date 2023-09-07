@@ -2,10 +2,13 @@ import express, { Express, Router } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { ApiRoutes } from '@jhh/shared/enums';
+
+import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
+
 import { JhhServerRouterApi } from '@jhh/jhh-server/router/api';
 import { JhhServerRouterUser } from '@jhh/jhh-server/router/user';
-import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
+
+import { ApiRoutes } from '@jhh/shared/enums';
 
 export function JhhServerApp(): Express {
   const app: Express = express();

@@ -5,7 +5,9 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
+
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+
 import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 
 export const authGuard: CanActivateFn = (

@@ -16,26 +16,19 @@ import {
 import { BehaviorSubject, first, map, Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import zxcvbn from 'zxcvbn';
-import { WhitespaceValidator } from '@jhh/jhh-client/shared/util';
-import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-template';
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
-import { RegisterFieldsLength } from '@jhh/shared/enums';
-import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-enum FormFields {
-  Username = 'username',
-  Password = 'password',
-  ConfirmPassword = 'confirmPassword',
-}
+import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-template';
 
-enum StrengthClass {
-  Strong = 'strength-100',
-  Good = 'strength-75',
-  Medium = 'strength-50',
-  Weak = 'strength-25',
-  None = '',
-}
+import { WhitespaceValidator } from '@jhh/jhh-client/shared/utils';
+
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+
+import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { RegisterFieldsLength } from '@jhh/shared/enums';
+import { FormFields } from './enums/form-fields';
+import { StrengthClass } from './enums/strength-class';
+import { FormErrorKey } from './enums/form-error-key';
 
 function passwordsMatch(group: FormGroup): ValidationErrors | null {
   const passwordControl = group.get(FormFields.Password);
@@ -76,9 +69,10 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
   readonly clientRoutes: typeof ClientRoutes = ClientRoutes;
-  readonly formFields: typeof FormFields = FormFields;
   readonly registerFieldsLength: typeof RegisterFieldsLength =
     RegisterFieldsLength;
+  readonly formFields: typeof FormFields = FormFields;
+  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
 
   formGroup: FormGroup;
   hidePassword: boolean = true;
@@ -147,7 +141,7 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
     this.formGroup.updateValueAndValidity();
 
     const password = this.formGroup.get(FormFields.Password)?.value;
-    const passwordStrength = zxcvbn(password);
+    const passwordStrength: zxcvbn.ZXCVBNResult = zxcvbn(password);
     const newStrength: number = password
       ? Math.max(25, passwordStrength.score * 25)
       : 0;

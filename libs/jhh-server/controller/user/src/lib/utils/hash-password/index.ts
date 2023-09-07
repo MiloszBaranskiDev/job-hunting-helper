@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-const hashPassword = (password) => {
+const hashPassword = (password: string): Promise<string> => {
   return bcrypt.hash(password, 5);
 };
 

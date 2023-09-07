@@ -1,31 +1,39 @@
 import jwt from 'jsonwebtoken';
-import { User } from '@jhh/shared/interfaces';
+
+import { respondWithError } from '@jhh/jhh-server/shared/utils';
+
+import { HttpStatusCode } from '@jhh/shared/enums';
 
 export function JhhServerMiddlewareAuth(req, res, next): void {
   const bearer = req.headers.authorization;
 
   if (!bearer) {
-    res.status(401);
-    res.json({ message: 'Not authorized' });
-    return;
+    return respondWithError(res, HttpStatusCode.Unauthorized, 'Not authorized');
   }
 
   const [, token] = bearer.split(' ');
 
   if (!token) {
-    res.status(401);
-    res.json({ message: 'Not valid token' });
-    return;
+    return respondWithError(
+      res,
+      HttpStatusCode.Unauthorized,
+      'Not valid token'
+    );
   }
 
   try {
-    const user: User = jwt.verify(token, process.env.JWT_SECRET);
+    const user: string | jwt.JwtPayload = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
     req.user = user;
     next();
   } catch (e) {
     console.error(e);
-    res.status(401);
-    res.json({ message: 'Not valid token' });
-    return;
+    return respondWithError(
+      res,
+      HttpStatusCode.Unauthorized,
+      'Not valid token'
+    );
   }
 }

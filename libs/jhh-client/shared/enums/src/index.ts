@@ -1,1 +1,1 @@
-export * from './lib/client-routes';
+export * from './lib/router/client-routes';

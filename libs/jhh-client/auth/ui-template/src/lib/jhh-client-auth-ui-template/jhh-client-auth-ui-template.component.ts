@@ -21,7 +21,7 @@ export class JhhClientAuthUiTemplateComponent implements OnInit {
   private readonly matIconRegistry: MatIconRegistry = inject(MatIconRegistry);
   private readonly domSanitizer: DomSanitizer = inject(DomSanitizer);
 
-  @Input() heading!: string;
+  @Input() heading: string;
 
   icons: Icon[] = [
     {
@@ -41,16 +41,16 @@ export class JhhClientAuthUiTemplateComponent implements OnInit {
     },
   ];
 
+  ngOnInit() {
+    this.registerIcons();
+  }
+
   private registerIcons(): void {
-    this.icons.forEach((icon) => {
+    this.icons.forEach((icon: Icon) => {
       this.matIconRegistry.addSvgIcon(
         icon.name,
         this.domSanitizer.bypassSecurityTrustResourceUrl(icon.svgSrc)
       );
     });
-  }
-
-  ngOnInit() {
-    this.registerIcons();
   }
 }

@@ -3,7 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ActionCreator } from '@ngrx/store';
+
 import * as AuthActions from '@jhh/jhh-client/auth/data-access';
+
 import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
 
 @Injectable()

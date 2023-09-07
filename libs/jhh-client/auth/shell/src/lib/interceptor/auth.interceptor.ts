@@ -5,9 +5,11 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { catchError, filter } from 'rxjs';
-import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { inject } from '@angular/core';
-import { ApiRoutes } from '@jhh/shared/enums';
+
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+
+import { ApiRoutes, HttpStatusCode } from '@jhh/shared/enums';
 
 export const AuthInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -39,7 +41,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
 
   return next(modifiedReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === HttpStatusCode.Unauthorized) {
         authFacade.logout();
       }
       throw error;

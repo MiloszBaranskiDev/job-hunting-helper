@@ -3,16 +3,16 @@
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
       <input matInput [formControlName]="formFields.Username" placeholder="Username">
-      <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+      <mat-error *ngIf="formGroup.get('username')?.hasError(formErrorKey.Required)">
         Username is required
       </mat-error>
-      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError('minlength')">
+      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError(formErrorKey.MinLength)">
         Minimum length of username is {{registerFieldsLength.MinUsernameLength}} characters
       </mat-error>
-      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError('maxlength')">
+      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError(formErrorKey.MaxLength)">
         Maximum length of username is {{registerFieldsLength.MaxUsernameLength}} characters
       </mat-error>
-      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError('whitespace')">
+      <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError(formErrorKey.Whitespace)">
         Username cannot contain whitespace.
       </mat-error>
     </mat-form-field>
@@ -32,16 +32,16 @@
           [value]="passwordStrength$ | async"
           [ngClass]="(progressBarClass$ | async)">
         </mat-progress-bar>
-        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError('required')">
+        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError(formErrorKey.Required)">
           Password is required
         </mat-error>
-        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError('minlength')">
+        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError(formErrorKey.MinLength)">
           Minimum length of password is {{registerFieldsLength.MinPasswordLength}} characters
         </mat-error>
-        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError('maxlength')">
+        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError(formErrorKey.MaxLength)">
           Maximum length of password is {{registerFieldsLength.MaxPasswordLength}} characters
         </mat-error>
-        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError('whitespace')">
+        <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError(formErrorKey.Whitespace)">
           Password cannot contain whitespace.
         </mat-error>
       </mat-form-field>
@@ -57,7 +57,7 @@
         </mat-icon>
       </mat-form-field>
 
-      <mat-error class="password-match-error" *ngIf="formGroup.hasError('confirmPasswordMismatch')">
+      <mat-error class="password-match-error" *ngIf="formGroup.hasError(formErrorKey.PasswordMatch)">
         Passwords do not match.
       </mat-error>
     </ng-container>
