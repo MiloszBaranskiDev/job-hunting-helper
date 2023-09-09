@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true
+  },
+  "exclude": [
+    "../**/*.spec.ts"
+  ],
+  "include": [
+    "../../../libs/jhh-client/**/src/lib/**/*.stories.ts",
+    "../../**/**/src/lib/**/*.stories.ts",
+    "../stories/**/*",
+    "preview.ts",
+    "*.ts",
+    "*.js"
+  ]
+}

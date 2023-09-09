@@ -8,7 +8,8 @@
           "build",
           "lint",
           "test",
-          "e2e"
+          "e2e",
+          "build-storybook"
         ],
         "accessToken": "OTliZTM0ZTEtMzA4Yi00ZTU0LTk5OTgtZjNjMzJhMDk0YmExfHJlYWQtd3JpdGU=",
         "useDaemonProcess": false
@@ -44,6 +45,14 @@
         "{workspaceRoot}/.eslintrc.json",
         "{workspaceRoot}/.eslintignore"
       ]
+    },
+    "build-storybook": {
+      "inputs": [
+        "default",
+        "^production",
+        "{projectRoot}/.storybook/**/*",
+        "{projectRoot}/tsconfig.storybook.json"
+      ]
     }
   },
   "namedInputs": {
@@ -58,7 +67,10 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
     ],
     "sharedGlobals": []
   },
