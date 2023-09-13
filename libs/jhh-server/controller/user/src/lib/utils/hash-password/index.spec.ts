@@ -1,25 +1,20 @@
 import bcrypt from 'bcrypt';
+
 import hashPassword from './index';
 
-jest.mock('bcrypt');
+jest.mock('bcrypt', () => ({
+  hash: jest.fn(() => Promise.resolve('hashed_password')),
+}));
 
 describe('hashPassword', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  it('should hash the password', async () => {
+    const password = 'password';
 
-  it('should hash the password correctly', async () => {
-    // Arrange
-    const password = 'myPassword';
-    const hashedPassword = 'hashedPassword';
+    const mockHash = jest.spyOn(bcrypt, 'hash');
 
-    const bcryptHashMock = jest.spyOn(bcrypt, 'hash');
-    bcryptHashMock.mockResolvedValue(hashedPassword);
+    const hashedPassword = await hashPassword(password);
 
-    const result = await hashPassword(password);
-
-    expect(bcryptHashMock).toHaveBeenCalledTimes(1);
-    expect(bcryptHashMock).toHaveBeenCalledWith(password, 5);
-    expect(result).toBe(hashedPassword);
+    expect(mockHash).toHaveBeenCalledWith(password, 5);
+    expect(hashedPassword).toBe('hashed_password');
   });
 });

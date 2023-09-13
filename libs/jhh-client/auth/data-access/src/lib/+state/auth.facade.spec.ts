@@ -1,98 +1,107 @@
-import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule, Store } from '@ngrx/store';
-import { readFirst } from '@nx/angular/testing';
-
-import * as AuthActions from './auth.actions';
-import { AuthEffects } from './auth.effects';
-import { AuthFacade } from './auth.facade';
-import { AuthEntity } from './auth.models';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
-  AUTH_FEATURE_KEY,
-  AuthState,
-  initialAuthState,
-  authReducer,
-} from './auth.reducer';
-import * as AuthSelectors from './auth.selectors';
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
-interface TestSchema {
-  auth: AuthState;
-}
+import { AuthFacade } from './auth.facade';
+import * as AuthActions from './auth.actions';
+import { AuthService } from '../services/auth/auth.service';
+
+import { ActionResolverService } from '@jhh/jhh-client/shared/utils-ngrx';
 
 describe('AuthFacade', () => {
+  let store: MockStore;
   let facade: AuthFacade;
-  let store: Store<TestSchema>;
-  const createAuthEntity = (id: string, name = ''): AuthEntity => ({
-    id,
-    name: name || `name-${id}`,
+  let mockAuthService: { getToken: jest.Mock<any, any, any> };
+  let mockActionResolverService: { executeAndWatch: jest.Mock<any, any, any> };
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
   });
 
-  describe('used in NgModule', () => {
-    beforeEach(() => {
-      @NgModule({
-        imports: [
-          StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer),
-          EffectsModule.forFeature([AuthEffects]),
-        ],
-        providers: [AuthFacade],
-      })
-      class CustomFeatureModule {}
+  beforeEach(async () => {
+    mockAuthService = {
+      getToken: jest.fn(),
+    };
 
-      @NgModule({
-        imports: [
-          StoreModule.forRoot({}),
-          EffectsModule.forRoot([]),
-          CustomFeatureModule,
-        ],
-      })
-      class RootModule {}
-      TestBed.configureTestingModule({ imports: [RootModule] });
+    mockActionResolverService = {
+      executeAndWatch: jest.fn(),
+    };
 
-      store = TestBed.inject(Store);
-      facade = TestBed.inject(AuthFacade);
-    });
+    await TestBed.configureTestingModule({
+      providers: [
+        AuthFacade,
+        provideMockStore(),
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: ActionResolverService, useValue: mockActionResolverService },
+      ],
+    }).compileComponents();
 
-    /**
-     * The initially generated facade::loadAll() returns empty array
-     */
-    it('loadAll() should return empty list with loaded == true', async () => {
-      let list = await readFirst(facade.allAuth$);
-      let isLoaded = await readFirst(facade.loaded$);
+    store = TestBed.inject(MockStore);
+    jest.spyOn(store, 'dispatch');
+    facade = TestBed.inject(AuthFacade);
+  });
 
-      expect(list.length).toBe(0);
-      expect(isLoaded).toBe(false);
+  it('should be created', () => {
+    expect(facade).toBeTruthy();
+  });
 
-      facade.init();
-
-      list = await readFirst(facade.allAuth$);
-      isLoaded = await readFirst(facade.loaded$);
-
-      expect(list.length).toBe(0);
-      expect(isLoaded).toBe(true);
-    });
-
-    /**
-     * Use `loadAuthSuccess` to manually update list
-     */
-    it('allAuth$ should return the loaded list; and loaded flag == true', async () => {
-      let list = await readFirst(facade.allAuth$);
-      let isLoaded = await readFirst(facade.loaded$);
-
-      expect(list.length).toBe(0);
-      expect(isLoaded).toBe(false);
-
-      store.dispatch(
-        AuthActions.loadAuthSuccess({
-          auth: [createAuthEntity('AAA'), createAuthEntity('BBB')],
-        })
+  describe('login', () => {
+    it('should dispatch login action', () => {
+      const username = 'testUser';
+      const password = 'testPassword';
+      facade.login(username, password);
+      expect(mockActionResolverService.executeAndWatch).toHaveBeenCalledWith(
+        AuthActions.login({ payload: { username, password } }),
+        AuthActions.Type.LoginSuccess,
+        AuthActions.Type.LoginFail
       );
+    });
+  });
 
-      list = await readFirst(facade.allAuth$);
-      isLoaded = await readFirst(facade.loaded$);
+  describe('register', () => {
+    it('should dispatch register action', () => {
+      const username = 'testUser';
+      const password = 'testPassword';
+      const confirmPassword = 'testPassword';
+      facade.register(username, password, confirmPassword);
+      expect(mockActionResolverService.executeAndWatch).toHaveBeenCalledWith(
+        AuthActions.register({
+          payload: { username, password, confirmPassword },
+        }),
+        AuthActions.Type.RegisterSuccess,
+        AuthActions.Type.RegisterFail
+      );
+    });
+  });
 
-      expect(list.length).toBe(2);
-      expect(isLoaded).toBe(true);
+  describe('saveToken', () => {
+    it('should dispatch saveToken action', () => {
+      const token = 'testToken';
+      facade.saveToken(token);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        AuthActions.saveToken({ payload: { token } })
+      );
+    });
+  });
+
+  describe('getToken', () => {
+    it('should get token from AuthService', () => {
+      const token = 'testToken';
+      mockAuthService.getToken.mockReturnValue(token);
+      expect(facade.getToken()).toEqual(token);
+    });
+  });
+
+  describe('logout', () => {
+    it('should dispatch logout action', () => {
+      facade.logout();
+      expect(store.dispatch).toHaveBeenCalledWith(AuthActions.logout());
     });
   });
 });

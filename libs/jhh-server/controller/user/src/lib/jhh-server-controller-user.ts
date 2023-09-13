@@ -93,7 +93,7 @@ export function JhhServerControllerUser() {
       });
 
       const token: string = createJWT(user);
-      delete user.password;
+      delete user['password'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });
     } catch (err) {
       console.error(err);
@@ -149,7 +149,7 @@ export function JhhServerControllerUser() {
 
       const isValidPassword: boolean = await validateUserPassword(
         password,
-        user.password
+        user['password']
       );
 
       if (!isValidPassword) {
@@ -161,7 +161,7 @@ export function JhhServerControllerUser() {
       }
 
       const token: string = createJWT(user);
-      delete user.password;
+      delete user['password'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });
     } catch (error) {
       console.error(error);

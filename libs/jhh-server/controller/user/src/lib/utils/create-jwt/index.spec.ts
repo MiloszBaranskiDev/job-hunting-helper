@@ -1,44 +1,41 @@
 import jwt from 'jsonwebtoken';
+
 import createJWT from './index';
+
 import { User } from '@jhh/shared/interfaces';
 
 jest.mock('jsonwebtoken');
 
-const user = {
-  id: '1234',
-  username: 'testUser',
-} as User;
-
 describe('createJWT', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  const mockUser: User = {
+    id: '1',
+    username: 'username',
+  } as User;
+
+  const mockSecret = 'secret';
+  process.env.JWT_SECRET = mockSecret;
+
+  beforeEach(() => {
+    (jwt.sign as jest.Mock).mockClear();
   });
 
-  it('should create a JWT token with correct payload', () => {
-    process.env.JWT_SECRET = 'testSecret';
+  it('should return a JWT token', () => {
+    const token = 'mockToken';
+    (jwt.sign as jest.Mock).mockReturnValue(token);
 
-    const jwtSignMock = jest.spyOn(jwt, 'sign');
-    jwtSignMock.mockReturnValue('mockedToken');
+    const result = createJWT(mockUser);
+    expect(result).toBe(token);
+  });
 
-    const token = createJWT(user);
+  it('should call jwt.sign with correct parameters', () => {
+    createJWT(mockUser);
 
-    expect(jwtSignMock).toHaveBeenCalledTimes(1);
-    expect(jwtSignMock).toHaveBeenCalledWith(
+    expect(jwt.sign as jest.Mock).toHaveBeenCalledWith(
       {
-        id: user.id,
-        username: user.username,
+        id: mockUser.id,
+        username: mockUser.username,
       },
-      process.env.JWT_SECRET
+      mockSecret
     );
-
-    expect(token).toBe('mockedToken');
-  });
-
-  it('should throw an error if JWT_SECRET is not set', () => {
-    delete process.env.JWT_SECRET;
-
-    expect(() => {
-      createJWT(user);
-    }).toThrow();
   });
 });

@@ -1,7 +1,22 @@
-import { jhhServerApp } from './jhh-server-app';
+import request from 'supertest';
 
-describe('jhhServerApp', () => {
+import { JhhServerApp } from './jhh-server-app';
+
+import { ApiRoutes } from '@jhh/shared/enums';
+
+describe('JhhServerApp', () => {
+  let app;
+
+  beforeEach(() => {
+    app = JhhServerApp();
+  });
+
   it('should work', () => {
-    expect(jhhServerApp()).toEqual('jhh-server-app');
+    expect(typeof app.listen).toBe('function');
+  });
+
+  it('should enable CORS', async () => {
+    const res = await request(app).get(`${ApiRoutes.BaseUser}/some-route`);
+    expect(res.headers['access-control-allow-origin']).toEqual('*');
   });
 });

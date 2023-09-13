@@ -21,10 +21,10 @@
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input
-          matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
+          matInput id="password-input" [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
           [formControlName]="formFields.Password"
           placeholder="Password" (input)="validatePasswords()">
-        <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+        <mat-icon id="password-type-toggle-first" matSuffix (click)="hidePassword = !hidePassword">
           {{hidePassword ? 'visibility_off' : 'visibility'}}
         </mat-icon>
         <mat-progress-bar

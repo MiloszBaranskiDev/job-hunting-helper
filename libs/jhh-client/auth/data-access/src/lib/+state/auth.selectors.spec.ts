@@ -1,66 +1,67 @@
-import { AuthEntity } from './auth.models';
-import {
-  authAdapter,
-  AuthPartialState,
-  initialAuthState,
-} from './auth.reducer';
+import '@angular/compiler';
+
+import { AuthState } from './auth.reducer';
 import * as AuthSelectors from './auth.selectors';
 
-describe('Auth Selectors', () => {
-  const ERROR_MSG = 'No Error Available';
-  const getAuthId = (it: AuthEntity) => it.id;
-  const createAuthEntity = (id: string, name = '') =>
-    ({
-      id,
-      name: name || `name-${id}`,
-    } as AuthEntity);
+import { User } from '@jhh/shared/interfaces';
 
-  let state: AuthPartialState;
+describe('Auth Selectors', () => {
+  const ERROR_MSG = 'Dummy error';
+
+  let state: { [AUTH_FEATURE_KEY: string]: AuthState };
+
+  const dummyUser: User = {
+    id: '1337',
+    createdAt: new Date(),
+    username: 'username',
+  };
 
   beforeEach(() => {
     state = {
-      auth: authAdapter.setAll(
-        [
-          createAuthEntity('PRODUCT-AAA'),
-          createAuthEntity('PRODUCT-BBB'),
-          createAuthEntity('PRODUCT-CCC'),
-        ],
-        {
-          ...initialAuthState,
-          selectedId: 'PRODUCT-BBB',
-          error: ERROR_MSG,
-          loaded: true,
-        }
-      ),
+      auth: {
+        token: 'token',
+        user: dummyUser,
+        loginError: ERROR_MSG,
+        loginInProgress: false,
+        registerInProgress: false,
+        registerError: ERROR_MSG,
+      },
     };
   });
 
-  describe('Auth Selectors', () => {
-    it('selectAllAuth() should return the list of Auth', () => {
-      const results = AuthSelectors.selectAllAuth(state);
-      const selId = getAuthId(results[1]);
+  it('selectAuthToken() should return the token', () => {
+    const result = AuthSelectors.selectAuthToken(state);
 
-      expect(results.length).toBe(3);
-      expect(selId).toBe('PRODUCT-BBB');
-    });
+    expect(result).toBe('token');
+  });
 
-    it('selectEntity() should return the selected Entity', () => {
-      const result = AuthSelectors.selectEntity(state) as AuthEntity;
-      const selId = getAuthId(result);
+  it('selectAuthLoginInProgress() should return loginInProgress', () => {
+    const result = AuthSelectors.selectAuthLoginInProgress(state);
 
-      expect(selId).toBe('PRODUCT-BBB');
-    });
+    expect(result).toBe(false);
+  });
 
-    it('selectAuthLoaded() should return the current "loaded" status', () => {
-      const result = AuthSelectors.selectAuthLoaded(state);
+  it('selectAuthLoginError() should return loginError', () => {
+    const result = AuthSelectors.selectAuthLoginError(state);
 
-      expect(result).toBe(true);
-    });
+    expect(result).toBe(ERROR_MSG);
+  });
 
-    it('selectAuthError() should return the current "error" state', () => {
-      const result = AuthSelectors.selectAuthError(state);
+  it('selectAuthRegisterInProgress() should return registerInProgress', () => {
+    const result = AuthSelectors.selectAuthRegisterInProgress(state);
 
-      expect(result).toBe(ERROR_MSG);
-    });
+    expect(result).toBe(false);
+  });
+
+  it('selectAuthRegisterError() should return registerError', () => {
+    const result = AuthSelectors.selectAuthRegisterError(state);
+
+    expect(result).toBe(ERROR_MSG);
+  });
+
+  it('selectAuthUser() should return user', () => {
+    const result = AuthSelectors.selectAuthUser(state);
+
+    expect(result).toEqual(dummyUser);
   });
 });

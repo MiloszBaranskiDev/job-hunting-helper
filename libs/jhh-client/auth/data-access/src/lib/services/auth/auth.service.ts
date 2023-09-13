@@ -20,7 +20,7 @@ import { environment } from '@jhh/jhh-client/shared/config';
 export class AuthService {
   private readonly http: HttpClient = inject(HttpClient);
 
-  private readonly LOCALSTORAGE_KEY: string = 'token';
+  readonly LOCALSTORAGE_KEY: string = 'token';
   private readonly API_USER_URL: string =
     environment.apiUrl + ApiRoutes.BaseUser;
 

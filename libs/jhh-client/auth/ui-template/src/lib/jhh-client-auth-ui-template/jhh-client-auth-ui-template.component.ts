@@ -41,7 +41,7 @@ export class JhhClientAuthUiTemplateComponent implements OnInit {
     },
   ];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.registerIcons();
   }
 

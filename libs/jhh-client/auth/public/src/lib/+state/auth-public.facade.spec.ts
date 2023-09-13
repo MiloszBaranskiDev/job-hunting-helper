@@ -1,24 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-import { AuthPublicFacade } from '../+state/auth-public.facade';
+import { AuthPublicFacade } from './auth-public.facade';
 import { AuthFeatureFacade } from '@jhh/jhh-client/auth/feature';
-
-import { authPublicGuard } from './auth-public.guard';
 
 const mockAuthFeatureFacade = {
   loginOrRedirect: jest.fn(),
 };
 
-describe('authPublicGuard', () => {
+describe('AuthPublicFacade', () => {
   let authPublicFacade: AuthPublicFacade;
   let authFeatureFacade: AuthFeatureFacade;
-  const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => authPublicGuard(...guardParameters));
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -31,10 +26,7 @@ describe('authPublicGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthPublicFacade,
-        {
-          provide: AuthFeatureFacade,
-          useValue: mockAuthFeatureFacade,
-        },
+        { provide: AuthFeatureFacade, useValue: mockAuthFeatureFacade },
       ],
     });
 
@@ -42,12 +34,16 @@ describe('authPublicGuard', () => {
     authFeatureFacade = TestBed.inject(AuthFeatureFacade);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    expect(authFeatureFacade).toBeTruthy();
   });
 
   describe('loginOrRedirect', () => {
-    it('should call loginOrRedirect on authFeatureFacade', () => {
+    it('should call loginOrRedirect on AuthFeatureFacade', () => {
       authPublicFacade.loginOrRedirect();
 
       expect(authFeatureFacade.loginOrRedirect).toHaveBeenCalled();

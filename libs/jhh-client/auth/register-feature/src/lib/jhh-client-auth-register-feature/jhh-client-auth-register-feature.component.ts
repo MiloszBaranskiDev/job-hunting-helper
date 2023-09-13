@@ -82,7 +82,7 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
 
   registerError$: Observable<string | null> = this.authFacade.registerError$;
 
-  private passwordStrengthSubject: BehaviorSubject<number> =
+  passwordStrengthSubject: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
 
   passwordStrength$: Observable<number> =
@@ -105,11 +105,11 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
     })
   );
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initFormGroup();
   }
 
-  initFormGroup() {
+  initFormGroup(): void {
     this.formGroup = this.formBuilder.group(
       {
         username: [
@@ -137,7 +137,7 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
     );
   }
 
-  validatePasswords() {
+  validatePasswords(): void {
     this.formGroup.updateValueAndValidity();
 
     const password = this.formGroup.get(FormFields.Password)?.value;

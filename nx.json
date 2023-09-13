@@ -11,7 +11,6 @@
           "e2e",
           "build-storybook"
         ],
-        "accessToken": "OTliZTM0ZTEtMzA4Yi00ZTU0LTk5OTgtZjNjMzJhMDk0YmExfHJlYWQtd3JpdGU=",
         "useDaemonProcess": false
       }
     }

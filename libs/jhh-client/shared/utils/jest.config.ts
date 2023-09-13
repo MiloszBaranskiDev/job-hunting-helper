@@ -2,7 +2,7 @@
 export default {
   displayName: 'jhh-client-shared-utils',
   preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  // setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/jhh-client/shared/utils',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

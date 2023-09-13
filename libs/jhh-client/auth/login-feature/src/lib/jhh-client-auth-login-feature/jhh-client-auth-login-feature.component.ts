@@ -58,7 +58,7 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
     this.initFormGroup();
   }
 
-  initFormGroup() {
+  initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
