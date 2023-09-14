@@ -1,0 +1,10 @@
+::ng-deep {
+  .mdc-switch__icon {
+    fill: transparent !important;
+  }
+
+  .mdc-label {
+    cursor: pointer;
+    margin-left: 4px;
+  }
+}

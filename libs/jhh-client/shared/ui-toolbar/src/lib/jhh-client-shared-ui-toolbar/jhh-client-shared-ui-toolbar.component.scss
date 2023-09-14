@@ -1,0 +1,14 @@
+.toolbar {
+  padding: 20px 25px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+}

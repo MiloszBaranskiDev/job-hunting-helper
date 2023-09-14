@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
+import { JhhClientSharedUiToolbarComponent } from '@jhh/jhh-client/shared/ui-toolbar';
+
 @Component({
-  selector: 'jhh-dashboard-shell-jhh-client-dashboard-shell',
+  selector: 'jhh-dashboard-shell',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, JhhClientSharedUiToolbarComponent],
   templateUrl: './jhh-client-dashboard-shell.component.html',
   styleUrls: ['./jhh-client-dashboard-shell.component.scss'],
 })
