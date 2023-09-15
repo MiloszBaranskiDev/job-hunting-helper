@@ -48,6 +48,9 @@
       "@jhh/jhh-client/shared/enums": [
         "libs/jhh-client/shared/enums/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/ui-sidebar": [
+        "libs/jhh-client/shared/ui-sidebar/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/ui-toolbar": [
         "libs/jhh-client/shared/ui-toolbar/src/index.ts"
       ],

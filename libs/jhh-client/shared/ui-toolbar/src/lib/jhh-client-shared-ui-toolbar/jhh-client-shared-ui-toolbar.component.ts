@@ -7,9 +7,10 @@ import { RouterLink } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
+import { SidebarBurgerComponent } from './components/sidebar-burger/sidebar-burger.component';
 
 @Component({
-  selector: 'jhh-ui-toolbar',
+  selector: 'jhh-toolbar',
   standalone: true,
   imports: [
     CommonModule,
@@ -19,6 +20,7 @@ import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switch
     RouterLink,
     MatSlideToggleModule,
     ThemeSwitcherComponent,
+    SidebarBurgerComponent,
   ],
   templateUrl: './jhh-client-shared-ui-toolbar.component.html',
   styleUrls: ['./jhh-client-shared-ui-toolbar.component.scss'],
