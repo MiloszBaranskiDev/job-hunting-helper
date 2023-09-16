@@ -13,8 +13,6 @@ export class SidebarService {
   private readonly breakpointObserver: BreakpointObserver =
     inject(BreakpointObserver);
 
-  readonly breakpoint$: Observable<BreakpointState>;
-
   private isBreakpointMobile: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   private isSidebarOpened: BehaviorSubject<boolean> =
@@ -22,6 +20,7 @@ export class SidebarService {
   private isSidebarExpanded: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  breakpoint$: Observable<BreakpointState>;
   isBreakpointMobile$: Observable<boolean> =
     this.isBreakpointMobile.asObservable();
   isSidebarOpened$: Observable<boolean> = this.isSidebarOpened.asObservable();
