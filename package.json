@@ -6,7 +6,7 @@
     "serve:jhh-client": "nx serve jhh-client",
     "serve:jhh-server": "nx serve jhh-server",
     "serve:jhh": "npm run serve:jhh-client & npm run serve:jhh-server",
-    "serve:storybook": "nx storybook jhh-client-storybook-host",
+    "serve:sb": "nx storybook jhh-client-storybook-host",
     "test:jhh": "nx run-many --all --target=test"
   },
   "private": true,

@@ -41,7 +41,7 @@ class MockAuthFacade {
 }
 
 export default {
-  title: '/Views/Auth/Components/Register',
+  title: '/Views/Auth/Register',
   component: JhhClientAuthRegisterFeatureComponent,
   decorators: [
     moduleMetadata({
