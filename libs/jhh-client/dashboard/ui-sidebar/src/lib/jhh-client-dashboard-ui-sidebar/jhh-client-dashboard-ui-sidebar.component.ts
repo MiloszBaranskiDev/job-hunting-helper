@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 import { SidebarService } from '../service/sidebar.service';
 
@@ -27,6 +28,7 @@ interface SidebarItem {
     MatListModule,
     MatToolbarModule,
     MatButtonModule,
+    RouterLink,
   ],
   templateUrl: './jhh-client-dashboard-ui-sidebar.component.html',
   styleUrls: ['./jhh-client-dashboard-ui-sidebar.component.scss'],
@@ -40,6 +42,7 @@ export class JhhClientDashboardUiSidebarComponent implements OnInit {
 
   readonly sidebarItems: SidebarItem[] = [
     { icon: 'home', text: 'Home', route: ClientRoutes.HomeSlash },
+    { icon: 'note_add', text: 'Notes', route: ClientRoutes.NotesLink },
   ];
 
   ngOnInit(): void {
