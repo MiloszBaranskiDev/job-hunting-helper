@@ -6,7 +6,7 @@ import { ActionCreator } from '@ngrx/store';
 
 import * as AuthActions from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 @Injectable()
 export class AuthFeatureEffects {
@@ -14,7 +14,7 @@ export class AuthFeatureEffects {
   private readonly router: Router = inject(Router);
 
   navigateHome = () => {
-    this.router.navigate([ClientRoutes.HomeSlash]);
+    this.router.navigate([ClientRoute.HomeLink]);
   };
 
   createNavigationEffect = (action: ActionCreator) =>

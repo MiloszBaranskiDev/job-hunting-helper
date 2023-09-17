@@ -1,1 +1,1 @@
-export * from './lib/router/client-routes';
+export * from 'libs/jhh-client/shared/enums/src/lib/router/client-route';

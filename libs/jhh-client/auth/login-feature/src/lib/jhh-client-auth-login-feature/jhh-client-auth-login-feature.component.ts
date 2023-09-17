@@ -17,7 +17,7 @@ import { first, Observable } from 'rxjs';
 
 import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-template';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { FormFields } from './enums/form-fields';
 import { FormErrorKey } from './enums/form-error-key';
@@ -44,7 +44,7 @@ export class JhhClientAuthLoginFeatureComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
-  readonly clientRoutes: typeof ClientRoutes = ClientRoutes;
+  readonly clientRoutes: typeof ClientRoute = ClientRoute;
   readonly formFields: typeof FormFields = FormFields;
   readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
 

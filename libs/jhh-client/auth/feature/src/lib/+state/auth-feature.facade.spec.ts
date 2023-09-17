@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { AuthFeatureFacade } from './auth-feature.facade';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
@@ -61,6 +61,6 @@ describe('AuthFeatureFacade', () => {
 
     expect(authFacadeMock.getToken).toBeCalled();
     expect(authFacadeMock.saveToken).not.toBeCalled();
-    expect(routerMock.navigate).toBeCalledWith([ClientRoutes.LoginSlash]);
+    expect(routerMock.navigate).toBeCalledWith([ClientRoute.LoginLink]);
   });
 });

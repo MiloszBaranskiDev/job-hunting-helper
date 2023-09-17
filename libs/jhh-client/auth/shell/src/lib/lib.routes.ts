@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { JhhClientAuthShellComponent } from './container/jhh-client-auth-shell.component';
 
@@ -25,14 +25,14 @@ export const JhhClientAuthShellRoutes: Route = {
   canActivate: [authGuard],
   children: [
     {
-      path: ClientRoutes.Register,
+      path: ClientRoute.Register,
       loadComponent: () =>
         import('@jhh/jhh-client/auth/register-feature').then(
           (c) => c.JhhClientAuthRegisterFeatureComponent
         ),
     },
     {
-      path: ClientRoutes.Login,
+      path: ClientRoute.Login,
       loadComponent: () =>
         import('@jhh/jhh-client/auth/login-feature').then(
           (c) => c.JhhClientAuthLoginFeatureComponent

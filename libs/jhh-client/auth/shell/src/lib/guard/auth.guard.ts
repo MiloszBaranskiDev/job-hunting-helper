@@ -8,7 +8,7 @@ import {
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 export const authGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -20,7 +20,7 @@ export const authGuard: CanActivateFn = (
   const token: string = authFacade.getToken();
 
   if (token) {
-    router.navigate([ClientRoutes.HomeSlash]);
+    router.navigate([ClientRoute.HomeLink]);
     return false;
   } else {
     return true;

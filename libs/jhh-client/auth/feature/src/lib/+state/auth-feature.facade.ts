@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 @Injectable()
 export class AuthFeatureFacade {
@@ -16,7 +16,7 @@ export class AuthFeatureFacade {
     if (token) {
       this.authFacade.saveToken(token);
     } else {
-      this.router.navigate([ClientRoutes.LoginSlash]);
+      this.router.navigate([ClientRoute.LoginLink]);
     }
   }
 }

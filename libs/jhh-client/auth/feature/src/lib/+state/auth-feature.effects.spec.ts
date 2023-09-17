@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import * as AuthActions from '@jhh/jhh-client/auth/data-access';
 import { AuthFeatureEffects } from './auth-feature.effects';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
@@ -47,7 +47,7 @@ describe('AuthFeatureEffects', () => {
 
     actions$.next(AuthActions.loginSuccess({ payload: null as any }));
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([ClientRoutes.HomeSlash]);
+    expect(routerMock.navigate).toHaveBeenCalledWith([ClientRoute.HomeLink]);
   });
 
   it('should navigate home after register success', () => {
@@ -55,6 +55,6 @@ describe('AuthFeatureEffects', () => {
 
     actions$.next(AuthActions.registerSuccess({ payload: null as any }));
 
-    expect(routerMock.navigate).toHaveBeenCalledWith([ClientRoutes.HomeSlash]);
+    expect(routerMock.navigate).toHaveBeenCalledWith([ClientRoute.HomeLink]);
   });
 });

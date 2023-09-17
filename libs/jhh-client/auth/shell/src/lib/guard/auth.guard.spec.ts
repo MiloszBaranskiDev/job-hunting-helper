@@ -6,7 +6,7 @@ import {
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { authGuard } from './auth.guard';
 
@@ -54,7 +54,7 @@ describe('authGuard', () => {
 
     const result = authGuard(mockRoute, mockState);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith([ClientRoutes.HomeSlash]);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([ClientRoute.HomeLink]);
     expect(result).toBe(false);
   });
 

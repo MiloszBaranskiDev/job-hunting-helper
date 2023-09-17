@@ -10,12 +10,12 @@ import { RouterLink } from '@angular/router';
 
 import { SidebarService } from '../service/sidebar.service';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 interface SidebarItem {
   icon: string;
   text: string;
-  route: ClientRoutes;
+  route: ClientRoute;
 }
 
 @Component({
@@ -41,8 +41,8 @@ export class JhhClientDashboardUiSidebarComponent implements OnInit {
   isSidebarExpanded$: Observable<boolean>;
 
   readonly sidebarItems: SidebarItem[] = [
-    { icon: 'home', text: 'Home', route: ClientRoutes.HomeSlash },
-    { icon: 'note_add', text: 'Notes', route: ClientRoutes.NotesLink },
+    { icon: 'home', text: 'Home', route: ClientRoute.HomeLink },
+    { icon: 'note_add', text: 'Notes', route: ClientRoute.NotesLink },
   ];
 
   ngOnInit(): void {

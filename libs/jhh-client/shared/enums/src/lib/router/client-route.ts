@@ -1,11 +1,11 @@
-export enum ClientRoutes {
+export enum ClientRoute {
   Home = 'dashboard',
-  HomeSlash = '/dashboard',
+  HomeLink = '/dashboard',
   //
   Login = 'login',
-  LoginSlash = '/login',
+  LoginLink = '/login',
   Register = 'register',
-  RegisterSlash = '/register',
+  RegisterLink = '/register',
   //
   Notes = 'notes',
   NotesLink = '/dashboard/notes',

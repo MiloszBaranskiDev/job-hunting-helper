@@ -24,7 +24,7 @@ import { WhitespaceValidator } from '@jhh/jhh-client/shared/utils';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoutes } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { RegisterFieldsLength } from '@jhh/shared/enums';
 import { FormFields } from './enums/form-fields';
 import { StrengthClass } from './enums/strength-class';
@@ -68,7 +68,7 @@ export class JhhClientAuthRegisterFeatureComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
-  readonly clientRoutes: typeof ClientRoutes = ClientRoutes;
+  readonly clientRoutes: typeof ClientRoute = ClientRoute;
   readonly registerFieldsLength: typeof RegisterFieldsLength =
     RegisterFieldsLength;
   readonly formFields: typeof FormFields = FormFields;
