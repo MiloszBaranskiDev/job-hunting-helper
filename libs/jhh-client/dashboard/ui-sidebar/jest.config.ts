@@ -1,9 +1,10 @@
 /* eslint-disable */
 export default {
-  displayName: 'jhh-client-shared-ui-sidebar',
+  displayName: 'jhh-client-dashboard-ui-sidebar',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/jhh-client/shared/ui-sidebar',
+  coverageDirectory:
+    '../../../../coverage/libs/jhh-client/dashborad/ui-sidebar',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

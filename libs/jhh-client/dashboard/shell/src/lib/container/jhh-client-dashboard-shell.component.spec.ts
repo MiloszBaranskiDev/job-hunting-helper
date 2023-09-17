@@ -3,11 +3,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouterOutlet } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { DebugElement } from '@angular/core';
 
 import { JhhClientDashboardShellComponent } from './jhh-client-dashboard-shell.component';
-import { JhhClientSharedUiToolbarComponent } from '@jhh/jhh-client/shared/ui-toolbar';
-import { JhhClientSharedUiSidebarComponent } from '@jhh/jhh-client/shared/ui-sidebar';
-import { DebugElement } from '@angular/core';
+import { JhhClientDashboardUiToolbarComponent } from '@jhh/jhh-client/dashboard/ui-toolbar';
+import { JhhClientDashboardUiSidebarComponent } from '@jhh/jhh-client/dashboard/ui-sidebar';
 
 describe('JhhClientDashboardShellComponent', () => {
   let component: JhhClientDashboardShellComponent;
@@ -19,8 +19,8 @@ describe('JhhClientDashboardShellComponent', () => {
         RouterTestingModule,
         NoopAnimationsModule,
         JhhClientDashboardShellComponent,
-        JhhClientSharedUiToolbarComponent,
-        JhhClientSharedUiSidebarComponent,
+        JhhClientDashboardUiToolbarComponent,
+        JhhClientDashboardUiSidebarComponent,
       ],
     }).compileComponents();
 
@@ -35,14 +35,14 @@ describe('JhhClientDashboardShellComponent', () => {
 
   it('should render JhhClientSharedUiToolbarComponent', () => {
     const toolbar: DebugElement = fixture.debugElement.query(
-      By.directive(JhhClientSharedUiToolbarComponent)
+      By.directive(JhhClientDashboardUiToolbarComponent)
     );
     expect(toolbar).not.toBeNull();
   });
 
   it('should render JhhClientSharedUiSidebarComponent', () => {
     const sidebar: DebugElement = fixture.debugElement.query(
-      By.directive(JhhClientSharedUiSidebarComponent)
+      By.directive(JhhClientDashboardUiSidebarComponent)
     );
     expect(sidebar).not.toBeNull();
   });

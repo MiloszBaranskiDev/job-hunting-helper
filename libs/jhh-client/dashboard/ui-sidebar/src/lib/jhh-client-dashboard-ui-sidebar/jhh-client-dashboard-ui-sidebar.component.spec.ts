@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { JhhClientSharedUiSidebarComponent } from './jhh-client-shared-ui-sidebar.component';
-
-import { SidebarService } from '../service/sidebar.service';
 import { DebugElement } from '@angular/core';
 
-describe('JhhClientSharedUiSidebarComponent', () => {
-  let component: JhhClientSharedUiSidebarComponent;
-  let fixture: ComponentFixture<JhhClientSharedUiSidebarComponent>;
+import { JhhClientDashboardUiSidebarComponent } from './jhh-client-dashboard-ui-sidebar.component';
+
+import { SidebarService } from '../service/sidebar.service';
+
+describe('JhhClientDashboardUiSidebarComponent', () => {
+  let component: JhhClientDashboardUiSidebarComponent;
+  let fixture: ComponentFixture<JhhClientDashboardUiSidebarComponent>;
   let mockSidebarService: any;
 
   beforeEach(() => {
@@ -22,11 +22,11 @@ describe('JhhClientSharedUiSidebarComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [JhhClientSharedUiSidebarComponent, NoopAnimationsModule],
+      imports: [JhhClientDashboardUiSidebarComponent, NoopAnimationsModule],
       providers: [{ provide: SidebarService, useValue: mockSidebarService }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JhhClientSharedUiSidebarComponent);
+    fixture = TestBed.createComponent(JhhClientDashboardUiSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

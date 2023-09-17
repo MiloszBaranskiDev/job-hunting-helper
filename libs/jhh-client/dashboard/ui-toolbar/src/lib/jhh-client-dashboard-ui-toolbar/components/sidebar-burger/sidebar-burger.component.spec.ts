@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SidebarBurgerComponent } from './sidebar-burger.component';
-import { SidebarService } from '@jhh/jhh-client/shared/ui-sidebar';
 import { DebugElement } from '@angular/core';
+
+import { SidebarBurgerComponent } from './sidebar-burger.component';
+import { SidebarService } from '@jhh/jhh-client/dashboard/ui-sidebar';
 
 describe('SidebarBurgerComponent', () => {
   let component: SidebarBurgerComponent;

@@ -22,7 +22,7 @@ import { SidebarBurgerComponent } from './components/sidebar-burger/sidebar-burg
     ThemeSwitcherComponent,
     SidebarBurgerComponent,
   ],
-  templateUrl: './jhh-client-shared-ui-toolbar.component.html',
-  styleUrls: ['./jhh-client-shared-ui-toolbar.component.scss'],
+  templateUrl: './jhh-client-dashboard-ui-toolbar.component.html',
+  styleUrls: ['./jhh-client-dashboard-ui-toolbar.component.scss'],
 })
-export class JhhClientSharedUiToolbarComponent {}
+export class JhhClientDashboardUiToolbarComponent {}

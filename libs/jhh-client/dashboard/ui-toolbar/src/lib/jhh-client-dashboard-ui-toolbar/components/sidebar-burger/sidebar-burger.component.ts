@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SidebarService } from '@jhh/jhh-client/shared/ui-sidebar';
+import { SidebarService } from '@jhh/jhh-client/dashboard/ui-sidebar';
 
 @Component({
   selector: 'jhh-sidebar-burger',

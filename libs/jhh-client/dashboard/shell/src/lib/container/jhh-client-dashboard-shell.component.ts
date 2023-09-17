@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import { JhhClientSharedUiToolbarComponent } from '@jhh/jhh-client/shared/ui-toolbar';
-import { JhhClientSharedUiSidebarComponent } from '@jhh/jhh-client/shared/ui-sidebar';
+import { JhhClientDashboardUiToolbarComponent } from '@jhh/jhh-client/dashboard/ui-toolbar';
+import { JhhClientDashboardUiSidebarComponent } from '@jhh/jhh-client/dashboard/ui-sidebar';
 
 @Component({
   selector: 'jhh-dashboard-shell',
@@ -11,8 +11,8 @@ import { JhhClientSharedUiSidebarComponent } from '@jhh/jhh-client/shared/ui-sid
   imports: [
     CommonModule,
     RouterOutlet,
-    JhhClientSharedUiToolbarComponent,
-    JhhClientSharedUiSidebarComponent,
+    JhhClientDashboardUiToolbarComponent,
+    JhhClientDashboardUiSidebarComponent,
   ],
   templateUrl: './jhh-client-dashboard-shell.component.html',
   styleUrls: ['./jhh-client-dashboard-shell.component.scss'],

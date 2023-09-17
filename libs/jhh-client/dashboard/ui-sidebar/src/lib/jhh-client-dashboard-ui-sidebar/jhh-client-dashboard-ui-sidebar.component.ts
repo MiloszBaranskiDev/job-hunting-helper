@@ -28,10 +28,10 @@ interface SidebarItem {
     MatToolbarModule,
     MatButtonModule,
   ],
-  templateUrl: './jhh-client-shared-ui-sidebar.component.html',
-  styleUrls: ['./jhh-client-shared-ui-sidebar.component.scss'],
+  templateUrl: './jhh-client-dashboard-ui-sidebar.component.html',
+  styleUrls: ['./jhh-client-dashboard-ui-sidebar.component.scss'],
 })
-export class JhhClientSharedUiSidebarComponent implements OnInit {
+export class JhhClientDashboardUiSidebarComponent implements OnInit {
   private readonly sidebarService: SidebarService = inject(SidebarService);
 
   isBreakpointMobile$: Observable<boolean>;
