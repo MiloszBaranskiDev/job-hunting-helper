@@ -13,6 +13,35 @@ datasource db {
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
-  username  String   @unique
-  password  String
+
+  username String @unique
+  password String
+
+  notesGroups NotesGroup[]
+}
+
+model NotesGroup {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orderIndex Int      @unique
+
+  name String
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+  notes  Note[]
+}
+
+model Note {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orderIndex Int      @unique
+
+  name    String
+  content String
+
+  notesGroupId String     @db.ObjectId
+  group        NotesGroup @relation(fields: [notesGroupId], references: [id])
 }
