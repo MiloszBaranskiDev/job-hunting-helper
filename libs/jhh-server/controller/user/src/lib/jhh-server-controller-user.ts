@@ -4,7 +4,8 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import createJWT from './utils/create-jwt';
 import hashPassword from './utils/hash-password';
-import validateUserPassword from './utils/validate-user-password/index';
+import validateUserPassword from './utils/validate-user-password';
+import assignDefaultData from './utils/assign-default-data';
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { User } from '@jhh/shared/interfaces';
@@ -91,6 +92,8 @@ export function JhhServerControllerUser() {
           password: await hashPassword(password),
         },
       });
+
+      await assignDefaultData(user.id);
 
       const token: string = createJWT(user);
       delete user['password'];

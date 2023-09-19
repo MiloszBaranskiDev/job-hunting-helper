@@ -42,6 +42,6 @@ model Note {
   name    String
   content String
 
-  notesGroupId String     @db.ObjectId
-  group        NotesGroup @relation(fields: [notesGroupId], references: [id])
+  groupId String     @db.ObjectId
+  group   NotesGroup @relation(fields: [groupId], references: [id])
 }
