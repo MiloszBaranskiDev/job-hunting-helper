@@ -15,6 +15,9 @@ const prismaMock = {
       password: 'hashedPassword',
     }),
   },
+  notesGroup: {
+    create: jest.fn(),
+  },
 };
 
 jest.mock('@jhh/jhh-server/db', () => {
