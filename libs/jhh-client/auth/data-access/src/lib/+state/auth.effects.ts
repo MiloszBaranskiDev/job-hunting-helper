@@ -4,7 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as AuthActions from './auth.actions';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../services/auth.service';
 
 import {
   LoginSuccessPayload,

@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 
 import * as AuthSelectors from './auth.selectors';
 import * as AuthActions from './auth.actions';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../services/auth.service';
 
-import { ActionResolverService } from '@jhh/jhh-client/shared/utils-ngrx';
+import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
 @Injectable()
 export class AuthFacade {

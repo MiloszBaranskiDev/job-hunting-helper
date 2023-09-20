@@ -7,7 +7,7 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { AuthEffects } from './auth.effects';
 import * as AuthActions from './auth.actions';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../services/auth.service';
 
 import {
   LoginPayload,

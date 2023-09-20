@@ -1,1 +1,1 @@
-export * from './lib/jhh-client-auth-ui-template/jhh-client-auth-ui-template.component';
+export * from './lib/containers/template/jhh-client-auth-ui-template.component';

@@ -1,1 +1,1 @@
-export * from './lib/jhh-client-dashboard-notes-groups/jhh-client-dashboard-notes-groups.component';
+export * from './lib/feature/containers/groups/jhh-client-dashboard-notes-groups.component';

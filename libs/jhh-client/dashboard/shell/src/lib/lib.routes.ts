@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { JhhClientDashboardShellComponent } from './container/jhh-client-dashboard-shell.component';
+import { JhhClientDashboardShellComponent } from './containers/shell/jhh-client-dashboard-shell.component';
 
 import { AuthPublicFacade, authPublicGuard } from '@jhh/jhh-client/auth/public';
 import { AuthFeatureFacade } from '@jhh/jhh-client/auth/feature';

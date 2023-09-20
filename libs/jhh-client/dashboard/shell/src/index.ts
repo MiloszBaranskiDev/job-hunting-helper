@@ -1,3 +1,3 @@
 export * from './lib/lib.routes';
 
-export * from './lib/container/jhh-client-dashboard-shell.component';
+export * from './lib/containers/shell/jhh-client-dashboard-shell.component';

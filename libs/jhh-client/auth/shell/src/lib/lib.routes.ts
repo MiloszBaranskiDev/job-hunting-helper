@@ -4,7 +4,7 @@ import { provideEffects } from '@ngrx/effects';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
-import { JhhClientAuthShellComponent } from './container/jhh-client-auth-shell.component';
+import { JhhClientAuthShellComponent } from './containers/shell/jhh-client-auth-shell.component';
 
 import {
   AUTH_FEATURE_KEY,
@@ -27,15 +27,15 @@ export const JhhClientAuthShellRoutes: Route = {
     {
       path: ClientRoute.Register,
       loadComponent: () =>
-        import('@jhh/jhh-client/auth/register-feature').then(
-          (c) => c.JhhClientAuthRegisterFeatureComponent
+        import('@jhh/jhh-client/auth/feature-register').then(
+          (c) => c.JhhClientAuthFeatureRegisterComponent
         ),
     },
     {
       path: ClientRoute.Login,
       loadComponent: () =>
-        import('@jhh/jhh-client/auth/login-feature').then(
-          (c) => c.JhhClientAuthLoginFeatureComponent
+        import('@jhh/jhh-client/auth/feature-login').then(
+          (c) => c.JhhClientAuthFeatureLoginComponent
         ),
     },
   ],

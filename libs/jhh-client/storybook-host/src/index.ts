@@ -1,1 +1,1 @@
-export * from './lib/containers/jhh-storybook-auth-container/jhh-storybook-auth-container.component';
+export * from './lib/containers/auth/jhh-storybook-auth-container.component';
