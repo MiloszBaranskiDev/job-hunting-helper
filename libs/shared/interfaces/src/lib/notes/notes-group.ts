@@ -1,8 +1,10 @@
+import { Note } from './note';
+
 export interface NotesGroup {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   orderIndex: number;
   name: string;
-  userId: string;
+  notes: Note[];
 }

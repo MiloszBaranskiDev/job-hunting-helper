@@ -8,7 +8,7 @@ import { User } from '@jhh/shared/interfaces';
 describe('Auth Selectors', () => {
   const ERROR_MSG = 'Dummy error';
 
-  let state: { [AUTH_FEATURE_KEY: string]: AuthState };
+  let state: { [AUTH_STATE_KEY: string]: AuthState };
 
   const dummyUser: User = {
     id: '1337',

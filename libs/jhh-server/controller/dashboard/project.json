@@ -1,7 +1,7 @@
 {
-  "name": "jhh-server-controller-user",
+  "name": "jhh-server-controller-dashboard",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jhh-server/controller/user/src",
+  "sourceRoot": "libs/jhh-server/controller/dashboard/src",
   "projectType": "library",
   "targets": {
     "test": {
@@ -10,7 +10,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/jhh-server/controller/user/jest.config.ts",
+        "jestConfig": "libs/jhh-server/controller/dashboard/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

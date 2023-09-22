@@ -4,7 +4,7 @@ import * as AuthActions from './auth.actions';
 
 import { User } from '@jhh/shared/interfaces';
 
-export const AUTH_FEATURE_KEY = 'auth';
+export const AUTH_STATE_KEY = 'auth';
 
 export interface AuthState {
   token: string | null;
@@ -16,7 +16,7 @@ export interface AuthState {
 }
 
 export interface AuthPartialState {
-  readonly [AUTH_FEATURE_KEY]: AuthState;
+  readonly [AUTH_STATE_KEY]: AuthState;
 }
 
 export const initialAuthState: AuthState = {

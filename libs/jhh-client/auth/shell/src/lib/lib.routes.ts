@@ -7,7 +7,7 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { JhhClientAuthShellComponent } from './containers/shell/jhh-client-auth-shell.component';
 
 import {
-  AUTH_FEATURE_KEY,
+  AUTH_STATE_KEY,
   AuthEffects,
   authReducer,
 } from '@jhh/jhh-client/auth/data-access';
@@ -19,7 +19,7 @@ export const JhhClientAuthShellRoutes: Route = {
   path: '',
   component: JhhClientAuthShellComponent,
   providers: [
-    provideState(AUTH_FEATURE_KEY, authReducer),
+    provideState(AUTH_STATE_KEY, authReducer),
     provideEffects(AuthEffects, AuthFeatureEffects),
   ],
   canActivate: [authGuard],

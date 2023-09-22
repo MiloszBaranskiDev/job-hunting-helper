@@ -1,6 +1,23 @@
-<ng-container>
+<ng-container *ngIf="(loadAssignedDataInProgress$ | async) || (loadAssignedDataError$ | async); else dashboard">
+  <div class="dataLoader">
+    <ng-container *ngIf="loadAssignedDataInProgress$ | async; else notLoading">
+      <mat-spinner></mat-spinner>
+      <p>Loading data...</p>
+    </ng-container>
+    <ng-template #notLoading>
+      <ng-container *ngIf="loadAssignedDataError$ | async as error">
+        <p class="error">
+          {{ error }}. Try refreshing
+        </p>
+      </ng-container>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #dashboard>
   <jhh-sidebar>
     <jhh-toolbar></jhh-toolbar>
     <router-outlet></router-outlet>
   </jhh-sidebar>
-</ng-container>
+</ng-template>
+

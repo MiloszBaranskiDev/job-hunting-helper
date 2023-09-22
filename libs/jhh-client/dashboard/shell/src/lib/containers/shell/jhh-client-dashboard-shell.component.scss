@@ -1,0 +1,24 @@
+.dataLoader {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  .mat-mdc-progress-spinner {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  p {
+    margin-top: 30px;
+    font-size: 22px;
+    max-width: 600px;
+    text-align: center;
+
+    &.error {
+      color: var(--color__warn);
+    }
+  }
+}
