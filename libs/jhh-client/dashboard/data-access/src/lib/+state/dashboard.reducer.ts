@@ -2,14 +2,11 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 
 import * as DashboardActions from './dashboard.actions';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
-
 export const DASHBOARD_STATE_KEY = 'dashboard';
 
 export interface DashboardState {
   loadAssignedDataInProgress: boolean;
   loadAssignedDataError: string | null;
-  notesGroups: NotesGroup[] | null;
 }
 
 export interface DashboardPartialState {
@@ -19,7 +16,6 @@ export interface DashboardPartialState {
 export const initialDashboardState: DashboardState = {
   loadAssignedDataInProgress: false,
   loadAssignedDataError: null,
-  notesGroups: null,
 };
 
 const reducer: ActionReducer<DashboardState> = createReducer(
@@ -36,7 +32,6 @@ const reducer: ActionReducer<DashboardState> = createReducer(
   on(DashboardActions.loadAssignedDataSuccess, (state, { payload }) => ({
     ...state,
     loadAssignedDataInProgress: false,
-    notesGroups: payload.notesGroups,
   }))
 );
 

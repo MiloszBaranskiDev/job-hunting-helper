@@ -11,11 +11,14 @@ import {
   LoadAssignedDataSuccessResponse,
 } from '@jhh/jhh-client/dashboard/interfaces';
 
+import { DashboardFacade } from '../+state/dashboard.facade';
+
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
   private readonly http: HttpClient = inject(HttpClient);
+  private readonly dashboardFacade: DashboardFacade = inject(DashboardFacade);
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoutes.BaseProtected;
@@ -27,5 +30,9 @@ export class DashboardService {
         {}
       )
       .pipe(map((res: LoadAssignedDataSuccessResponse) => res.data));
+  }
+
+  setData(data: { payload: LoadAssignedDataSuccessPayload }): void {
+    this.dashboardFacade.setData(data);
   }
 }

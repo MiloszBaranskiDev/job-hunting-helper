@@ -4,8 +4,11 @@ import { Observable } from 'rxjs';
 
 import * as DashboardSelectors from './dashboard.selectors';
 import * as DashboardActions from './dashboard.actions';
+import { setNotes } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+
+import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
 
 @Injectable()
 export class DashboardFacade {
@@ -28,5 +31,9 @@ export class DashboardFacade {
       DashboardActions.Type.LoadAssignedDataSuccess,
       DashboardActions.Type.LoadAssignedDataFail
     );
+  }
+
+  setData(data: { payload: LoadAssignedDataSuccessPayload }): void {
+    this.store.dispatch(setNotes({ notesGroups: data.payload.notesGroups }));
   }
 }

@@ -11,11 +11,14 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
+
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     AuthFacade,
+    DashboardFacade,
     provideEffects(),
     provideStore(),
     provideStoreDevtools({

@@ -1,0 +1,20 @@
+<ng-container *ngIf="(notesGroups$ | async) as groups; else emptyList">
+  <ul [ngClass]="['groupsList', breakpoint$ | async]" *ngIf="groups.length > 0; else emptyList">
+    <li class="groupsList__item" *ngFor="let group of groups | orderBy:'orderIndex'">
+      <a href="#">
+        <span
+          *ngIf="group.notes.length > 0"
+          class="groupsList__itemCounter">
+          {{group.notes.length <= 99 ? group.notes.length : '99+'}}
+        </span>
+        <span class="groupsList__itemName">
+          {{ group.name }}
+        </span>
+      </a>
+    </li>
+  </ul>
+</ng-container>
+
+<ng-template #emptyList>
+  <p>No groups found.</p>
+</ng-template>

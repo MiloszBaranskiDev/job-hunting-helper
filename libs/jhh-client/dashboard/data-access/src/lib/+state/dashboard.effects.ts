@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as DashboardActions from './dashboard.actions';
@@ -19,13 +19,14 @@ export class DashboardEffects {
       ofType(DashboardActions.loadAssignedData),
       fetch({
         run: () =>
-          this.dashboardService
-            .loadAssignedData()
-            .pipe(
-              map((res: LoadAssignedDataSuccessPayload) =>
-                DashboardActions.loadAssignedDataSuccess({ payload: res })
-              )
+          this.dashboardService.loadAssignedData().pipe(
+            map((res: LoadAssignedDataSuccessPayload) =>
+              DashboardActions.loadAssignedDataSuccess({ payload: res })
             ),
+            tap((val) => {
+              this.dashboardService.setData(val);
+            })
+          ),
         onError: (action, error) =>
           DashboardActions.loadAssignedDataFail({ payload: error }),
       })

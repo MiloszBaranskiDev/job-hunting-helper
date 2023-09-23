@@ -13,6 +13,11 @@ import {
   DashboardFacade,
   dashboardReducer,
 } from '@jhh/jhh-client/dashboard/data-access';
+import {
+  NOTES_STATE_KEY,
+  NotesFacade,
+  notesReducer,
+} from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
@@ -23,10 +28,12 @@ export const JhhClientDashboardShellRoutes: Route = {
   component: JhhClientDashboardShellComponent,
   providers: [
     provideState(DASHBOARD_STATE_KEY, dashboardReducer),
+    provideState(NOTES_STATE_KEY, notesReducer),
     provideEffects(DashboardEffects),
     AuthFeatureFacade,
     AuthPublicFacade,
     DashboardFacade,
+    NotesFacade,
   ],
   canActivate: [authPublicGuard],
   children: [JhhClientDashboardNotesShellRoutes],

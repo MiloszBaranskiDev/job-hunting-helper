@@ -51,6 +51,9 @@
       "@jhh/jhh-client/dashboard/interfaces": [
         "libs/jhh-client/dashboard/interfaces/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/data-access": [
+        "libs/jhh-client/dashboard/notes/data-access/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/notes-groups": [
         "libs/jhh-client/dashboard/notes/notes-groups/src/index.ts"
       ],
@@ -65,6 +68,12 @@
       ],
       "@jhh/jhh-client/shared/enums": [
         "libs/jhh-client/shared/enums/src/index.ts"
+      ],
+      "@jhh/jhh-client/shared/pipes": [
+        "libs/jhh-client/shared/pipes/src/index.ts"
+      ],
+      "@jhh/jhh-client/shared/util-breakpoint": [
+        "libs/jhh-client/shared/util-breakpoint/src/index.ts"
       ],
       "@jhh/jhh-client/shared/util-ngrx": [
         "libs/jhh-client/shared/util-ngrx/src/index.ts"
