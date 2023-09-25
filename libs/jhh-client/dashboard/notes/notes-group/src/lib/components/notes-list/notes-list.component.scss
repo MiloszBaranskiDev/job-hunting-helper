@@ -1,0 +1,63 @@
+.notesList {
+  display: grid;
+  gap: 24px;
+
+  &.tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &.desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  &__item {
+    a {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color__bg--darker);
+      border-radius: var(--radius__base);
+      padding: 20px;
+      color: inherit;
+
+      &:hover {
+        background-color: var(--color__primary);
+
+        * {
+          color: white !important;
+        }
+      }
+    }
+  }
+
+  &__itemName {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    h2 {
+      margin-right: auto;
+      margin-bottom: 0;
+    }
+  }
+
+  &__itemContent {
+    margin-bottom: auto;
+  }
+
+  &__itemBottom {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    span {
+      font-size: 13px;
+    }
+
+    .moreActions {
+      margin-left: auto;
+    }
+  }
+}

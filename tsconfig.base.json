@@ -12,7 +12,10 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -35,7 +38,9 @@
       "@jhh/jhh-client/auth/public": [
         "libs/jhh-client/auth/public/src/index.ts"
       ],
-      "@jhh/jhh-client/auth/shell": ["libs/jhh-client/auth/shell/src/index.ts"],
+      "@jhh/jhh-client/auth/shell": [
+        "libs/jhh-client/auth/shell/src/index.ts"
+      ],
       "@jhh/jhh-client/auth/ui-template": [
         "libs/jhh-client/auth/ui-template/src/index.ts"
       ],
@@ -53,6 +58,9 @@
       ],
       "@jhh/jhh-client/dashboard/notes/data-access": [
         "libs/jhh-client/dashboard/notes/data-access/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/notes/notes-group": [
+        "libs/jhh-client/dashboard/notes/notes-group/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/notes/notes-groups": [
         "libs/jhh-client/dashboard/notes/notes-groups/src/index.ts"
@@ -84,27 +92,40 @@
       "@jhh/jhh-client/storybook-host": [
         "libs/jhh-client/storybook-host/src/index.ts"
       ],
-      "@jhh/jhh-server/app": ["libs/jhh-server/app/src/index.ts"],
+      "@jhh/jhh-server/app": [
+        "libs/jhh-server/app/src/index.ts"
+      ],
       "@jhh/jhh-server/controller/dashboard": [
         "libs/jhh-server/controller/dashboard/src/index.ts"
       ],
       "@jhh/jhh-server/controller/user": [
         "libs/jhh-server/controller/user/src/index.ts"
       ],
-      "@jhh/jhh-server/db": ["libs/jhh-server/db/src/index.ts"],
+      "@jhh/jhh-server/db": [
+        "libs/jhh-server/db/src/index.ts"
+      ],
       "@jhh/jhh-server/middleware/auth": [
         "libs/jhh-server/middleware/auth/src/index.ts"
       ],
-      "@jhh/jhh-server/router/api": ["libs/jhh-server/router/api/src/index.ts"],
+      "@jhh/jhh-server/router/api": [
+        "libs/jhh-server/router/api/src/index.ts"
+      ],
       "@jhh/jhh-server/router/user": [
         "libs/jhh-server/router/user/src/index.ts"
       ],
       "@jhh/jhh-server/shared/utils": [
         "libs/jhh-server/shared/utils/src/index.ts"
       ],
-      "@jhh/shared/enums": ["libs/shared/enums/src/index.ts"],
-      "@jhh/shared/interfaces": ["libs/shared/interfaces/src/index.ts"]
+      "@jhh/shared/enums": [
+        "libs/shared/enums/src/index.ts"
+      ],
+      "@jhh/shared/interfaces": [
+        "libs/shared/interfaces/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

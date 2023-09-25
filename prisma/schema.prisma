@@ -26,7 +26,8 @@ model NotesGroup {
   updatedAt  DateTime @updatedAt
   orderIndex Int      @unique
 
-  name String
+  name String @unique
+  slug String @unique
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
@@ -39,7 +40,8 @@ model Note {
   updatedAt  DateTime @updatedAt
   orderIndex Int      @unique
 
-  name    String
+  name    String @unique
+  slug    String @unique
   content String
 
   groupId String     @db.ObjectId

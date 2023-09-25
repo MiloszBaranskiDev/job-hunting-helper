@@ -14,15 +14,17 @@ const assignDefaultData = async (userId: string): Promise<void> => {
   ) {
     await prisma.notesGroup.create({
       data: {
-        name: defaultNotesGroups[groupIndex].name,
-        userId: userId,
         orderIndex: groupIndex,
+        name: defaultNotesGroups[groupIndex].name,
+        slug: defaultNotesGroups[groupIndex].slug,
+        userId: userId,
         notes: {
           create: defaultNotesGroups[groupIndex].notes.map(
             (note, noteIndex) => ({
-              name: note.name,
-              content: note.content,
               orderIndex: noteIndex,
+              name: note.name,
+              slug: note.slug,
+              content: note.content,
             })
           ),
         },

@@ -4,6 +4,7 @@ export interface Note {
   updatedAt: Date;
   orderIndex: number;
   name: string;
+  slug: string;
   content: string;
   groupId: string;
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
 
-import { selectAllNotes } from './notes.selectors';
+import { selectAllNotes, selectNotesGroupBySlug } from './notes.selectors';
 
 @Injectable()
 export class NotesFacade {
@@ -13,4 +13,8 @@ export class NotesFacade {
   notesGroups$: Observable<NotesGroup[]> = this.store.pipe(
     select(selectAllNotes)
   );
+
+  getNotesGroup$BySlug(slug: string): Observable<NotesGroup | undefined> {
+    return this.store.pipe(select(selectNotesGroupBySlug, slug));
+  }
 }

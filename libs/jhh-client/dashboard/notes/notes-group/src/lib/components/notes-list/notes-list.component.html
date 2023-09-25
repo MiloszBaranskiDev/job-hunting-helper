@@ -1,0 +1,49 @@
+<ng-container *ngIf="(notes$ | async) as notes; else emptyList">
+  <ul [ngClass]="['notesList', breakpoint$ | async]" *ngIf="notes.length > 0; else emptyList">
+    <li class="notesList__item" *ngFor="let note of notes.slice() | orderBy:'orderIndex'">
+      <a [routerLink]="['#']">
+        <div class="notesList__itemName">
+          <h2>{{note.name}}</h2>
+          <button
+            mat-icon-button
+            (click)="$event.preventDefault(); $event.stopPropagation();"
+          >
+            <mat-icon>bookmark_border</mat-icon>
+          </button>
+        </div>
+        <p class="notesList__itemContent">
+          {{note.content}}
+        </p>
+        <mat-divider></mat-divider>
+        <div class="notesList__itemBottom">
+          <mat-icon>history</mat-icon>
+          <span>{{note.updatedAt | date: 'dd.MM.yy HH:mm'}}</span>
+          <div class="moreActions">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              ria-label="Note more actions"
+              (click)="$event.preventDefault(); $event.stopPropagation();"
+            >
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>close</mat-icon>
+                <span>Remove (add confirm)</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</ng-container>
+
+<ng-template #emptyList>
+  <p>No notes found.</p>
+</ng-template>

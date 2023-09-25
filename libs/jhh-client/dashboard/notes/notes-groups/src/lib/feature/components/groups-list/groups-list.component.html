@@ -1,7 +1,7 @@
 <ng-container *ngIf="(notesGroups$ | async) as groups; else emptyList">
   <ul [ngClass]="['groupsList', breakpoint$ | async]" *ngIf="groups.length > 0; else emptyList">
     <li class="groupsList__item" *ngFor="let group of groups | orderBy:'orderIndex'">
-      <a href="#">
+      <a [routerLink]="clientRoute.NotesLink + '/' + group.slug">
         <span
           *ngIf="group.notes.length > 0"
           class="groupsList__itemCounter">

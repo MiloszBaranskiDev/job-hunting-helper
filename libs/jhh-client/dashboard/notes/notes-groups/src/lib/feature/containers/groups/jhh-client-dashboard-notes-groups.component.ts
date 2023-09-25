@@ -1,16 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { Observable } from 'rxjs';
+
 import { NotesGroup } from '@jhh/shared/interfaces';
 
 @Component({
   selector: 'jhh-notes-group',
   standalone: true,
-  imports: [CommonModule, GroupsListComponent],
+  imports: [CommonModule, GroupsListComponent, RouterOutlet],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
 })

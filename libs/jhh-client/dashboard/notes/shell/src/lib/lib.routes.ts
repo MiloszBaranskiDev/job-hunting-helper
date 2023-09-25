@@ -10,10 +10,22 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
   children: [
     {
       path: ClientRoute.Notes,
-      loadComponent: () =>
-        import('@jhh/jhh-client/dashboard/notes/notes-groups').then(
-          (c) => c.JhhClientDashboardNotesGroupsComponent
-        ),
+      children: [
+        {
+          path: '',
+          loadComponent: () =>
+            import('@jhh/jhh-client/dashboard/notes/notes-groups').then(
+              (c) => c.JhhClientDashboardNotesGroupsComponent
+            ),
+        },
+        {
+          path: ':id',
+          loadComponent: () =>
+            import('@jhh/jhh-client/dashboard/notes/notes-group').then(
+              (c) => c.JhhClientDashboardNotesGroupComponent
+            ),
+        },
+      ],
     },
   ],
 };

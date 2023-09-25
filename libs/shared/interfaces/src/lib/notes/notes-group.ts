@@ -6,5 +6,6 @@ export interface NotesGroup {
   updatedAt: Date;
   orderIndex: number;
   name: string;
+  slug: string;
   notes: Note[];
 }
