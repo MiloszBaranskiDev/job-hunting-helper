@@ -13,6 +13,8 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
 
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+
 @Component({
   selector: 'jhh-notes-list',
   standalone: true,
@@ -32,7 +34,10 @@ export class NotesListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
 
+  readonly clientRoute: typeof ClientRoute = ClientRoute;
+
   @Input() notes$: Observable<Note[]>;
+  @Input() groupSlug$: Observable<string>;
 
   breakpoint$: Observable<string>;
 

@@ -23,3 +23,16 @@ export const selectNotesGroupBySlug = createSelector(
   (notesGroups: NotesGroup[], slug: string) =>
     notesGroups.find((group) => group.slug === slug)
 );
+
+export const selectNoteBySlugs = createSelector(
+  selectAllNotes,
+  (
+    notesGroups: NotesGroup[],
+    props: { groupSlug: string; noteSlug: string }
+  ) => {
+    const group = notesGroups.find((group) => group.slug === props.groupSlug);
+    return group
+      ? group.notes.find((note) => note.slug === props.noteSlug)
+      : null;
+  }
+);

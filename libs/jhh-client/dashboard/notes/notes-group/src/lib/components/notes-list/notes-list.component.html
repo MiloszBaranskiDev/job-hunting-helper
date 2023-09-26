@@ -1,7 +1,7 @@
 <ng-container *ngIf="(notes$ | async) as notes; else emptyList">
   <ul [ngClass]="['notesList', breakpoint$ | async]" *ngIf="notes.length > 0; else emptyList">
     <li class="notesList__item" *ngFor="let note of notes.slice() | orderBy:'orderIndex'">
-      <a [routerLink]="['#']">
+      <a [routerLink]="clientRoute.NotesLink + '/' + (groupSlug$ | async) + '/' + note.slug">
         <div class="notesList__itemName">
           <h2>{{note.name}}</h2>
           <button

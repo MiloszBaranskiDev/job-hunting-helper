@@ -2,9 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/interfaces';
 
-import { selectAllNotes, selectNotesGroupBySlug } from './notes.selectors';
+import {
+  selectAllNotes,
+  selectNoteBySlugs,
+  selectNotesGroupBySlug,
+} from './notes.selectors';
 
 @Injectable()
 export class NotesFacade {
@@ -16,5 +20,12 @@ export class NotesFacade {
 
   getNotesGroup$BySlug(slug: string): Observable<NotesGroup | undefined> {
     return this.store.pipe(select(selectNotesGroupBySlug, slug));
+  }
+
+  getNote$BySlugs(
+    groupSlug: string,
+    noteSlug: string
+  ): Observable<Note | undefined | null> {
+    return this.store.pipe(select(selectNoteBySlugs, { groupSlug, noteSlug }));
   }
 }

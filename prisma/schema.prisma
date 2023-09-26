@@ -38,12 +38,16 @@ model Note {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  orderIndex Int      @unique
+  orderIndex Int
 
-  name    String @unique
-  slug    String @unique
+  name    String
+  slug    String
   content String
 
   groupId String     @db.ObjectId
   group   NotesGroup @relation(fields: [groupId], references: [id])
+
+  @@unique([slug, groupId], name: "slug_groupId_idx")
+  @@unique([name, groupId], name: "name_groupId_idx")
+  @@unique([orderIndex, groupId], name: "orderIndex_groupId_idx")
 }

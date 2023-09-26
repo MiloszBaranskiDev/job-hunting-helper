@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { Observable, pluck, switchMap } from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
@@ -20,20 +20,19 @@ export class JhhClientDashboardNotesGroupComponent implements OnInit {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  private slug: string;
-
   group$: Observable<NotesGroup>;
+  groupSlug$: Observable<string>;
   notes$: Observable<Note[]>;
 
   ngOnInit(): void {
-    this.slug = this.route.snapshot.params['id'];
-    this.group$ = this.notesFacade.getNotesGroup$BySlug(
-      this.slug
+    this.groupSlug$ = this.route.params.pipe(
+      pluck('groupSlug')
+    ) as Observable<string>;
+
+    this.group$ = this.groupSlug$.pipe(
+      switchMap((slug: string) => this.notesFacade.getNotesGroup$BySlug(slug))
     ) as Observable<NotesGroup>;
-    this.notes$ = this.group$.pipe(
-      map((group) => {
-        return group?.notes;
-      })
-    );
+
+    this.notes$ = this.group$.pipe(pluck('notes'));
   }
 }
