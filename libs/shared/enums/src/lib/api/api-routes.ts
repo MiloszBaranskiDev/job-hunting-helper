@@ -8,4 +8,7 @@ export enum ApiRoutes {
   BaseProtected = '/api',
   //
   LoadAssignedData = '/data',
+  //
+  Notes = '/notes',
+  NotesGroups = '/notes/groups',
 }

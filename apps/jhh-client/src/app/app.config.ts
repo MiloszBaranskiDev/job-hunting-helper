@@ -9,6 +9,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
 
@@ -31,5 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideAnimations(),
     provideHttpClient(withInterceptors([AuthInterceptor])),
+    MatSnackBar,
   ],
 };

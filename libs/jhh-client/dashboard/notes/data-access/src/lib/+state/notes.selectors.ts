@@ -36,3 +36,13 @@ export const selectNoteBySlugs = createSelector(
       : null;
   }
 );
+
+export const selectAddNotesGroupInProgress = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.addNotesGroupInProgress
+);
+
+export const selectAddNotesGroupError = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.addNotesGroupError
+);

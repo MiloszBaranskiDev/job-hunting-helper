@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
+import { AddGroupComponent } from '../../components/add-group/add-group.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
@@ -12,7 +13,7 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 @Component({
   selector: 'jhh-notes-group',
   standalone: true,
-  imports: [CommonModule, GroupsListComponent, RouterOutlet],
+  imports: [CommonModule, GroupsListComponent, RouterOutlet, AddGroupComponent],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
 })
