@@ -8,11 +8,16 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
+import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
 @Component({
   selector: 'jhh-notes-group',
   standalone: true,
-  imports: [CommonModule, NotesListComponent],
+  imports: [
+    CommonModule,
+    NotesListComponent,
+    JhhClientDashboardRemoveNoteComponent,
+  ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
 })

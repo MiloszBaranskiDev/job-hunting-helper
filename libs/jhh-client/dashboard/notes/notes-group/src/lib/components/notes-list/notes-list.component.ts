@@ -9,11 +9,12 @@ import { RouterLink } from '@angular/router';
 
 import { Note } from '@jhh/shared/interfaces';
 
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
 import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
-
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 @Component({
   selector: 'jhh-notes-list',
@@ -33,6 +34,9 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 export class NotesListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
+  private readonly removeNoteModalService: RemoveNoteModalService = inject(
+    RemoveNoteModalService
+  );
 
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 
@@ -43,5 +47,9 @@ export class NotesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  openRemoveNoteModal(note: Note): void {
+    this.removeNoteModalService.openModal(note);
   }
 }

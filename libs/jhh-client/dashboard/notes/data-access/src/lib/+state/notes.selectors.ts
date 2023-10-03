@@ -30,7 +30,9 @@ export const selectNoteBySlugs = createSelector(
     notesGroups: NotesGroup[],
     props: { groupSlug: string; noteSlug: string }
   ) => {
-    const group = notesGroups.find((group) => group.slug === props.groupSlug);
+    const group: NotesGroup | undefined = notesGroups.find(
+      (group) => group.slug === props.groupSlug
+    );
     return group
       ? group.notes.find((note) => note.slug === props.noteSlug)
       : null;
@@ -45,4 +47,19 @@ export const selectAddNotesGroupInProgress = createSelector(
 export const selectAddNotesGroupError = createSelector(
   selectNotesState,
   (state: NotesState) => state.addNotesGroupError
+);
+
+export const selectRemoveNoteInProgress = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.removeNoteInProgress
+);
+
+export const selectRemoveNoteError = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.removeNoteError
+);
+
+export const selectRemoveNoteSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.removeNoteSuccess
 );

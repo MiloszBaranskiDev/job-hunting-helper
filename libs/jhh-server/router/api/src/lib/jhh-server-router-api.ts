@@ -19,7 +19,7 @@ export function JhhServerRouterApi(): Router {
 
   router.post(ApiRoutes.NotesGroups, notesController.addNotesGroup);
   // router.put(ApiRoutes., notesController.);
-  // router.delete(ApiRoutes., notesController.);
+  router.delete(ApiRoutes.Notes, notesController.removeNote);
 
   return router;
 }

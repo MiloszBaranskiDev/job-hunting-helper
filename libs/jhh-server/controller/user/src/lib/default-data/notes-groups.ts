@@ -37,6 +37,16 @@ const defaultNotesGroups: DefaultNotesGroup[] = [
         slug: 'default-note-2',
         content: 'This is a default note',
       },
+      {
+        name: 'Default Note 4',
+        slug: 'default-note-4',
+        content: 'This is a default note',
+      },
+      {
+        name: 'Default Note 4',
+        slug: 'default-note-4',
+        content: 'This is a default note',
+      },
     ],
   },
 ];

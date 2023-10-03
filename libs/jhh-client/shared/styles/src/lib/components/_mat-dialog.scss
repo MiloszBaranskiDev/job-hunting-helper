@@ -19,6 +19,18 @@
       align-items: center;
     }
 
+    .mdc-dialog__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      ul,
+      .mat-divider,
+      form {
+        width: 100%;
+      }
+    }
+
     .mat-mdc-dialog-actions {
       justify-content: center;
     }

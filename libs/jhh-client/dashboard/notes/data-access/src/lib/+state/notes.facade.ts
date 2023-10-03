@@ -31,6 +31,21 @@ export class NotesFacade {
   private _addNotesGroupSuccess$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  addNotesGroupSuccess$: Observable<boolean> =
+    this._addNotesGroupSuccess$.asObservable();
+
+  removeNoteInProgress$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectRemoveNoteInProgress)
+  );
+
+  removeNoteError$: Observable<string | null> = this.store.pipe(
+    select(NotesSelectors.selectRemoveNoteError)
+  );
+
+  removeNoteSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectRemoveNoteSuccess)
+  );
+
   setAddNotesGroupSuccess(): void {
     this._addNotesGroupSuccess$.next(true);
   }
@@ -38,9 +53,6 @@ export class NotesFacade {
   resetAddNotesGroupSuccess() {
     this._addNotesGroupSuccess$.next(false);
   }
-
-  addNotesGroupSuccess$: Observable<boolean> =
-    this._addNotesGroupSuccess$.asObservable();
 
   addNotesGroup(name: string) {
     this._addNotesGroupSuccess$.next(false);
@@ -50,6 +62,16 @@ export class NotesFacade {
       }),
       NotesActions.Type.AddNotesGroupSuccess,
       NotesActions.Type.AddNotesGroupFail
+    );
+  }
+
+  removeNote(noteId: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.removeNote({
+        payload: { noteId: noteId },
+      }),
+      NotesActions.Type.RemoveNoteSuccess,
+      NotesActions.Type.RemoveNoteFail
     );
   }
 
