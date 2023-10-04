@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 
@@ -28,11 +28,9 @@ export class NotesFacade {
     select(NotesSelectors.selectAddNotesGroupError)
   );
 
-  private _addNotesGroupSuccess$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-
-  addNotesGroupSuccess$: Observable<boolean> =
-    this._addNotesGroupSuccess$.asObservable();
+  addNotesGroupSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectAddNotesGroupSuccess)
+  );
 
   removeNoteInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNoteInProgress)
@@ -46,16 +44,7 @@ export class NotesFacade {
     select(NotesSelectors.selectRemoveNoteSuccess)
   );
 
-  setAddNotesGroupSuccess(): void {
-    this._addNotesGroupSuccess$.next(true);
-  }
-
-  resetAddNotesGroupSuccess() {
-    this._addNotesGroupSuccess$.next(false);
-  }
-
   addNotesGroup(name: string) {
-    this._addNotesGroupSuccess$.next(false);
     return this.actionResolverService.executeAndWatch(
       NotesActions.addNotesGroup({
         payload: { name: name },

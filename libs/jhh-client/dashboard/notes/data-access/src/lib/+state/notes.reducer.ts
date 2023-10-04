@@ -10,6 +10,7 @@ export const NOTES_STATE_KEY = 'notes';
 export interface NotesState extends EntityState<NotesGroup> {
   addNotesGroupInProgress: boolean;
   addNotesGroupError: string | null;
+  addNotesGroupSuccess: boolean;
   removeNoteInProgress: boolean;
   removeNoteError: string | null;
   removeNoteSuccess: boolean;
@@ -20,6 +21,7 @@ export const adapter = createEntityAdapter<NotesGroup>();
 export const initialNotesState: NotesState = adapter.getInitialState({
   addNotesGroupInProgress: false,
   addNotesGroupError: null,
+  addNotesGroupSuccess: false,
   removeNoteInProgress: false,
   removeNoteError: null,
   removeNoteSuccess: false,
@@ -33,6 +35,7 @@ const reducer: ActionReducer<NotesState> = createReducer(
   on(NotesActions.addNotesGroup, (state) => ({
     ...state,
     addNotesGroupInProgress: true,
+    addNotesGroupSuccess: false,
   })),
   on(NotesActions.addNotesGroupFail, (state, { payload }) => ({
     ...state,
@@ -42,6 +45,7 @@ const reducer: ActionReducer<NotesState> = createReducer(
   on(NotesActions.addNotesGroupSuccess, (state, { payload }) => ({
     ...adapter.addOne(payload.newNotesGroup, state),
     addNotesGroupInProgress: false,
+    addNotesGroupSuccess: true,
   })),
   on(NotesActions.removeNote, (state) => ({
     ...state,

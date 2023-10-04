@@ -2,7 +2,6 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -32,8 +31,6 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { NotesGroupFieldsLength } from '@jhh/shared/enums';
 import { AddNotesGroupFormField } from '../../enums/add-notes-group-form-field';
 import { AddNotesGroupFormErrorKey } from '../../enums/add-notes-group-form-error-key';
-
-import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
 @Component({
@@ -53,12 +50,11 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.scss'],
 })
-export class AddGroupComponent implements OnInit, OnDestroy {
+export class AddGroupComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
   readonly formField: typeof AddNotesGroupFormField = AddNotesGroupFormField;
@@ -67,23 +63,20 @@ export class AddGroupComponent implements OnInit, OnDestroy {
 
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
 
-  addNotesGroupInProgress$: Observable<boolean> =
-    this.notesFacade.addNotesGroupInProgress$;
-  addNotesGroupError$: Observable<string | null> =
-    this.notesFacade.addNotesGroupError$;
-  addNotesGroupSuccess$: Observable<boolean> =
-    this.notesFacade.addNotesGroupSuccess$;
+  addNotesGroupInProgress$: Observable<boolean>;
+  addNotesGroupError$: Observable<string | null>;
+  addNotesGroupSuccess$: Observable<boolean>;
 
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
+    this.addNotesGroupInProgress$ = this.notesFacade.addNotesGroupInProgress$;
+    this.addNotesGroupError$ = this.notesFacade.addNotesGroupError$;
+    this.addNotesGroupSuccess$ = this.notesFacade.addNotesGroupSuccess$;
+
     this.initFormGroup();
     this.handleReset();
-  }
-
-  ngOnDestroy(): void {
-    this.notesFacade.resetAddNotesGroupSuccess();
   }
 
   initFormGroup(): void {
@@ -117,7 +110,6 @@ export class AddGroupComponent implements OnInit, OnDestroy {
         if (val) {
           this.formGroup.reset();
           this.dialogRef?.close();
-          this.snackbarService.open('Group added successfully!');
         }
       });
   }

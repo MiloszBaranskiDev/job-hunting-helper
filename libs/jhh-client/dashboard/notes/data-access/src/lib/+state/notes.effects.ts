@@ -34,7 +34,7 @@ export class NotesEffects {
               NotesActions.addNotesGroupSuccess({ payload: res })
             ),
             tap(() => {
-              this.notesFacade.setAddNotesGroupSuccess();
+              this.snackbarService.open('Group added successfully!');
             })
           ),
         onError: (action, error) =>
