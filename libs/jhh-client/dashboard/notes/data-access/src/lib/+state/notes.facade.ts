@@ -32,6 +32,18 @@ export class NotesFacade {
     select(NotesSelectors.selectAddNotesGroupSuccess)
   );
 
+  addNoteInProgress$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectAddNoteInProgress)
+  );
+
+  addNoteError$: Observable<string | null> = this.store.pipe(
+    select(NotesSelectors.selectAddNoteError)
+  );
+
+  addNoteSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectAddNoteSuccess)
+  );
+
   removeNoteInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNoteInProgress)
   );
@@ -51,6 +63,16 @@ export class NotesFacade {
       }),
       NotesActions.Type.AddNotesGroupSuccess,
       NotesActions.Type.AddNotesGroupFail
+    );
+  }
+
+  addNote(name: string, content: string, groupId: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.addNote({
+        payload: { name: name, content: content, groupId: groupId },
+      }),
+      NotesActions.Type.RemoveNoteSuccess,
+      NotesActions.Type.RemoveNoteFail
     );
   }
 

@@ -3,8 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
 import {
+  AddNotePayload,
   AddNotesGroupPayload,
   AddNotesGroupSuccessPayload,
+  AddNoteSuccessPayload,
   RemoveNotePayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
@@ -14,6 +16,9 @@ export enum Type {
   AddNotesGroup = '[Notes] Add Notes Group',
   AddNotesGroupFail = '[Notes] Add Notes Group Fail',
   AddNotesGroupSuccess = '[Notes] Add Notes Group Success',
+  AddNote = '[Notes] Add Note',
+  AddNoteFail = '[Notes] Add Note Fail',
+  AddNoteSuccess = '[Notes] Add Note Success',
   RemoveNote = '[Notes] Remove Note',
   RemoveNoteFail = '[Notes] Remove Note Fail',
   RemoveNoteSuccess = '[Notes] Remove Note Success',
@@ -37,6 +42,21 @@ export const addNotesGroupFail = createAction(
 export const addNotesGroupSuccess = createAction(
   Type.AddNotesGroupSuccess,
   props<{ payload: AddNotesGroupSuccessPayload }>()
+);
+
+export const addNote = createAction(
+  Type.AddNote,
+  props<{ payload: AddNotePayload }>()
+);
+
+export const addNoteFail = createAction(
+  Type.AddNoteFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const addNoteSuccess = createAction(
+  Type.AddNoteSuccess,
+  props<{ payload: AddNoteSuccessPayload }>()
 );
 
 export const removeNote = createAction(

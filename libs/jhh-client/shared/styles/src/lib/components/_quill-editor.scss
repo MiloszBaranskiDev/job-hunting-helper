@@ -1,0 +1,14 @@
+quill-editor {
+  max-width: 100%;
+  margin-bottom: 12px;
+
+  .ql-tooltip[data-mode='image']::before {
+    content: 'Enter image URL:';
+  }
+
+  .ql-tooltip {
+    left: 50% !important;
+    right: unset !important;
+    transform: translateX(-50%) !important;
+  }
+}

@@ -87,6 +87,9 @@
       "@jhh/jhh-client/shared/util-breakpoint": [
         "libs/jhh-client/shared/util-breakpoint/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/util-max-size-validator": [
+        "libs/jhh-client/shared/util-max-size-validator/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/util-ngrx": [
         "libs/jhh-client/shared/util-ngrx/src/index.ts"
       ],
@@ -122,6 +125,9 @@
       ],
       "@jhh/jhh-server/shared/utils": [
         "libs/jhh-server/shared/utils/src/index.ts"
+      ],
+      "@jhh/shared/dom-purify-config": [
+        "libs/shared/dom-purify-config/src/index.ts"
       ],
       "@jhh/shared/enums": ["libs/shared/enums/src/index.ts"],
       "@jhh/shared/interfaces": ["libs/shared/interfaces/src/index.ts"]

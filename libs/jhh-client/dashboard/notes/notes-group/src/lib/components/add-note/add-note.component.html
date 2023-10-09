@@ -1,0 +1,58 @@
+<ng-container *ngIf="groupId$ | async as groupId">
+  <div class="addNote">
+    <button class="addNote__openBtn" mat-fab color="primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <ng-template #dialogContent>
+      <h2 mat-dialog-title>Add new note</h2>
+      <mat-dialog-content>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit(groupId)">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput [formControlName]="formField.Name" placeholder="Name" jhhWhitespaceSanitizer required>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
+              Name is required
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinNameLength)">
+              Minimum length of name is {{fieldsLength.MinNameLength}} characters
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxNameLength)">
+              Maximum length of name is {{fieldsLength.MaxNameLength}} characters
+            </mat-error>
+          </mat-form-field>
+          <ng-container>
+            <quill-editor
+              [formControlName]="formField.Content"
+              [modules]="editorModules"
+              (onEditorCreated)="onEditorCreated($event)"
+            ></quill-editor>
+            <mat-error *ngIf="formGroup.get(formField.Content)?.hasError(formErrorKey.MaxSize)">
+              Content size
+              ({{ getContentSizeInBytes() | bytesToMb }})
+              exceeds the maximum allowed size
+              ({{ noteSize.MaxNoteSize | bytesToMb }}).
+              Try to compress images before uploading if you need them.
+            </mat-error>
+          </ng-container>
+          <mat-divider></mat-divider>
+          <ng-container *ngIf="(addNoteInProgress$ | async) || (addNoteError$ | async)">
+            <mat-progress-spinner *ngIf="addNoteInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+            <mat-error *ngIf="addNoteError$ | async as error">{{ error }}</mat-error>
+            <mat-divider></mat-divider>
+          </ng-container>
+          <mat-dialog-actions>
+            <button mat-stroked-button mat-dialog-close>Cancel</button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="formGroup.invalid || (addNoteInProgress$ | async)"
+            >
+              Add
+            </button>
+          </mat-dialog-actions>
+        </form>
+      </mat-dialog-content>
+    </ng-template>
+  </div>
+</ng-container>

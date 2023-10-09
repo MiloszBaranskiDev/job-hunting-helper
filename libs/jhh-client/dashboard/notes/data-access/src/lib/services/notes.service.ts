@@ -4,9 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
+  AddNotePayload,
   AddNotesGroupPayload,
   AddNotesGroupSuccessPayload,
   AddNotesGroupSuccessResponse,
+  AddNoteSuccessPayload,
+  AddNoteSuccessResponse,
   RemoveNotePayload,
   RemoveNoteSuccessPayload,
   RemoveNoteSuccessResponse,
@@ -35,6 +38,16 @@ export class NotesService {
         }
       )
       .pipe(map((res: AddNotesGroupSuccessResponse) => res.data));
+  }
+
+  addNote(payload: AddNotePayload): Observable<AddNoteSuccessPayload> {
+    return this.http
+      .post<AddNoteSuccessResponse>(this.API_DASHBOARD_URL + ApiRoutes.Notes, {
+        name: payload.name,
+        content: payload.content,
+        groupId: payload.groupId,
+      })
+      .pipe(map((res: AddNoteSuccessResponse) => res.data));
   }
 
   removeNote(payload: RemoveNotePayload): Observable<RemoveNoteSuccessPayload> {

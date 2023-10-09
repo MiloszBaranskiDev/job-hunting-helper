@@ -4,21 +4,20 @@ import { fetch } from '@nrwl/angular';
 import { map, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
-import { NotesFacade } from './notes.facade';
 import { NotesService } from '../services/notes.service';
+import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import {
   AddNotesGroupSuccessPayload,
+  AddNoteSuccessPayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
-import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
-import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 @Injectable()
 export class NotesEffects {
   private readonly actions$ = inject(Actions);
   private readonly notesService: NotesService = inject(NotesService);
-  private readonly notesFacade: NotesFacade = inject(NotesFacade);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
@@ -39,6 +38,25 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.addNotesGroupFail({ payload: error }),
+      })
+    )
+  );
+
+  addNote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.addNote),
+      fetch({
+        run: (action) =>
+          this.notesService.addNote(action.payload).pipe(
+            map((res: AddNoteSuccessPayload) =>
+              NotesActions.addNoteSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.snackbarService.open('Note added successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.addNoteFail({ payload: error }),
       })
     )
   );

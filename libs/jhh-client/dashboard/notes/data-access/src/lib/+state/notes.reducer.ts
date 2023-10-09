@@ -11,6 +11,9 @@ export interface NotesState extends EntityState<NotesGroup> {
   addNotesGroupInProgress: boolean;
   addNotesGroupError: string | null;
   addNotesGroupSuccess: boolean;
+  addNoteInProgress: boolean;
+  addNoteError: string | null;
+  addNoteSuccess: boolean;
   removeNoteInProgress: boolean;
   removeNoteError: string | null;
   removeNoteSuccess: boolean;
@@ -22,6 +25,9 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   addNotesGroupInProgress: false,
   addNotesGroupError: null,
   addNotesGroupSuccess: false,
+  addNoteInProgress: false,
+  addNoteError: null,
+  addNoteSuccess: false,
   removeNoteInProgress: false,
   removeNoteError: null,
   removeNoteSuccess: false,
@@ -47,6 +53,44 @@ const reducer: ActionReducer<NotesState> = createReducer(
     addNotesGroupInProgress: false,
     addNotesGroupSuccess: true,
   })),
+  on(NotesActions.addNote, (state) => ({
+    ...state,
+    addNoteInProgress: true,
+    addNoteError: null,
+    addNoteSuccess: false,
+  })),
+  on(NotesActions.addNoteFail, (state, { payload }) => ({
+    ...state,
+    addNoteInProgress: false,
+    addNoteError: payload.error.message,
+  })),
+  on(NotesActions.addNoteSuccess, (state, { payload }) => {
+    const updatedEntities = { ...state.entities };
+    const group: NotesGroup | undefined =
+      updatedEntities[payload.newNote.groupId];
+
+    if (group) {
+      const updatedGroup: NotesGroup = {
+        ...group,
+        notes: [...group.notes, payload.newNote],
+      };
+
+      updatedEntities[payload.newNote.groupId] = updatedGroup;
+
+      return adapter.setAll(
+        Object.values(updatedEntities).filter(
+          (group): group is NotesGroup => group !== undefined
+        ),
+        {
+          ...state,
+          addNoteInProgress: false,
+          addNoteSuccess: true,
+        }
+      );
+    }
+
+    return state;
+  }),
   on(NotesActions.removeNote, (state) => ({
     ...state,
     removeNoteInProgress: true,

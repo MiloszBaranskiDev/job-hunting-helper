@@ -7,6 +7,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 
+import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
@@ -16,6 +17,7 @@ import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard
   imports: [
     CommonModule,
     NotesListComponent,
+    AddNoteComponent,
     JhhClientDashboardRemoveNoteComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
@@ -26,6 +28,7 @@ export class JhhClientDashboardNotesGroupComponent implements OnInit {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   group$: Observable<NotesGroup>;
+  groupId$: Observable<string>;
   groupSlug$: Observable<string>;
   notes$: Observable<Note[]>;
 
@@ -38,6 +41,7 @@ export class JhhClientDashboardNotesGroupComponent implements OnInit {
       switchMap((slug: string) => this.notesFacade.getNotesGroup$BySlug(slug))
     ) as Observable<NotesGroup>;
 
+    this.groupId$ = this.group$.pipe(pluck('id'));
     this.notes$ = this.group$.pipe(pluck('notes'));
   }
 }
