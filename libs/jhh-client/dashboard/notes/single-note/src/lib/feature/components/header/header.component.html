@@ -1,0 +1,30 @@
+<header>
+  <h1 style="color: red">
+    edit, remove (reusable)
+    <br>
+    fix tooltip position
+  </h1>
+  <div class="box">
+    <div>
+      <h1>{{note.name}}</h1>
+      <div class="dates">
+        <div class="date">
+          <mat-icon>event</mat-icon>
+          <span>{{note.createdAt | date: 'dd.MM.yyyy HH:mm'}}</span>
+        </div>
+        <div class="date" *ngIf="note.updatedAt !== note.createdAt">
+          <mat-icon>history</mat-icon>
+          <span>{{note.updatedAt | date: 'dd.MM.yyyy HH:mm'}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button mat-mini-fab color="primary" aria-label="Edit note" matTooltip="Edit note">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-mini-fab color="primary" aria-label="Remove note" matTooltip="Remove note">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</header>

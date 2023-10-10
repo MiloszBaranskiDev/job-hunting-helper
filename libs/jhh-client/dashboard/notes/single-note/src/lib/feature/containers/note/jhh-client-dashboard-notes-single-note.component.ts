@@ -7,10 +7,13 @@ import { Note } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
+import { HeaderComponent } from '../../components/header/header.component';
+import { ContentComponent } from '../../components/content/content.component';
+
 @Component({
   selector: 'jhh-note',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ContentComponent, HeaderComponent],
   templateUrl: './jhh-client-dashboard-notes-single-note.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-single-note.component.scss'],
 })

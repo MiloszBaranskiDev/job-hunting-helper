@@ -1,0 +1,32 @@
+header {
+  margin-bottom: 50px;
+
+  .box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .dates {
+    display: flex;
+    gap: 20px;
+
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    mat-icon {
+      color: white !important;
+    }
+  }
+}
