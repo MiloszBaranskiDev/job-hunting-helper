@@ -1,4 +1,5 @@
 <div class="notePage" *ngIf="note$ | async as note">
+  <jhh-remove-note></jhh-remove-note>
   <jhh-note-header [note]="note"></jhh-note-header>
   <jhh-note-content *ngIf="note.content" [content]="note.content"></jhh-note-content>
 </div>

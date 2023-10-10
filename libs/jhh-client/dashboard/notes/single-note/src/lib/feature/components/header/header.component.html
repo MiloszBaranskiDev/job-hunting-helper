@@ -1,6 +1,6 @@
 <header>
   <h1 style="color: red">
-    edit, remove (reusable)
+    edit (reusable, add also on notes list)
     <br>
     fix tooltip position
   </h1>
@@ -22,7 +22,13 @@
       <button mat-mini-fab color="primary" aria-label="Edit note" matTooltip="Edit note">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-mini-fab color="primary" aria-label="Remove note" matTooltip="Remove note">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Remove note"
+        matTooltip="Remove note"
+        (click)="openRemoveNoteModal(note)"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>
