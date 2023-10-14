@@ -231,6 +231,130 @@ export function JhhServerControllerNotes() {
     }
   };
 
+  const editNote = async (req: any, res: any): Promise<void> => {
+    try {
+      let { noteId, name, content, groupId } = req.body;
+      const userId = req.user.id;
+
+      if (!noteId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note ID is required.'
+        );
+      }
+
+      if (!name) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note name is required.'
+        );
+      }
+
+      if (!groupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group ID is required.'
+        );
+      }
+
+      if (/[\s]{2,}/.test(name)) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note name cannot have consecutive spaces.'
+        );
+      }
+
+      if (name !== name.trim()) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note name cannot have leading or trailing spaces.'
+        );
+      }
+
+      if (
+        name.length < NoteFieldsLength.MinNameLength ||
+        name.length > NoteFieldsLength.MaxNameLength
+      ) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `Note name must be between ${NoteFieldsLength.MinNameLength} and ${NoteFieldsLength.MaxNameLength} characters`
+        );
+      }
+
+      const existingNote: Note | null = await prisma.note.findUnique({
+        where: { id: noteId },
+      });
+
+      if (!existingNote) {
+        return respondWithError(res, HttpStatusCode.NotFound, 'Note not found');
+      }
+
+      const notesGroup: NotesGroup | null = await prisma.notesGroup.findUnique({
+        where: { id: groupId },
+      });
+
+      if (!notesGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'Group of note not found'
+        );
+      }
+
+      if (notesGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the notes group'
+        );
+      }
+
+      if (content && Buffer.from(content).length > NoteSize.MaxNoteSize) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `Note content exceeds the maximum allowed size of ${
+            NoteSize.MaxNoteSize / (1024 * 1024)
+          } MB.`
+        );
+      }
+
+      content = DOMPurify.sanitize(content, domPurifyConfig);
+
+      const updateNote = async () => {
+        if (existingNote.name !== name || existingNote.content !== content) {
+          return await prisma.note.update({
+            where: { id: noteId },
+            data: {
+              name,
+              content: content,
+              updatedAt: new Date(),
+            },
+          });
+        } else {
+          return existingNote;
+        }
+      };
+
+      const updatedNote: Note = await updateNote();
+
+      res.status(HttpStatusCode.OK).json({ data: { updatedNote } });
+    } catch (error) {
+      console.error(error);
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   const removeNote = async (req: any, res: any): Promise<void> => {
     try {
       const { noteId } = req.query;
@@ -293,6 +417,7 @@ export function JhhServerControllerNotes() {
   return {
     addNotesGroup,
     addNote,
+    editNote,
     removeNote,
   };
 }

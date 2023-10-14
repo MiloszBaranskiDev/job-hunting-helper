@@ -14,6 +14,9 @@ export interface NotesState extends EntityState<NotesGroup> {
   addNoteInProgress: boolean;
   addNoteError: string | null;
   addNoteSuccess: boolean;
+  editNoteInProgress: boolean;
+  editNoteError: string | null;
+  editNoteSuccess: boolean;
   removeNoteInProgress: boolean;
   removeNoteError: string | null;
   removeNoteSuccess: boolean;
@@ -28,6 +31,9 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   addNoteInProgress: false,
   addNoteError: null,
   addNoteSuccess: false,
+  editNoteInProgress: false,
+  editNoteError: null,
+  editNoteSuccess: false,
   removeNoteInProgress: false,
   removeNoteError: null,
   removeNoteSuccess: false,
@@ -91,6 +97,48 @@ const reducer: ActionReducer<NotesState> = createReducer(
 
     return state;
   }),
+  on(NotesActions.editNote, (state) => ({
+    ...state,
+    editNoteInProgress: true,
+    editNoteError: null,
+    editNoteSuccess: false,
+  })),
+  on(NotesActions.editNoteFail, (state, { payload }) => ({
+    ...state,
+    editNoteInProgress: false,
+    editNoteError: payload.error.message,
+  })),
+  on(NotesActions.editNoteSuccess, (state, { payload }) => {
+    const updatedEntities = { ...state.entities };
+    const group: NotesGroup | undefined =
+      updatedEntities[payload.updatedNote.groupId];
+
+    if (group) {
+      const updatedGroup: NotesGroup = {
+        ...group,
+        notes: group.notes.map((note) =>
+          note.id === payload.updatedNote.id ? payload.updatedNote : note
+        ),
+      };
+
+      updatedEntities[payload.updatedNote.groupId] = updatedGroup;
+
+      return adapter.setAll(
+        Object.values(updatedEntities).filter(
+          (group): group is NotesGroup => group !== undefined
+        ),
+        {
+          ...state,
+          editNoteInProgress: false,
+          editNoteError: null,
+          editNoteSuccess: true,
+        }
+      );
+    }
+
+    return state;
+  }),
+
   on(NotesActions.removeNote, (state) => ({
     ...state,
     removeNoteInProgress: true,

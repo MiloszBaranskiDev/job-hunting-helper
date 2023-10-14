@@ -1,0 +1,52 @@
+<ng-container *ngIf="noteToEdit as note">
+  <ng-template #dialogContent>
+    <h2 mat-dialog-title>Edit note</h2>
+    <mat-dialog-content>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(note.groupId)">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput [formControlName]="formField.Name" placeholder="Name" jhhWhitespaceSanitizer required>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
+            Name is required
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinNameLength)">
+            Minimum length of name is {{fieldsLength.MinNameLength}} characters
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxNameLength)">
+            Maximum length of name is {{fieldsLength.MaxNameLength}} characters
+          </mat-error>
+        </mat-form-field>
+        <ng-container>
+          <jhh-note-content-editor
+            [contentControl]="getContentControl()"
+            (editorCreated)="handleEditorCreated($event)"
+          ></jhh-note-content-editor>
+          <mat-error *ngIf="formGroup.get(formField.Content)?.hasError(formErrorKey.MaxSize)">
+            Content size
+            ({{ getContentSizeInBytes() | bytesToMb }})
+            exceeds the maximum allowed size
+            ({{ noteSize.MaxNoteSize | bytesToMb }}).
+            Try to compress images before uploading if you need them.
+          </mat-error>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <ng-container *ngIf="(editNoteInProgress$ | async) || (editNoteError$ | async)">
+          <mat-progress-spinner *ngIf="editNoteInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+          <mat-error *ngIf="editNoteError$ | async as error">{{ error }}</mat-error>
+          <mat-divider></mat-divider>
+        </ng-container>
+        <mat-dialog-actions>
+          <button mat-stroked-button mat-dialog-close>Cancel</button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="formGroup.invalid || (editNoteInProgress$ | async)"
+          >
+            Save
+          </button>
+        </mat-dialog-actions>
+      </form>
+    </mat-dialog-content>
+  </ng-template>
+</ng-container>

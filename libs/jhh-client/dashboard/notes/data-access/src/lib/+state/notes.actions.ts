@@ -7,6 +7,8 @@ import {
   AddNotesGroupPayload,
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
+  EditNotePayload,
+  EditNoteSuccessPayload,
   RemoveNotePayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
@@ -19,6 +21,9 @@ export enum Type {
   AddNote = '[Notes] Add Note',
   AddNoteFail = '[Notes] Add Note Fail',
   AddNoteSuccess = '[Notes] Add Note Success',
+  EditNote = '[Notes] Edit Note',
+  EditNoteFail = '[Notes] Edit Note Fail',
+  EditNoteSuccess = '[Notes] Edit Note Success',
   RemoveNote = '[Notes] Remove Note',
   RemoveNoteFail = '[Notes] Remove Note Fail',
   RemoveNoteSuccess = '[Notes] Remove Note Success',
@@ -57,6 +62,21 @@ export const addNoteFail = createAction(
 export const addNoteSuccess = createAction(
   Type.AddNoteSuccess,
   props<{ payload: AddNoteSuccessPayload }>()
+);
+
+export const editNote = createAction(
+  Type.EditNote,
+  props<{ payload: EditNotePayload }>()
+);
+
+export const editNoteFail = createAction(
+  Type.EditNoteFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const editNoteSuccess = createAction(
+  Type.EditNoteSuccess,
+  props<{ payload: EditNoteSuccessPayload }>()
 );
 
 export const removeNote = createAction(

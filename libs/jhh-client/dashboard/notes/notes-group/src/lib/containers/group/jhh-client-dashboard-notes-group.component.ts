@@ -10,6 +10,7 @@ import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -19,6 +20,7 @@ import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard
     NotesListComponent,
     AddNoteComponent,
     JhhClientDashboardRemoveNoteComponent,
+    JhhClientDashboardEditNoteComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],

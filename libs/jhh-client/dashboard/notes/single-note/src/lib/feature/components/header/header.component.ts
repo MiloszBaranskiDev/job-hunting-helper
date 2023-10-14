@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { Note } from '@jhh/shared/interfaces';
 
+import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
 @Component({
@@ -18,6 +19,8 @@ import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-n
 })
 export class HeaderComponent implements OnDestroy {
   private readonly router: Router = inject(Router);
+  private editNoteModalService: EditNoteModalService =
+    inject(EditNoteModalService);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
@@ -26,6 +29,10 @@ export class HeaderComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.router.navigate([this.router.url.replace(this.note.slug, '')]);
+  }
+
+  openEditNoteModal(note: Note): void {
+    this.editNoteModalService.openModal(note);
   }
 
   openRemoveNoteModal(note: Note): void {

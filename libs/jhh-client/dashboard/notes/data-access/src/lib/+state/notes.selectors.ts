@@ -69,6 +69,21 @@ export const selectAddNoteSuccess = createSelector(
   (state: NotesState) => state.addNoteSuccess
 );
 
+export const selectEditNoteInProgress = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNoteInProgress
+);
+
+export const selectEditNoteError = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNoteError
+);
+
+export const selectEditNoteSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNoteSuccess
+);
+
 export const selectRemoveNoteInProgress = createSelector(
   selectNotesState,
   (state: NotesState) => state.removeNoteInProgress

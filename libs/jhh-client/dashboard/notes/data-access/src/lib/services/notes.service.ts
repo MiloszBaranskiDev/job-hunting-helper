@@ -10,6 +10,9 @@ import {
   AddNotesGroupSuccessResponse,
   AddNoteSuccessPayload,
   AddNoteSuccessResponse,
+  EditNotePayload,
+  EditNoteSuccessPayload,
+  EditNoteSuccessResponse,
   RemoveNotePayload,
   RemoveNoteSuccessPayload,
   RemoveNoteSuccessResponse,
@@ -48,6 +51,17 @@ export class NotesService {
         groupId: payload.groupId,
       })
       .pipe(map((res: AddNoteSuccessResponse) => res.data));
+  }
+
+  editNote(payload: EditNotePayload): Observable<EditNoteSuccessPayload> {
+    return this.http
+      .put<EditNoteSuccessResponse>(this.API_DASHBOARD_URL + ApiRoutes.Notes, {
+        noteId: payload.noteId,
+        name: payload.name,
+        content: payload.content,
+        groupId: payload.groupId,
+      })
+      .pipe(map((res: EditNoteSuccessResponse) => res.data));
   }
 
   removeNote(payload: RemoveNotePayload): Observable<RemoveNoteSuccessPayload> {

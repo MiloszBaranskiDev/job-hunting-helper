@@ -51,8 +51,14 @@
       "@jhh/jhh-client/dashboard/interfaces": [
         "libs/jhh-client/dashboard/interfaces/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/content-editor": [
+        "libs/jhh-client/dashboard/notes/content-editor/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/data-access": [
         "libs/jhh-client/dashboard/notes/data-access/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/notes/edit-note": [
+        "libs/jhh-client/dashboard/notes/edit-note/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/notes/interfaces": [
         "libs/jhh-client/dashboard/notes/interfaces/src/index.ts"

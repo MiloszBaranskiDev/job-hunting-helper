@@ -5,12 +5,14 @@ import { map, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes.service';
+import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import {
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
+  EditNoteSuccessPayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
 
@@ -18,6 +20,8 @@ import {
 export class NotesEffects {
   private readonly actions$ = inject(Actions);
   private readonly notesService: NotesService = inject(NotesService);
+  private readonly editNoteModalService: EditNoteModalService =
+    inject(EditNoteModalService);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
@@ -57,6 +61,26 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.addNoteFail({ payload: error }),
+      })
+    )
+  );
+
+  editNote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.editNote),
+      fetch({
+        run: (action) =>
+          this.notesService.editNote(action.payload).pipe(
+            map((res: EditNoteSuccessPayload) =>
+              NotesActions.editNoteSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.editNoteModalService.clearNoteToEdit();
+              this.snackbarService.open('Note edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.editNoteFail({ payload: error }),
       })
     )
   );

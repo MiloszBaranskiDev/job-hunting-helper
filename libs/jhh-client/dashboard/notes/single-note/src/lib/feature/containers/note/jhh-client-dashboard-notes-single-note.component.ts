@@ -10,6 +10,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { HeaderComponent } from '../../components/header/header.component';
 import { ContentComponent } from '../../components/content/content.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
 @Component({
   selector: 'jhh-note',
@@ -19,6 +20,7 @@ import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard
     ContentComponent,
     HeaderComponent,
     JhhClientDashboardRemoveNoteComponent,
+    JhhClientDashboardEditNoteComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-single-note.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-single-note.component.scss'],

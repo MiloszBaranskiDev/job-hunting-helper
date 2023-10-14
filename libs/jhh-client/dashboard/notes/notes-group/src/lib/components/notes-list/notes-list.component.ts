@@ -13,6 +13,7 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
 import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
 
@@ -34,6 +35,8 @@ import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
 export class NotesListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
+  private readonly editNoteModalService: EditNoteModalService =
+    inject(EditNoteModalService);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
@@ -47,6 +50,10 @@ export class NotesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  openEditNoteModal(note: Note): void {
+    this.editNoteModalService.openModal(note);
   }
 
   openRemoveNoteModal(note: Note): void {

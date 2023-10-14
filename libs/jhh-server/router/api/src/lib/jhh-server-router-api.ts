@@ -18,7 +18,7 @@ export function JhhServerRouterApi(): Router {
   router.get(ApiRoutes.LoadAssignedData, dashboardController.loadAssignedData);
 
   router.post(ApiRoutes.NotesGroups, notesController.addNotesGroup);
-  // router.put(ApiRoutes., notesController.);
+  router.put(ApiRoutes.Notes, notesController.editNote);
   router.post(ApiRoutes.Notes, notesController.addNote);
   router.delete(ApiRoutes.Notes, notesController.removeNote);
 

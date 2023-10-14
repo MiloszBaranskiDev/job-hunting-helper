@@ -1,8 +1,7 @@
 <header>
   <h1 style="color: red">
-    edit (reusable, add also on notes list)
     <br>
-    fix tooltip position
+    - fix tooltip position
   </h1>
   <div class="box">
     <div>
@@ -19,7 +18,13 @@
       </div>
     </div>
     <div class="actions">
-      <button mat-mini-fab color="primary" aria-label="Edit note" matTooltip="Edit note">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Edit note"
+        matTooltip="Edit note"
+        (click)="openEditNoteModal(note)"
+      >
         <mat-icon>edit</mat-icon>
       </button>
       <button

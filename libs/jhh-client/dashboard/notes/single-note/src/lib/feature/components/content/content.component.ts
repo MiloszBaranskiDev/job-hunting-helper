@@ -14,9 +14,7 @@ export class ContentComponent {
 
   @Input() content: string;
 
-  contentHtml: SafeHtml;
-
-  ngOnInit(): void {
-    this.contentHtml = this.sanitizer.bypassSecurityTrustHtml(this.content);
+  getContentToRender(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(this.content);
   }
 }
