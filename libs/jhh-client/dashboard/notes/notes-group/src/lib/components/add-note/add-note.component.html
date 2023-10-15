@@ -21,11 +21,10 @@
             </mat-error>
           </mat-form-field>
           <ng-container>
-            <quill-editor
-              [formControlName]="formField.Content"
-              [modules]="editorModules"
-              (onEditorCreated)="onEditorCreated($event)"
-            ></quill-editor>
+            <jhh-note-content-editor
+              [contentControl]="getContentControl()"
+              (editorCreated)="handleEditorCreated($event)"
+            ></jhh-note-content-editor>
             <mat-error *ngIf="formGroup.get(formField.Content)?.hasError(formErrorKey.MaxSize)">
               Content size
               ({{ getContentSizeInBytes() | bytesToMb }})
