@@ -1,6 +1,11 @@
-<div class="notePage" *ngIf="note$ | async as note">
-  <jhh-remove-note></jhh-remove-note>
-  <jhh-edit-note></jhh-edit-note>
-  <jhh-note-header [note]="note"></jhh-note-header>
-  <jhh-note-content *ngIf="note.content" [content]="note.content"></jhh-note-content>
-</div>
+<ng-container *ngIf="note$ | async as note">
+  <div class="noteWrapper">
+    <jhh-remove-note></jhh-remove-note>
+    <jhh-edit-note></jhh-edit-note>
+
+    <jhh-note-header [note]="note"></jhh-note-header>
+    <jhh-note-content *ngIf="note.content" [content]="note.content"></jhh-note-content>
+  </div>
+
+  <jhh-related-notes [note]="note"></jhh-related-notes>
+</ng-container>

@@ -125,4 +125,10 @@ export class NotesFacade {
       select(NotesSelectors.selectNoteBySlugs, { groupSlug, noteSlug })
     );
   }
+
+  getRelatedNotes$(exclude: Note, limit: number = 9): Observable<Note[]> {
+    return this.store.pipe(
+      select(NotesSelectors.selectRelatedNotes, { exclude, limit })
+    );
+  }
 }

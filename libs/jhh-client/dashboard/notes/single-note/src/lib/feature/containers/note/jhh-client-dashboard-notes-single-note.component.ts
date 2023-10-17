@@ -9,6 +9,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { HeaderComponent } from '../../components/header/header.component';
 import { ContentComponent } from '../../components/content/content.component';
+import { RelatedNotesComponent } from '../../components/related-notes/related-notes.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
@@ -19,6 +20,7 @@ import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/n
     CommonModule,
     ContentComponent,
     HeaderComponent,
+    RelatedNotesComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
   ],
