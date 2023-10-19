@@ -1,4 +1,9 @@
-<jhh-edit-note></jhh-edit-note>
-<jhh-remove-note></jhh-remove-note>
-<jhh-add-note [groupId$]="groupId$"></jhh-add-note>
-<jhh-notes-list [notes$]="notes$" [groupSlug$]="groupSlug$"></jhh-notes-list>
+<div class="notesGroup">
+  <jhh-edit-note></jhh-edit-note>
+  <jhh-remove-note></jhh-remove-note>
+  <div class="notesGroup__top">
+    <jhh-notes-sorting></jhh-notes-sorting>
+    <jhh-add-note [groupId$]="groupId$"></jhh-add-note>
+  </div>
+  <jhh-notes-list [sortedNotes$]="sortedNotes$" [groupSlug$]="groupSlug$"></jhh-notes-list>
+</div>

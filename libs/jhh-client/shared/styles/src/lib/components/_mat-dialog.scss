@@ -1,38 +1,36 @@
-.cdk-overlay-pane {
+.mat-mdc-dialog-container {
   width: 80vw !important;
   max-width: 700px !important;
 
-  .mat-mdc-dialog-container {
-    .mdc-dialog__title {
-      padding-top: 12px;
-      padding-bottom: 0;
-    }
+  .mdc-dialog__title {
+    padding-top: 12px;
+    padding-bottom: 0;
+  }
 
-    .mdc-dialog__content,
-    .mdc-dialog__title {
-      line-height: 1.4;
-    }
+  .mdc-dialog__content,
+  .mdc-dialog__title {
+    line-height: 1.4;
+  }
 
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mdc-dialog__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    ul,
+    .mat-divider,
     form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 100%;
     }
+  }
 
-    .mdc-dialog__content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      ul,
-      .mat-divider,
-      form {
-        width: 100%;
-      }
-    }
-
-    .mat-mdc-dialog-actions {
-      justify-content: center;
-    }
+  .mat-mdc-dialog-actions {
+    justify-content: center;
   }
 }

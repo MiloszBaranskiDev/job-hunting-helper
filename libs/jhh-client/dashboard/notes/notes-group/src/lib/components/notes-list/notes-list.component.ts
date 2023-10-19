@@ -15,14 +15,11 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
-import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
-
 @Component({
   selector: 'jhh-notes-list',
   standalone: true,
   imports: [
     CommonModule,
-    OrderByPipe,
     MatDividerModule,
     MatIconModule,
     MatMenuModule,
@@ -43,7 +40,7 @@ export class NotesListComponent implements OnInit {
 
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 
-  @Input() notes$: Observable<Note[]>;
+  @Input() sortedNotes$: Observable<Note[]>;
   @Input() groupSlug$: Observable<string>;
 
   breakpoint$: Observable<string>;

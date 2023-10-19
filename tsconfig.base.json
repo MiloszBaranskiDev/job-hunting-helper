@@ -60,6 +60,9 @@
       "@jhh/jhh-client/dashboard/notes/edit-note": [
         "libs/jhh-client/dashboard/notes/edit-note/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/enums": [
+        "libs/jhh-client/dashboard/notes/enums/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/interfaces": [
         "libs/jhh-client/dashboard/notes/interfaces/src/index.ts"
       ],

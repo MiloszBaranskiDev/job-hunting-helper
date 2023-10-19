@@ -6,14 +6,12 @@ import { RouterLink } from '@angular/router';
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { NotesGroup } from '@jhh/shared/interfaces';
 
-import { OrderByPipe } from '@jhh/jhh-client/shared/pipes';
-
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 @Component({
   selector: 'jhh-notes-groups-list',
   standalone: true,
-  imports: [CommonModule, OrderByPipe, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './groups-list.component.html',
   styleUrls: ['./groups-list.component.scss'],
 })

@@ -1,14 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, pluck, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, pluck, switchMap } from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { QueryParamsService } from '../../services/query-params/query-params.service';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { NotesListSort } from '@jhh/jhh-client/dashboard/notes/enums';
 
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
+import { SortingComponent } from '../../components/sorting/sorting.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
@@ -21,18 +24,24 @@ import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/n
     AddNoteComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
+    SortingComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
 })
-export class JhhClientDashboardNotesGroupComponent implements OnInit {
+export class JhhClientDashboardNotesGroupComponent
+  implements OnInit, OnDestroy
+{
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly queryParamsService: QueryParamsService =
+    inject(QueryParamsService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   group$: Observable<NotesGroup>;
   groupId$: Observable<string>;
   groupSlug$: Observable<string>;
-  notes$: Observable<Note[]>;
+  sortedNotes$: Observable<Note[]>;
+  notesListSort$: Observable<NotesListSort>;
 
   ngOnInit(): void {
     this.groupSlug$ = this.route.params.pipe(
@@ -44,6 +53,50 @@ export class JhhClientDashboardNotesGroupComponent implements OnInit {
     ) as Observable<NotesGroup>;
 
     this.groupId$ = this.group$.pipe(pluck('id'));
-    this.notes$ = this.group$.pipe(pluck('notes'));
+
+    this.queryParamsService.updateQueryParams();
+
+    this.notesListSort$ = this.queryParamsService.getCurrentSort$();
+
+    this.sortedNotes$ = combineLatest([
+      this.group$.pipe(pluck('notes')),
+      this.notesListSort$,
+    ]).pipe(
+      map(([notes, sort]) => {
+        return this.sortNotes(notes, sort);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.queryParamsService.clearQueryParams();
+  }
+
+  private sortNotes(notes: Note[], sort: NotesListSort): Note[] {
+    switch (sort) {
+      case NotesListSort.Latest:
+        return notes
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+      case NotesListSort.LastEdited:
+        return notes
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          );
+      case NotesListSort.AlphabeticalAsc:
+        return notes.slice().sort((a, b) => a.name.localeCompare(b.name));
+      case NotesListSort.AlphabeticalDesc:
+        return notes
+          .slice()
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .reverse();
+      default:
+        return notes;
+    }
   }
 }
