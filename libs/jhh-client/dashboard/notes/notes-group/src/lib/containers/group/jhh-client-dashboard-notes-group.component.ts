@@ -1,7 +1,21 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, map, Observable, pluck, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  pluck,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
@@ -12,6 +26,7 @@ import { NotesListSort } from '@jhh/jhh-client/dashboard/notes/enums';
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 
@@ -25,6 +40,7 @@ import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/n
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
     SortingComponent,
+    PaginationComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
@@ -33,6 +49,7 @@ export class JhhClientDashboardNotesGroupComponent
   implements OnInit, OnDestroy
 {
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
@@ -41,7 +58,9 @@ export class JhhClientDashboardNotesGroupComponent
   groupId$: Observable<string>;
   groupSlug$: Observable<string>;
   sortedNotes$: Observable<Note[]>;
-  notesListSort$: Observable<NotesListSort>;
+  notesListSort$: BehaviorSubject<NotesListSort>;
+
+  totalPages: number;
 
   ngOnInit(): void {
     this.groupSlug$ = this.route.params.pipe(
@@ -60,10 +79,18 @@ export class JhhClientDashboardNotesGroupComponent
 
     this.sortedNotes$ = combineLatest([
       this.group$.pipe(pluck('notes')),
-      this.notesListSort$,
+      this.queryParamsService.getCurrentSort$(),
+      this.queryParamsService.getCurrentPage$(),
     ]).pipe(
-      map(([notes, sort]) => {
-        return this.sortNotes(notes, sort);
+      tap(([notes]) => {
+        this.totalPages = Math.ceil(notes.length / 12);
+        this.cdr.detectChanges();
+      }),
+      map(([notes, sort, currentPage]) => {
+        const sortedNotes: Note[] = this.sortNotes(notes, sort);
+        const start: number = (currentPage - 1) * 12;
+        const end: number = start + 12;
+        return sortedNotes.slice(start, end);
       })
     );
   }

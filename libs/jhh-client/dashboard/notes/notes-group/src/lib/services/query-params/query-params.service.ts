@@ -34,10 +34,12 @@ export class QueryParamsService {
   updateCurrentPage(newPage: number): void {
     this.currentPage$.next(newPage);
     this.updateQueryParams();
+    window.scrollTo(0, 0);
   }
 
   updateCurrentSort(newSort: NotesListSort): void {
     this.currentSort$.next(newSort);
+    this.currentPage$.next(1);
     this.updateQueryParams();
   }
 
