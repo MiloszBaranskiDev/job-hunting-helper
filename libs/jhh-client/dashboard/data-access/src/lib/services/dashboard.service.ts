@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -21,12 +21,12 @@ export class DashboardService {
   private readonly dashboardFacade: DashboardFacade = inject(DashboardFacade);
 
   private readonly API_DASHBOARD_URL: string =
-    environment.apiUrl + ApiRoutes.BaseProtected;
+    environment.apiUrl + ApiRoute.BaseProtected;
 
   loadAssignedData(): Observable<LoadAssignedDataSuccessPayload> {
     return this.http
       .get<LoadAssignedDataSuccessResponse>(
-        this.API_DASHBOARD_URL + ApiRoutes.LoadAssignedData,
+        this.API_DASHBOARD_URL + ApiRoute.LoadAssignedData,
         {}
       )
       .pipe(map((res: LoadAssignedDataSuccessResponse) => res.data));

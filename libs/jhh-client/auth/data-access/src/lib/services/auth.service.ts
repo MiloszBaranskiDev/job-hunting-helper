@@ -10,7 +10,7 @@ import {
   RegisterSuccessResponse,
 } from '@jhh/jhh-client/auth/interfaces';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -22,11 +22,11 @@ export class AuthService {
 
   readonly LOCALSTORAGE_KEY: string = 'token';
   private readonly API_USER_URL: string =
-    environment.apiUrl + ApiRoutes.BaseUser;
+    environment.apiUrl + ApiRoute.BaseUser;
 
   login(payload: LoginPayload): Observable<LoginSuccessPayload> {
     return this.http
-      .post<LoginSuccessResponse>(this.API_USER_URL + ApiRoutes.Login, {
+      .post<LoginSuccessResponse>(this.API_USER_URL + ApiRoute.Login, {
         username: payload.username,
         password: payload.password,
       })
@@ -35,7 +35,7 @@ export class AuthService {
 
   register(payload: RegisterPayload): Observable<RegisterSuccessPayload> {
     return this.http
-      .post<RegisterSuccessResponse>(this.API_USER_URL + ApiRoutes.Register, {
+      .post<RegisterSuccessResponse>(this.API_USER_URL + ApiRoute.Register, {
         username: payload.username,
         password: payload.password,
         confirmPassword: payload.confirmPassword,

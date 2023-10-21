@@ -11,7 +11,7 @@ import {
 
 import { AuthService } from './auth.service';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -79,7 +79,7 @@ describe('AuthService', () => {
       });
 
       const req: TestRequest = httpMock.expectOne(
-        `${environment.apiUrl}${ApiRoutes.BaseUser}${ApiRoutes.Login}`
+        `${environment.apiUrl}${ApiRoute.BaseUser}${ApiRoute.Login}`
       );
       expect(req.request.method).toBe('POST');
       req.flush(dummyResponse);
@@ -105,7 +105,7 @@ describe('AuthService', () => {
       });
 
       const req: TestRequest = httpMock.expectOne(
-        `${environment.apiUrl}${ApiRoutes.BaseUser}${ApiRoutes.Register}`
+        `${environment.apiUrl}${ApiRoute.BaseUser}${ApiRoute.Register}`
       );
       expect(req.request.method).toBe('POST');
       req.flush(dummyResponse);

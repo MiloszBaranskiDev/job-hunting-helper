@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 import { JhhServerControllerDashboard } from '@jhh/jhh-server/controller/dashboard';
 import { JhhServerControllerNotes } from '@jhh/jhh-server/controller/notes';
@@ -11,16 +11,16 @@ export function JhhServerRouterApi(): Router {
   const dashboardController = JhhServerControllerDashboard();
   const notesController = JhhServerControllerNotes();
 
-  router.get(ApiRoutes.Test, (req, res) => {
+  router.get(ApiRoute.Test, (req, res) => {
     res.send('Hello World!');
   });
 
-  router.get(ApiRoutes.LoadAssignedData, dashboardController.loadAssignedData);
+  router.get(ApiRoute.LoadAssignedData, dashboardController.loadAssignedData);
 
-  router.post(ApiRoutes.NotesGroups, notesController.addNotesGroup);
-  router.put(ApiRoutes.Notes, notesController.editNote);
-  router.post(ApiRoutes.Notes, notesController.addNote);
-  router.delete(ApiRoutes.Notes, notesController.removeNote);
+  router.post(ApiRoute.AddNotesGroup, notesController.addNotesGroup);
+  router.post(ApiRoute.AddNote, notesController.addNote);
+  router.put(ApiRoute.EditNote, notesController.editNote);
+  router.delete(ApiRoute.RemoveNote, notesController.removeNote);
 
   return router;
 }

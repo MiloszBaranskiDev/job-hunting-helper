@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express, { Express, Router } from 'express';
 
-import { ApiRoutes, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
 
 import { JhhServerRouterUser } from './jhh-server-router-user';
 
@@ -27,7 +27,7 @@ describe('JhhServerRouterUser function', () => {
     const app: Express = express();
     app.use(router);
 
-    const response = await request(app).post(ApiRoutes.Login);
+    const response = await request(app).post(ApiRoute.Login);
     expect(response.status).toBe(HttpStatusCode.OK);
     expect(response.text).toBe('Login successful');
   });
@@ -36,7 +36,7 @@ describe('JhhServerRouterUser function', () => {
     const app: Express = express();
     app.use(router);
 
-    const response = await request(app).post(ApiRoutes.Register);
+    const response = await request(app).post(ApiRoute.Register);
     expect(response.status).toBe(HttpStatusCode.OK);
     expect(response.text).toBe('Registration successful');
   });

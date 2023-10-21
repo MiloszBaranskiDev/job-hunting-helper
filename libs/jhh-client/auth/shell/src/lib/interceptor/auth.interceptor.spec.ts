@@ -9,7 +9,7 @@ import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 import { AuthInterceptor } from './auth.interceptor';
 
-import { ApiRoutes, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),
@@ -44,7 +44,7 @@ describe('AuthInterceptor', () => {
   });
 
   it('should pass the request through if it ends with Login or Register', () => {
-    req = new HttpRequest('GET', ApiRoutes.Login);
+    req = new HttpRequest('GET', ApiRoute.Login);
 
     AuthInterceptor(req, next);
 

@@ -8,7 +8,7 @@ import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
 import { JhhServerRouterApi } from '@jhh/jhh-server/router/api';
 import { JhhServerRouterUser } from '@jhh/jhh-server/router/user';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 export function JhhServerApp(): Express {
   const app: Express = express();
@@ -22,9 +22,9 @@ export function JhhServerApp(): Express {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use(ApiRoutes.BaseProtected, JhhServerMiddlewareAuth, apiRouter);
+  app.use(ApiRoute.BaseProtected, JhhServerMiddlewareAuth, apiRouter);
 
-  app.use(ApiRoutes.BaseUser, userRouter);
+  app.use(ApiRoute.BaseUser, userRouter);
 
   // handle uncaught errors
   app.use((err, req, res, next) => {

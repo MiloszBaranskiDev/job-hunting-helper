@@ -9,16 +9,13 @@ import { inject } from '@angular/core';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ApiRoutes, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
 
 export const AuthInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) => {
-  if (
-    req.url.endsWith(ApiRoutes.Login) ||
-    req.url.endsWith(ApiRoutes.Register)
-  ) {
+  if (req.url.endsWith(ApiRoute.Login) || req.url.endsWith(ApiRoute.Register)) {
     return next(req);
   }
 

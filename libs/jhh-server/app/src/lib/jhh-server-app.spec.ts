@@ -2,7 +2,7 @@ import request from 'supertest';
 
 import { JhhServerApp } from './jhh-server-app';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 describe('JhhServerApp', () => {
   let app;
@@ -16,7 +16,7 @@ describe('JhhServerApp', () => {
   });
 
   it('should enable CORS', async () => {
-    const res = await request(app).get(`${ApiRoutes.BaseUser}/some-route`);
+    const res = await request(app).get(`${ApiRoute.BaseUser}/some-route`);
     expect(res.headers['access-control-allow-origin']).toEqual('*');
   });
 });

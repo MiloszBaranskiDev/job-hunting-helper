@@ -3,7 +3,7 @@ import express, { Express } from 'express';
 
 import { JhhServerRouterApi } from './jhh-server-router-api';
 
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 describe('JhhServerRouterApi', () => {
   let app: Express;
@@ -14,7 +14,7 @@ describe('JhhServerRouterApi', () => {
   });
 
   it('should respond with "Hello World!" on GET /test', async () => {
-    const res = await request(app).get(ApiRoutes.Test);
+    const res = await request(app).get(ApiRoute.Test);
     expect(res.status).toBe(200);
     expect(res.text).toBe('Hello World!');
   });

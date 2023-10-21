@@ -17,7 +17,7 @@ import {
   RemoveNoteSuccessPayload,
   RemoveNoteSuccessResponse,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
-import { ApiRoutes } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/enums';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -28,14 +28,14 @@ export class NotesService {
   private readonly http: HttpClient = inject(HttpClient);
 
   private readonly API_DASHBOARD_URL: string =
-    environment.apiUrl + ApiRoutes.BaseProtected;
+    environment.apiUrl + ApiRoute.BaseProtected;
 
   addNotesGroup(
     payload: AddNotesGroupPayload
   ): Observable<AddNotesGroupSuccessPayload> {
     return this.http
       .post<AddNotesGroupSuccessResponse>(
-        this.API_DASHBOARD_URL + ApiRoutes.NotesGroups,
+        this.API_DASHBOARD_URL + ApiRoute.AddNotesGroup,
         {
           name: payload.name,
         }
@@ -45,7 +45,7 @@ export class NotesService {
 
   addNote(payload: AddNotePayload): Observable<AddNoteSuccessPayload> {
     return this.http
-      .post<AddNoteSuccessResponse>(this.API_DASHBOARD_URL + ApiRoutes.Notes, {
+      .post<AddNoteSuccessResponse>(this.API_DASHBOARD_URL + ApiRoute.AddNote, {
         name: payload.name,
         content: payload.content,
         groupId: payload.groupId,
@@ -55,19 +55,22 @@ export class NotesService {
 
   editNote(payload: EditNotePayload): Observable<EditNoteSuccessPayload> {
     return this.http
-      .put<EditNoteSuccessResponse>(this.API_DASHBOARD_URL + ApiRoutes.Notes, {
-        noteId: payload.noteId,
-        name: payload.name,
-        content: payload.content,
-        groupId: payload.groupId,
-      })
+      .put<EditNoteSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.EditNote,
+        {
+          noteId: payload.noteId,
+          name: payload.name,
+          content: payload.content,
+          groupId: payload.groupId,
+        }
+      )
       .pipe(map((res: EditNoteSuccessResponse) => res.data));
   }
 
   removeNote(payload: RemoveNotePayload): Observable<RemoveNoteSuccessPayload> {
     return this.http
       .delete<RemoveNoteSuccessResponse>(
-        this.API_DASHBOARD_URL + ApiRoutes.Notes,
+        this.API_DASHBOARD_URL + ApiRoute.RemoveNote,
         {
           params: { noteId: payload.noteId },
         }
