@@ -20,62 +20,62 @@ export const selectNotesGroups = createSelector(
 
 export const selectAddNotesGroupInProgress = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNotesGroupInProgress
+  (state: NotesState) => state.addNotesGroup.inProgress
 );
 
 export const selectAddNotesGroupError = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNotesGroupError
+  (state: NotesState) => state.addNotesGroup.error
 );
 
 export const selectAddNotesGroupSuccess = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNotesGroupSuccess
+  (state: NotesState) => state.addNotesGroup.success
 );
 
 export const selectAddNoteInProgress = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNoteInProgress
+  (state: NotesState) => state.addNote.inProgress
 );
 
 export const selectAddNoteError = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNoteError
+  (state: NotesState) => state.addNote.error
 );
 
 export const selectAddNoteSuccess = createSelector(
   selectNotesState,
-  (state: NotesState) => state.addNoteSuccess
+  (state: NotesState) => state.addNote.success
 );
 
 export const selectEditNoteInProgress = createSelector(
   selectNotesState,
-  (state: NotesState) => state.editNoteInProgress
+  (state: NotesState) => state.editNote.inProgress
 );
 
 export const selectEditNoteError = createSelector(
   selectNotesState,
-  (state: NotesState) => state.editNoteError
+  (state: NotesState) => state.editNote.error
 );
 
 export const selectEditNoteSuccess = createSelector(
   selectNotesState,
-  (state: NotesState) => state.editNoteSuccess
+  (state: NotesState) => state.editNote.success
 );
 
 export const selectRemoveNoteInProgress = createSelector(
   selectNotesState,
-  (state: NotesState) => state.removeNoteInProgress
+  (state: NotesState) => state.removeNote.inProgress
 );
 
 export const selectRemoveNoteError = createSelector(
   selectNotesState,
-  (state: NotesState) => state.removeNoteError
+  (state: NotesState) => state.removeNote.error
 );
 
 export const selectRemoveNoteSuccess = createSelector(
   selectNotesState,
-  (state: NotesState) => state.removeNoteSuccess
+  (state: NotesState) => state.removeNote.success
 );
 
 export const selectNotesGroupBySlug = createSelector(

@@ -355,6 +355,96 @@ export function JhhServerControllerNotes() {
     }
   };
 
+  const duplicateNote = async (req: any, res: any): Promise<void> => {
+    try {
+      const { noteId, groupId } = req.body;
+      const userId = req.user.id;
+
+      if (!noteId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note ID is required.'
+        );
+      }
+
+      if (!groupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group ID is required.'
+        );
+      }
+
+      const existingNote: Note | null = await prisma.note.findUnique({
+        where: { id: noteId },
+      });
+
+      if (!existingNote) {
+        return respondWithError(res, HttpStatusCode.NotFound, 'Note not found');
+      }
+
+      const notesGroup: NotesGroup | null = await prisma.notesGroup.findUnique({
+        where: { id: groupId },
+      });
+
+      if (!notesGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'Group of note not found'
+        );
+      }
+
+      if (notesGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the notes group'
+        );
+      }
+
+      let slug: string = slugify(existingNote.name, {
+        lower: true,
+        strict: true,
+      });
+      let suffix: number = 2;
+      const originalSlug: string = slug;
+      while (await prisma.note.findFirst({ where: { slug, groupId } })) {
+        slug = `${originalSlug}-${suffix}`;
+        suffix++;
+      }
+
+      const existingNotesInGroup: Note[] = await prisma.note.findMany({
+        where: { groupId },
+      });
+
+      const orderIndex: number =
+        existingNotesInGroup.length > 0
+          ? Math.max(...existingNotesInGroup.map((note) => note.orderIndex)) + 1
+          : 1;
+
+      const duplicatedNote: Note = await prisma.note.create({
+        data: {
+          orderIndex,
+          name: existingNote.name + ' - copy',
+          slug,
+          content: existingNote.content,
+          groupId,
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({ data: { duplicatedNote } });
+    } catch (error) {
+      console.error(error);
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   const removeNote = async (req: any, res: any): Promise<void> => {
     try {
       const { noteId } = req.query;
@@ -418,6 +508,7 @@ export function JhhServerControllerNotes() {
     addNotesGroup,
     addNote,
     editNote,
+    duplicateNote,
     removeNote,
   };
 }

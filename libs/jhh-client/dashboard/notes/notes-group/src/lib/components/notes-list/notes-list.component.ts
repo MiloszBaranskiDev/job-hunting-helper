@@ -14,6 +14,7 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 @Component({
   selector: 'jhh-notes-list',
@@ -37,6 +38,7 @@ export class NotesListComponent implements OnInit {
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
+  private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 
@@ -47,6 +49,10 @@ export class NotesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  handleDuplicate(note: Note) {
+    this.notesFacade.duplicateNote(note.id, note.groupId);
   }
 
   openEditNoteModal(note: Note): void {

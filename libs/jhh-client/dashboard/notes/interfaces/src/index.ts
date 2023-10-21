@@ -13,3 +13,7 @@ export * from './lib/note/add-note-success-response';
 export * from './lib/note/edit-note-payload';
 export * from './lib/note/edit-note-success-payload';
 export * from './lib/note/edit-note-success-response';
+
+export * from './lib/note/duplicate-note-payload';
+export * from './lib/note/duplicate-note-success-payload';
+export * from './lib/note/duplicate-note-success-response';

@@ -7,36 +7,48 @@ import * as NotesActions from './notes.actions';
 
 export const NOTES_STATE_KEY = 'notes';
 
+export interface OperationState {
+  inProgress: boolean;
+  error: string | null;
+  success: boolean;
+}
+
 export interface NotesState extends EntityState<NotesGroup> {
-  addNotesGroupInProgress: boolean;
-  addNotesGroupError: string | null;
-  addNotesGroupSuccess: boolean;
-  addNoteInProgress: boolean;
-  addNoteError: string | null;
-  addNoteSuccess: boolean;
-  editNoteInProgress: boolean;
-  editNoteError: string | null;
-  editNoteSuccess: boolean;
-  removeNoteInProgress: boolean;
-  removeNoteError: string | null;
-  removeNoteSuccess: boolean;
+  addNotesGroup: OperationState;
+  addNote: OperationState;
+  editNote: OperationState;
+  duplicateNote: OperationState;
+  removeNote: OperationState;
 }
 
 export const adapter = createEntityAdapter<NotesGroup>();
 
 export const initialNotesState: NotesState = adapter.getInitialState({
-  addNotesGroupInProgress: false,
-  addNotesGroupError: null,
-  addNotesGroupSuccess: false,
-  addNoteInProgress: false,
-  addNoteError: null,
-  addNoteSuccess: false,
-  editNoteInProgress: false,
-  editNoteError: null,
-  editNoteSuccess: false,
-  removeNoteInProgress: false,
-  removeNoteError: null,
-  removeNoteSuccess: false,
+  addNotesGroup: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  addNote: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  editNote: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  duplicateNote: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  removeNote: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
 });
 
 const reducer: ActionReducer<NotesState> = createReducer(
@@ -46,29 +58,44 @@ const reducer: ActionReducer<NotesState> = createReducer(
   ),
   on(NotesActions.addNotesGroup, (state) => ({
     ...state,
-    addNotesGroupInProgress: true,
-    addNotesGroupSuccess: false,
+    addNotesGroup: {
+      ...state.addNotesGroup,
+      inProgress: true,
+      success: false,
+    },
   })),
   on(NotesActions.addNotesGroupFail, (state, { payload }) => ({
     ...state,
-    addNotesGroupInProgress: false,
-    addNotesGroupError: payload.error.message,
+    addNotesGroup: {
+      ...state.addNotesGroup,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(NotesActions.addNotesGroupSuccess, (state, { payload }) => ({
     ...adapter.addOne(payload.newNotesGroup, state),
-    addNotesGroupInProgress: false,
-    addNotesGroupSuccess: true,
+    addNotesGroup: {
+      ...state.addNotesGroup,
+      inProgress: false,
+      success: true,
+    },
   })),
   on(NotesActions.addNote, (state) => ({
     ...state,
-    addNoteInProgress: true,
-    addNoteError: null,
-    addNoteSuccess: false,
+    addNote: {
+      ...state.addNote,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
   })),
   on(NotesActions.addNoteFail, (state, { payload }) => ({
     ...state,
-    addNoteInProgress: false,
-    addNoteError: payload.error.message,
+    addNote: {
+      ...state.addNote,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(NotesActions.addNoteSuccess, (state, { payload }) => {
     const updatedEntities = { ...state.entities };
@@ -89,8 +116,11 @@ const reducer: ActionReducer<NotesState> = createReducer(
         ),
         {
           ...state,
-          addNoteInProgress: false,
-          addNoteSuccess: true,
+          addNote: {
+            ...state.addNote,
+            inProgress: false,
+            success: true,
+          },
         }
       );
     }
@@ -99,14 +129,20 @@ const reducer: ActionReducer<NotesState> = createReducer(
   }),
   on(NotesActions.editNote, (state) => ({
     ...state,
-    editNoteInProgress: true,
-    editNoteError: null,
-    editNoteSuccess: false,
+    editNote: {
+      ...state.editNote,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
   })),
   on(NotesActions.editNoteFail, (state, { payload }) => ({
     ...state,
-    editNoteInProgress: false,
-    editNoteError: payload.error.message,
+    editNote: {
+      ...state.editNote,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(NotesActions.editNoteSuccess, (state, { payload }) => {
     const updatedEntities = { ...state.entities };
@@ -129,26 +165,81 @@ const reducer: ActionReducer<NotesState> = createReducer(
         ),
         {
           ...state,
-          editNoteInProgress: false,
-          editNoteError: null,
-          editNoteSuccess: true,
+          editNote: {
+            ...state.editNote,
+            inProgress: false,
+            error: null,
+            success: true,
+          },
         }
       );
     }
 
     return state;
   }),
+  on(NotesActions.duplicateNote, (state) => ({
+    ...state,
+    duplicateNote: {
+      ...state.duplicateNote,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(NotesActions.duplicateNoteFail, (state, { payload }) => ({
+    ...state,
+    duplicateNote: {
+      ...state.duplicateNote,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(NotesActions.duplicateNoteSuccess, (state, { payload }) => {
+    const updatedEntities = { ...state.entities };
+    const group: NotesGroup | undefined =
+      updatedEntities[payload.duplicatedNote.groupId];
 
+    if (group) {
+      const updatedGroup: NotesGroup = {
+        ...group,
+        notes: [...group.notes, payload.duplicatedNote],
+      };
+
+      updatedEntities[payload.duplicatedNote.groupId] = updatedGroup;
+
+      return adapter.setAll(
+        Object.values(updatedEntities).filter(
+          (group): group is NotesGroup => group !== undefined
+        ),
+        {
+          ...state,
+          duplicateNote: {
+            ...state.duplicateNote,
+            inProgress: false,
+            success: true,
+          },
+        }
+      );
+    }
+
+    return state;
+  }),
   on(NotesActions.removeNote, (state) => ({
     ...state,
-    removeNoteInProgress: true,
-    removeNoteError: null,
-    removeNoteSuccess: false,
+    removeNote: {
+      ...state.removeNote,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
   })),
   on(NotesActions.removeNoteFail, (state, { payload }) => ({
     ...state,
-    removeNoteInProgress: false,
-    removeNoteError: payload.error.message,
+    removeNote: {
+      ...state.removeNote,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(NotesActions.removeNoteSuccess, (state, { payload }) => {
     const updatedEntities = { ...state.entities };
@@ -169,8 +260,11 @@ const reducer: ActionReducer<NotesState> = createReducer(
         ),
         {
           ...state,
-          removeNoteInProgress: false,
-          removeNoteSuccess: true,
+          removeNote: {
+            ...state.removeNote,
+            inProgress: false,
+            success: true,
+          },
         }
       );
     }

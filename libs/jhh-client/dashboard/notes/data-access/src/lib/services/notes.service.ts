@@ -10,6 +10,9 @@ import {
   AddNotesGroupSuccessResponse,
   AddNoteSuccessPayload,
   AddNoteSuccessResponse,
+  DuplicateNotePayload,
+  DuplicateNoteSuccessPayload,
+  DuplicateNoteSuccessResponse,
   EditNotePayload,
   EditNoteSuccessPayload,
   EditNoteSuccessResponse,
@@ -65,6 +68,20 @@ export class NotesService {
         }
       )
       .pipe(map((res: EditNoteSuccessResponse) => res.data));
+  }
+
+  duplicateNote(
+    payload: DuplicateNotePayload
+  ): Observable<DuplicateNoteSuccessPayload> {
+    return this.http
+      .post<DuplicateNoteSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.DuplicateNote,
+        {
+          noteId: payload.noteId,
+          groupId: payload.groupId,
+        }
+      )
+      .pipe(map((res: DuplicateNoteSuccessResponse) => res.data));
   }
 
   removeNote(payload: RemoveNotePayload): Observable<RemoveNoteSuccessPayload> {

@@ -9,6 +9,7 @@ import { Note } from '@jhh/shared/interfaces';
 
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 @Component({
   selector: 'jhh-note-header',
@@ -24,11 +25,16 @@ export class HeaderComponent implements OnDestroy {
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
+  private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   @Input() note: Note;
 
   ngOnDestroy(): void {
     this.router.navigate([this.router.url.replace(this.note.slug, '')]);
+  }
+
+  handleDuplicate(note: Note) {
+    this.notesFacade.duplicateNote(note.id, note.groupId);
   }
 
   openEditNoteModal(note: Note): void {

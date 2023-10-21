@@ -12,6 +12,7 @@ import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import {
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
+  DuplicateNoteSuccessPayload,
   EditNoteSuccessPayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
@@ -81,6 +82,25 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.editNoteFail({ payload: error }),
+      })
+    )
+  );
+
+  duplicateNote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.duplicateNote),
+      fetch({
+        run: (action) =>
+          this.notesService.duplicateNote(action.payload).pipe(
+            map((res: DuplicateNoteSuccessPayload) =>
+              NotesActions.duplicateNoteSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.snackbarService.open('Note duplicated successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.duplicateNoteFail({ payload: error }),
       })
     )
   );

@@ -21,6 +21,15 @@
       <button
         mat-mini-fab
         color="primary"
+        aria-label="Duplicate note"
+        matTooltip="Duplicate note"
+        (click)="handleDuplicate(note)"
+      >
+        <mat-icon>file_copy</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
         aria-label="Edit note"
         matTooltip="Edit note"
         (click)="openEditNoteModal(note)"

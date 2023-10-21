@@ -103,6 +103,19 @@ export class NotesFacade {
     );
   }
 
+  duplicateNote(noteId: string, groupId: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.duplicateNote({
+        payload: {
+          noteId: noteId,
+          groupId: groupId,
+        },
+      }),
+      NotesActions.Type.DuplicateNoteSuccess,
+      NotesActions.Type.DuplicateNoteFail
+    );
+  }
+
   removeNote(noteId: string) {
     return this.actionResolverService.executeAndWatch(
       NotesActions.removeNote({
