@@ -445,6 +445,136 @@ export function JhhServerControllerNotes() {
     }
   };
 
+  const changeNoteGroup = async (req: any, res: any): Promise<void> => {
+    try {
+      const { noteId, newGroupId } = req.body;
+      const userId = req.user.id;
+
+      if (!noteId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note ID is required.'
+        );
+      }
+
+      if (!newGroupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'New group ID is required.'
+        );
+      }
+
+      const existingNote: Note | null = await prisma.note.findUnique({
+        where: { id: noteId },
+      });
+
+      if (existingNote?.groupId === newGroupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Both provided groups are same.'
+        );
+      }
+
+      if (!existingNote) {
+        return respondWithError(res, HttpStatusCode.NotFound, 'Note not found');
+      }
+
+      const previousGroup: NotesGroup | null =
+        await prisma.notesGroup.findUnique({
+          where: { id: existingNote.groupId },
+          include: {
+            notes: true,
+          },
+        });
+
+      if (!previousGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'Group of note not found'
+        );
+      }
+
+      if (previousGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the notes group'
+        );
+      }
+
+      const newGroup: NotesGroup | null = await prisma.notesGroup.findUnique({
+        where: { id: newGroupId },
+        include: {
+          notes: true,
+        },
+      });
+
+      if (!newGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'New group of note not found'
+        );
+      }
+
+      if (newGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the new notes group'
+        );
+      }
+
+      await prisma.note.update({
+        where: { id: noteId },
+        data: {
+          groupId: newGroupId,
+        },
+      });
+
+      const movedNote: Note | null = await prisma.note.findUnique({
+        where: { id: noteId },
+      });
+
+      const updatedPreviousGroup: NotesGroup | null =
+        await prisma.notesGroup.findUnique({
+          where: { id: existingNote.groupId },
+          include: {
+            notes: true,
+          },
+        });
+
+      const updatedNewGroup: NotesGroup | null =
+        await prisma.notesGroup.findUnique({
+          where: { id: newGroupId },
+          include: {
+            notes: true,
+          },
+        });
+
+      res
+        .status(HttpStatusCode.OK)
+        .json({
+          data: {
+            movedNote: movedNote,
+            previousGroup: updatedPreviousGroup,
+            newGroup: updatedNewGroup,
+          },
+        });
+    } catch (error) {
+      console.error(error);
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   const removeNote = async (req: any, res: any): Promise<void> => {
     try {
       const { noteId } = req.query;
@@ -509,6 +639,7 @@ export function JhhServerControllerNotes() {
     addNote,
     editNote,
     duplicateNote,
+    changeNoteGroup,
     removeNote,
   };
 }

@@ -15,6 +15,7 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 
 @Component({
   selector: 'jhh-notes-list',
@@ -33,6 +34,8 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 export class NotesListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
+  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
+    inject(ChangeNoteGroupModalService);
   private readonly editNoteModalService: EditNoteModalService =
     inject(EditNoteModalService);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
@@ -57,6 +60,10 @@ export class NotesListComponent implements OnInit {
 
   openEditNoteModal(note: Note): void {
     this.editNoteModalService.openModal(note);
+  }
+
+  openChangeNoteGroupModal(note: Note): void {
+    this.changeNoteGroupModalService.openModal(note);
   }
 
   openRemoveNoteModal(note: Note): void {

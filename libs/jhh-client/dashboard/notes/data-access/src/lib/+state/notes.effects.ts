@@ -8,10 +8,12 @@ import { NotesService } from '../services/notes.service';
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
+import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 
 import {
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
+  ChangeNoteGroupSuccessPayload,
   DuplicateNoteSuccessPayload,
   EditNoteSuccessPayload,
   RemoveNoteSuccessPayload,
@@ -23,6 +25,8 @@ export class NotesEffects {
   private readonly notesService: NotesService = inject(NotesService);
   private readonly editNoteModalService: EditNoteModalService =
     inject(EditNoteModalService);
+  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
+    inject(ChangeNoteGroupModalService);
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
@@ -101,6 +105,28 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.duplicateNoteFail({ payload: error }),
+      })
+    )
+  );
+
+  changeNoteGroup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.changeNoteGroup),
+      fetch({
+        run: (action) =>
+          this.notesService.changeNoteGroup(action.payload).pipe(
+            map((res: ChangeNoteGroupSuccessPayload) =>
+              NotesActions.changeNoteGroupSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.snackbarService.open(
+                'Note successfully moved to another group!'
+              );
+              this.changeNoteGroupModalService.clearNoteToMove();
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.changeNoteGroupFail({ payload: error }),
       })
     )
   );

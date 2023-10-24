@@ -12,6 +12,7 @@ import { ContentComponent } from '../../components/content/content.component';
 import { RelatedNotesComponent } from '../../components/related-notes/related-notes.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
+import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 
 @Component({
   selector: 'jhh-note',
@@ -23,6 +24,7 @@ import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/n
     RelatedNotesComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
+    JhhClientDashboardChangeNoteGroupComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-single-note.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-single-note.component.scss'],

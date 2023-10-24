@@ -51,6 +51,9 @@
       "@jhh/jhh-client/dashboard/interfaces": [
         "libs/jhh-client/dashboard/interfaces/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/change-note-group": [
+        "libs/jhh-client/dashboard/notes/change-note-group/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/content-editor": [
         "libs/jhh-client/dashboard/notes/content-editor/src/index.ts"
       ],

@@ -56,6 +56,14 @@ export class NotesFacade {
     select(NotesSelectors.selectEditNoteSuccess)
   );
 
+  changeNoteGroupInProgress$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectChangeNoteGroupInProgress)
+  );
+
+  changeNoteGroupError$: Observable<string | null> = this.store.pipe(
+    select(NotesSelectors.selectChangeNoteGroupError)
+  );
+
   removeNoteInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNoteInProgress)
   );
@@ -116,6 +124,19 @@ export class NotesFacade {
     );
   }
 
+  changeNoteGroup(noteId: string, newGroupId: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.changeNoteGroup({
+        payload: {
+          noteId: noteId,
+          newGroupId: newGroupId,
+        },
+      }),
+      NotesActions.Type.ChangeNoteGroupSuccess,
+      NotesActions.Type.ChangeNoteGroupFail
+    );
+  }
+
   removeNote(noteId: string) {
     return this.actionResolverService.executeAndWatch(
       NotesActions.removeNote({
@@ -139,9 +160,21 @@ export class NotesFacade {
     );
   }
 
+  getGroupSlug$ByNoteId(noteId: string): Observable<string | null> {
+    return this.store.pipe(
+      select(NotesSelectors.selectGroupSlugByNoteId, { noteId })
+    );
+  }
+
   getRelatedNotes$(exclude: Note, limit: number = 9): Observable<Note[]> {
     return this.store.pipe(
       select(NotesSelectors.selectRelatedNotes, { exclude, limit })
+    );
+  }
+
+  getGroups$(excludeId: string): Observable<NotesGroup[]> {
+    return this.store.pipe(
+      select(NotesSelectors.selectAllGroups, { excludeId })
     );
   }
 }

@@ -1,8 +1,4 @@
 <header>
-  <h1 style="color: red">
-    <br>
-    - fix tooltip position
-  </h1>
   <div class="box">
     <div>
       <h1>{{note.name}}</h1>
@@ -21,20 +17,29 @@
       <button
         mat-mini-fab
         color="primary"
-        aria-label="Duplicate note"
-        matTooltip="Duplicate note"
-        (click)="handleDuplicate(note)"
-      >
-        <mat-icon>file_copy</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        color="primary"
         aria-label="Edit note"
         matTooltip="Edit note"
         (click)="openEditNoteModal(note)"
       >
         <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Change group"
+        matTooltip="Change group"
+        (click)="openChangeNoteGroupModal(note)"
+      >
+        <mat-icon>redo</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Duplicate note"
+        matTooltip="Duplicate note"
+        (click)="handleDuplicate(note)"
+      >
+        <mat-icon>file_copy</mat-icon>
       </button>
       <button
         mat-mini-fab

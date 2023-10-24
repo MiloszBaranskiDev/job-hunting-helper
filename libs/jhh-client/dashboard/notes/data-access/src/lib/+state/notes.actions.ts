@@ -7,6 +7,8 @@ import {
   AddNotesGroupPayload,
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
+  ChangeNoteGroupPayload,
+  ChangeNoteGroupSuccessPayload,
   DuplicateNotePayload,
   DuplicateNoteSuccessPayload,
   EditNotePayload,
@@ -29,6 +31,9 @@ export enum Type {
   DuplicateNote = '[Notes] Duplicate Note',
   DuplicateNoteFail = '[Notes] Duplicate Note Fail',
   DuplicateNoteSuccess = '[Notes] Duplicate Note Success',
+  ChangeNoteGroup = '[Notes] Change Note Group',
+  ChangeNoteGroupFail = '[Notes] Change Note Group Fail',
+  ChangeNoteGroupSuccess = '[Notes] Change Note Group Success',
   RemoveNote = '[Notes] Remove Note',
   RemoveNoteFail = '[Notes] Remove Note Fail',
   RemoveNoteSuccess = '[Notes] Remove Note Success',
@@ -97,6 +102,21 @@ export const duplicateNoteFail = createAction(
 export const duplicateNoteSuccess = createAction(
   Type.DuplicateNoteSuccess,
   props<{ payload: DuplicateNoteSuccessPayload }>()
+);
+
+export const changeNoteGroup = createAction(
+  Type.ChangeNoteGroup,
+  props<{ payload: ChangeNoteGroupPayload }>()
+);
+
+export const changeNoteGroupFail = createAction(
+  Type.ChangeNoteGroupFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const changeNoteGroupSuccess = createAction(
+  Type.ChangeNoteGroupSuccess,
+  props<{ payload: ChangeNoteGroupSuccessPayload }>()
 );
 
 export const removeNote = createAction(

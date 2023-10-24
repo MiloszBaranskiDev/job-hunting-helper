@@ -1,7 +1,7 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/interfaces';
 
 import * as NotesActions from './notes.actions';
 
@@ -10,7 +10,7 @@ export const NOTES_STATE_KEY = 'notes';
 export interface OperationState {
   inProgress: boolean;
   error: string | null;
-  success: boolean;
+  success?: boolean;
 }
 
 export interface NotesState extends EntityState<NotesGroup> {
@@ -18,6 +18,7 @@ export interface NotesState extends EntityState<NotesGroup> {
   addNote: OperationState;
   editNote: OperationState;
   duplicateNote: OperationState;
+  changeNoteGroup: OperationState;
   removeNote: OperationState;
 }
 
@@ -43,6 +44,10 @@ export const initialNotesState: NotesState = adapter.getInitialState({
     inProgress: false,
     error: null,
     success: false,
+  },
+  changeNoteGroup: {
+    inProgress: false,
+    error: null,
   },
   removeNote: {
     inProgress: false,
@@ -223,6 +228,61 @@ const reducer: ActionReducer<NotesState> = createReducer(
     }
 
     return state;
+  }),
+  on(NotesActions.changeNoteGroup, (state) => ({
+    ...state,
+    changeNoteGroup: {
+      ...state.changeNoteGroup,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(NotesActions.changeNoteGroupFail, (state, { payload }) => ({
+    ...state,
+    changeNoteGroup: {
+      ...state.changeNoteGroup,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(NotesActions.changeNoteGroupSuccess, (state, { payload }) => {
+    const { movedNote, previousGroup } = payload;
+    const updatedEntities = { ...state.entities };
+
+    if (previousGroup) {
+      const updatedPreviousGroup: NotesGroup = {
+        ...previousGroup,
+        notes: previousGroup.notes.filter(
+          (note: Note) => note.id !== movedNote.id
+        ),
+      };
+
+      updatedEntities[previousGroup.id] = updatedPreviousGroup;
+    }
+
+    const newGroup: NotesGroup | undefined = updatedEntities[movedNote.groupId];
+    if (newGroup) {
+      const updatedNewGroup: NotesGroup = {
+        ...newGroup,
+        notes: [...newGroup.notes, movedNote],
+      };
+
+      updatedEntities[movedNote.groupId] = updatedNewGroup;
+    }
+
+    return adapter.setAll(
+      Object.values(updatedEntities).filter(
+        (group): group is NotesGroup => group !== undefined
+      ),
+      {
+        ...state,
+        changeNoteGroup: {
+          ...state.changeNoteGroup,
+          inProgress: false,
+        },
+      }
+    );
   }),
   on(NotesActions.removeNote, (state) => ({
     ...state,

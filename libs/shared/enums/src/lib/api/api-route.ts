@@ -15,4 +15,5 @@ export enum ApiRoute {
   EditNote = '/edit-note',
   RemoveNote = '/remove-note',
   DuplicateNote = '/duplicate-note',
+  ChangeNoteGroup = '/change-note-group',
 }

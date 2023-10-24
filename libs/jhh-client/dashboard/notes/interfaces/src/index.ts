@@ -17,3 +17,7 @@ export * from './lib/note/edit-note-success-response';
 export * from './lib/note/duplicate-note-payload';
 export * from './lib/note/duplicate-note-success-payload';
 export * from './lib/note/duplicate-note-success-response';
+
+export * from './lib/note/change-note-group-payload';
+export * from './lib/note/change-note-group-success-payload';
+export * from './lib/note/change-note-group-success-response';
