@@ -38,7 +38,6 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   editNote: {
     inProgress: false,
     error: null,
-    success: false,
   },
   duplicateNote: {
     inProgress: false,
@@ -174,7 +173,6 @@ const reducer: ActionReducer<NotesState> = createReducer(
             ...state.editNote,
             inProgress: false,
             error: null,
-            success: true,
           },
         }
       );

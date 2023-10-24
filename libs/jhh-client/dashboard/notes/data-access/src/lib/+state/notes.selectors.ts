@@ -58,11 +58,6 @@ export const selectEditNoteError = createSelector(
   (state: NotesState) => state.editNote.error
 );
 
-export const selectEditNoteSuccess = createSelector(
-  selectNotesState,
-  (state: NotesState) => state.editNote.success!
-);
-
 export const selectChangeNoteGroupInProgress = createSelector(
   selectNotesState,
   (state: NotesState) => state.changeNoteGroup.inProgress

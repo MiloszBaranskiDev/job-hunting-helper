@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
   Component,
-  DestroyRef,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -27,12 +27,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import DOMPurify from 'dompurify';
 
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { EditNoteModalService } from '../../service/edit-note-modal.service';
 
 import { maxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
 import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
@@ -65,18 +65,18 @@ import { FormErrorKey } from '../../enums/form-error-key';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
-export class DialogComponent implements OnInit, AfterViewInit {
+export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly editNoteModalService: EditNoteModalService =
+    inject(EditNoteModalService);
 
   @Input() noteToEdit: Note;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
 
   editNoteInProgress$: Observable<boolean>;
   editNoteError$: Observable<string | null>;
-  editNoteSuccess$: Observable<boolean>;
 
   readonly formField: typeof FormField = FormField;
   readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
@@ -90,9 +90,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.editNoteInProgress$ = this.notesFacade.editNoteInProgress$;
     this.editNoteError$ = this.notesFacade.editNoteError$;
-    this.editNoteSuccess$ = this.notesFacade.editNoteSuccess$;
 
-    this.handleReset();
     this.initFormGroup();
   }
 
@@ -100,8 +98,17 @@ export class DialogComponent implements OnInit, AfterViewInit {
     this.openDialog();
   }
 
+  ngOnDestroy(): void {
+    this.formGroup.reset();
+    this.dialogRef.close();
+  }
+
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
+  }
+
+  closeDialog(): void {
+    this.editNoteModalService.clearNoteToEdit();
   }
 
   handleEditorCreated(quill: any): void {
@@ -135,24 +142,6 @@ export class DialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  handleReset(): void {
-    this.editNoteSuccess$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        if (val) {
-          this.formGroup.reset();
-          this.dialogRef?.close();
-        }
-      });
-  }
-
-  getContentSizeInBytes(): number {
-    const contentValue =
-      this.formGroup.get(this.formField.Content)?.value || '';
-
-    return new Blob([contentValue]).size;
-  }
-
   initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       [this.formField.Name]: [
@@ -168,6 +157,13 @@ export class DialogComponent implements OnInit, AfterViewInit {
         [maxSizeValidator(this.noteSize.MaxNoteSize)],
       ],
     });
+  }
+
+  getContentSizeInBytes(): number {
+    const contentValue =
+      this.formGroup.get(this.formField.Content)?.value || '';
+
+    return new Blob([contentValue]).size;
   }
 
   getContentControl(): FormControl {

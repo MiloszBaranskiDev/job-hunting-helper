@@ -52,10 +52,6 @@ export class NotesFacade {
     select(NotesSelectors.selectEditNoteError)
   );
 
-  editNoteSuccess$: Observable<boolean> = this.store.pipe(
-    select(NotesSelectors.selectEditNoteSuccess)
-  );
-
   changeNoteGroupInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectChangeNoteGroupInProgress)
   );
