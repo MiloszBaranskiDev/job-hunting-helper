@@ -51,7 +51,6 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   removeNote: {
     inProgress: false,
     error: null,
-    success: false,
   },
 });
 
@@ -321,7 +320,6 @@ const reducer: ActionReducer<NotesState> = createReducer(
           removeNote: {
             ...state.removeNote,
             inProgress: false,
-            success: true,
           },
         }
       );

@@ -78,11 +78,6 @@ export const selectRemoveNoteError = createSelector(
   (state: NotesState) => state.removeNote.error
 );
 
-export const selectRemoveNoteSuccess = createSelector(
-  selectNotesState,
-  (state: NotesState) => state.removeNote.success!
-);
-
 export const selectNotesGroupBySlug = createSelector(
   selectAllNotes,
   (notesGroups: NotesGroup[], slug: string) =>

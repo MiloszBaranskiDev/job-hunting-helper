@@ -68,10 +68,6 @@ export class NotesFacade {
     select(NotesSelectors.selectRemoveNoteError)
   );
 
-  removeNoteSuccess$: Observable<boolean> = this.store.pipe(
-    select(NotesSelectors.selectRemoveNoteSuccess)
-  );
-
   addNotesGroup(name: string) {
     return this.actionResolverService.executeAndWatch(
       NotesActions.addNotesGroup({

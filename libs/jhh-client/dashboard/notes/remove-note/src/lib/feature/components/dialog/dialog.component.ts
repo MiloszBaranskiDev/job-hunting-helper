@@ -1,9 +1,9 @@
 import {
   AfterViewInit,
   Component,
-  DestroyRef,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -17,13 +17,13 @@ import {
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { Note } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { RemoveNoteModalService } from '../../service/remove-note-modal.service';
 
 @Component({
   selector: 'jhh-remove-note-dialog',
@@ -39,46 +39,43 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
-export class DialogComponent implements OnInit, AfterViewInit {
+export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly removeNoteModalService: RemoveNoteModalService = inject(
+    RemoveNoteModalService
+  );
 
   @Input() noteToRemove: Note;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
 
   removeNoteInProgress$: Observable<boolean>;
   removeNoteError$: Observable<string | null>;
-  removeNoteSuccess$: Observable<boolean>;
 
   dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.removeNoteInProgress$ = this.notesFacade.removeNoteInProgress$;
     this.removeNoteError$ = this.notesFacade.removeNoteError$;
-    this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;
-    this.handleReset();
   }
 
   ngAfterViewInit(): void {
     this.openDialog();
   }
 
+  ngOnDestroy(): void {
+    this.dialogRef.close();
+  }
+
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
   }
 
-  handleRemove(noteId: string): void {
-    if (noteId) this.notesFacade.removeNote(noteId);
+  closeDialog(): void {
+    this.removeNoteModalService.clearNoteToRemove();
   }
 
-  handleReset(): void {
-    this.removeNoteSuccess$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        if (val) {
-          this.dialogRef?.close();
-        }
-      });
+  handleRemove(noteId: string): void {
+    if (noteId) this.notesFacade.removeNote(noteId);
   }
 }
