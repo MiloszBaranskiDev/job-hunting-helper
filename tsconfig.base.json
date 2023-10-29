@@ -111,6 +111,9 @@
       "@jhh/jhh-client/shared/util-snackbar": [
         "libs/jhh-client/shared/util-snackbar/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/util-strip-html": [
+        "libs/jhh-client/shared/util-strip-html/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/util-whitespace-sanitizer": [
         "libs/jhh-client/shared/util-whitespace-sanitizer/src/index.ts"
       ],

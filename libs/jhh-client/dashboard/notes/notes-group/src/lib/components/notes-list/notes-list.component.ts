@@ -17,6 +17,8 @@ import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note'
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 
+import { StripHtmlPipe } from '@jhh/jhh-client/shared/pipes';
+
 @Component({
   selector: 'jhh-notes-list',
   standalone: true,
@@ -27,6 +29,7 @@ import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/cha
     MatMenuModule,
     MatButtonModule,
     RouterLink,
+    StripHtmlPipe,
   ],
   templateUrl: './notes-list.component.html',
   styleUrls: ['./notes-list.component.scss'],

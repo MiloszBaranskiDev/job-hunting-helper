@@ -12,7 +12,7 @@
           </button>
         </div>
         <p class="notesList__itemContent">
-          {{note.content}}
+          {{ (note.content | stripHtml).length > 115 ? (note.content | stripHtml | slice:0:115) + '...' : (note.content | stripHtml) }}
         </p>
         <mat-divider></mat-divider>
         <div class="notesList__itemBottom">
