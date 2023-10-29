@@ -47,10 +47,12 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   changeNoteGroup: {
     inProgress: false,
     error: null,
+    success: false,
   },
   removeNote: {
     inProgress: false,
     error: null,
+    success: false,
   },
 });
 
@@ -136,7 +138,6 @@ const reducer: ActionReducer<NotesState> = createReducer(
       ...state.editNote,
       inProgress: true,
       error: null,
-      success: false,
     },
   })),
   on(NotesActions.editNoteFail, (state, { payload }) => ({
@@ -277,10 +278,18 @@ const reducer: ActionReducer<NotesState> = createReducer(
         changeNoteGroup: {
           ...state.changeNoteGroup,
           inProgress: false,
+          success: true,
         },
       }
     );
   }),
+  on(NotesActions.resetChangeNoteGroupSuccess, (state) => ({
+    ...state,
+    changeNoteGroup: {
+      ...state.changeNoteGroup,
+      success: false,
+    },
+  })),
   on(NotesActions.removeNote, (state) => ({
     ...state,
     removeNote: {
@@ -320,13 +329,21 @@ const reducer: ActionReducer<NotesState> = createReducer(
           removeNote: {
             ...state.removeNote,
             inProgress: false,
+            success: true,
           },
         }
       );
     }
 
     return state;
-  })
+  }),
+  on(NotesActions.resetRemoveNoteSuccess, (state) => ({
+    ...state,
+    removeNote: {
+      ...state.removeNote,
+      success: false,
+    },
+  }))
 );
 
 export function notesReducer(state: NotesState | undefined, action: Action) {

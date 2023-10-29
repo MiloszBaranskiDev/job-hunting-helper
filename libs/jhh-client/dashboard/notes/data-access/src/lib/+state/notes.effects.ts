@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { map, tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes.service';
@@ -115,9 +115,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.changeNoteGroup(action.payload).pipe(
-            map((res: ChangeNoteGroupSuccessPayload) =>
-              NotesActions.changeNoteGroupSuccess({ payload: res })
-            ),
+            mergeMap((res: ChangeNoteGroupSuccessPayload) => [
+              NotesActions.changeNoteGroupSuccess({ payload: res }),
+              NotesActions.resetChangeNoteGroupSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open(
                 'Note successfully moved to another group!'
@@ -137,9 +138,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.removeNote(action.payload).pipe(
-            map((res: RemoveNoteSuccessPayload) =>
-              NotesActions.removeNoteSuccess({ payload: res })
-            ),
+            mergeMap((res: RemoveNoteSuccessPayload) => [
+              NotesActions.removeNoteSuccess({ payload: res }),
+              NotesActions.resetRemoveNoteSuccess(),
+            ]),
             tap(() => {
               this.removeNoteModalService.clearNoteToRemove();
               this.snackbarService.open('Note removed successfully!');

@@ -6,10 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
+  filter,
   map,
   Observable,
   pluck,
@@ -19,6 +20,7 @@ import {
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
+import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { NotesListSort } from '@jhh/jhh-client/dashboard/notes/enums';
@@ -50,10 +52,13 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
 export class JhhClientDashboardNotesGroupComponent
   implements OnInit, OnDestroy
 {
+  private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
+  private readonly breadcrumbsService: BreadcrumbsService =
+    inject(BreadcrumbsService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   group$: Observable<NotesGroup>;
@@ -70,7 +75,14 @@ export class JhhClientDashboardNotesGroupComponent
     ) as Observable<string>;
 
     this.group$ = this.groupSlug$.pipe(
-      switchMap((slug: string) => this.notesFacade.getNotesGroup$BySlug(slug))
+      switchMap((slug: string) => this.notesFacade.getNotesGroup$BySlug(slug)),
+      filter((group): group is NotesGroup => !!group),
+      tap((group) => {
+        this.breadcrumbsService.updateBreadcrumbLabelByUrl(
+          this.router.url.split('?')[0],
+          group.name
+        );
+      })
     ) as Observable<NotesGroup>;
 
     this.groupId$ = this.group$.pipe(pluck('id'));

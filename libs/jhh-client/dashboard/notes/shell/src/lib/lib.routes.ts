@@ -22,6 +22,7 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
   children: [
     {
       path: ClientRoute.Notes,
+      title: 'Notes',
       children: [
         {
           path: '',
@@ -32,17 +33,28 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
         },
         {
           path: ':groupSlug',
+          title: 'Group',
           loadComponent: () =>
             import('@jhh/jhh-client/dashboard/notes/notes-group').then(
-              (c) => c.JhhClientDashboardNotesGroupComponent
+              (c) => c.JhhClientDashboardNotesGroupOutletComponent
             ),
-        },
-        {
-          path: ':groupSlug/:noteSlug',
-          loadComponent: () =>
-            import('@jhh/jhh-client/dashboard/notes/single-note').then(
-              (c) => c.JhhClientDashboardNotesSingleNoteComponent
-            ),
+          children: [
+            {
+              path: '',
+              loadComponent: () =>
+                import('@jhh/jhh-client/dashboard/notes/notes-group').then(
+                  (c) => c.JhhClientDashboardNotesGroupComponent
+                ),
+            },
+            {
+              path: ':noteSlug',
+              title: 'Note details',
+              loadComponent: () =>
+                import('@jhh/jhh-client/dashboard/notes/single-note').then(
+                  (c) => c.JhhClientDashboardNotesSingleNoteComponent
+                ),
+            },
+          ],
         },
       ],
     },

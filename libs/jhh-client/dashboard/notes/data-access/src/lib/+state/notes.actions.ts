@@ -34,9 +34,11 @@ export enum Type {
   ChangeNoteGroup = '[Notes] Change Note Group',
   ChangeNoteGroupFail = '[Notes] Change Note Group Fail',
   ChangeNoteGroupSuccess = '[Notes] Change Note Group Success',
+  ResetChangeNoteGroupSuccess = '[Notes] Reset Change Note Group Success',
   RemoveNote = '[Notes] Remove Note',
   RemoveNoteFail = '[Notes] Remove Note Fail',
   RemoveNoteSuccess = '[Notes] Remove Note Success',
+  ResetRemoveNoteSuccess = '[Notes] Reset Remove Note Success',
 }
 
 export const setNotes = createAction(
@@ -119,6 +121,10 @@ export const changeNoteGroupSuccess = createAction(
   props<{ payload: ChangeNoteGroupSuccessPayload }>()
 );
 
+export const resetChangeNoteGroupSuccess = createAction(
+  Type.ResetChangeNoteGroupSuccess
+);
+
 export const removeNote = createAction(
   Type.RemoveNote,
   props<{ payload: RemoveNotePayload }>()
@@ -133,3 +139,5 @@ export const removeNoteSuccess = createAction(
   Type.RemoveNoteSuccess,
   props<{ payload: RemoveNoteSuccessPayload }>()
 );
+
+export const resetRemoveNoteSuccess = createAction(Type.ResetRemoveNoteSuccess);

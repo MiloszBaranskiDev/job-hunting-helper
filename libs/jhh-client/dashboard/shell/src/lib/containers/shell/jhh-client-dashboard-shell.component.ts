@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { JhhClientDashboardFeatureToolbarComponent } from '@jhh/jhh-client/dashboard/feature-toolbar';
 import { JhhClientDashboardFeatureSidebarComponent } from '@jhh/jhh-client/dashboard/feature-sidebar';
+import { JhhClientDashboardBreadcrumbsComponent } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 
 import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
 
@@ -18,6 +19,7 @@ import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
     MatProgressSpinnerModule,
     JhhClientDashboardFeatureToolbarComponent,
     JhhClientDashboardFeatureSidebarComponent,
+    JhhClientDashboardBreadcrumbsComponent,
   ],
   templateUrl: './jhh-client-dashboard-shell.component.html',
   styleUrls: ['./jhh-client-dashboard-shell.component.scss'],

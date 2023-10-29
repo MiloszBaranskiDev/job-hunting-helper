@@ -1,23 +1,19 @@
-import { Component, inject, Input, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import { first, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { first, Observable, tap } from 'rxjs';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { Note } from '@jhh/shared/interfaces';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
-
-enum RedirectTo {
-  Group = 'group',
-  NewGroup = 'new-group',
-}
 
 @Component({
   selector: 'jhh-note-header',
@@ -26,8 +22,9 @@ enum RedirectTo {
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements OnInit {
   private readonly router: Router = inject(Router);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private editNoteModalService: EditNoteModalService =
     inject(EditNoteModalService);
   private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
@@ -39,24 +36,42 @@ export class HeaderComponent implements OnDestroy {
 
   @Input() note: Note;
 
-  private redirectTo: null | RedirectTo;
+  removeNoteSuccess$: Observable<boolean>;
+  changeNoteGroupSuccess$: Observable<boolean>;
 
-  ngOnDestroy(): void {
-    if (this.redirectTo === RedirectTo.Group) {
-      this.router.navigate([this.router.url.replace(this.note.slug, '')]);
-    } else if (this.redirectTo === RedirectTo.NewGroup) {
-      this.notesFacade
-        .getGroupSlug$ByNoteId(this.note.id)
-        .pipe(
-          first(),
-          tap((val) => {
-            this.router.navigate([ClientRoute.NotesLink + '/' + val]);
-          })
-        )
-        .subscribe();
-    }
+  ngOnInit(): void {
+    this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;
+    this.changeNoteGroupSuccess$ = this.notesFacade.changeNoteGroupSuccess$;
 
-    this.redirectTo = null;
+    this.changeNoteGroupSuccess$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.notesFacade
+              .getGroupSlug$ByNoteId(this.note.id)
+              .pipe(
+                first(),
+                tap((val) => {
+                  this.router.navigate([ClientRoute.NotesLink + '/' + val]);
+                })
+              )
+              .subscribe();
+          }
+        })
+      )
+      .subscribe();
+
+    this.removeNoteSuccess$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.router.navigate([this.router.url.replace(this.note.slug, '')]);
+          }
+        })
+      )
+      .subscribe();
   }
 
   openEditNoteModal(note: Note): void {
@@ -64,7 +79,6 @@ export class HeaderComponent implements OnDestroy {
   }
 
   openChangeNoteGroupModal(note: Note): void {
-    this.redirectTo = RedirectTo.NewGroup;
     this.changeNoteGroupModalService.openModal(note);
   }
 
@@ -73,7 +87,6 @@ export class HeaderComponent implements OnDestroy {
   }
 
   openRemoveNoteModal(note: Note): void {
-    this.redirectTo = RedirectTo.Group;
     this.removeNoteModalService.openModal(note);
   }
 }

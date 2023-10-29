@@ -68,6 +68,11 @@ export const selectChangeNoteGroupError = createSelector(
   (state: NotesState) => state.changeNoteGroup.error
 );
 
+export const selectChangeNoteGroupSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.changeNoteGroup.success!
+);
+
 export const selectRemoveNoteInProgress = createSelector(
   selectNotesState,
   (state: NotesState) => state.removeNote.inProgress
@@ -76,6 +81,11 @@ export const selectRemoveNoteInProgress = createSelector(
 export const selectRemoveNoteError = createSelector(
   selectNotesState,
   (state: NotesState) => state.removeNote.error
+);
+
+export const selectRemoveNoteSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.removeNote.success!
 );
 
 export const selectNotesGroupBySlug = createSelector(

@@ -25,6 +25,7 @@ import { JhhClientDashboardNotesShellRoutes } from '@jhh/jhh-client/dashboard/no
 
 export const JhhClientDashboardShellRoutes: Route = {
   path: ClientRoute.Home,
+  title: 'Home',
   component: JhhClientDashboardShellComponent,
   providers: [
     provideState(DASHBOARD_STATE_KEY, dashboardReducer),

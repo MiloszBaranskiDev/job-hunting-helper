@@ -1,11 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  combineLatest,
+  filter,
+  first,
+  map,
+  Observable,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { Note } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 
 import { HeaderComponent } from '../../components/header/header.component';
 import { ContentComponent } from '../../components/content/content.component';
@@ -30,20 +39,49 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
   styleUrls: ['./jhh-client-dashboard-notes-single-note.component.scss'],
 })
 export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
+  private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly breadcrumbsService: BreadcrumbsService =
+    inject(BreadcrumbsService);
 
   note$: Observable<Note>;
 
   ngOnInit(): void {
-    this.note$ = this.route.params.pipe(
-      map((params) => ({
-        groupSlug: params['groupSlug'],
-        noteSlug: params['noteSlug'],
+    this.note$ = combineLatest([
+      this.route.params,
+      this.route.parent!.params,
+    ]).pipe(
+      map(([childParams, parentParams]) => ({
+        groupSlug: parentParams['groupSlug'],
+        noteSlug: childParams['noteSlug'],
       })),
       switchMap((slugs) =>
-        this.notesFacade.getNote$BySlugs(slugs.groupSlug, slugs.noteSlug)
-      )
+        this.notesFacade
+          .getNote$BySlugs(slugs.groupSlug, slugs.noteSlug)
+          .pipe(map((note) => ({ ...slugs, note })))
+      ),
+      filter((data) => !!data.note),
+      tap((data) => {
+        const { groupSlug, note } = data;
+        this.notesFacade
+          .getNotesGroup$BySlug(groupSlug)
+          .pipe(
+            map((group) => group!.name),
+            first()
+          )
+          .subscribe((groupName) => {
+            this.breadcrumbsService.updateBreadcrumbLabelByUrl(
+              this.router.url.replace(`${'/' + note!.slug}`, ''),
+              groupName
+            );
+          });
+        this.breadcrumbsService.updateBreadcrumbLabelByUrl(
+          this.router.url,
+          note!.name
+        );
+      }),
+      map((data) => data.note)
     ) as Observable<Note>;
   }
 }

@@ -60,12 +60,20 @@ export class NotesFacade {
     select(NotesSelectors.selectChangeNoteGroupError)
   );
 
+  changeNoteGroupSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectChangeNoteGroupSuccess)
+  );
+
   removeNoteInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNoteInProgress)
   );
 
   removeNoteError$: Observable<string | null> = this.store.pipe(
     select(NotesSelectors.selectRemoveNoteError)
+  );
+
+  removeNoteSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectRemoveNoteSuccess)
   );
 
   addNotesGroup(name: string) {

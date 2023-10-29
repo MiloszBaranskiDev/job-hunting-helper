@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
@@ -13,7 +12,7 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 @Component({
   selector: 'jhh-notes-group',
   standalone: true,
-  imports: [CommonModule, GroupsListComponent, RouterOutlet, AddGroupComponent],
+  imports: [CommonModule, GroupsListComponent, AddGroupComponent],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
 })

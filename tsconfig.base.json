@@ -42,6 +42,9 @@
       "@jhh/jhh-client/dashboard/data-access": [
         "libs/jhh-client/dashboard/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/feature-breadcrumbs": [
+        "libs/jhh-client/dashboard/feature-breadcrumbs/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/feature-sidebar": [
         "libs/jhh-client/dashboard/feature-sidebar/src/index.ts"
       ],
