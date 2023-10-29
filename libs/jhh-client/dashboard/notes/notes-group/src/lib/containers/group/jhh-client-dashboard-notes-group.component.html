@@ -1,11 +1,17 @@
 <div class="notesGroup">
-  <jhh-edit-note></jhh-edit-note>
-  <jhh-change-note-group></jhh-change-note-group>
-  <jhh-remove-note></jhh-remove-note>
+  <ng-container *ngIf="totalPages">
+    <jhh-edit-note></jhh-edit-note>
+    <jhh-change-note-group></jhh-change-note-group>
+    <jhh-remove-note></jhh-remove-note>
+  </ng-container>
   <div class="notesGroup__top">
-    <jhh-notes-sorting></jhh-notes-sorting>
+    <ng-container *ngIf="totalPages">
+      <jhh-notes-sorting></jhh-notes-sorting>
+    </ng-container>
     <jhh-add-note [groupId$]="groupId$"></jhh-add-note>
   </div>
   <jhh-notes-list [sortedNotes$]="sortedNotes$" [groupSlug$]="groupSlug$"></jhh-notes-list>
-  <jhh-notes-pagination [totalPages]="totalPages"></jhh-notes-pagination>
+  <ng-container *ngIf="totalPages">
+    <jhh-notes-pagination [totalPages]="totalPages"></jhh-notes-pagination>
+  </ng-container>
 </div>

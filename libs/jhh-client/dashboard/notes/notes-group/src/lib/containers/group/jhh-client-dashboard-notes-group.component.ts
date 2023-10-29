@@ -67,6 +67,7 @@ export class JhhClientDashboardNotesGroupComponent
   sortedNotes$: Observable<Note[]>;
   notesListSort$: BehaviorSubject<NotesListSort>;
 
+  readonly notesPerPage: number = 16;
   totalPages: number;
 
   ngOnInit(): void {
@@ -88,7 +89,6 @@ export class JhhClientDashboardNotesGroupComponent
     this.groupId$ = this.group$.pipe(pluck('id'));
 
     this.queryParamsService.updateQueryParams();
-
     this.notesListSort$ = this.queryParamsService.getCurrentSort$();
 
     this.sortedNotes$ = combineLatest([
@@ -97,13 +97,13 @@ export class JhhClientDashboardNotesGroupComponent
       this.queryParamsService.getCurrentPage$(),
     ]).pipe(
       tap(([notes]) => {
-        this.totalPages = Math.ceil(notes.length / 12);
+        this.totalPages = Math.ceil(notes.length / this.notesPerPage);
         this.cdr.detectChanges();
       }),
       map(([notes, sort, currentPage]) => {
         const sortedNotes: Note[] = this.sortNotes(notes, sort);
-        const start: number = (currentPage - 1) * 12;
-        const end: number = start + 12;
+        const start: number = (currentPage - 1) * this.notesPerPage;
+        const end: number = start + this.notesPerPage;
         return sortedNotes.slice(start, end);
       })
     );
