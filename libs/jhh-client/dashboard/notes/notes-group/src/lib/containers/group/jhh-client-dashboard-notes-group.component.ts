@@ -30,6 +30,7 @@ import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
@@ -41,6 +42,7 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
     CommonModule,
     NotesListComponent,
     AddNoteComponent,
+    SearchBarComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
     SortingComponent,

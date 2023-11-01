@@ -149,3 +149,20 @@ export const selectAllGroups = createSelector(
     return notesGroups.filter((group) => group.id !== props.excludeId);
   }
 );
+
+export const selectSearchNotes = createSelector(
+  selectNotesGroups,
+  (notesGroups: NotesGroup[], props: { query: string; groupId: string }) => {
+    const group: NotesGroup | undefined = notesGroups.find(
+      (group) => group.id === props.groupId
+    );
+
+    if (group) {
+      return group.notes.filter((note) =>
+        note.name.toLowerCase().includes(props.query.toLowerCase())
+      );
+    } else {
+      return [];
+    }
+  }
+);

@@ -1,4 +1,4 @@
-<ng-container *ngIf="groupId$ | async as groupId">
+<ng-container *ngIf="groupId">
   <div class="addNote">
     <button class="addNote__openBtn" mat-fab color="primary" (click)="openDialog()">
       <mat-icon>add</mat-icon>
@@ -6,7 +6,7 @@
     <ng-template #dialogContent>
       <h2 mat-dialog-title>Add new note</h2>
       <mat-dialog-content>
-        <form [formGroup]="formGroup" (ngSubmit)="onSubmit(groupId)">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput [formControlName]="formField.Name" placeholder="Name" jhhWhitespaceSanitizer required>

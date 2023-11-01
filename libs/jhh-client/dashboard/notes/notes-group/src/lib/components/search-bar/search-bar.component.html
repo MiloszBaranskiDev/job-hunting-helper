@@ -1,0 +1,26 @@
+<div class="searchBar" *ngIf="groupId">
+  <mat-form-field appearance="fill" class="searchBar__field">
+    <mat-label>Search</mat-label>
+    <input matInput (input)="onSearch($any($event.target).value)" placeholder="Enter note name...">
+  </mat-form-field>
+
+  <ng-container *ngIf="{ notes: foundNotes$ | async, loading: loading$ | async } as data">
+    <div *ngIf="data.loading || (data.notes && searchStarted)" class="searchBar__results">
+      <ng-container *ngIf="!data.loading">
+        <mat-list *ngIf="data.notes!.length > 0" dense>
+          <mat-list-item *ngFor="let note of data.notes">
+            <a [routerLink]="note.slug">
+              {{ note.name }}
+            </a>
+          </mat-list-item>
+        </mat-list>
+        <div *ngIf="data.notes!.length === 0" class="searchBar__noFound">
+          No notes found.
+        </div>
+      </ng-container>
+      <div *ngIf="data.loading" class="searchBar__loading">
+        Searching...
+      </div>
+    </div>
+  </ng-container>
+</div>

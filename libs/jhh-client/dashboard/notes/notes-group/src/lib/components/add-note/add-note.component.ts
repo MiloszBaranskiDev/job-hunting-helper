@@ -72,7 +72,7 @@ export class AddNoteComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  @Input() groupId$: Observable<string>;
+  @Input() groupId: string;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
 
   addNoteInProgress$: Observable<boolean>;
@@ -105,7 +105,7 @@ export class AddNoteComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.dialogContent);
   }
 
-  onSubmit(groupId: string): void {
+  onSubmit(): void {
     if (this.quillInstance) {
       const html = this.quillInstance.root.innerHTML;
       this.formGroup
@@ -120,7 +120,7 @@ export class AddNoteComponent implements OnInit {
         domPurifyConfig
       );
 
-      this.notesFacade.addNote(name, content, groupId);
+      this.notesFacade.addNote(name, content, this.groupId);
     }
   }
 

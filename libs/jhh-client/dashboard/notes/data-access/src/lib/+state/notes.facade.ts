@@ -179,4 +179,13 @@ export class NotesFacade {
       select(NotesSelectors.selectAllGroups, { excludeId })
     );
   }
+
+  searchNotesByNameAndGroupId$(
+    query: string,
+    groupId: string
+  ): Observable<Note[]> {
+    return this.store.pipe(
+      select(NotesSelectors.selectSearchNotes, { query, groupId })
+    );
+  }
 }

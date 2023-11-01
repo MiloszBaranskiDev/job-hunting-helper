@@ -6,9 +6,10 @@
   </ng-container>
   <div class="notesGroup__top">
     <ng-container *ngIf="totalPages">
+      <jhh-note-search-bar [groupId]="(groupId$ | async)!"></jhh-note-search-bar>
       <jhh-notes-sorting></jhh-notes-sorting>
     </ng-container>
-    <jhh-add-note [groupId$]="groupId$"></jhh-add-note>
+    <jhh-add-note [groupId]="(groupId$ | async)!"></jhh-add-note>
   </div>
   <jhh-notes-list [sortedNotes$]="sortedNotes$" [groupSlug$]="groupSlug$"></jhh-notes-list>
   <ng-container *ngIf="totalPages">
