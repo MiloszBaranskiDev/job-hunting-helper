@@ -15,6 +15,7 @@ import { Note } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
+import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 
 import { HeaderComponent } from '../../components/header/header.component';
 import { ContentComponent } from '../../components/content/content.component';
@@ -44,6 +45,7 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
   private readonly breadcrumbsService: BreadcrumbsService =
     inject(BreadcrumbsService);
+  private readonly titleService: TitleService = inject(TitleService);
 
   note$: Observable<Note>;
 
@@ -80,6 +82,7 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
           this.router.url,
           note!.name
         );
+        this.titleService.setTitle(`Note - ${note!.name}`);
       }),
       map((data) => data.note)
     ) as Observable<Note>;

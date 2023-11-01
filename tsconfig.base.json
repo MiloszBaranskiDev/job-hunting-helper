@@ -48,6 +48,9 @@
       "@jhh/jhh-client/dashboard/feature-sidebar": [
         "libs/jhh-client/dashboard/feature-sidebar/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/feature-title": [
+        "libs/jhh-client/dashboard/feature-title/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/feature-toolbar": [
         "libs/jhh-client/dashboard/feature-toolbar/src/index.ts"
       ],

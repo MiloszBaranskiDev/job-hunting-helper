@@ -7,6 +7,7 @@ export const DASHBOARD_STATE_KEY = 'dashboard';
 export interface DashboardState {
   loadAssignedDataInProgress: boolean;
   loadAssignedDataError: string | null;
+  loadAssignedDataSuccess: boolean;
 }
 
 export interface DashboardPartialState {
@@ -16,6 +17,7 @@ export interface DashboardPartialState {
 export const initialDashboardState: DashboardState = {
   loadAssignedDataInProgress: false,
   loadAssignedDataError: null,
+  loadAssignedDataSuccess: false,
 };
 
 const reducer: ActionReducer<DashboardState> = createReducer(
@@ -32,6 +34,7 @@ const reducer: ActionReducer<DashboardState> = createReducer(
   on(DashboardActions.loadAssignedDataSuccess, (state, { payload }) => ({
     ...state,
     loadAssignedDataInProgress: false,
+    loadAssignedDataSuccess: true,
   }))
 );
 

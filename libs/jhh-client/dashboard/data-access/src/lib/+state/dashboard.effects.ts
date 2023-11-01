@@ -4,6 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as DashboardActions from './dashboard.actions';
+import { DashboardFacade } from './dashboard.facade';
 import { DashboardService } from '../services/dashboard.service';
 
 import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
@@ -13,6 +14,7 @@ export class DashboardEffects {
   private readonly actions$: Actions = inject(Actions);
   private readonly dashboardService: DashboardService =
     inject(DashboardService);
+  private readonly dashboardFacade: DashboardFacade = inject(DashboardFacade);
 
   loadAssignedData$ = createEffect(() =>
     this.actions$.pipe(
@@ -24,7 +26,7 @@ export class DashboardEffects {
               DashboardActions.loadAssignedDataSuccess({ payload: res })
             ),
             tap((val) => {
-              this.dashboardService.setData(val);
+              this.dashboardFacade.setData(val);
             })
           ),
         onError: (action, error) =>

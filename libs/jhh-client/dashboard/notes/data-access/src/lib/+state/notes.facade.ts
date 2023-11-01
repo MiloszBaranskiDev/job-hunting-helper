@@ -9,7 +9,9 @@ import * as NotesSelectors from './notes.selectors';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NotesFacade {
   private readonly store = inject(Store);
   private readonly actionResolverService: ActionResolverService = inject(

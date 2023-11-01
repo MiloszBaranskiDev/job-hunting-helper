@@ -31,8 +31,4 @@ export class DashboardService {
       )
       .pipe(map((res: LoadAssignedDataSuccessResponse) => res.data));
   }
-
-  setData(data: { payload: LoadAssignedDataSuccessPayload }): void {
-    this.dashboardFacade.setData(data);
-  }
 }

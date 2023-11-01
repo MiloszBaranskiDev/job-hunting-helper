@@ -25,6 +25,10 @@ export class DashboardFacade {
     select(DashboardSelectors.selectDashboardLoadAssignedDataError)
   );
 
+  loadAssignedDataSuccess$: Observable<boolean> = this.store.pipe(
+    select(DashboardSelectors.selectDashboardLoadAssignedDataSuccess)
+  );
+
   loadAssignedData() {
     return this.actionResolverService.executeAndWatch(
       DashboardActions.loadAssignedData(),

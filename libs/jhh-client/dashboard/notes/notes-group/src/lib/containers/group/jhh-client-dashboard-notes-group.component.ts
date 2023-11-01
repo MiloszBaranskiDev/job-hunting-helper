@@ -21,6 +21,7 @@ import {
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
+import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { NotesListSort } from '@jhh/jhh-client/dashboard/notes/enums';
@@ -59,6 +60,7 @@ export class JhhClientDashboardNotesGroupComponent
     inject(QueryParamsService);
   private readonly breadcrumbsService: BreadcrumbsService =
     inject(BreadcrumbsService);
+  private readonly titleService: TitleService = inject(TitleService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   group$: Observable<NotesGroup>;
@@ -71,6 +73,8 @@ export class JhhClientDashboardNotesGroupComponent
   totalPages: number;
 
   ngOnInit(): void {
+    this.queryParamsService.setFromCurrentRoute();
+
     this.groupSlug$ = this.route.params.pipe(
       pluck('groupSlug')
     ) as Observable<string>;
@@ -83,6 +87,7 @@ export class JhhClientDashboardNotesGroupComponent
           this.router.url.split('?')[0],
           group.name
         );
+        this.titleService.setTitle(`Notes - ${group.name}`);
       })
     ) as Observable<NotesGroup>;
 

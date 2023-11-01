@@ -14,3 +14,8 @@ export const selectDashboardLoadAssignedDataError = createSelector(
   selectDashboardState,
   (state: DashboardState) => state.loadAssignedDataError
 );
+
+export const selectDashboardLoadAssignedDataSuccess = createSelector(
+  selectDashboardState,
+  (state: DashboardState) => state.loadAssignedDataSuccess
+);

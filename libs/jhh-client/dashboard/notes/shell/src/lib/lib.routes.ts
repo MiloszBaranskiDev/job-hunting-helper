@@ -33,7 +33,6 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
         },
         {
           path: ':groupSlug',
-          title: 'Group',
           loadComponent: () =>
             import('@jhh/jhh-client/dashboard/notes/notes-group').then(
               (c) => c.JhhClientDashboardNotesGroupOutletComponent
@@ -48,7 +47,6 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
             },
             {
               path: ':noteSlug',
-              title: 'Note details',
               loadComponent: () =>
                 import('@jhh/jhh-client/dashboard/notes/single-note').then(
                   (c) => c.JhhClientDashboardNotesSingleNoteComponent
