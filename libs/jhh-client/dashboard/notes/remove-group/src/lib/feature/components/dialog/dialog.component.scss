@@ -1,0 +1,30 @@
+.alert {
+  padding: 20px;
+  border-radius: var(--radius__base);
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  p {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: var(--color__warn);
+  }
+
+  &::before {
+    content: '';
+    pointer-events: none;
+    background-color: var(--color__warn);
+    border-radius: var(--radius__base);
+    opacity: 0.15;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

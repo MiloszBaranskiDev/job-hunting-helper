@@ -31,9 +31,11 @@ import { NotesListComponent } from '../../components/notes-list/notes-list.compo
 import { SortingComponent } from '../../components/sorting/sorting.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { MenuComponent } from '../../components/menu/menu.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -43,11 +45,13 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
     NotesListComponent,
     AddNoteComponent,
     SearchBarComponent,
+    MenuComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
     SortingComponent,
     PaginationComponent,
     JhhClientDashboardChangeNoteGroupComponent,
+    JhhClientDashboardRemoveNotesGroupComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],

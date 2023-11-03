@@ -14,6 +14,8 @@ import {
   EditNotePayload,
   EditNoteSuccessPayload,
   RemoveNotePayload,
+  RemoveNotesGroupPayload,
+  RemoveNotesGroupSuccessPayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
 
@@ -22,6 +24,10 @@ export enum Type {
   AddNotesGroup = '[Notes] Add Notes Group',
   AddNotesGroupFail = '[Notes] Add Notes Group Fail',
   AddNotesGroupSuccess = '[Notes] Add Notes Group Success',
+  RemoveNotesGroup = '[Notes] Remove Notes Group',
+  RemoveNotesGroupFail = '[Notes] Remove Notes Group Fail',
+  RemoveNotesGroupSuccess = '[Notes] Remove Notes Group Success',
+  ResetRemoveNotesGroupSuccess = '[Notes] Reset Remove Notes Group Success',
   AddNote = '[Notes] Add Note',
   AddNoteFail = '[Notes] Add Note Fail',
   AddNoteSuccess = '[Notes] Add Note Success',
@@ -59,6 +65,25 @@ export const addNotesGroupFail = createAction(
 export const addNotesGroupSuccess = createAction(
   Type.AddNotesGroupSuccess,
   props<{ payload: AddNotesGroupSuccessPayload }>()
+);
+
+export const removeNotesGroup = createAction(
+  Type.RemoveNotesGroup,
+  props<{ payload: RemoveNotesGroupPayload }>()
+);
+
+export const removeNotesGroupFail = createAction(
+  Type.RemoveNotesGroupFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const removeNotesGroupSuccess = createAction(
+  Type.RemoveNotesGroupSuccess,
+  props<{ payload: RemoveNotesGroupSuccessPayload }>()
+);
+
+export const resetRemoveNotesGroupSuccess = createAction(
+  Type.ResetRemoveNotesGroupSuccess
 );
 
 export const addNote = createAction(

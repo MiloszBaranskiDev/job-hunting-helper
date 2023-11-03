@@ -9,6 +9,7 @@ import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note'
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
 
 import {
   AddNotesGroupSuccessPayload,
@@ -16,6 +17,7 @@ import {
   ChangeNoteGroupSuccessPayload,
   DuplicateNoteSuccessPayload,
   EditNoteSuccessPayload,
+  RemoveNotesGroupSuccessPayload,
   RemoveNoteSuccessPayload,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
 
@@ -30,6 +32,8 @@ export class NotesEffects {
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
+  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
+    inject(RemoveNotesGroupModalService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   addNotesGroup$ = createEffect(() =>
@@ -47,6 +51,27 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.addNotesGroupFail({ payload: error }),
+      })
+    )
+  );
+
+  removeNotesGroup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.removeNotesGroup),
+      fetch({
+        run: (action) =>
+          this.notesService.removeNotesGroup(action.payload).pipe(
+            mergeMap((res: RemoveNotesGroupSuccessPayload) => [
+              NotesActions.removeNotesGroupSuccess({ payload: res }),
+              NotesActions.resetRemoveNotesGroupSuccess(),
+            ]),
+            tap(() => {
+              this.removeNotesGroupModalService.clearNotesGroupToRemove();
+              this.snackbarService.open('Group removed successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.removeNotesGroupFail({ payload: error }),
       })
     )
   );

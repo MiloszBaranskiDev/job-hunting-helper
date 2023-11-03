@@ -1,0 +1,16 @@
+<div>
+  <button
+    mat-fab
+    [matMenuTriggerFor]="menu"
+    aria-label="Group actions"
+    (click)="$event.preventDefault(); $event.stopPropagation();"
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openRemoveNotesGroupModal()">
+      <mat-icon>close</mat-icon>
+      <span>Remove</span>
+    </button>
+  </mat-menu>
+</div>

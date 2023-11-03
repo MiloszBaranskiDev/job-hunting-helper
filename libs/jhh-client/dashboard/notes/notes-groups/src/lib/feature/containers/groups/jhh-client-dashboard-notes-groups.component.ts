@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
 import { AddGroupComponent } from '../../components/add-group/add-group.component';
+import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
@@ -12,7 +13,12 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 @Component({
   selector: 'jhh-notes-group',
   standalone: true,
-  imports: [CommonModule, GroupsListComponent, AddGroupComponent],
+  imports: [
+    CommonModule,
+    GroupsListComponent,
+    AddGroupComponent,
+    JhhClientDashboardRemoveNotesGroupComponent,
+  ],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
 })

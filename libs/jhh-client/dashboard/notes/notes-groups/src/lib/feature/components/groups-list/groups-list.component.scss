@@ -15,7 +15,7 @@
     a {
       height: 100%;
       display: block;
-      padding: 40px;
+      padding: 60px 40px;
       border-radius: var(--radius__base);
       background-color: var(--color__bg--darker);
       position: relative;
@@ -27,6 +27,28 @@
         #{ $self }__itemCounter {
           background-color: var(--color__bg--darker);
           color: var(--color__text);
+        }
+
+        ::ng-deep {
+          .mdc-icon-button {
+            mat-icon {
+              color: white !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ::ng-deep {
+    .mdc-icon-button {
+      position: absolute !important;
+      bottom: 15px;
+      right: 15px;
+
+      &:hover {
+        mat-icon {
+          color: white !important;
         }
       }
     }

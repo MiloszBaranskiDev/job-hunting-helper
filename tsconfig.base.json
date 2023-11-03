@@ -81,6 +81,9 @@
       "@jhh/jhh-client/dashboard/notes/notes-groups": [
         "libs/jhh-client/dashboard/notes/notes-groups/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/remove-group": [
+        "libs/jhh-client/dashboard/notes/remove-group/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/remove-note": [
         "libs/jhh-client/dashboard/notes/remove-note/src/index.ts"
       ],

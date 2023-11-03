@@ -10,6 +10,23 @@
         <span class="groupsList__itemName">
           {{ group.name }}
         </span>
+        <ng-container>
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Group actions"
+            class="groupsList__itemMenu"
+            (click)="$event.preventDefault(); $event.stopPropagation();"
+          >
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openRemoveNotesGroupModal(group)">
+              <mat-icon>close</mat-icon>
+              <span>Remove</span>
+            </button>
+          </mat-menu>
+        </ng-container>
       </a>
     </li>
   </ul>

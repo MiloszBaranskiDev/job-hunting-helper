@@ -20,6 +20,9 @@ import {
   EditNoteSuccessPayload,
   EditNoteSuccessResponse,
   RemoveNotePayload,
+  RemoveNotesGroupPayload,
+  RemoveNotesGroupSuccessPayload,
+  RemoveNotesGroupSuccessResponse,
   RemoveNoteSuccessPayload,
   RemoveNoteSuccessResponse,
 } from '@jhh/jhh-client/dashboard/notes/interfaces';
@@ -47,6 +50,19 @@ export class NotesService {
         }
       )
       .pipe(map((res: AddNotesGroupSuccessResponse) => res.data));
+  }
+
+  removeNotesGroup(
+    payload: RemoveNotesGroupPayload
+  ): Observable<RemoveNotesGroupSuccessPayload> {
+    return this.http
+      .delete<RemoveNotesGroupSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.RemoveNotesGroup,
+        {
+          params: { groupId: payload.groupId },
+        }
+      )
+      .pipe(map((res: RemoveNotesGroupSuccessResponse) => res.data));
   }
 
   addNote(payload: AddNotePayload): Observable<AddNoteSuccessPayload> {

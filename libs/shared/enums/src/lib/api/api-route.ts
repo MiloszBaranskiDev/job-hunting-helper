@@ -10,6 +10,7 @@ export enum ApiRoute {
   LoadAssignedData = '/data',
   //
   AddNotesGroup = '/add-notes-group',
+  RemoveNotesGroup = '/remove-notes-group',
   //
   AddNote = '/add-note',
   EditNote = '/edit-note',

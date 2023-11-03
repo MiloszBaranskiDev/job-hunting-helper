@@ -113,6 +113,58 @@ export function JhhServerControllerNotes() {
     }
   };
 
+  const removeNotesGroup = async (req: any, res: any): Promise<void> => {
+    try {
+      const { groupId } = req.query;
+      const userId = req.user.id;
+
+      if (!groupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group ID is required.'
+        );
+      }
+
+      const notesGroup: NotesGroup | null = await prisma.notesGroup.findUnique({
+        where: { id: groupId },
+      });
+
+      if (!notesGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'Notes group not found'
+        );
+      }
+
+      if (notesGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the notes group'
+        );
+      }
+
+      await prisma.note.deleteMany({
+        where: { groupId },
+      });
+
+      const removedNotesGroup: NotesGroup = await prisma.notesGroup.delete({
+        where: { id: groupId },
+      });
+
+      res.status(HttpStatusCode.OK).json({ data: { removedNotesGroup } });
+    } catch (error) {
+      console.error(error);
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   const addNote = async (req: any, res: any): Promise<void> => {
     try {
       let { name, content, groupId } = req.body;
@@ -556,15 +608,13 @@ export function JhhServerControllerNotes() {
           },
         });
 
-      res
-        .status(HttpStatusCode.OK)
-        .json({
-          data: {
-            movedNote: movedNote,
-            previousGroup: updatedPreviousGroup,
-            newGroup: updatedNewGroup,
-          },
-        });
+      res.status(HttpStatusCode.OK).json({
+        data: {
+          movedNote: movedNote,
+          previousGroup: updatedPreviousGroup,
+          newGroup: updatedNewGroup,
+        },
+      });
     } catch (error) {
       console.error(error);
       return respondWithError(
@@ -636,6 +686,7 @@ export function JhhServerControllerNotes() {
 
   return {
     addNotesGroup,
+    removeNotesGroup,
     addNote,
     editNote,
     duplicateNote,

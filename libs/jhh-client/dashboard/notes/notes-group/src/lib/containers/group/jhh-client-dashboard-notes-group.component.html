@@ -1,4 +1,5 @@
 <div class="notesGroup">
+  <jhh-remove-notes-group></jhh-remove-notes-group>
   <ng-container *ngIf="totalPages">
     <jhh-edit-note></jhh-edit-note>
     <jhh-change-note-group></jhh-change-note-group>
@@ -9,6 +10,7 @@
       <jhh-note-search-bar [groupId]="(groupId$ | async)!"></jhh-note-search-bar>
       <jhh-notes-sorting></jhh-notes-sorting>
     </ng-container>
+    <jhh-notes-menu [group]="(group$ | async)!"></jhh-notes-menu>
     <jhh-add-note [groupId]="(groupId$ | async)!"></jhh-add-note>
   </div>
   <jhh-notes-list [sortedNotes$]="sortedNotes$" [groupSlug$]="groupSlug$"></jhh-notes-list>
