@@ -2,6 +2,10 @@ export * from './lib/group/add-notes-group-payload';
 export * from './lib/group/add-notes-group-success-payload';
 export * from './lib/group/add-notes-group-success-response';
 
+export * from './lib/group/edit-notes-group-payload';
+export * from './lib/group/edit-notes-group-success-payload';
+export * from './lib/group/edit-notes-group-success-response';
+
 export * from './lib/group/remove-notes-group-payload';
 export * from './lib/group/remove-notes-group-success-payload';
 export * from './lib/group/remove-notes-group-success-response';

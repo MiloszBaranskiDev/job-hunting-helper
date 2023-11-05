@@ -34,6 +34,18 @@ export class NotesFacade {
     select(NotesSelectors.selectAddNotesGroupSuccess)
   );
 
+  editNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectEditNotesGroupInProgress)
+  );
+
+  editNotesGroupError$: Observable<string | null> = this.store.pipe(
+    select(NotesSelectors.selectEditNotesGroupError)
+  );
+
+  editNotesGroupSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectEditNotesGroupSuccess)
+  );
+
   removeNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNotesGroupInProgress)
   );
@@ -97,6 +109,16 @@ export class NotesFacade {
       }),
       NotesActions.Type.AddNotesGroupSuccess,
       NotesActions.Type.AddNotesGroupFail
+    );
+  }
+
+  editNotesGroup(groupId: string, name: string, slug: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.editNotesGroup({
+        payload: { groupId: groupId, name: name, slug: slug },
+      }),
+      NotesActions.Type.EditNotesGroupSuccess,
+      NotesActions.Type.EditNotesGroupFail
     );
   }
 
@@ -181,6 +203,12 @@ export class NotesFacade {
   ): Observable<Note | undefined | null> {
     return this.store.pipe(
       select(NotesSelectors.selectNoteBySlugs, { groupSlug, noteSlug })
+    );
+  }
+
+  getGroupSlug$ByGroupId(groupId: string): Observable<string | undefined> {
+    return this.store.pipe(
+      select(NotesSelectors.selectGroupSlugByGroupId, { groupId })
     );
   }
 

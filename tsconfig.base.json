@@ -66,6 +66,9 @@
       "@jhh/jhh-client/dashboard/notes/data-access": [
         "libs/jhh-client/dashboard/notes/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/edit-group": [
+        "libs/jhh-client/dashboard/notes/edit-group/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/edit-note": [
         "libs/jhh-client/dashboard/notes/edit-note/src/index.ts"
       ],

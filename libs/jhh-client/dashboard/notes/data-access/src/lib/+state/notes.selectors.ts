@@ -33,6 +33,21 @@ export const selectAddNotesGroupSuccess = createSelector(
   (state: NotesState) => state.addNotesGroup.success!
 );
 
+export const selectEditNotesGroupInProgress = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNotesGroup.inProgress
+);
+
+export const selectEditNotesGroupError = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNotesGroup.error
+);
+
+export const selectEditNotesGroupSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNotesGroup.success!
+);
+
 export const selectRemoveNotesGroupInProgress = createSelector(
   selectNotesState,
   (state: NotesState) => state.removeNotesGroup.inProgress
@@ -123,6 +138,12 @@ export const selectNoteBySlugs = createSelector(
       ? group.notes.find((note) => note.slug === props.noteSlug)
       : null;
   }
+);
+
+export const selectGroupSlugByGroupId = createSelector(
+  selectAllNotes,
+  (notesGroups: NotesGroup[], props: { groupId: string }) =>
+    notesGroups.find((group) => group.id === props.groupId)?.slug
 );
 
 export const selectGroupSlugByNoteId = createSelector(

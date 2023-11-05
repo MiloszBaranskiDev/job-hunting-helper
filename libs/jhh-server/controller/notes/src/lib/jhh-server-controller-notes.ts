@@ -113,6 +113,144 @@ export function JhhServerControllerNotes() {
     }
   };
 
+  const editNotesGroup = async (req: any, res: any): Promise<void> => {
+    try {
+      const { groupId, name, slug } = req.body;
+      const userId = req.user.id;
+
+      if (!groupId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group ID is required.'
+        );
+      }
+
+      if (!name || !slug) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Both group name and slug are required.'
+        );
+      }
+
+      if (/[\s]{2,}/.test(name) || /[\s]{2,}/.test(slug)) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group name and slug cannot have consecutive spaces.'
+        );
+      }
+
+      if (name !== name.trim() || slug !== slug.trim()) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group name and slug cannot have leading or trailing spaces.'
+        );
+      }
+
+      if (
+        name.length < NotesGroupFieldsLength.MinNotesGroupNameLength ||
+        name.length > NotesGroupFieldsLength.MaxNotesGroupNameLength
+      ) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `Group name must be between ${NotesGroupFieldsLength.MinNotesGroupNameLength} and ${NotesGroupFieldsLength.MaxNotesGroupNameLength} characters`
+        );
+      }
+
+      const minSlugLength: NotesGroupFieldsLength =
+        NotesGroupFieldsLength.MinNotesGroupNameLength;
+      const maxSlugLength: number =
+        NotesGroupFieldsLength.MaxNotesGroupNameLength + 10;
+
+      if (slug.length < minSlugLength || slug.length > maxSlugLength) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `Group slug must be between ${minSlugLength} and ${maxSlugLength} characters`
+        );
+      }
+
+      const slugLengthDifference: number = 10;
+      if (Math.abs(name.length - slug.length) > slugLengthDifference) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `The length of the slug should be within ${slugLengthDifference} characters of the name length.`
+        );
+      }
+
+      const existingGroup: NotesGroup | null =
+        await prisma.notesGroup.findUnique({
+          where: { id: groupId },
+        });
+
+      if (!existingGroup) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'Notes group not found'
+        );
+      }
+
+      if (existingGroup.userId !== userId) {
+        return respondWithError(
+          res,
+          HttpStatusCode.Unauthorized,
+          'User is not the owner of the notes group'
+        );
+      }
+
+      const isNameUnique: boolean = !(await prisma.notesGroup.findFirst({
+        where: { name, NOT: { id: groupId } },
+      }));
+
+      if (!isNameUnique) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Group name already exists'
+        );
+      }
+
+      let updatedSlug: string = slugify(slug, { lower: true, strict: true });
+      let suffix: number = 2;
+      const originalSlug: string = updatedSlug;
+
+      while (
+        await prisma.notesGroup.findFirst({
+          where: { slug: updatedSlug, NOT: { id: groupId } },
+        })
+      ) {
+        updatedSlug = `${originalSlug}-${suffix}`;
+        suffix++;
+      }
+
+      const editedNotesGroup: NotesGroup = await prisma.notesGroup.update({
+        where: { id: groupId },
+        data: {
+          name,
+          slug: updatedSlug,
+        },
+        include: {
+          notes: true,
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({ data: { editedNotesGroup } });
+    } catch (error) {
+      console.error(error);
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   const removeNotesGroup = async (req: any, res: any): Promise<void> => {
     try {
       const { groupId } = req.query;
@@ -686,6 +824,7 @@ export function JhhServerControllerNotes() {
 
   return {
     addNotesGroup,
+    editNotesGroup,
     removeNotesGroup,
     addNote,
     editNote,

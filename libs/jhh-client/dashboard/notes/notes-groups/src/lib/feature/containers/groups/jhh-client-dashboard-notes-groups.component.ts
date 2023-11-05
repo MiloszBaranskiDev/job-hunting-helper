@@ -9,6 +9,7 @@ import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/das
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
+import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -18,6 +19,7 @@ import { NotesGroup } from '@jhh/shared/interfaces';
     GroupsListComponent,
     AddGroupComponent,
     JhhClientDashboardRemoveNotesGroupComponent,
+    JhhClientDashboardEditNotesGroupComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],

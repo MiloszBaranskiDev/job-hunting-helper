@@ -11,6 +11,7 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
 @Component({
   selector: 'jhh-notes-groups-list',
@@ -28,6 +29,8 @@ import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/re
 export class GroupsListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
+  private readonly editNotesGroupModalService: EditNotesGroupModalService =
+    inject(EditNotesGroupModalService);
   private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
     inject(RemoveNotesGroupModalService);
 
@@ -39,6 +42,10 @@ export class GroupsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  openEditNotesGroupModal(group: NotesGroup): void {
+    this.editNotesGroupModalService.openModal(group);
   }
 
   openRemoveNotesGroupModal(group: NotesGroup): void {

@@ -9,6 +9,7 @@ import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note'
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit-group';
 import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
 
 import {
@@ -16,6 +17,7 @@ import {
   AddNoteSuccessPayload,
   ChangeNoteGroupSuccessPayload,
   DuplicateNoteSuccessPayload,
+  EditNotesGroupSuccessPayload,
   EditNoteSuccessPayload,
   RemoveNotesGroupSuccessPayload,
   RemoveNoteSuccessPayload,
@@ -32,6 +34,8 @@ export class NotesEffects {
   private readonly removeNoteModalService: RemoveNoteModalService = inject(
     RemoveNoteModalService
   );
+  private readonly editNotesGroupModalService: EditNotesGroupModalService =
+    inject(EditNotesGroupModalService);
   private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
     inject(RemoveNotesGroupModalService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
@@ -51,6 +55,27 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.addNotesGroupFail({ payload: error }),
+      })
+    )
+  );
+
+  editNotesGroup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.editNotesGroup),
+      fetch({
+        run: (action) =>
+          this.notesService.editNotesGroup(action.payload).pipe(
+            mergeMap((res: EditNotesGroupSuccessPayload) => [
+              NotesActions.editNotesGroupSuccess({ payload: res }),
+              NotesActions.resetEditNotesGroupSuccess(),
+            ]),
+            tap(() => {
+              this.editNotesGroupModalService.clearNotesGroupToEdit();
+              this.snackbarService.open('Group edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          NotesActions.editNotesGroupFail({ payload: error }),
       })
     )
   );

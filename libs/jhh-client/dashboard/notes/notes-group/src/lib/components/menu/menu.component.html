@@ -8,6 +8,10 @@
     <mat-icon>more_horiz</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openEditNotesGroupModal()">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
     <button mat-menu-item (click)="openRemoveNotesGroupModal()">
       <mat-icon>close</mat-icon>
       <span>Remove</span>

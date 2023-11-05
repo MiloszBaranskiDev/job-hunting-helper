@@ -36,6 +36,7 @@ import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -52,6 +53,7 @@ import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/das
     PaginationComponent,
     JhhClientDashboardChangeNoteGroupComponent,
     JhhClientDashboardRemoveNotesGroupComponent,
+    JhhClientDashboardEditNotesGroupComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],

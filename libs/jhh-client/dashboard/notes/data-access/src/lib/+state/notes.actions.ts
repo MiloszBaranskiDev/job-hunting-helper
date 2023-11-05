@@ -12,6 +12,8 @@ import {
   DuplicateNotePayload,
   DuplicateNoteSuccessPayload,
   EditNotePayload,
+  EditNotesGroupPayload,
+  EditNotesGroupSuccessPayload,
   EditNoteSuccessPayload,
   RemoveNotePayload,
   RemoveNotesGroupPayload,
@@ -24,6 +26,10 @@ export enum Type {
   AddNotesGroup = '[Notes] Add Notes Group',
   AddNotesGroupFail = '[Notes] Add Notes Group Fail',
   AddNotesGroupSuccess = '[Notes] Add Notes Group Success',
+  EditNotesGroup = '[Notes] Edit Notes Group',
+  EditNotesGroupFail = '[Notes] Edit Notes Group Fail',
+  EditNotesGroupSuccess = '[Notes] Edit Notes Group Success',
+  ResetEditNotesGroupSuccess = '[Notes] Reset Edit Notes Group Success',
   RemoveNotesGroup = '[Notes] Remove Notes Group',
   RemoveNotesGroupFail = '[Notes] Remove Notes Group Fail',
   RemoveNotesGroupSuccess = '[Notes] Remove Notes Group Success',
@@ -65,6 +71,25 @@ export const addNotesGroupFail = createAction(
 export const addNotesGroupSuccess = createAction(
   Type.AddNotesGroupSuccess,
   props<{ payload: AddNotesGroupSuccessPayload }>()
+);
+
+export const editNotesGroup = createAction(
+  Type.EditNotesGroup,
+  props<{ payload: EditNotesGroupPayload }>()
+);
+
+export const editNotesGroupFail = createAction(
+  Type.EditNotesGroupFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const editNotesGroupSuccess = createAction(
+  Type.EditNotesGroupSuccess,
+  props<{ payload: EditNotesGroupSuccessPayload }>()
+);
+
+export const resetEditNotesGroupSuccess = createAction(
+  Type.ResetEditNotesGroupSuccess
 );
 
 export const removeNotesGroup = createAction(
