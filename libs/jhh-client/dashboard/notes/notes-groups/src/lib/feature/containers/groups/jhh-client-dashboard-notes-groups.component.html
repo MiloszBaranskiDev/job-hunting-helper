@@ -1,7 +1,12 @@
 <jhh-edit-notes-group></jhh-edit-notes-group>
 <jhh-remove-notes-group></jhh-remove-notes-group>
 <ng-container>
-  <jhh-notes-groups-sorting></jhh-notes-groups-sorting>
+  <ng-container *ngIf="totalPages">
+    <jhh-notes-groups-sorting></jhh-notes-groups-sorting>
+  </ng-container>
   <jhh-add-notes-group></jhh-add-notes-group>
   <jhh-notes-groups-list [sortedNotesGroups$]="sortedNotesGroups$"></jhh-notes-groups-list>
+  <ng-container *ngIf="totalPages">
+    <jhh-notes-groups-pagination [totalPages]="totalPages"></jhh-notes-groups-pagination>
+  </ng-container>
 </ng-container>

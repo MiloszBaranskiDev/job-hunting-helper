@@ -1,10 +1,17 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, tap } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
 import { AddGroupComponent } from '../../components/add-group/add-group.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
@@ -24,6 +31,7 @@ import { NotesGroupsSort } from '../../enums/notes-groups-sort';
     SortingComponent,
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
+    PaginationComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
@@ -31,27 +39,38 @@ import { NotesGroupsSort } from '../../enums/notes-groups-sort';
 export class JhhClientDashboardNotesGroupsComponent
   implements OnInit, OnDestroy
 {
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
 
   notesGroups$: Observable<NotesGroup[]>;
   sortedNotesGroups$: Observable<NotesGroup[]>;
-  notesGroupsSort$: Observable<NotesGroupsSort>;
+
+  readonly groupsPerPage: number = 16;
+  totalPages: number;
 
   ngOnInit(): void {
     this.notesGroups$ = this.notesFacade.notesGroups$;
-
     this.queryParamsService.setFromCurrentRoute();
+
     this.queryParamsService.updateQueryParams();
-    this.notesGroupsSort$ = this.queryParamsService.getCurrentSort$();
 
     this.sortedNotesGroups$ = combineLatest([
       this.notesGroups$,
-      this.notesGroupsSort$,
+      this.queryParamsService.getCurrentSort$(),
+      this.queryParamsService.getCurrentPage$(),
     ]).pipe(
-      map(([groups, sort]) => {
-        return this.sortGroups(groups, sort);
+      tap(([groups]) => {
+        this.totalPages = Math.ceil(groups.length / this.groupsPerPage);
+        console.log(groups.length / this.groupsPerPage);
+        this.cdr.detectChanges();
+      }),
+      map(([groups, sort, currentPage]) => {
+        const sortedGroups: NotesGroup[] = this.sortGroups(groups, sort);
+        const start: number = (currentPage - 1) * this.groupsPerPage;
+        const end: number = start + this.groupsPerPage;
+        return sortedGroups.slice(start, end);
       })
     );
   }
