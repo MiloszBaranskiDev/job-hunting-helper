@@ -1,0 +1,26 @@
+<div class="searchBar">
+  <mat-form-field appearance="fill" class="searchBar__field">
+    <mat-label>Search</mat-label>
+    <input matInput (input)="onSearch($any($event.target).value)" placeholder="Enter group name...">
+  </mat-form-field>
+
+  <ng-container *ngIf="{ groups: foundGroups$ | async, loading: loading$ | async } as data">
+    <div *ngIf="data.loading || (data.groups && searchStarted)" class="searchBar__results">
+      <ng-container *ngIf="!data.loading">
+        <mat-list *ngIf="data.groups!.length > 0" dense>
+          <mat-list-item *ngFor="let group of data.groups">
+            <a [routerLink]="group.slug">
+              {{ group.name }}
+            </a>
+          </mat-list-item>
+        </mat-list>
+        <div *ngIf="data.groups!.length === 0" class="searchBar__noFound">
+          No groups found.
+        </div>
+      </ng-container>
+      <div *ngIf="data.loading" class="searchBar__loading">
+        Searching...
+      </div>
+    </div>
+  </ng-container>
+</div>

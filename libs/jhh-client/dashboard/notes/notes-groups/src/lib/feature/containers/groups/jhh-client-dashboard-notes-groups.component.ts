@@ -12,6 +12,7 @@ import { GroupsListComponent } from '../../components/groups-list/groups-list.co
 import { AddGroupComponent } from '../../components/add-group/add-group.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
@@ -32,6 +33,7 @@ import { NotesGroupsSort } from '../../enums/notes-groups-sort';
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
     PaginationComponent,
+    SearchBarComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],

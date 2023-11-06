@@ -204,6 +204,19 @@ export const selectAllGroups = createSelector(
   }
 );
 
+export const selectSearchNotesGroups = createSelector(
+  selectNotesGroups,
+  (notesGroups: NotesGroup[], props: { query: string }) => {
+    if (notesGroups.length > 0) {
+      return notesGroups.filter((group) =>
+        group.name.toLowerCase().includes(props.query.toLowerCase())
+      );
+    } else {
+      return [];
+    }
+  }
+);
+
 export const selectSearchNotes = createSelector(
   selectNotesGroups,
   (notesGroups: NotesGroup[], props: { query: string; groupId: string }) => {

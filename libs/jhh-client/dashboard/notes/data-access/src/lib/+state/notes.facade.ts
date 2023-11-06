@@ -250,7 +250,13 @@ export class NotesFacade {
     );
   }
 
-  searchNotesByNameAndGroupId$(
+  searchNotesGroups$ByName(query: string): Observable<NotesGroup[]> {
+    return this.store.pipe(
+      select(NotesSelectors.selectSearchNotesGroups, { query })
+    );
+  }
+
+  searchNotes$ByNameAndGroupId(
     query: string,
     groupId: string
   ): Observable<Note[]> {

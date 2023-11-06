@@ -1,8 +1,5 @@
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import {
   BehaviorSubject,
   debounceTime,
@@ -14,14 +11,17 @@ import {
   tap,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
 
-import { Note } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 @Component({
-  selector: 'jhh-note-search-bar',
+  selector: 'jhh-notes-groups-search-bar',
   standalone: true,
   imports: [
     CommonModule,
@@ -37,15 +37,11 @@ export class SearchBarComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  @Input() groupId: string;
-
   query$: Subject<string> = new Subject<string>();
-  foundNotes$: Observable<Note[]>;
+  foundGroups$: Observable<NotesGroup[]>;
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   searchStarted: boolean = false;
-
-  // TRACKBY;
 
   ngOnInit(): void {
     this.handleQuery();
@@ -58,7 +54,7 @@ export class SearchBarComponent implements OnInit {
   }
 
   handleQuery(): void {
-    this.foundNotes$ = this.query$.pipe(
+    this.foundGroups$ = this.query$.pipe(
       takeUntilDestroyed(this.destroyRef),
       tap(() => this.loading$.next(true)),
       debounceTime(250),
@@ -67,10 +63,7 @@ export class SearchBarComponent implements OnInit {
         if (query === '') {
           return of([]);
         } else {
-          return this.notesFacade.searchNotes$ByNameAndGroupId(
-            query,
-            this.groupId
-          );
+          return this.notesFacade.searchNotesGroups$ByName(query);
         }
       }),
       tap(() => this.loading$.next(false))
