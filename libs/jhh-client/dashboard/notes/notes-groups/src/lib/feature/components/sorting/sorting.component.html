@@ -1,0 +1,16 @@
+<h1 style="color: red;">
+  TODO:
+  <br>
+  - REUSABLE SORT STYLES
+</h1>
+
+<div class="">
+  <mat-form-field *ngIf="currentSort$ | async as currentSort">
+    <mat-label>Sort</mat-label>
+    <mat-select [value]="currentSort" (selectionChange)="handleSortChange($event.value)">
+      <mat-option *ngFor="let sort of notesGroupsSort" [value]="sort">
+        {{sort}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

@@ -24,7 +24,7 @@ import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumb
 import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
-import { NotesListSort } from '@jhh/jhh-client/dashboard/notes/enums';
+import { NotesListSort } from '../../enums/notes-list-sort';
 
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';

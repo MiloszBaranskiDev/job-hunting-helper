@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { Location } from '@angular/common';
 
-import { NotesListSort } from '../../enums/notes-list-sort';
+import { NotesGroupsSort } from '../../enums/notes-groups-sort';
 
 @Injectable({
   providedIn: 'root',
@@ -14,19 +14,19 @@ export class QueryParamsService {
   private readonly location: Location = inject(Location);
 
   private defaultPage: number = 1;
-  private defaultSort: NotesListSort = NotesListSort.Latest;
+  private defaultSort: NotesGroupsSort = NotesGroupsSort.Latest;
 
   private currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(
     this.defaultPage
   );
-  private currentSort$: BehaviorSubject<NotesListSort> =
-    new BehaviorSubject<NotesListSort>(this.defaultSort);
+  private currentSort$: BehaviorSubject<NotesGroupsSort> =
+    new BehaviorSubject<NotesGroupsSort>(this.defaultSort);
 
   getCurrentPage$(): BehaviorSubject<number> {
     return this.currentPage$;
   }
 
-  getCurrentSort$(): BehaviorSubject<NotesListSort> {
+  getCurrentSort$(): BehaviorSubject<NotesGroupsSort> {
     return this.currentSort$;
   }
 
@@ -36,7 +36,7 @@ export class QueryParamsService {
     window.scrollTo(0, 0);
   }
 
-  updateCurrentSort(newSort: NotesListSort): void {
+  updateCurrentSort(newSort: NotesGroupsSort): void {
     this.currentSort$.next(newSort);
     this.currentPage$.next(1);
     this.updateQueryParams();
@@ -62,10 +62,10 @@ export class QueryParamsService {
     return Number(this.route.snapshot.queryParamMap.get('page')) || 1;
   }
 
-  private currentSortFromRoute(): NotesListSort {
+  private currentSortFromRoute(): NotesGroupsSort {
     return (
-      (this.route.snapshot.queryParamMap.get('sort') as NotesListSort) ||
-      NotesListSort.Latest
+      (this.route.snapshot.queryParamMap.get('sort') as NotesGroupsSort) ||
+      NotesGroupsSort.Latest
     );
   }
 }

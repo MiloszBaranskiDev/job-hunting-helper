@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Observable } from 'rxjs';
+
+import { NotesGroupsSort } from '../../enums/notes-groups-sort';
 
 import { QueryParamsService } from '../../services/query-params/query-params.service';
 
-import { NotesListSort } from '../../enums/notes-list-sort';
-
 @Component({
-  selector: 'jhh-notes-sorting',
+  selector: 'jhh-notes-groups-sorting',
   standalone: true,
   imports: [CommonModule, MatSelectModule, MatFormFieldModule],
   templateUrl: './sorting.component.html',
@@ -19,16 +19,16 @@ export class SortingComponent implements OnInit {
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
 
-  readonly notesListSort: NotesListSort[] = Object.values(NotesListSort);
+  readonly notesGroupsSort: NotesGroupsSort[] = Object.values(NotesGroupsSort);
 
-  currentSort$: Observable<NotesListSort>;
+  currentSort$: Observable<NotesGroupsSort>;
 
   ngOnInit(): void {
     this.currentSort$ = this.queryParamsService.getCurrentSort$();
   }
 
-  handleSortChange(newSort: NotesListSort): void {
-    if (this.notesListSort.includes(newSort)) {
+  handleSortChange(newSort: NotesGroupsSort): void {
+    if (this.notesGroupsSort.includes(newSort)) {
       this.queryParamsService.updateCurrentSort(newSort);
     }
   }

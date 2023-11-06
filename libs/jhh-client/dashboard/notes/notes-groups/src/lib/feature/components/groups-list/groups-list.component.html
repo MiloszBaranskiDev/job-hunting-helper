@@ -1,4 +1,4 @@
-<ng-container *ngIf="(notesGroups$ | async) as groups; else emptyList">
+<ng-container *ngIf="(sortedNotesGroups$ | async) as groups; else emptyList">
   <ul [ngClass]="['groupsList', breakpoint$ | async]" *ngIf="groups.length > 0; else emptyList">
     <li class="groupsList__item" *ngFor="let group of groups">
       <a [routerLink]="clientRoute.NotesLink + '/' + group.slug">
