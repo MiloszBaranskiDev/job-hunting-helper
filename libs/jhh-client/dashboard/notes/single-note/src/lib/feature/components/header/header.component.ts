@@ -36,13 +36,54 @@ export class HeaderComponent implements OnInit {
 
   @Input() note: Note;
 
-  removeNoteSuccess$: Observable<boolean>;
+  editNoteSuccess$: Observable<boolean>;
   changeNoteGroupSuccess$: Observable<boolean>;
+  removeNoteSuccess$: Observable<boolean>;
+
+  readonly clientRoute: typeof ClientRoute = ClientRoute;
 
   ngOnInit(): void {
-    this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;
+    this.editNoteSuccess$ = this.notesFacade.editNoteSuccess$;
     this.changeNoteGroupSuccess$ = this.notesFacade.changeNoteGroupSuccess$;
+    this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;
 
+    this.navigateAfterSlugChange();
+    this.navigateAfterGroupChange();
+    this.navigateAfterRemove();
+  }
+
+  navigateAfterSlugChange(): void {
+    this.editNoteSuccess$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.notesFacade
+              .getNoteSlug$ByIds(this.note.id, this.note.groupId)
+              .pipe(
+                first(),
+                tap((slug) => {
+                  if (slug && slug !== this.note.slug) {
+                    const newNoteLink: string = this.router.url.replace(
+                      this.note.slug,
+                      slug
+                    );
+                    this.router.navigate(['']).then(() => {
+                      this.router.navigate([newNoteLink]);
+                    });
+                  } else {
+                    this.router.navigate([this.clientRoute.NotesLink]);
+                  }
+                })
+              )
+              .subscribe();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  navigateAfterGroupChange(): void {
     this.changeNoteGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -61,7 +102,9 @@ export class HeaderComponent implements OnInit {
         })
       )
       .subscribe();
+  }
 
+  navigateAfterRemove(): void {
     this.removeNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),

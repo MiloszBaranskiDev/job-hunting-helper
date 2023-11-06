@@ -83,6 +83,11 @@ export const selectEditNoteInProgress = createSelector(
   (state: NotesState) => state.editNote.inProgress
 );
 
+export const selectEditNoteSuccess = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.editNote.success!
+);
+
 export const selectEditNoteError = createSelector(
   selectNotesState,
   (state: NotesState) => state.editNote.error
@@ -136,6 +141,19 @@ export const selectNoteBySlugs = createSelector(
 
     return group
       ? group.notes.find((note) => note.slug === props.noteSlug)
+      : null;
+  }
+);
+
+export const selectNoteByIds = createSelector(
+  selectAllNotes,
+  (notesGroups: NotesGroup[], props: { noteId: string; groupId: string }) => {
+    const group: NotesGroup | undefined = notesGroups.find(
+      (group) => group.id === props.groupId
+    );
+
+    return group
+      ? group.notes.find((note) => note.id === props.noteId)!.slug
       : null;
   }
 );

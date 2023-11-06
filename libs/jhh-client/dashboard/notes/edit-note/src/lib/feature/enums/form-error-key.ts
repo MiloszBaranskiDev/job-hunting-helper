@@ -1,6 +1,6 @@
 export enum FormErrorKey {
   Required = 'required',
-  MinNameLength = 'minlength',
-  MaxNameLength = 'maxlength',
+  MinLength = 'minlength',
+  MaxLength = 'maxlength',
   MaxSize = 'maxsize',
 }

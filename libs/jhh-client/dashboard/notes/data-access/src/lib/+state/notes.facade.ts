@@ -78,6 +78,10 @@ export class NotesFacade {
     select(NotesSelectors.selectEditNoteError)
   );
 
+  editNoteSuccess$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectEditNoteSuccess)
+  );
+
   changeNoteGroupInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectChangeNoteGroupInProgress)
   );
@@ -142,12 +146,19 @@ export class NotesFacade {
     );
   }
 
-  editNote(noteId: string, name: string, content: string, groupId: string) {
+  editNote(
+    noteId: string,
+    name: string,
+    slug: string,
+    content: string,
+    groupId: string
+  ) {
     return this.actionResolverService.executeAndWatch(
       NotesActions.editNote({
         payload: {
           noteId: noteId,
           name: name,
+          slug: slug,
           content: content,
           groupId: groupId,
         },
@@ -203,6 +214,15 @@ export class NotesFacade {
   ): Observable<Note | undefined | null> {
     return this.store.pipe(
       select(NotesSelectors.selectNoteBySlugs, { groupSlug, noteSlug })
+    );
+  }
+
+  getNoteSlug$ByIds(
+    noteId: string,
+    groupId: string
+  ): Observable<string | null> {
+    return this.store.pipe(
+      select(NotesSelectors.selectNoteByIds, { noteId, groupId })
     );
   }
 

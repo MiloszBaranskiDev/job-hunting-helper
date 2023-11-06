@@ -86,12 +86,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private quillInstance: any;
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
+  slugPrefix: string;
 
   ngOnInit(): void {
     this.editNoteInProgress$ = this.notesFacade.editNoteInProgress$;
     this.editNoteError$ = this.notesFacade.editNoteError$;
 
     this.initFormGroup();
+
+    this.slugPrefix = window.location.href.replace(/(\/[^\/?]*$)|(\?.*$)/, '/');
   }
 
   ngAfterViewInit(): void {
@@ -105,17 +108,16 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
-  }
-
-  closeDialog(): void {
-    this.editNoteModalService.clearNoteToEdit();
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.editNoteModalService.clearNoteToEdit();
+    });
   }
 
   handleEditorCreated(quill: any): void {
     this.quillInstance = quill;
   }
 
-  onSubmit(groupId: string): void {
+  onSubmit(): void {
     if (this.quillInstance) {
       const html = this.quillInstance.root.innerHTML;
       this.formGroup
@@ -125,6 +127,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.formGroup.valid) {
       const name = this.formGroup.get(this.formField.Name)?.value;
+      const slug = this.formGroup.get(this.formField.Slug)?.value;
       const content = DOMPurify.sanitize(
         this.formGroup.get(this.formField.Content)?.value,
         domPurifyConfig
@@ -132,9 +135,16 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (
         name !== this.noteToEdit.name ||
+        slug !== this.noteToEdit.slug ||
         content !== this.noteToEdit.content
       ) {
-        this.notesFacade.editNote(this.noteToEdit.id, name, content, groupId);
+        this.notesFacade.editNote(
+          this.noteToEdit.id,
+          name,
+          slug,
+          content,
+          this.noteToEdit.groupId
+        );
       } else {
         this.formGroup.reset();
         this.dialogRef?.close();
@@ -150,6 +160,14 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
           Validators.required,
           Validators.minLength(this.fieldsLength.MinNameLength),
           Validators.maxLength(this.fieldsLength.MaxNameLength),
+        ],
+      ],
+      [this.formField.Slug]: [
+        this.noteToEdit.slug,
+        [
+          Validators.required,
+          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.maxLength(this.fieldsLength.MaxNameLength + 10),
         ],
       ],
       [this.formField.Content]: [

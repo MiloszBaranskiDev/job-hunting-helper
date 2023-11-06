@@ -126,9 +126,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.editNote(action.payload).pipe(
-            map((res: EditNoteSuccessPayload) =>
-              NotesActions.editNoteSuccess({ payload: res })
-            ),
+            mergeMap((res: EditNoteSuccessPayload) => [
+              NotesActions.editNoteSuccess({ payload: res }),
+              NotesActions.resetEditNoteSuccess(),
+            ]),
             tap(() => {
               this.editNoteModalService.clearNoteToEdit();
               this.snackbarService.open('Note edited successfully!');

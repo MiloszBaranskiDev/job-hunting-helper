@@ -40,6 +40,7 @@ export enum Type {
   EditNote = '[Notes] Edit Note',
   EditNoteFail = '[Notes] Edit Note Fail',
   EditNoteSuccess = '[Notes] Edit Note Success',
+  ResetEditNoteSuccess = '[Notes] Reset Edit Note Success',
   DuplicateNote = '[Notes] Duplicate Note',
   DuplicateNoteFail = '[Notes] Duplicate Note Fail',
   DuplicateNoteSuccess = '[Notes] Duplicate Note Success',
@@ -140,6 +141,8 @@ export const editNoteSuccess = createAction(
   Type.EditNoteSuccess,
   props<{ payload: EditNoteSuccessPayload }>()
 );
+
+export const resetEditNoteSuccess = createAction(Type.ResetEditNoteSuccess);
 
 export const duplicateNote = createAction(
   Type.DuplicateNote,

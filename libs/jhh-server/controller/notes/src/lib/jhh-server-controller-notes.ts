@@ -423,7 +423,7 @@ export function JhhServerControllerNotes() {
 
   const editNote = async (req: any, res: any): Promise<void> => {
     try {
-      let { noteId, name, content, groupId } = req.body;
+      let { noteId, name, slug, content, groupId } = req.body;
       const userId = req.user.id;
 
       if (!noteId) {
@@ -442,6 +442,14 @@ export function JhhServerControllerNotes() {
         );
       }
 
+      if (!slug) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Note slug is required.'
+        );
+      }
+
       if (!groupId) {
         return respondWithError(
           res,
@@ -450,19 +458,19 @@ export function JhhServerControllerNotes() {
         );
       }
 
-      if (/[\s]{2,}/.test(name)) {
+      if (/[\s]{2,}/.test(name) || /[\s]{2,}/.test(slug)) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          'Note name cannot have consecutive spaces.'
+          'Name and slug cannot have consecutive spaces.'
         );
       }
 
-      if (name !== name.trim()) {
+      if (name !== name.trim() || slug !== slug.trim()) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          'Note name cannot have leading or trailing spaces.'
+          'Name and slug cannot have leading or trailing spaces.'
         );
       }
 
@@ -474,6 +482,26 @@ export function JhhServerControllerNotes() {
           res,
           HttpStatusCode.BadRequest,
           `Note name must be between ${NoteFieldsLength.MinNameLength} and ${NoteFieldsLength.MaxNameLength} characters`
+        );
+      }
+
+      const minSlugLength: NoteFieldsLength = NoteFieldsLength.MinNameLength;
+      const maxSlugLength: number = NoteFieldsLength.MaxNameLength + 10;
+
+      if (slug.length < minSlugLength || slug.length > maxSlugLength) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `Note slug must be between ${minSlugLength} and ${maxSlugLength} characters`
+        );
+      }
+
+      const slugLengthDifference: number = 10;
+      if (Math.abs(name.length - slug.length) > slugLengthDifference) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          `The length of the slug should be within ${slugLengthDifference} characters of the name length.`
         );
       }
 
@@ -517,12 +545,35 @@ export function JhhServerControllerNotes() {
 
       content = DOMPurify.sanitize(content, domPurifyConfig);
 
+      let updatedSlug: string = slugify(slug, { lower: true, strict: true });
+      let suffix: number = 2;
+      const originalSlug: string = updatedSlug;
+
+      while (true) {
+        const existingNoteWithSlug = await prisma.note.findFirst({
+          where: {
+            slug: updatedSlug,
+            groupId: groupId,
+            id: {
+              not: noteId,
+            },
+          },
+        });
+
+        if (!existingNoteWithSlug) {
+          break;
+        } else {
+          updatedSlug = `${originalSlug}-${suffix++}`;
+        }
+      }
+
       const updateNote = async () => {
         if (existingNote.name !== name || existingNote.content !== content) {
           return await prisma.note.update({
             where: { id: noteId },
             data: {
-              name,
+              name: name,
+              slug: updatedSlug,
               content: content,
               updatedAt: new Date(),
             },

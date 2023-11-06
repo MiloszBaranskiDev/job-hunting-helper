@@ -100,6 +100,7 @@ export class NotesService {
         {
           noteId: payload.noteId,
           name: payload.name,
+          slug: payload.slug,
           content: payload.content,
           groupId: payload.groupId,
         }

@@ -50,6 +50,7 @@ export const initialNotesState: NotesState = adapter.getInitialState({
   editNote: {
     inProgress: false,
     error: null,
+    success: false,
   },
   duplicateNote: {
     inProgress: false,
@@ -257,6 +258,7 @@ const reducer: ActionReducer<NotesState> = createReducer(
             ...state.editNote,
             inProgress: false,
             error: null,
+            success: true,
           },
         }
       );
@@ -264,6 +266,13 @@ const reducer: ActionReducer<NotesState> = createReducer(
 
     return state;
   }),
+  on(NotesActions.resetEditNoteSuccess, (state) => ({
+    ...state,
+    editNote: {
+      ...state.editNote,
+      success: false,
+    },
+  })),
   on(NotesActions.duplicateNote, (state) => ({
     ...state,
     duplicateNote: {

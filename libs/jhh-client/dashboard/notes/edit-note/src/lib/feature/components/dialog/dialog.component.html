@@ -2,17 +2,36 @@
   <ng-template #dialogContent>
     <h2 mat-dialog-title>Edit note</h2>
     <mat-dialog-content>
-      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(note.groupId)">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>{{slugPrefix}}</mat-label>
+          <input
+            matInput
+            [formControlName]="formField.Slug"
+            placeholder="Enter slug here"
+            jhhWhitespaceSanitizer
+            required
+          >
+          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.Required)">
+            Slug is required
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
+            Minimum length of slug is {{fieldsLength.MinNameLength}} characters
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
+            Maximum length of slug is {{fieldsLength.MaxNameLength + 10}} characters
+          </mat-error>
+        </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
           <input matInput [formControlName]="formField.Name" placeholder="Name" jhhWhitespaceSanitizer required>
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
             Name is required
           </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinNameLength)">
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
             Minimum length of name is {{fieldsLength.MinNameLength}} characters
           </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxNameLength)">
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
             Maximum length of name is {{fieldsLength.MaxNameLength}} characters
           </mat-error>
         </mat-form-field>
@@ -36,7 +55,7 @@
           <mat-divider></mat-divider>
         </ng-container>
         <mat-dialog-actions>
-          <button mat-stroked-button mat-dialog-close (click)="closeDialog()">Cancel</button>
+          <button mat-stroked-button mat-dialog-close>Cancel</button>
           <button
             mat-flat-button
             color="primary"
