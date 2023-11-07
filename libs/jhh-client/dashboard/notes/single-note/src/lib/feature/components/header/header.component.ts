@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 
   ngOnInit(): void {
+    console.log('init');
     this.editNoteSuccess$ = this.notesFacade.editNoteSuccess$;
     this.changeNoteGroupSuccess$ = this.notesFacade.changeNoteGroupSuccess$;
     this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;

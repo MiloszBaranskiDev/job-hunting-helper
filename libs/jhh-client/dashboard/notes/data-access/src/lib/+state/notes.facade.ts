@@ -238,7 +238,7 @@ export class NotesFacade {
     );
   }
 
-  getRelatedNotes$(exclude: Note, limit: number = 9): Observable<Note[]> {
+  getRelatedNotes$(exclude: Note, limit: number = 12): Observable<Note[]> {
     return this.store.pipe(
       select(NotesSelectors.selectRelatedNotes, { exclude, limit })
     );

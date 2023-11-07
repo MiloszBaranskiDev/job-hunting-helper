@@ -65,7 +65,6 @@ export class JhhClientDashboardNotesGroupsComponent
     ]).pipe(
       tap(([groups]) => {
         this.totalPages = Math.ceil(groups.length / this.groupsPerPage);
-        console.log(groups.length / this.groupsPerPage);
         this.cdr.detectChanges();
       }),
       map(([groups, sort, currentPage]) => {

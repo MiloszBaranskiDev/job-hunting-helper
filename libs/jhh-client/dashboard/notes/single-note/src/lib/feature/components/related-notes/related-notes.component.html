@@ -1,6 +1,7 @@
-<ng-container *ngIf="relatedNotes$ | async as relatedNotes">
+<ng-container *ngIf="relatedNotes && relatedNotes.length > 0">
   <div class="relatedNotes">
-    <div *ngIf="relatedNotes.length > 0" class="relatedNotes__slider">
+    <h2>Related notes</h2>
+    <div class="relatedNotes__slider">
       <button
         mat-mini-fab
         color="primary"
@@ -13,10 +14,10 @@
         <div class="relatedNotes__swiper swiper-container">
           <div class="swiper-wrapper">
             <div *ngFor="let note of relatedNotes" class="swiper-slide">
-              <a [routerLink]="getLink(note.slug)">
+              <a [routerLink]="['../', note.slug]">
                 <h2>{{note.name}}</h2>
                 <p>
-                  {{note.content}}
+                  {{ (note.content | stripHtml).length > 115 ? (note.content | stripHtml | slice:0:115) + '...' : (note.content | stripHtml) }}
                 </p>
                 <mat-divider></mat-divider>
                 <span class="updatedAt">

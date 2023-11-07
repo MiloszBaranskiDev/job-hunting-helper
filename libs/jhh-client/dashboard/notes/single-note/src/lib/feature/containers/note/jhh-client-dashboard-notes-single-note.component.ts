@@ -49,6 +49,8 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
 
   note$: Observable<Note>;
 
+  relatedNotes: Note[];
+
   ngOnInit(): void {
     this.note$ = combineLatest([
       this.route.params,
@@ -59,29 +61,31 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
         noteSlug: childParams['noteSlug'],
       })),
       switchMap((slugs) =>
-        this.notesFacade
-          .getNote$BySlugs(slugs.groupSlug, slugs.noteSlug)
-          .pipe(map((note) => ({ ...slugs, note })))
+        this.notesFacade.getNote$BySlugs(slugs.groupSlug, slugs.noteSlug).pipe(
+          switchMap((note) => {
+            return this.notesFacade
+              .getRelatedNotes$(note!)
+              .pipe(map((relatedNotes) => ({ ...slugs, note, relatedNotes })));
+          })
+        )
       ),
       filter((data) => !!data.note),
       tap((data) => {
+        this.relatedNotes = data.relatedNotes;
         const { groupSlug, note } = data;
         this.notesFacade
           .getNotesGroup$BySlug(groupSlug)
           .pipe(
             map((group) => group!.name),
-            first()
+            first(),
+            tap((groupName) => {
+              this.breadcrumbsService.updateBreadcrumbLabelByUrl(
+                this.router.url.replace(`${'/' + note!.slug}`, ''),
+                groupName
+              );
+            })
           )
-          .subscribe((groupName) => {
-            this.breadcrumbsService.updateBreadcrumbLabelByUrl(
-              this.router.url.replace(`${'/' + note!.slug}`, ''),
-              groupName
-            );
-          });
-        this.breadcrumbsService.updateBreadcrumbLabelByUrl(
-          this.router.url,
-          note!.name
-        );
+          .subscribe(() => {});
         this.titleService.setTitle(`Note - ${note!.name}`);
       }),
       map((data) => data.note)
