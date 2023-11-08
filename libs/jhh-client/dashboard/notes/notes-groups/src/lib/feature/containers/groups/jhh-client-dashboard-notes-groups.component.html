@@ -2,7 +2,7 @@
 <jhh-remove-notes-group></jhh-remove-notes-group>
 <ng-container>
   <ng-container *ngIf="totalPages">
-    <jhh-notes-groups-search-bar></jhh-notes-groups-search-bar>
+    <jhh-searchbar [searchFunction]="searchGroups" [placeholder]="'Enter group name...'"></jhh-searchbar>
     <jhh-notes-groups-sorting></jhh-notes-groups-sorting>
   </ng-container>
   <jhh-add-notes-group></jhh-add-notes-group>

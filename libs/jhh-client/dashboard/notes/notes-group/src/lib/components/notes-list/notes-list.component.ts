@@ -49,7 +49,7 @@ export class NotesListComponent implements OnInit {
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 
   @Input() sortedNotes$: Observable<Note[]>;
-  @Input() groupSlug$: Observable<string>;
+  @Input() groupSlug: string;
 
   breakpoint$: Observable<string>;
 

@@ -11,6 +11,7 @@ import {
   BehaviorSubject,
   combineLatest,
   filter,
+  first,
   map,
   Observable,
   pluck,
@@ -30,13 +31,13 @@ import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { MenuComponent } from '../../components/menu/menu.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
+import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/feature-searchbar';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -45,7 +46,6 @@ import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashb
     CommonModule,
     NotesListComponent,
     AddNoteComponent,
-    SearchBarComponent,
     MenuComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
@@ -54,6 +54,7 @@ import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashb
     JhhClientDashboardChangeNoteGroupComponent,
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
+    JhhClientDashboardSearchbarComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
@@ -71,9 +72,8 @@ export class JhhClientDashboardNotesGroupComponent
   private readonly titleService: TitleService = inject(TitleService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  group$: Observable<NotesGroup>;
-  groupId$: Observable<string>;
   groupSlug$: Observable<string>;
+  group$: Observable<NotesGroup>;
   sortedNotes$: Observable<Note[]>;
   notesListSort$: BehaviorSubject<NotesListSort>;
 
@@ -99,8 +99,6 @@ export class JhhClientDashboardNotesGroupComponent
       })
     ) as Observable<NotesGroup>;
 
-    this.groupId$ = this.group$.pipe(pluck('id'));
-
     this.queryParamsService.updateQueryParams();
     this.notesListSort$ = this.queryParamsService.getCurrentSort$();
 
@@ -125,6 +123,15 @@ export class JhhClientDashboardNotesGroupComponent
   ngOnDestroy(): void {
     this.queryParamsService.clearQueryParams();
   }
+
+  searchNotes = (query: string): Observable<Note[]> => {
+    return this.group$.pipe(
+      first(),
+      switchMap((group) =>
+        this.notesFacade.searchNotes$ByNameAndGroupId(query, group.id)
+      )
+    );
+  };
 
   private sortNotes(notes: Note[], sort: NotesListSort): Note[] {
     switch (sort) {

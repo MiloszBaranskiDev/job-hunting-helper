@@ -12,9 +12,9 @@ import { GroupsListComponent } from '../../components/groups-list/groups-list.co
 import { AddGroupComponent } from '../../components/add-group/add-group.component';
 import { SortingComponent } from '../../components/sorting/sorting.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
+import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/feature-searchbar';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
@@ -33,7 +33,7 @@ import { NotesGroupsSort } from '../../enums/notes-groups-sort';
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
     PaginationComponent,
-    SearchBarComponent,
+    JhhClientDashboardSearchbarComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-groups.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-groups.component.scss'],
@@ -79,6 +79,10 @@ export class JhhClientDashboardNotesGroupsComponent
   ngOnDestroy(): void {
     this.queryParamsService.clearQueryParams();
   }
+
+  searchGroups = (query: string): Observable<NotesGroup[]> => {
+    return this.notesFacade.searchNotesGroups$ByName(query);
+  };
 
   private sortGroups(
     groups: NotesGroup[],
