@@ -1,0 +1,33 @@
+{
+  "name": "jhh-client-dashboard-notes-feature-sorting",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/notes/feature-sorting/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/notes/feature-sorting",
+        "main": "libs/jhh-client/dashboard/notes/feature-sorting/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/notes/feature-sorting/tsconfig.lib.json",
+        "assets": ["libs/jhh-client/dashboard/notes/feature-sorting/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/jhh-client/dashboard/notes/feature-sorting/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

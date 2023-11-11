@@ -3,6 +3,6 @@ export enum NotesGroupsSort {
   LastEdited = 'Last edited',
   AlphabeticalAsc = 'Alphabetical (A-Z)',
   AlphabeticalDesc = 'Alphabetical (Z-A)',
-  NumberOfNotesAsc = 'Number of notes (1-100)',
-  NumberOfNotesDesc = 'Number of notes (100-1)',
+  AmountOfNotesAsc = 'Amount of notes (1-100)',
+  AmountOfNotesDesc = 'Amount of notes (100-1)',
 }

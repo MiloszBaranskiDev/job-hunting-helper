@@ -1,11 +1,6 @@
 .addGroup {
-  margin-bottom: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
   &__openBtn {
-    .mat-icon {
+    mat-icon {
       color: white !important;
     }
   }

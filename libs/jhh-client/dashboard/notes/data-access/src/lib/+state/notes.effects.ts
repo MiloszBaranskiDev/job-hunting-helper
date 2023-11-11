@@ -4,7 +4,7 @@ import { fetch } from '@nrwl/angular';
 import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
-import { NotesService } from '../services/notes.service';
+import { NotesService } from '../services/notes/notes.service';
 import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';

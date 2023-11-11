@@ -8,7 +8,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  BehaviorSubject,
   combineLatest,
   filter,
   first,
@@ -19,8 +18,10 @@ import {
   tap,
 } from 'rxjs';
 
-import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { QueryParamsService } from '../../services/query-params/query-params.service';
+import {
+  NotesFacade,
+  QueryParamsService,
+} from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 
@@ -29,8 +30,6 @@ import { NotesListSort } from '../../enums/notes-list-sort';
 
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
-import { SortingComponent } from '../../components/sorting/sorting.component';
-import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { MenuComponent } from '../../components/menu/menu.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
@@ -38,6 +37,8 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/edit-group';
 import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/feature-searchbar';
+import { JhhClientDashboardNotesSortingComponent } from '@jhh/jhh-client/dashboard/notes/feature-sorting';
+import { JhhClientDashboardNotesPaginationComponent } from '@jhh/jhh-client/dashboard/notes/feature-pagination';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -49,12 +50,12 @@ import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/
     MenuComponent,
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
-    SortingComponent,
-    PaginationComponent,
     JhhClientDashboardChangeNoteGroupComponent,
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
     JhhClientDashboardSearchbarComponent,
+    JhhClientDashboardNotesSortingComponent,
+    JhhClientDashboardNotesPaginationComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
@@ -75,8 +76,8 @@ export class JhhClientDashboardNotesGroupComponent
   groupSlug$: Observable<string>;
   group$: Observable<NotesGroup>;
   sortedNotes$: Observable<Note[]>;
-  notesListSort$: BehaviorSubject<NotesListSort>;
 
+  readonly sortOptionsValues: string[] = Object.values(NotesListSort);
   readonly notesPerPage: number = 16;
   totalPages: number;
 
@@ -100,7 +101,6 @@ export class JhhClientDashboardNotesGroupComponent
     ) as Observable<NotesGroup>;
 
     this.queryParamsService.updateQueryParams();
-    this.notesListSort$ = this.queryParamsService.getCurrentSort$();
 
     this.sortedNotes$ = combineLatest([
       this.group$.pipe(pluck('notes')),
@@ -111,8 +111,17 @@ export class JhhClientDashboardNotesGroupComponent
         this.totalPages = Math.ceil(notes.length / this.notesPerPage);
         this.cdr.detectChanges();
       }),
-      map(([notes, sort, currentPage]) => {
-        const sortedNotes: Note[] = this.sortNotes(notes, sort);
+      map(([notes]) => {
+        const currentPage: number = this.queryParamsService
+          .getCurrentPage$()
+          .getValue();
+        const currentSort: string = this.queryParamsService
+          .getCurrentSort$()
+          .getValue();
+        const sortedNotes: Note[] = this.sortNotes(
+          notes,
+          currentSort as NotesListSort
+        );
         const start: number = (currentPage - 1) * this.notesPerPage;
         const end: number = start + this.notesPerPage;
         return sortedNotes.slice(start, end);

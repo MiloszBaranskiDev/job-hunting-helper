@@ -9,7 +9,7 @@
   <div class="notesGroup__top">
     <ng-container *ngIf="totalPages">
       <jhh-searchbar [searchFunction]="searchNotes" [placeholder]="'Enter note name...'"></jhh-searchbar>
-      <jhh-notes-sorting></jhh-notes-sorting>
+      <jhh-notes-sorting [sortOptionsValues]="sortOptionsValues"></jhh-notes-sorting>
     </ng-container>
     <jhh-notes-menu [group]="(group$ | async)!"></jhh-notes-menu>
     <jhh-add-note [groupId]="(group$| async)!.id"></jhh-add-note>

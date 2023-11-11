@@ -75,6 +75,12 @@
       "@jhh/jhh-client/dashboard/notes/edit-note": [
         "libs/jhh-client/dashboard/notes/edit-note/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/feature-pagination": [
+        "libs/jhh-client/dashboard/notes/feature-pagination/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/notes/feature-sorting": [
+        "libs/jhh-client/dashboard/notes/feature-sorting/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/notes/interfaces": [
         "libs/jhh-client/dashboard/notes/interfaces/src/index.ts"
       ],
