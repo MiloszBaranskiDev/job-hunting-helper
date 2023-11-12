@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   combineLatest,
+  filter,
   first,
   map,
   Observable,
@@ -42,6 +43,7 @@ import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { FormField } from '../../enums/form-field';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import notesGroups from 'libs/jhh-server/controller/user/src/lib/default-data/notes-groups';
 
 @Component({
   selector: 'jhh-change-note-group-dialog',
@@ -70,7 +72,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   changeNoteGroupInProgress$: Observable<boolean>;
   changeNoteGroupError$: Observable<string | null>;
   filteredGroups$: Observable<any[]> | undefined;
-  groups$: Observable<NotesGroup[]>;
+  groups$: Observable<NotesGroup[] | null>;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
@@ -90,15 +92,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredGroups$ = combineLatest([
       valueChanges$.pipe(startWith('')),
       this.groups$,
-    ]).pipe(map(([value, groups]) => this._filter(value, groups)));
+    ]).pipe(map(([value, groups]) => this._filter(value, groups!)));
   }
 
   ngAfterViewInit(): void {
     this.openDialog();
   }
 
-  ngOnDestroy() {
-    this.formGroup.reset();
+  ngOnDestroy(): void {
+    this.formGroup?.reset();
     this.dialogRef.close();
   }
 
@@ -126,8 +128,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       this.groups$
         .pipe(
           first(),
-          tap((groups: NotesGroup[]) => {
-            const matchedGroup = groups.find(
+          filter((groups) => !!groups),
+          tap((groups) => {
+            const matchedGroup = groups!.find(
               (group) => group.name === newGroupName
             );
 
@@ -143,13 +146,16 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  groupValidator(groups: Observable<NotesGroup[]>): ValidatorFn {
+  groupValidator(groups: Observable<NotesGroup[] | null>): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      let exists = false;
+      if (!notesGroups) {
+        return null;
+      }
+      let exists: boolean = false;
       let groupArray: any[] = [];
 
       groups.subscribe((gs) => {
-        groupArray = gs.map((g) => g.name);
+        groupArray = gs!.map((g) => g.name);
       });
 
       if (groupArray.includes(control.value)) {

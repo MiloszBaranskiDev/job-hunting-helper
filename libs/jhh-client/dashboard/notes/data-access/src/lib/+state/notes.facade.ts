@@ -226,7 +226,9 @@ export class NotesFacade {
     );
   }
 
-  getGroupSlug$ByGroupId(groupId: string): Observable<string | undefined> {
+  getGroupSlug$ByGroupId(
+    groupId: string
+  ): Observable<string | null | undefined> {
     return this.store.pipe(
       select(NotesSelectors.selectGroupSlugByGroupId, { groupId })
     );
@@ -238,19 +240,22 @@ export class NotesFacade {
     );
   }
 
-  getRelatedNotes$(exclude: Note, limit: number = 12): Observable<Note[]> {
+  getRelatedNotes$(
+    exclude: Note,
+    limit: number = 12
+  ): Observable<Note[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectRelatedNotes, { exclude, limit })
     );
   }
 
-  getGroups$(excludeId: string): Observable<NotesGroup[]> {
+  getGroups$(excludeId: string): Observable<NotesGroup[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectAllGroups, { excludeId })
     );
   }
 
-  searchNotesGroups$ByName(query: string): Observable<NotesGroup[]> {
+  searchNotesGroups$ByName(query: string): Observable<NotesGroup[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectSearchNotesGroups, { query })
     );
@@ -259,7 +264,7 @@ export class NotesFacade {
   searchNotes$ByNameAndGroupId(
     query: string,
     groupId: string
-  ): Observable<Note[]> {
+  ): Observable<Note[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectSearchNotes, { query, groupId })
     );

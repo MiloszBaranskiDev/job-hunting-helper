@@ -31,7 +31,7 @@ import { JhhClientDashboardNoteCardComponent } from '@jhh/jhh-client/dashboard/n
   styleUrls: ['./related-notes.component.scss'],
 })
 export class RelatedNotesComponent implements AfterViewInit, OnChanges {
-  @Input() relatedNotes: Note[];
+  @Input() relatedNotes: Note[] | null;
 
   private swiper: Swiper;
 

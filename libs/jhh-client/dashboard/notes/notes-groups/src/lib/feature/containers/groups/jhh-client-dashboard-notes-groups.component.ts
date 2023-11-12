@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { combineLatest, map, Observable, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, tap } from 'rxjs';
 
 import { GroupsListComponent } from '../../components/groups-list/groups-list.component';
 import { AddGroupComponent } from '../../components/add-group/add-group.component';
@@ -48,8 +48,8 @@ export class JhhClientDashboardNotesGroupsComponent
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
 
-  notesGroups$: Observable<NotesGroup[]>;
-  sortedNotesGroups$: Observable<NotesGroup[]>;
+  notesGroups$: Observable<NotesGroup[] | null>;
+  sortedNotesGroups$: Observable<NotesGroup[] | null>;
 
   readonly sortOptionsValues: string[] = Object.values(NotesGroupsSort);
   readonly groupsPerPage: number = 16;
@@ -66,8 +66,9 @@ export class JhhClientDashboardNotesGroupsComponent
       this.queryParamsService.getCurrentSort$(),
       this.queryParamsService.getCurrentPage$(),
     ]).pipe(
+      filter((groups) => !!groups),
       tap(([groups]) => {
-        this.totalPages = Math.ceil(groups.length / this.groupsPerPage);
+        this.totalPages = Math.ceil(groups!.length / this.groupsPerPage);
         this.cdr.detectChanges();
       }),
       map(([groups]) => {
@@ -78,7 +79,7 @@ export class JhhClientDashboardNotesGroupsComponent
           .getCurrentSort$()
           .getValue();
         const sortedGroups: NotesGroup[] = this.sortGroups(
-          groups,
+          groups!,
           currentSort as NotesGroupsSort
         );
         const start: number = (currentPage - 1) * this.groupsPerPage;
@@ -92,7 +93,7 @@ export class JhhClientDashboardNotesGroupsComponent
     this.queryParamsService.clearQueryParams();
   }
 
-  searchGroups = (query: string): Observable<NotesGroup[]> => {
+  searchGroups = (query: string): Observable<NotesGroup[] | null> => {
     return this.notesFacade.searchNotesGroups$ByName(query);
   };
 

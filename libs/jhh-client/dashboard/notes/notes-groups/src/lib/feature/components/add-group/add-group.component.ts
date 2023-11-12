@@ -108,7 +108,7 @@ export class AddGroupComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         if (val) {
-          this.formGroup.reset();
+          this.formGroup?.reset();
           this.dialogRef?.close();
         }
       });

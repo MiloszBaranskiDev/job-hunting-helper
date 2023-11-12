@@ -20,6 +20,7 @@ import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 import { HeaderComponent } from '../../components/header/header.component';
 import { ContentComponent } from '../../components/content/content.component';
 import { RelatedNotesComponent } from '../../components/related-notes/related-notes.component';
+import { ControlsComponent } from '../../components/controls/controls.component';
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/change-note-group';
@@ -35,6 +36,7 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
     JhhClientDashboardRemoveNoteComponent,
     JhhClientDashboardEditNoteComponent,
     JhhClientDashboardChangeNoteGroupComponent,
+    ControlsComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-single-note.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-single-note.component.scss'],
@@ -49,7 +51,7 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
 
   note$: Observable<Note>;
 
-  relatedNotes: Note[];
+  relatedNotes: Note[] | null;
 
   ngOnInit(): void {
     this.note$ = combineLatest([

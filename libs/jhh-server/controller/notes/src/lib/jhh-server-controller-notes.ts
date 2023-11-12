@@ -568,7 +568,11 @@ export function JhhServerControllerNotes() {
       }
 
       const updateNote = async () => {
-        if (existingNote.name !== name || existingNote.content !== content) {
+        if (
+          existingNote.name !== name ||
+          existingNote.content !== content ||
+          existingNote.slug !== updatedSlug
+        ) {
           return await prisma.note.update({
             where: { id: noteId },
             data: {

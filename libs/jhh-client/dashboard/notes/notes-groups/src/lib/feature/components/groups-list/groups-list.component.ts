@@ -34,7 +34,7 @@ export class GroupsListComponent implements OnInit {
   private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
     inject(RemoveNotesGroupDialogService);
 
-  @Input() sortedNotesGroups$: Observable<NotesGroup[]>;
+  @Input() sortedNotesGroups$: Observable<NotesGroup[] | null>;
 
   breakpoint$: Observable<string>;
 

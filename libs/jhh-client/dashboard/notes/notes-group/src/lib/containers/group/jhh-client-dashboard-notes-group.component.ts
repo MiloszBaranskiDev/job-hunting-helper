@@ -133,9 +133,10 @@ export class JhhClientDashboardNotesGroupComponent
     this.queryParamsService.clearQueryParams();
   }
 
-  searchNotes = (query: string): Observable<Note[]> => {
+  searchNotes = (query: string): Observable<Note[] | null> => {
     return this.group$.pipe(
       first(),
+      filter((group) => !!group),
       switchMap((group) =>
         this.notesFacade.searchNotes$ByNameAndGroupId(query, group.id)
       )

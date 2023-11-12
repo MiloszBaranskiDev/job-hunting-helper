@@ -93,7 +93,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.formGroup.reset();
+    this.formGroup?.reset();
     this.dialogRef.close();
   }
 
@@ -112,7 +112,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       if (name !== this.groupToEdit.name || slug !== this.groupToEdit.slug) {
         this.notesFacade.editNotesGroup(this.groupToEdit.id, name, slug);
       } else {
-        this.formGroup.reset();
+        this.formGroup?.reset();
         this.dialogRef?.close();
       }
     }

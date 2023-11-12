@@ -129,7 +129,7 @@ export class AddNoteComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         if (val) {
-          this.formGroup.reset();
+          this.formGroup?.reset();
           this.dialogRef?.close();
         }
       });

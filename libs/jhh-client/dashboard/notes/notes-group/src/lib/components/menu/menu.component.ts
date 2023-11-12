@@ -72,9 +72,7 @@ export class MenuComponent implements OnInit {
                 tap((slug) => {
                   if (slug) {
                     this.router
-                      .navigate([this.clientRoute.NotesLink], {
-                        queryParams: currentQueryParams,
-                      })
+                      .navigateByUrl('', { skipLocationChange: true })
                       .then(() => {
                         this.router.navigate(
                           [`${this.clientRoute.NotesLink}/${slug}`],
@@ -82,9 +80,7 @@ export class MenuComponent implements OnInit {
                         );
                       });
                   } else {
-                    this.router.navigate([this.clientRoute.NotesLink], {
-                      queryParams: currentQueryParams,
-                    });
+                    this.router.navigate([this.clientRoute.NotesLink]);
                   }
                 })
               )

@@ -135,6 +135,10 @@ export const selectNoteBySlugs = createSelector(
     notesGroups: NotesGroup[],
     props: { groupSlug: string; noteSlug: string }
   ) => {
+    if (!props.groupSlug || !props.noteSlug) {
+      return null;
+    }
+
     const group: NotesGroup | undefined = notesGroups.find(
       (group) => group.slug === props.groupSlug
     );
@@ -148,6 +152,10 @@ export const selectNoteBySlugs = createSelector(
 export const selectNoteByIds = createSelector(
   selectAllNotes,
   (notesGroups: NotesGroup[], props: { noteId: string; groupId: string }) => {
+    if (!props.noteId || !props.groupId) {
+      return null;
+    }
+
     const group: NotesGroup | undefined = notesGroups.find(
       (group) => group.id === props.groupId
     );
@@ -160,13 +168,22 @@ export const selectNoteByIds = createSelector(
 
 export const selectGroupSlugByGroupId = createSelector(
   selectAllNotes,
-  (notesGroups: NotesGroup[], props: { groupId: string }) =>
-    notesGroups.find((group) => group.id === props.groupId)?.slug
+  (notesGroups: NotesGroup[], props: { groupId: string }) => {
+    if (!props.groupId) {
+      return null;
+    }
+
+    return notesGroups.find((group) => group.id === props.groupId)?.slug;
+  }
 );
 
 export const selectGroupSlugByNoteId = createSelector(
   selectAllNotes,
   (notesGroups: NotesGroup[], props: { noteId: string }) => {
+    if (!props.noteId) {
+      return null;
+    }
+
     for (const group of notesGroups) {
       for (const note of group.notes) {
         if (note.id === props.noteId) {
@@ -174,6 +191,7 @@ export const selectGroupSlugByNoteId = createSelector(
         }
       }
     }
+
     return null;
   }
 );
@@ -181,6 +199,10 @@ export const selectGroupSlugByNoteId = createSelector(
 export const selectRelatedNotes = createSelector(
   selectAllNotes,
   (notesGroups: NotesGroup[], props: { exclude: Note; limit: number }) => {
+    if (!props.exclude || !props.limit) {
+      return null;
+    }
+
     const group: NotesGroup | undefined = notesGroups.find(
       (group) => group.id === props.exclude.groupId
     );
@@ -200,6 +222,10 @@ export const selectRelatedNotes = createSelector(
 export const selectAllGroups = createSelector(
   selectAllNotes,
   (notesGroups: NotesGroup[], props: { excludeId: string }) => {
+    if (!props.excludeId) {
+      return null;
+    }
+
     return notesGroups.filter((group) => group.id !== props.excludeId);
   }
 );
@@ -207,6 +233,9 @@ export const selectAllGroups = createSelector(
 export const selectSearchNotesGroups = createSelector(
   selectNotesGroups,
   (notesGroups: NotesGroup[], props: { query: string }) => {
+    if (!props.query) {
+      return null;
+    }
     if (notesGroups.length > 0) {
       return notesGroups.filter((group) =>
         group.name.toLowerCase().includes(props.query.toLowerCase())
@@ -220,6 +249,10 @@ export const selectSearchNotesGroups = createSelector(
 export const selectSearchNotes = createSelector(
   selectNotesGroups,
   (notesGroups: NotesGroup[], props: { query: string; groupId: string }) => {
+    if (!props.query || !props.groupId) {
+      return null;
+    }
+    
     const group: NotesGroup | undefined = notesGroups.find(
       (group) => group.id === props.groupId
     );

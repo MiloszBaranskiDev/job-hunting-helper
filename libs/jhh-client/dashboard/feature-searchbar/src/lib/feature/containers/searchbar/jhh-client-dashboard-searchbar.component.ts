@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   debounceTime,
   distinctUntilChanged,
+  map,
   Observable,
   of,
   Subject,
@@ -25,7 +26,7 @@ export class JhhClientDashboardSearchbarComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   @Input() placeholder: string = 'Search...';
-  @Input() searchFunction: (query: string) => Observable<any[]>;
+  @Input() searchFunction: (query: string) => Observable<any[] | null>;
 
   query$: Subject<string> = new Subject<string>();
   results$: Observable<any[]>;
@@ -53,7 +54,9 @@ export class JhhClientDashboardSearchbarComponent implements OnInit {
         if (query === '') {
           return of([]);
         } else {
-          return this.searchFunction(query);
+          return this.searchFunction(query).pipe(
+            map((results) => results || [])
+          );
         }
       }),
       tap(() => (this.loading = false))
