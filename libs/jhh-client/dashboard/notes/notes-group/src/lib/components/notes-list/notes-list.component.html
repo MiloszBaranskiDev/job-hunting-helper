@@ -1,53 +1,7 @@
 <ng-container *ngIf="(sortedNotes$ | async) as notes; else emptyList">
   <ul [ngClass]="['notesList', breakpoint$ | async]" *ngIf="notes.length > 0; else emptyList">
-    <li class="notesList__item" *ngFor="let note of notes.slice()">
-      <a [routerLink]="clientRoute.NotesLink + '/' + groupSlug + '/' + note.slug">
-        <div class="notesList__itemName">
-          <h2>{{note.name}}</h2>
-          <button
-            mat-icon-button
-            (click)="$event.preventDefault(); $event.stopPropagation();"
-          >
-            <mat-icon>bookmark_border</mat-icon>
-          </button>
-        </div>
-        <p class="notesList__itemContent">
-          {{ (note.content | stripHtml).length > 115 ? (note.content | stripHtml | slice:0:115) + '...' : (note.content | stripHtml) }}
-        </p>
-        <mat-divider></mat-divider>
-        <div class="notesList__itemBottom">
-          <mat-icon>history</mat-icon>
-          <span>{{note.updatedAt | date: 'dd.MM.yy HH:mm'}}</span>
-          <div class="moreActions">
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="menu"
-              aria-label="Note more actions"
-              (click)="$event.preventDefault(); $event.stopPropagation();"
-            >
-              <mat-icon>more_horiz</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openEditNoteModal(note)">
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </button>
-              <button mat-menu-item (click)="openChangeNoteGroupModal(note)">
-                <mat-icon>redo</mat-icon>
-                <span>Change group</span>
-              </button>
-              <button mat-menu-item (click)="handleDuplicate(note)">
-                <mat-icon>file_copy</mat-icon>
-                <span>Duplicate</span>
-              </button>
-              <button mat-menu-item (click)="openRemoveNoteModal(note)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
-          </div>
-        </div>
-      </a>
+    <li *ngFor="let note of notes">
+      <jhh-note-card [slug]="'./' + note.slug" [note]="note"></jhh-note-card>
     </li>
   </ul>
 </ng-container>

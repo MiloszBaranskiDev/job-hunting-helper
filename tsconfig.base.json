@@ -102,6 +102,9 @@
       "@jhh/jhh-client/dashboard/notes/single-note": [
         "libs/jhh-client/dashboard/notes/single-note/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/notes/ui-note-card": [
+        "libs/jhh-client/dashboard/notes/ui-note-card/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/shell": [
         "libs/jhh-client/dashboard/shell/src/index.ts"
       ],

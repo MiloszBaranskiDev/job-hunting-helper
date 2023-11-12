@@ -1,0 +1,6 @@
+<header>
+  <h2>{{name}}</h2>
+  <p>
+    {{ (content | stripHtml).length > 115 ? (content | stripHtml | slice:0:115) + '...' : (content | stripHtml) }}
+  </p>
+</header>

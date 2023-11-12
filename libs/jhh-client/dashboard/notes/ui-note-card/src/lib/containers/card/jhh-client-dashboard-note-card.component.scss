@@ -1,0 +1,26 @@
+.noteCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color__bg--darker);
+  border-radius: var(--radius__base);
+  padding: 20px;
+  color: inherit;
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &:hover {
+    background-color: var(--color__primary);
+
+    ::ng-deep {
+      * {
+        color: white !important;
+      }
+    }
+  }
+}

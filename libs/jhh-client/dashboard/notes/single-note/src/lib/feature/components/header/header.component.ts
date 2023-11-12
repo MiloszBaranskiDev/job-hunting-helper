@@ -40,10 +40,7 @@ export class HeaderComponent implements OnInit {
   changeNoteGroupSuccess$: Observable<boolean>;
   removeNoteSuccess$: Observable<boolean>;
 
-  readonly clientRoute: typeof ClientRoute = ClientRoute;
-
   ngOnInit(): void {
-    console.log('init');
     this.editNoteSuccess$ = this.notesFacade.editNoteSuccess$;
     this.changeNoteGroupSuccess$ = this.notesFacade.changeNoteGroupSuccess$;
     this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;
@@ -72,8 +69,6 @@ export class HeaderComponent implements OnInit {
                     this.router.navigate(['']).then(() => {
                       this.router.navigate([newNoteLink]);
                     });
-                  } else {
-                    this.router.navigate([this.clientRoute.NotesLink]);
                   }
                 })
               )

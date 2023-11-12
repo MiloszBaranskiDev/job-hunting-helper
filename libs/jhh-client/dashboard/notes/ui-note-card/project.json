@@ -1,0 +1,33 @@
+{
+  "name": "jhh-client-dashboard-notes-ui-note-card",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/notes/ui-note-card/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/notes/ui-note-card",
+        "main": "libs/jhh-client/dashboard/notes/ui-note-card/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/notes/ui-note-card/tsconfig.lib.json",
+        "assets": ["libs/jhh-client/dashboard/notes/ui-note-card/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/jhh-client/dashboard/notes/ui-note-card/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

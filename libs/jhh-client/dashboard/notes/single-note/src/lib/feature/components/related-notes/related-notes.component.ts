@@ -11,13 +11,11 @@ import { Navigation } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider';
-
-import { StripHtmlPipe } from '@jhh/jhh-client/shared/pipes';
 
 import { Note } from '@jhh/shared/interfaces';
+
+import { JhhClientDashboardNoteCardComponent } from '@jhh/jhh-client/dashboard/notes/ui-note-card';
 
 @Component({
   selector: 'jhh-related-notes',
@@ -26,10 +24,8 @@ import { Note } from '@jhh/shared/interfaces';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule,
     RouterLink,
-    MatDividerModule,
-    StripHtmlPipe,
+    JhhClientDashboardNoteCardComponent,
   ],
   templateUrl: './related-notes.component.html',
   styleUrls: ['./related-notes.component.scss'],
