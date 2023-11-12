@@ -32,7 +32,7 @@ import DOMPurify from 'dompurify';
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNoteModalService } from '../../service/edit-note-modal.service';
+import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
 
 import { maxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
 import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
@@ -69,8 +69,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly editNoteModalService: EditNoteModalService =
-    inject(EditNoteModalService);
+  private readonly editNoteDialogService: EditNoteDialogService = inject(
+    EditNoteDialogService
+  );
 
   @Input() noteToEdit: Note;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
@@ -109,7 +110,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
-      this.editNoteModalService.clearNoteToEdit();
+      this.editNoteDialogService.clearNoteToEdit();
     });
   }
 

@@ -11,9 +11,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NotesGroup } from '@jhh/shared/interfaces';
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
-import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/remove-group';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit-group';
+import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
 @Component({
   selector: 'jhh-notes-menu',
@@ -32,10 +32,10 @@ export class MenuComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
-  private readonly editNotesGroupModalService: EditNotesGroupModalService =
-    inject(EditNotesGroupModalService);
-  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
-    inject(RemoveNotesGroupModalService);
+  private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
+    inject(EditNotesGroupDialogService);
+  private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
+    inject(RemoveNotesGroupDialogService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   @Input() group: NotesGroup;
@@ -110,11 +110,11 @@ export class MenuComponent implements OnInit {
       .subscribe();
   }
 
-  openEditNotesGroupModal(): void {
-    this.editNotesGroupModalService.openModal(this.group);
+  openEditNotesGroupDialog(): void {
+    this.editNotesGroupDialogService.openDialog(this.group);
   }
 
-  openRemoveNotesGroupModal(): void {
-    this.removeNotesGroupModalService.openModal(this.group);
+  openRemoveNotesGroupDialog(): void {
+    this.removeNotesGroupDialogService.openDialog(this.group);
   }
 }

@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
 
-import { RemoveNotesGroupModalService } from '../../service/remove-notes-group-modal.service';
+import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
 @Component({
@@ -17,13 +17,13 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 })
 export class JhhClientDashboardRemoveNotesGroupComponent {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
-    inject(RemoveNotesGroupModalService);
+  private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
+    inject(RemoveNotesGroupDialogService);
 
   notesGroupToRemove$: Observable<NotesGroup | undefined>;
 
   ngOnInit(): void {
-    this.removeNotesGroupModalService.notesGroupToRemove$
+    this.removeNotesGroupDialogService.notesGroupToRemove$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.notesGroupToRemove$ = of(val);

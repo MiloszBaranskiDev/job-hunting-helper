@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { RemoveNotesGroupModalService } from '../../service/remove-notes-group-modal.service';
+import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
 
@@ -44,8 +44,8 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
-    inject(RemoveNotesGroupModalService);
+  private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
+    inject(RemoveNotesGroupDialogService);
 
   @Input() groupToRemove: NotesGroup;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
@@ -72,12 +72,12 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
-      this.removeNotesGroupModalService.clearNotesGroupToRemove();
+      this.removeNotesGroupDialogService.clearNotesGroupToRemove();
     });
   }
 
   closeDialog(): void {
-    this.removeNotesGroupModalService.clearNotesGroupToRemove();
+    this.removeNotesGroupDialogService.clearNotesGroupToRemove();
   }
 
   handleRemove(groupId: string): void {

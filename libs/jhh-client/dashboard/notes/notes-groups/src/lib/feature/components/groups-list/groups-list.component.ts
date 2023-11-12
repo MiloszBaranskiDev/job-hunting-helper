@@ -10,8 +10,8 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { NotesGroup } from '@jhh/shared/interfaces';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
-import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
-import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit-group';
+import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/edit-group';
 
 @Component({
   selector: 'jhh-notes-groups-list',
@@ -29,10 +29,10 @@ import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit
 export class GroupsListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
-  private readonly editNotesGroupModalService: EditNotesGroupModalService =
-    inject(EditNotesGroupModalService);
-  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
-    inject(RemoveNotesGroupModalService);
+  private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
+    inject(EditNotesGroupDialogService);
+  private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
+    inject(RemoveNotesGroupDialogService);
 
   @Input() sortedNotesGroups$: Observable<NotesGroup[]>;
 
@@ -44,11 +44,11 @@ export class GroupsListComponent implements OnInit {
     this.breakpoint$ = this.breakpointService.breakpoint$;
   }
 
-  openEditNotesGroupModal(group: NotesGroup): void {
-    this.editNotesGroupModalService.openModal(group);
+  openEditNotesGroupDialog(group: NotesGroup): void {
+    this.editNotesGroupDialogService.openDialog(group);
   }
 
-  openRemoveNotesGroupModal(group: NotesGroup): void {
-    this.removeNotesGroupModalService.openModal(group);
+  openRemoveNotesGroupDialog(group: NotesGroup): void {
+    this.removeNotesGroupDialogService.openDialog(group);
   }
 }

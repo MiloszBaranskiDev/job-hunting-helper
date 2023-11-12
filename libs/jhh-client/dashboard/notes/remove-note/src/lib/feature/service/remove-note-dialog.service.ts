@@ -6,14 +6,14 @@ import { Note } from '@jhh/shared/interfaces';
 @Injectable({
   providedIn: 'root',
 })
-export class RemoveNoteModalService {
+export class RemoveNoteDialogService {
   private _noteToRemove$: Subject<Note | undefined> = new Subject<
     Note | undefined
   >();
   noteToRemove$: Observable<Note | undefined> =
     this._noteToRemove$.asObservable();
 
-  openModal(noteToRemove: Note): void {
+  openDialog(noteToRemove: Note): void {
     this._noteToRemove$.next(noteToRemove);
   }
 

@@ -6,13 +6,13 @@ import { Note } from '@jhh/shared/interfaces';
 @Injectable({
   providedIn: 'root',
 })
-export class EditNoteModalService {
+export class EditNoteDialogService {
   private _noteToEdit$: Subject<Note | undefined> = new Subject<
     Note | undefined
   >();
   noteToEdit$: Observable<Note | undefined> = this._noteToEdit$.asObservable();
 
-  openModal(noteToEdit: Note): void {
+  openDialog(noteToEdit: Note): void {
     this._noteToEdit$.next(noteToEdit);
   }
 

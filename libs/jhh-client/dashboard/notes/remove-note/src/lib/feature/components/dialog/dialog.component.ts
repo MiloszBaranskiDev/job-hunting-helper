@@ -23,7 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Note } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { RemoveNoteModalService } from '../../service/remove-note-modal.service';
+import { RemoveNoteDialogService } from '../../service/remove-note-dialog.service';
 
 @Component({
   selector: 'jhh-remove-note-dialog',
@@ -42,8 +42,8 @@ import { RemoveNoteModalService } from '../../service/remove-note-modal.service'
 export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly removeNoteModalService: RemoveNoteModalService = inject(
-    RemoveNoteModalService
+  private readonly removeNoteDialogService: RemoveNoteDialogService = inject(
+    RemoveNoteDialogService
   );
 
   @Input() noteToRemove: Note;
@@ -72,7 +72,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeDialog(): void {
-    this.removeNoteModalService.clearNoteToRemove();
+    this.removeNoteDialogService.clearNoteToRemove();
   }
 
   handleRemove(noteId: string): void {

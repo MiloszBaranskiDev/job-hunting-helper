@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Note } from '@jhh/shared/interfaces';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
-import { ChangeNoteGroupModalService } from '../../service/change-note-group-modal.service';
+import { ChangeNoteGroupDialogService } from '../../service/change-note-group-dialog.service';
 
 @Component({
   selector: 'jhh-change-note-group',
@@ -17,13 +17,13 @@ import { ChangeNoteGroupModalService } from '../../service/change-note-group-mod
 })
 export class JhhClientDashboardChangeNoteGroupComponent {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
-    inject(ChangeNoteGroupModalService);
+  private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
+    inject(ChangeNoteGroupDialogService);
 
   noteToMove$: Observable<Note | undefined>;
 
   ngOnInit(): void {
-    this.changeNoteGroupModalService.noteToMove$
+    this.changeNoteGroupDialogService.noteToMove$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.noteToMove$ = of(val);

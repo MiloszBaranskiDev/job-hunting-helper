@@ -7,19 +7,19 @@
   <mat-icon>more_horiz</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="openEditNoteModal(note)">
+  <button mat-menu-item (click)="openEditNoteDialog()">
     <mat-icon>edit</mat-icon>
     <span>Edit</span>
   </button>
-  <button mat-menu-item (click)="openChangeNoteGroupModal(note)">
+  <button mat-menu-item (click)="openChangeNoteGroupDialog()">
     <mat-icon>redo</mat-icon>
     <span>Change group</span>
   </button>
-  <button mat-menu-item (click)="handleDuplicate(note)">
+  <button mat-menu-item (click)="handleDuplicate()">
     <mat-icon>file_copy</mat-icon>
     <span>Duplicate</span>
   </button>
-  <button mat-menu-item (click)="openRemoveNoteModal(note)">
+  <button mat-menu-item (click)="openRemoveNoteDialog()">
     <mat-icon>close</mat-icon>
     <span>Remove</span>
   </button>

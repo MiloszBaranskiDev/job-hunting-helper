@@ -34,7 +34,7 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { NotesGroup } from '@jhh/shared/interfaces';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNotesGroupModalService } from '../../service/edit-notes-group-modal.service';
+import { EditNotesGroupDialogService } from '../../service/edit-notes-group-dialog.service';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
@@ -59,8 +59,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly editNotesGroupModalService: EditNotesGroupModalService =
-    inject(EditNotesGroupModalService);
+  private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
+    inject(EditNotesGroupDialogService);
 
   @Input() groupToEdit: NotesGroup;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
@@ -100,7 +100,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
-      this.editNotesGroupModalService.clearNotesGroupToEdit();
+      this.editNotesGroupDialogService.clearNotesGroupToEdit();
     });
   }
 

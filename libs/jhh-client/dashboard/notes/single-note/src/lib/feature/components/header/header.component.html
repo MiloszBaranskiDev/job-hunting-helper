@@ -19,7 +19,7 @@
         color="primary"
         aria-label="Edit note"
         matTooltip="Edit note"
-        (click)="openEditNoteModal(note)"
+        (click)="openEditNoteDialog()"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -28,7 +28,7 @@
         color="primary"
         aria-label="Change group"
         matTooltip="Change group"
-        (click)="openChangeNoteGroupModal(note)"
+        (click)="openChangeNoteGroupDialog()"
       >
         <mat-icon>redo</mat-icon>
       </button>
@@ -37,7 +37,7 @@
         color="primary"
         aria-label="Duplicate note"
         matTooltip="Duplicate note"
-        (click)="handleDuplicate(note)"
+        (click)="handleDuplicate()"
       >
         <mat-icon>file_copy</mat-icon>
       </button>
@@ -46,7 +46,7 @@
         color="primary"
         aria-label="Remove note"
         matTooltip="Remove note"
-        (click)="openRemoveNoteModal(note)"
+        (click)="openRemoveNoteDialog()"
       >
         <mat-icon>close</mat-icon>
       </button>

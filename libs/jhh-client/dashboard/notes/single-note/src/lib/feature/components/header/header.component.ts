@@ -10,10 +10,10 @@ import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { Note } from '@jhh/shared/interfaces';
 
-import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
-import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
+import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 
 @Component({
   selector: 'jhh-note-header',
@@ -25,12 +25,13 @@ import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/cha
 export class HeaderComponent implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private editNoteModalService: EditNoteModalService =
-    inject(EditNoteModalService);
-  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
-    inject(ChangeNoteGroupModalService);
-  private readonly removeNoteModalService: RemoveNoteModalService = inject(
-    RemoveNoteModalService
+  private editNoteDialogService: EditNoteDialogService = inject(
+    EditNoteDialogService
+  );
+  private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
+    inject(ChangeNoteGroupDialogService);
+  private readonly removeNoteDialogService: RemoveNoteDialogService = inject(
+    RemoveNoteDialogService
   );
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
@@ -113,19 +114,19 @@ export class HeaderComponent implements OnInit {
       .subscribe();
   }
 
-  openEditNoteModal(note: Note): void {
-    this.editNoteModalService.openModal(note);
+  openEditNoteDialog(): void {
+    this.editNoteDialogService.openDialog(this.note);
   }
 
-  openChangeNoteGroupModal(note: Note): void {
-    this.changeNoteGroupModalService.openModal(note);
+  openChangeNoteGroupDialog(): void {
+    this.changeNoteGroupDialogService.openDialog(this.note);
   }
 
-  handleDuplicate(note: Note): void {
-    this.notesFacade.duplicateNote(note.id, note.groupId);
+  handleDuplicate(): void {
+    this.notesFacade.duplicateNote(this.note.id, this.note.groupId);
   }
 
-  openRemoveNoteModal(note: Note): void {
-    this.removeNoteModalService.openModal(note);
+  openRemoveNoteDialog(): void {
+    this.removeNoteDialogService.openDialog(this.note);
   }
 }

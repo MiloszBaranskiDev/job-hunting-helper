@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
-import { EditNoteModalService } from '../../service/edit-note-modal.service';
+import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
 
 import { Note } from '@jhh/shared/interfaces';
 
@@ -18,13 +18,14 @@ import { Note } from '@jhh/shared/interfaces';
 })
 export class JhhClientDashboardEditNoteComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly editNoteModalService: EditNoteModalService =
-    inject(EditNoteModalService);
+  private readonly editNoteDialogService: EditNoteDialogService = inject(
+    EditNoteDialogService
+  );
 
   noteToEdit$: Observable<Note | undefined>;
 
   ngOnInit(): void {
-    this.editNoteModalService.noteToEdit$
+    this.editNoteDialogService.noteToEdit$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.noteToEdit$ = of(val);

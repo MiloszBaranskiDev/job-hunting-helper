@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
-import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
-import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
+import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
 import { Note } from '@jhh/shared/interfaces';
 
@@ -20,29 +20,30 @@ import { Note } from '@jhh/shared/interfaces';
 })
 export class MenuComponent {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
-  private readonly editNoteModalService: EditNoteModalService =
-    inject(EditNoteModalService);
-  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
-    inject(ChangeNoteGroupModalService);
-  private readonly removeNoteModalService: RemoveNoteModalService = inject(
-    RemoveNoteModalService
+  private readonly editNoteDialogService: EditNoteDialogService = inject(
+    EditNoteDialogService
+  );
+  private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
+    inject(ChangeNoteGroupDialogService);
+  private readonly removeNoteDialogService: RemoveNoteDialogService = inject(
+    RemoveNoteDialogService
   );
 
   @Input() note: Note;
 
-  handleDuplicate(note: Note) {
-    this.notesFacade.duplicateNote(note.id, note.groupId);
+  handleDuplicate() {
+    this.notesFacade.duplicateNote(this.note.id, this.note.groupId);
   }
 
-  openEditNoteModal(note: Note): void {
-    this.editNoteModalService.openModal(note);
+  openEditNoteDialog(): void {
+    this.editNoteDialogService.openDialog(this.note);
   }
 
-  openChangeNoteGroupModal(note: Note): void {
-    this.changeNoteGroupModalService.openModal(note);
+  openChangeNoteGroupDialog(): void {
+    this.changeNoteGroupDialogService.openDialog(this.note);
   }
 
-  openRemoveNoteModal(note: Note): void {
-    this.removeNoteModalService.openModal(note);
+  openRemoveNoteDialog(): void {
+    this.removeNoteDialogService.openDialog(this.note);
   }
 }

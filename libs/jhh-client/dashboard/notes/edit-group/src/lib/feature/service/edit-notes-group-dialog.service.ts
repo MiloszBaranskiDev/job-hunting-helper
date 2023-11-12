@@ -6,14 +6,14 @@ import { NotesGroup } from '@jhh/shared/interfaces';
 @Injectable({
   providedIn: 'root',
 })
-export class EditNotesGroupModalService {
+export class EditNotesGroupDialogService {
   private _notesGroupToEdit$: Subject<NotesGroup | undefined> = new Subject<
     NotesGroup | undefined
   >();
   notesGroupToEdit$: Observable<NotesGroup | undefined> =
     this._notesGroupToEdit$.asObservable();
 
-  openModal(notesGroupToEdit: NotesGroup): void {
+  openDialog(notesGroupToEdit: NotesGroup): void {
     this._notesGroupToEdit$.next(notesGroupToEdit);
   }
 

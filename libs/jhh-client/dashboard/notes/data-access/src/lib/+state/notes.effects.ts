@@ -5,12 +5,12 @@ import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes/notes.service';
-import { EditNoteModalService } from '@jhh/jhh-client/dashboard/notes/edit-note';
-import { RemoveNoteModalService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
+import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
-import { ChangeNoteGroupModalService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
-import { EditNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/edit-group';
-import { RemoveNotesGroupModalService } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
+import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/edit-group';
+import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/remove-group';
 
 import {
   AddNotesGroupSuccessPayload,
@@ -27,17 +27,18 @@ import {
 export class NotesEffects {
   private readonly actions$ = inject(Actions);
   private readonly notesService: NotesService = inject(NotesService);
-  private readonly editNoteModalService: EditNoteModalService =
-    inject(EditNoteModalService);
-  private readonly changeNoteGroupModalService: ChangeNoteGroupModalService =
-    inject(ChangeNoteGroupModalService);
-  private readonly removeNoteModalService: RemoveNoteModalService = inject(
-    RemoveNoteModalService
+  private readonly editNoteDialogService: EditNoteDialogService = inject(
+    EditNoteDialogService
   );
-  private readonly editNotesGroupModalService: EditNotesGroupModalService =
-    inject(EditNotesGroupModalService);
-  private readonly removeNotesGroupModalService: RemoveNotesGroupModalService =
-    inject(RemoveNotesGroupModalService);
+  private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
+    inject(ChangeNoteGroupDialogService);
+  private readonly removeNoteDialogService: RemoveNoteDialogService = inject(
+    RemoveNoteDialogService
+  );
+  private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
+    inject(EditNotesGroupDialogService);
+  private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
+    inject(RemoveNotesGroupDialogService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   addNotesGroup$ = createEffect(() =>
@@ -70,7 +71,7 @@ export class NotesEffects {
               NotesActions.resetEditNotesGroupSuccess(),
             ]),
             tap(() => {
-              this.editNotesGroupModalService.clearNotesGroupToEdit();
+              this.editNotesGroupDialogService.clearNotesGroupToEdit();
               this.snackbarService.open('Group edited successfully!');
             })
           ),
@@ -91,7 +92,7 @@ export class NotesEffects {
               NotesActions.resetRemoveNotesGroupSuccess(),
             ]),
             tap(() => {
-              this.removeNotesGroupModalService.clearNotesGroupToRemove();
+              this.removeNotesGroupDialogService.clearNotesGroupToRemove();
               this.snackbarService.open('Group removed successfully!');
             })
           ),
@@ -131,7 +132,7 @@ export class NotesEffects {
               NotesActions.resetEditNoteSuccess(),
             ]),
             tap(() => {
-              this.editNoteModalService.clearNoteToEdit();
+              this.editNoteDialogService.clearNoteToEdit();
               this.snackbarService.open('Note edited successfully!');
             })
           ),
@@ -174,7 +175,7 @@ export class NotesEffects {
               this.snackbarService.open(
                 'Note successfully moved to another group!'
               );
-              this.changeNoteGroupModalService.clearNoteToMove();
+              this.changeNoteGroupDialogService.clearNoteToMove();
             })
           ),
         onError: (action, error) =>
@@ -194,7 +195,7 @@ export class NotesEffects {
               NotesActions.resetRemoveNoteSuccess(),
             ]),
             tap(() => {
-              this.removeNoteModalService.clearNoteToRemove();
+              this.removeNoteDialogService.clearNoteToRemove();
               this.snackbarService.open('Note removed successfully!');
             })
           ),
