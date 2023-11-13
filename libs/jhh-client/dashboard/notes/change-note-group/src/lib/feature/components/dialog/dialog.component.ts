@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
@@ -43,7 +44,7 @@ import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { FormField } from '../../enums/form-field';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import notesGroups from 'libs/jhh-server/controller/user/src/lib/default-data/notes-groups';
+import { ChangeNoteGroupDialogService } from '../../service/change-note-group-dialog.service';
 
 @Component({
   selector: 'jhh-change-note-group-dialog',
@@ -62,9 +63,12 @@ import notesGroups from 'libs/jhh-server/controller/user/src/lib/default-data/no
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
+    inject(ChangeNoteGroupDialogService);
 
   @Input() noteToMove: Note;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
@@ -101,22 +105,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.formGroup?.reset();
-    this.dialogRef.close();
-  }
-
-  private openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent);
-  }
-
-  private _filter(value: any, groups: NotesGroup[]): NotesGroup[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-      return groups.filter((group) =>
-        group.name.toLowerCase().includes(filterValue)
-      );
-    }
-
-    return groups;
+    this.dialogRef?.close();
   }
 
   onSubmit(): void {
@@ -146,9 +135,28 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  groupValidator(groups: Observable<NotesGroup[] | null>): ValidatorFn {
+  private openDialog(): void {
+    this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.formGroup?.reset();
+      this.changeNoteGroupDialogService.clearNoteToMove();
+    });
+  }
+
+  private _filter(value: any, groups: NotesGroup[]): NotesGroup[] {
+    if (typeof value === 'string') {
+      const filterValue = value.toLowerCase();
+      return groups.filter((group) =>
+        group.name.toLowerCase().includes(filterValue)
+      );
+    }
+
+    return groups;
+  }
+
+  private groupValidator(groups: Observable<NotesGroup[] | null>): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (!notesGroups) {
+      if (!groups) {
         return null;
       }
       let exists: boolean = false;

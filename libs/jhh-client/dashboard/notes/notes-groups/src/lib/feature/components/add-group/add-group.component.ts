@@ -79,21 +79,11 @@ export class AddGroupComponent implements OnInit {
     this.handleReset();
   }
 
-  initFormGroup(): void {
-    this.formGroup = this.formBuilder.group({
-      [this.formField.name]: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(NotesGroupFieldsLength.MinNotesGroupNameLength),
-          Validators.maxLength(NotesGroupFieldsLength.MaxNotesGroupNameLength),
-        ],
-      ],
-    });
-  }
-
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.formGroup?.reset();
+    });
   }
 
   onSubmit(): void {
@@ -112,5 +102,18 @@ export class AddGroupComponent implements OnInit {
           this.dialogRef?.close();
         }
       });
+  }
+
+  private initFormGroup(): void {
+    this.formGroup = this.formBuilder.group({
+      [this.formField.name]: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(NotesGroupFieldsLength.MinNotesGroupNameLength),
+          Validators.maxLength(NotesGroupFieldsLength.MaxNotesGroupNameLength),
+        ],
+      ],
+    });
   }
 }

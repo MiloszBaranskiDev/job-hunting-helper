@@ -103,6 +103,9 @@ export class AddNoteComponent implements OnInit {
 
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.formGroup?.reset();
+    });
   }
 
   onSubmit(): void {
@@ -142,7 +145,17 @@ export class AddNoteComponent implements OnInit {
     return new Blob([contentValue]).size;
   }
 
-  initFormGroup(): void {
+  getContentControl(): FormControl {
+    const control = this.formGroup.get(this.formField.Content);
+
+    if (control instanceof FormControl) {
+      return control;
+    }
+
+    throw new Error('Content control is missing or not a FormControl');
+  }
+
+  private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       [this.formField.Name]: [
         '',
@@ -157,15 +170,5 @@ export class AddNoteComponent implements OnInit {
         [maxSizeValidator(this.noteSize.MaxNoteSize)],
       ],
     });
-  }
-
-  getContentControl(): FormControl {
-    const control = this.formGroup.get(this.formField.Content);
-
-    if (control instanceof FormControl) {
-      return control;
-    }
-
-    throw new Error('Content control is missing or not a FormControl');
   }
 }

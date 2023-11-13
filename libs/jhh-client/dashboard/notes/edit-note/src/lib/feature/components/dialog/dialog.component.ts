@@ -153,7 +153,24 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  initFormGroup(): void {
+  getContentSizeInBytes(): number {
+    const contentValue =
+      this.formGroup.get(this.formField.Content)?.value || '';
+
+    return new Blob([contentValue]).size;
+  }
+
+  getContentControl(): FormControl {
+    const control = this.formGroup.get(this.formField.Content);
+
+    if (control instanceof FormControl) {
+      return control;
+    }
+
+    throw new Error('Content control is missing or not a FormControl');
+  }
+
+  private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       [this.formField.Name]: [
         this.noteToEdit.name,
@@ -176,22 +193,5 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         [maxSizeValidator(this.noteSize.MaxNoteSize)],
       ],
     });
-  }
-
-  getContentSizeInBytes(): number {
-    const contentValue =
-      this.formGroup.get(this.formField.Content)?.value || '';
-
-    return new Blob([contentValue]).size;
-  }
-
-  getContentControl(): FormControl {
-    const control = this.formGroup.get(this.formField.Content);
-
-    if (control instanceof FormControl) {
-      return control;
-    }
-
-    throw new Error('Content control is missing or not a FormControl');
   }
 }

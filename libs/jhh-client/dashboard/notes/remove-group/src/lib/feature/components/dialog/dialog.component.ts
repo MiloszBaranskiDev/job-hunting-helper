@@ -76,10 +76,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  closeDialog(): void {
-    this.removeNotesGroupDialogService.clearNotesGroupToRemove();
-  }
-
   handleRemove(groupId: string): void {
     if (groupId) this.notesFacade.removeNotesGroup(groupId);
   }
