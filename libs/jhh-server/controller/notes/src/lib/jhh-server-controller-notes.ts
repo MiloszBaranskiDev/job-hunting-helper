@@ -85,14 +85,9 @@ export function JhhServerControllerNotes() {
       }
 
       const existingGroups: NotesGroup[] = await prisma.notesGroup.findMany();
-      const orderIndex: number =
-        existingGroups.length > 0
-          ? Math.max(...existingGroups.map((group) => group.orderIndex)) + 1
-          : 1;
 
       const newNotesGroup: NotesGroup = await prisma.notesGroup.create({
         data: {
-          orderIndex,
           name,
           slug,
           userId,
@@ -393,16 +388,10 @@ export function JhhServerControllerNotes() {
         where: { groupId },
       });
 
-      const orderIndex: number =
-        existingNotesInGroup.length > 0
-          ? Math.max(...existingNotesInGroup.map((note) => note.orderIndex)) + 1
-          : 1;
-
       content = DOMPurify.sanitize(content, domPurifyConfig);
 
       const newNote: Note = await prisma.note.create({
         data: {
-          orderIndex,
           name,
           slug,
           content,
@@ -664,14 +653,8 @@ export function JhhServerControllerNotes() {
         where: { groupId },
       });
 
-      const orderIndex: number =
-        existingNotesInGroup.length > 0
-          ? Math.max(...existingNotesInGroup.map((note) => note.orderIndex)) + 1
-          : 1;
-
       const duplicatedNote: Note = await prisma.note.create({
         data: {
-          orderIndex,
           name: existingNote.name + ' - copy',
           slug,
           content: existingNote.content,

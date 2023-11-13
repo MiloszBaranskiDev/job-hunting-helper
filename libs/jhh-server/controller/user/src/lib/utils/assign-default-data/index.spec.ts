@@ -37,12 +37,10 @@ describe('assignDefaultData', () => {
         data: {
           name: group.name,
           userId: userId,
-          orderIndex: groupIndex,
           notes: {
             create: group.notes.map((note, noteIndex) => ({
               name: note.name,
               content: note.content,
-              orderIndex: noteIndex,
             })),
           },
         },

@@ -20,7 +20,6 @@ export function JhhServerControllerDashboard() {
           id: true,
           createdAt: true,
           updatedAt: true,
-          orderIndex: true,
           name: true,
           slug: true,
           notes: true,
