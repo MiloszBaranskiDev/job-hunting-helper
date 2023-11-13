@@ -5,8 +5,6 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 import { NotesGroup } from '@jhh/shared/interfaces';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
@@ -37,8 +35,6 @@ export class GroupsListComponent implements OnInit {
   @Input() sortedNotesGroups$: Observable<NotesGroup[] | null>;
 
   breakpoint$: Observable<string>;
-
-  readonly clientRoute: typeof ClientRoute = ClientRoute;
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
