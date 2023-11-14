@@ -1,4 +1,10 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -9,12 +15,21 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss'],
 })
-export class ContentComponent {
+export class ContentComponent implements OnChanges {
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
   @Input() content: string;
+  sanitizedContent: SafeHtml;
 
-  getContentToRender(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.content);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['content']) {
+      this.sanitizeContent();
+    }
+  }
+
+  private sanitizeContent(): void {
+    this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(
+      this.content
+    );
   }
 }
