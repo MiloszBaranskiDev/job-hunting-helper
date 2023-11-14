@@ -27,4 +27,8 @@ export class NotesListComponent implements OnInit {
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
   }
+
+  trackByFn(index: number, item: Note): string {
+    return item.id;
+  }
 }

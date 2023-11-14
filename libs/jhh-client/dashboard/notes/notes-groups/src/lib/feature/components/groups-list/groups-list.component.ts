@@ -40,6 +40,10 @@ export class GroupsListComponent implements OnInit {
     this.breakpoint$ = this.breakpointService.breakpoint$;
   }
 
+  trackByFn(index: number, item: NotesGroup): string {
+    return item.id;
+  }
+
   openEditNotesGroupDialog(group: NotesGroup): void {
     this.editNotesGroupDialogService.openDialog(group);
   }

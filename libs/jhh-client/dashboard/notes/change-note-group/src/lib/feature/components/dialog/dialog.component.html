@@ -11,7 +11,7 @@
             [matAutocomplete]="auto"
             [formControlName]="formField.NewGroupName">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let group of filteredGroups$ | async" [value]="group.name">
+            <mat-option *ngFor="let group of filteredGroups$ | async; trackBy: trackByFn" [value]="group.name">
               {{group.name}}
             </mat-option>
           </mat-autocomplete>

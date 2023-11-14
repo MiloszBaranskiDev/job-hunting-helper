@@ -68,6 +68,10 @@ export class RelatedNotesComponent implements AfterViewInit, OnChanges {
     }
   }
 
+  trackByFn(index: number, item: Note): string {
+    return item.id;
+  }
+
   private initializeSwiper() {
     Swiper.use([Navigation]);
     this.swiper = new Swiper('.relatedNotes__swiper', this.config);

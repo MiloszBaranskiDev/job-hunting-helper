@@ -135,6 +135,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  trackByFn(index: number, item: NotesGroup): string {
+    return item.id;
+  }
+
   private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {

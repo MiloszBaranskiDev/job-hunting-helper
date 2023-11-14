@@ -14,4 +14,8 @@ export class ResultsComponent {
   @Input() results: any[];
   @Input() loading: boolean;
   @Input() searchStarted: boolean;
+
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
 }

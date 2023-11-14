@@ -22,4 +22,8 @@ import { Breadcrumb } from '../../interfaces/breadcrumb';
 })
 export class NavComponent {
   @Input() breadcrumbs: Breadcrumb[];
+
+  trackByFn(index: number, item: Breadcrumb): string {
+    return item.url;
+  }
 }
