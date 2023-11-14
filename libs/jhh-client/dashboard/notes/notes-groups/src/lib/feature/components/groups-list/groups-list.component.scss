@@ -14,11 +14,14 @@
   &__item {
     a {
       height: 100%;
-      display: block;
       padding: 60px 40px;
       border-radius: var(--radius__base);
       background-color: var(--color__bg--darker);
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
       &:hover {
         background-color: var(--color__primary);

@@ -11,4 +11,11 @@ quill-editor {
     right: unset !important;
     transform: translateX(-50%) !important;
   }
+
+  .ql-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+  }
 }
