@@ -42,7 +42,7 @@ export class WhitespaceSanitizerDirective implements OnInit {
 
   private sanitizeValue(emitEvent: boolean = false): void {
     const inputValue: string = this.control.value;
-    const sanitizedValue: string = inputValue.replace(/\s{2,}/g, ' ').trim();
+    const sanitizedValue: string = inputValue?.replace(/\s{2,}/g, ' ').trim();
     if (inputValue !== sanitizedValue) {
       this.control.control?.setValue(sanitizedValue, { emitEvent: emitEvent });
     }
