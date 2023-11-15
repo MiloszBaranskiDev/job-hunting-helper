@@ -63,30 +63,31 @@ export function JhhServerControllerNotes() {
         );
       }
 
-      const existingGroup: NotesGroup | null =
-        await prisma.notesGroup.findUnique({
-          where: { name },
-        });
+      const existingGroup = await prisma.notesGroup.findFirst({
+        where: {
+          name,
+          userId,
+        },
+      });
 
       if (existingGroup) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          'Group name already exists'
+          'Group name already exists.'
         );
       }
 
       let slug: string = slugify(name, { lower: true, strict: true });
       let suffix: number = 2;
       const originalSlug: string = slug;
-      while (await prisma.notesGroup.findUnique({ where: { slug } })) {
+
+      while (await prisma.notesGroup.findFirst({ where: { slug, userId } })) {
         slug = `${originalSlug}-${suffix}`;
         suffix++;
       }
 
-      const existingGroups: NotesGroup[] = await prisma.notesGroup.findMany();
-
-      const newNotesGroup: NotesGroup = await prisma.notesGroup.create({
+      const newNotesGroup = await prisma.notesGroup.create({
         data: {
           name,
           slug,
@@ -199,32 +200,40 @@ export function JhhServerControllerNotes() {
         );
       }
 
-      const isNameUnique: boolean = !(await prisma.notesGroup.findFirst({
-        where: { name, NOT: { id: groupId } },
+      const isNameUnique = !(await prisma.notesGroup.findFirst({
+        where: {
+          name,
+          userId,
+          NOT: { id: groupId },
+        },
       }));
 
       if (!isNameUnique) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          'Group name already exists'
+          'Group name already exists.'
         );
       }
 
-      let updatedSlug: string = slugify(slug, { lower: true, strict: true });
-      let suffix: number = 2;
-      const originalSlug: string = updatedSlug;
+      let updatedSlug = slugify(slug, { lower: true, strict: true });
+      let suffix = 2;
+      const originalSlug = updatedSlug;
 
       while (
         await prisma.notesGroup.findFirst({
-          where: { slug: updatedSlug, NOT: { id: groupId } },
+          where: {
+            slug: updatedSlug,
+            userId,
+            NOT: { id: groupId },
+          },
         })
       ) {
         updatedSlug = `${originalSlug}-${suffix}`;
         suffix++;
       }
 
-      const editedNotesGroup: NotesGroup = await prisma.notesGroup.update({
+      const editedNotesGroup = await prisma.notesGroup.update({
         where: { id: groupId },
         data: {
           name,
