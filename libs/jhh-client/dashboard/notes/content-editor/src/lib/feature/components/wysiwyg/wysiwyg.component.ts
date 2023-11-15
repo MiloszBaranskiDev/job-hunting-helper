@@ -62,6 +62,7 @@ export class WysiwygComponent
         handlers: {
           image: this.imageHandler.bind(this),
         },
+        scrollingContainer: 'html',
       },
     };
   }
@@ -74,7 +75,22 @@ export class WysiwygComponent
     this.quillInstance = quill;
 
     const toolbar = quill.getModule('toolbar');
+    const toolbarContainer = toolbar.container;
     toolbar.addHandler('image', this.imageHandler.bind(this));
+
+    // fix jumping on first interaction with toolbar
+    setTimeout(() => {
+      const editorElement: any = document.querySelector('.ql-editor');
+      if (editorElement) {
+        editorElement.focus();
+      }
+    }, 300);
+
+    toolbarContainer.addEventListener('mousedown', (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    // end fix
 
     this.setupClipboardMatcher();
     this.editorCreated.emit(quill);
