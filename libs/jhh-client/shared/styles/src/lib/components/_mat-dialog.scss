@@ -34,3 +34,9 @@
     justify-content: center;
   }
 }
+
+.edit-note-dialog-container {
+  .mat-mdc-dialog-container {
+    max-width: unset !important;
+  }
+}

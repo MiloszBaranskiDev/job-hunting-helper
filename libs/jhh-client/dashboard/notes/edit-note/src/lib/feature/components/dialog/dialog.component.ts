@@ -108,7 +108,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef = this.dialog.open(this.dialogContent, {
+      panelClass: 'edit-note-dialog-container',
+    });
     this.dialogRef.afterClosed().subscribe(() => {
       this.editNoteDialogService.clearNoteToEdit();
     });
