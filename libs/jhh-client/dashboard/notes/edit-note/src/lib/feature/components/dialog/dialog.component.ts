@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   inject,
   Input,
   OnDestroy,
@@ -75,6 +76,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() noteToEdit: Note;
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('scrollTarget') scrollTarget: ElementRef;
 
   editNoteInProgress$: Observable<boolean>;
   editNoteError$: Observable<string | null>;
@@ -153,6 +155,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dialogRef?.close();
       }
     }
+
+    this.scrollTarget.nativeElement.scrollIntoView();
   }
 
   getContentSizeInBytes(): number {
