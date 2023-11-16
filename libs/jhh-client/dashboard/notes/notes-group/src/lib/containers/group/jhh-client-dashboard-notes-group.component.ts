@@ -109,6 +109,15 @@ export class JhhClientDashboardNotesGroupComponent
     ]).pipe(
       tap(([notes]) => {
         this.totalPages = Math.ceil(notes.length / this.notesPerPage);
+
+        const currentPage: number = this.queryParamsService
+          .getCurrentPage$()
+          .getValue();
+        const start: number = (currentPage - 1) * this.notesPerPage;
+        if (notes.length <= start && currentPage > 1) {
+          this.queryParamsService.updateCurrentPage(currentPage - 1);
+        }
+
         this.cdr.detectChanges();
       }),
       map(([notes]) => {

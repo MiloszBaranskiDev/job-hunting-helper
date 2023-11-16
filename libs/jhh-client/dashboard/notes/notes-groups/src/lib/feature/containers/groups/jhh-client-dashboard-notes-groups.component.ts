@@ -70,6 +70,16 @@ export class JhhClientDashboardNotesGroupsComponent
       tap(([groups]) => {
         this.totalPages = Math.ceil(groups!.length / this.groupsPerPage);
         this.cdr.detectChanges();
+
+        const currentPage: number = this.queryParamsService
+          .getCurrentPage$()
+          .getValue();
+        if (
+          groups!.length <= (currentPage - 1) * this.groupsPerPage &&
+          currentPage > 1
+        ) {
+          this.queryParamsService.updateCurrentPage(currentPage - 1);
+        }
       }),
       map(([groups]) => {
         const currentPage: number = this.queryParamsService

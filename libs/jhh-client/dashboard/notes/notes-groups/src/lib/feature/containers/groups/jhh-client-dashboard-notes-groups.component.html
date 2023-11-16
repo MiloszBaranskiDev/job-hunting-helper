@@ -1,9 +1,11 @@
 <jhh-edit-notes-group></jhh-edit-notes-group>
 <jhh-remove-notes-group></jhh-remove-notes-group>
 <ng-container>
-  <div class="controls" *ngIf="totalPages">
-    <jhh-searchbar [searchFunction]="searchGroups" [placeholder]="'Enter group name...'"></jhh-searchbar>
-    <jhh-notes-sorting [sortOptionsValues]="sortOptionsValues"></jhh-notes-sorting>
+  <div class="controls">
+    <ng-container *ngIf="totalPages">
+      <jhh-searchbar [searchFunction]="searchGroups" [placeholder]="'Enter group name...'"></jhh-searchbar>
+      <jhh-notes-sorting [sortOptionsValues]="sortOptionsValues"></jhh-notes-sorting>
+    </ng-container>
     <jhh-add-notes-group></jhh-add-notes-group>
   </div>
   <jhh-notes-groups-list [sortedNotesGroups$]="sortedNotesGroups$"></jhh-notes-groups-list>
