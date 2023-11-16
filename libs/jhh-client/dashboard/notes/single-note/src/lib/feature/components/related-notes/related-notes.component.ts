@@ -1,11 +1,17 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { Note } from '@jhh/shared/interfaces';
 
@@ -25,6 +31,9 @@ import { JhhClientDashboardNoteCardComponent } from '@jhh/jhh-client/dashboard/n
   styleUrls: ['./related-notes.component.scss'],
 })
 export class RelatedNotesComponent implements OnChanges {
+  private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+
   @Input() relatedNotes: Note[] | null;
 
   private swiper: Swiper;
@@ -65,6 +74,12 @@ export class RelatedNotesComponent implements OnChanges {
 
   trackByFn(index: number, item: Note): string {
     return item.id;
+  }
+
+  navigateToRelatedNote(note: Note): void {
+    this.router.navigate([''], { skipLocationChange: true }).then(() => {
+      this.router.navigate(['../', note.slug], { relativeTo: this.route });
+    });
   }
 
   private initializeSwiper() {

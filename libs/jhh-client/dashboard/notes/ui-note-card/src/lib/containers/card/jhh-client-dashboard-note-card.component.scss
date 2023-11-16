@@ -6,6 +6,7 @@
   border-radius: var(--radius__base);
   padding: 20px;
   color: inherit;
+  transition: all 0.3s;
 
   &__bottom {
     display: flex;

@@ -24,6 +24,6 @@ import { UpdatedAtComponent } from '../../components/updated-at/updated-at.compo
   styleUrls: ['./jhh-client-dashboard-note-card.component.scss'],
 })
 export class JhhClientDashboardNoteCardComponent {
-  @Input() slug: string;
+  @Input() slug?: string;
   @Input() note: Note;
 }

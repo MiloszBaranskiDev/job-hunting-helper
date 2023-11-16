@@ -34,35 +34,7 @@
 
       .swiper-slide {
         height: auto;
-
-        a {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          background-color: var(--color__bg--darker);
-          border-radius: var(--radius__base);
-          padding: 20px;
-          color: inherit;
-
-          p {
-            margin-bottom: auto;
-          }
-
-          .updatedAt {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-          }
-
-          &:hover {
-            background-color: var(--color__primary);
-
-            * {
-              color: white !important;
-            }
-          }
-        }
+        cursor: pointer;
       }
     }
   }
