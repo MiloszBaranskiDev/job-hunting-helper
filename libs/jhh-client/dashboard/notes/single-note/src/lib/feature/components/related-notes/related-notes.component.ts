@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import Swiper from 'swiper';
 import { Navigation } from 'swiper/modules';
@@ -30,7 +24,7 @@ import { JhhClientDashboardNoteCardComponent } from '@jhh/jhh-client/dashboard/n
   templateUrl: './related-notes.component.html',
   styleUrls: ['./related-notes.component.scss'],
 })
-export class RelatedNotesComponent implements AfterViewInit, OnChanges {
+export class RelatedNotesComponent implements OnChanges {
   @Input() relatedNotes: Note[] | null;
 
   private swiper: Swiper;
@@ -54,17 +48,18 @@ export class RelatedNotesComponent implements AfterViewInit, OnChanges {
     },
   };
 
-  ngAfterViewInit(): void {
-    this.initializeSwiper();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['relatedNotes']) {
+    if (
+      changes['relatedNotes'] &&
+      this.relatedNotes &&
+      this.relatedNotes.length > 0
+    ) {
       if (this.swiper) {
-        setTimeout(() => {
-          this.swiper.update();
-        });
+        this.swiper.destroy(true, true);
       }
+      setTimeout(() => {
+        this.initializeSwiper();
+      });
     }
   }
 
