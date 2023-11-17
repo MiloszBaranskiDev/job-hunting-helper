@@ -79,12 +79,16 @@ export class WysiwygComponent
     toolbar.addHandler('image', this.imageHandler.bind(this));
 
     // fix jumping on first interaction with toolbar
-    setTimeout(() => {
-      const editorElement: any = document.querySelector('.ql-editor');
-      if (editorElement) {
-        editorElement.focus();
-      }
-    }, 300);
+    toolbarContainer.addEventListener(
+      'click',
+      (): void => {
+        const editorElement: any = document.querySelector('.ql-editor');
+        if (editorElement) {
+          editorElement.focus();
+        }
+      },
+      { once: true }
+    );
 
     toolbarContainer.addEventListener('mousedown', (event: any) => {
       event.preventDefault();
