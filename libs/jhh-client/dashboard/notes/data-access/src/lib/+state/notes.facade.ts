@@ -249,7 +249,7 @@ export class NotesFacade {
     );
   }
 
-  getGroups$(excludeId: string): Observable<NotesGroup[] | null> {
+  getGroups$(excludeId?: string): Observable<NotesGroup[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectAllGroups, { excludeId })
     );

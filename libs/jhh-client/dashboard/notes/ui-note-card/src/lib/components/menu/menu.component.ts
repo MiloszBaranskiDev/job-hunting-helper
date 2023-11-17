@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,8 @@ import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
 import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jhh-note-card-menu',
@@ -18,7 +19,7 @@ import { Note } from '@jhh/shared/interfaces';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
   private readonly editNoteDialogService: EditNoteDialogService = inject(
     EditNoteDialogService
@@ -30,6 +31,12 @@ export class MenuComponent {
   );
 
   @Input() note: Note;
+
+  groups$: Observable<NotesGroup[] | null>;
+
+  ngOnInit(): void {
+    this.groups$ = this.notesFacade.getGroups$();
+  }
 
   handleDuplicate() {
     this.notesFacade.duplicateNote(this.note.id, this.note.groupId);

@@ -7,7 +7,7 @@ import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
@@ -37,11 +37,13 @@ export class ControlsComponent implements OnInit {
 
   @Input() note: Note;
 
+  groups$: Observable<NotesGroup[] | null>;
   editNoteSuccess$: Observable<boolean>;
   changeNoteGroupSuccess$: Observable<boolean>;
   removeNoteSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
+    this.groups$ = this.notesFacade.getGroups$();
     this.editNoteSuccess$ = this.notesFacade.editNoteSuccess$;
     this.changeNoteGroupSuccess$ = this.notesFacade.changeNoteGroupSuccess$;
     this.removeNoteSuccess$ = this.notesFacade.removeNoteSuccess$;

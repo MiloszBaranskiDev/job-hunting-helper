@@ -9,6 +9,7 @@
     <mat-icon>edit</mat-icon>
   </button>
   <button
+    *ngIf="(groups$|async)!.length > 1"
     mat-mini-fab
     color="primary"
     aria-label="Change group"

@@ -11,7 +11,7 @@
     <mat-icon>edit</mat-icon>
     <span>Edit</span>
   </button>
-  <button mat-menu-item (click)="openChangeNoteGroupDialog()">
+  <button *ngIf="(groups$| async)!.length > 1" mat-menu-item (click)="openChangeNoteGroupDialog()">
     <mat-icon>redo</mat-icon>
     <span>Change group</span>
   </button>

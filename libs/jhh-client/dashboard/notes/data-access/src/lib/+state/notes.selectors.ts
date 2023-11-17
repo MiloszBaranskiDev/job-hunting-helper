@@ -221,13 +221,10 @@ export const selectRelatedNotes = createSelector(
 
 export const selectAllGroups = createSelector(
   selectAllNotes,
-  (notesGroups: NotesGroup[], props: { excludeId: string }) => {
-    if (!props.excludeId) {
-      return null;
-    }
-
-    return notesGroups.filter((group) => group.id !== props.excludeId);
-  }
+  (notesGroups: NotesGroup[], { excludeId }: { excludeId?: string }) =>
+    excludeId
+      ? notesGroups.filter((group) => group.id !== excludeId)
+      : notesGroups
 );
 
 export const selectSearchNotesGroups = createSelector(
@@ -252,7 +249,7 @@ export const selectSearchNotes = createSelector(
     if (!props.query || !props.groupId) {
       return null;
     }
-    
+
     const group: NotesGroup | undefined = notesGroups.find(
       (group) => group.id === props.groupId
     );
