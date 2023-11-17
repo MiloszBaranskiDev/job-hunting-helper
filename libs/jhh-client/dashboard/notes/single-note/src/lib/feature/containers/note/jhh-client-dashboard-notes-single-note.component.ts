@@ -73,8 +73,9 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
       ),
       filter((data) => !!data.note),
       tap((data) => {
-        this.relatedNotes = data.relatedNotes;
         const { groupSlug, note } = data;
+        this.relatedNotes = data.relatedNotes;
+        this.titleService.setTitle(`Note - ${note!.name}`);
         this.notesFacade
           .getNotesGroup$BySlug(groupSlug)
           .pipe(
@@ -85,10 +86,13 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
                 this.router.url.replace(`${'/' + note!.slug}`, ''),
                 groupName
               );
+              this.breadcrumbsService.updateBreadcrumbLabelByUrl(
+                this.router.url,
+                note!.name
+              );
             })
           )
           .subscribe(() => {});
-        this.titleService.setTitle(`Note - ${note!.name}`);
       }),
       map((data) => data.note)
     ) as Observable<Note>;
