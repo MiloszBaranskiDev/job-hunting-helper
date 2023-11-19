@@ -63,7 +63,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(EditNotesGroupDialogService);
 
   @Input() groupToEdit: NotesGroup;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   editNotesGroupInProgress$: Observable<boolean>;
   editNotesGroupError$: Observable<string | null>;
@@ -80,12 +80,12 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editNotesGroupInProgress$ = this.notesFacade.editNotesGroupInProgress$;
     this.editNotesGroupError$ = this.notesFacade.editNotesGroupError$;
 
-    this.initFormGroup();
-
     this.slugPrefix =
       window.location.href.split(ClientRoute.HomeLink)[0] +
       `${ClientRoute.NotesLink}` +
       '/';
+
+    this.initFormGroup();
   }
 
   ngAfterViewInit(): void {
@@ -95,13 +95,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.formGroup?.reset();
     this.dialogRef.close();
-  }
-
-  openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent);
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.editNotesGroupDialogService.clearNotesGroupToEdit();
-    });
   }
 
   onSubmit(): void {
@@ -118,22 +111,32 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  initFormGroup(): void {
+  private openDialog(): void {
+    this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.editNotesGroupDialogService.clearNotesGroupToEdit();
+    });
+  }
+
+  private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       [this.formField.Name]: [
         this.groupToEdit.name,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNotesGroupNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNotesGroupNameLength),
+          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.maxLength(this.fieldsLength.MaxNameLength),
         ],
       ],
       [this.formField.Slug]: [
         this.groupToEdit.slug,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNotesGroupNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNotesGroupNameLength + 10),
+          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.maxLength(
+            this.fieldsLength.MaxNameLength +
+              this.fieldsLength.MaxNameAndSlugLengthDiff
+          ),
         ],
       ],
     });

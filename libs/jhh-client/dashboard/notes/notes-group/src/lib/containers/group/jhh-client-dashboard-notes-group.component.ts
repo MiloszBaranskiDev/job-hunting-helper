@@ -102,6 +102,24 @@ export class JhhClientDashboardNotesGroupComponent
 
     this.queryParamsService.updateQueryParams();
 
+    this.getSortedNotes();
+  }
+
+  ngOnDestroy(): void {
+    this.queryParamsService.clearQueryParams();
+  }
+
+  searchNotes = (query: string): Observable<Note[] | null> => {
+    return this.group$.pipe(
+      first(),
+      filter((group) => !!group),
+      switchMap((group) =>
+        this.notesFacade.searchNotes$ByNameAndGroupId(query, group.id)
+      )
+    );
+  };
+
+  private getSortedNotes(): void {
     this.sortedNotes$ = combineLatest([
       this.group$.pipe(pluck('notes')),
       this.queryParamsService.getCurrentSort$(),
@@ -137,20 +155,6 @@ export class JhhClientDashboardNotesGroupComponent
       })
     );
   }
-
-  ngOnDestroy(): void {
-    this.queryParamsService.clearQueryParams();
-  }
-
-  searchNotes = (query: string): Observable<Note[] | null> => {
-    return this.group$.pipe(
-      first(),
-      filter((group) => !!group),
-      switchMap((group) =>
-        this.notesFacade.searchNotes$ByNameAndGroupId(query, group.id)
-      )
-    );
-  };
 
   private sortNotes(notes: Note[], sort: NotesListSort): Note[] {
     switch (sort) {

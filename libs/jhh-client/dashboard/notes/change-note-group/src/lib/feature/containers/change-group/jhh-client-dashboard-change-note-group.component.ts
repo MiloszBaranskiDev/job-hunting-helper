@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 import { Note } from '@jhh/shared/interfaces';
 
@@ -24,9 +24,12 @@ export class JhhClientDashboardChangeNoteGroupComponent {
 
   ngOnInit(): void {
     this.changeNoteGroupDialogService.noteToMove$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        this.noteToMove$ = of(val);
-      });
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          this.noteToMove$ = of(val);
+        })
+      )
+      .subscribe();
   }
 }

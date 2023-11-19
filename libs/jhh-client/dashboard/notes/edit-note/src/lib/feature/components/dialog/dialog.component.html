@@ -19,7 +19,7 @@
             Minimum length of slug is {{fieldsLength.MinNameLength}} characters
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of slug is {{fieldsLength.MaxNameLength + 10}} characters
+            Maximum length of slug is {{fieldsLength.MaxNameLength + fieldsLength.MaxNameAndSlugLengthDiff}} characters
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">

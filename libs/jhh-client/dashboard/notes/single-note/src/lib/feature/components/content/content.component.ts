@@ -19,6 +19,7 @@ export class ContentComponent implements OnChanges {
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
   @Input() content: string;
+
   sanitizedContent: SafeHtml;
 
   ngOnChanges(changes: SimpleChanges): void {

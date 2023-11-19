@@ -16,10 +16,11 @@
             Slug is required
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
-            Minimum length of slug is {{fieldsLength.MinNotesGroupNameLength}} characters
+            Minimum length of slug is {{fieldsLength.MinNameLength}} characters
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of slug is {{fieldsLength.MaxNotesGroupNameLength + 10}} characters
+            Maximum length of slug is {{fieldsLength.MaxNameLength + fieldsLength.MaxNameAndSlugLengthDiff}}
+            characters
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -29,10 +30,10 @@
             Name is required
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
-            Minimum length of name is {{fieldsLength.MinNotesGroupNameLength}} characters
+            Minimum length of name is {{fieldsLength.MinNameLength}} characters
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of name is {{fieldsLength.MaxNotesGroupNameLength}} characters
+            Maximum length of name is {{fieldsLength.MaxNameLength}} characters
           </mat-error>
         </mat-form-field>
         <mat-divider></mat-divider>

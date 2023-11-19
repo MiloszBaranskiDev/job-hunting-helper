@@ -1,5 +1,5 @@
-header {
-  .box {
+.noteHeader {
+  &__box {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -7,14 +7,14 @@ header {
     gap: 12px;
   }
 
-  .dates {
+  &__dates {
     display: flex;
     gap: 12px;
+  }
 
-    .date {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+  &__date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 }

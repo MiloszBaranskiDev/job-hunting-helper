@@ -13,10 +13,10 @@
             Group name is required
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.name)?.hasError(formErrorKey.MinLength)">
-            Minimum length of group name is {{fieldsLength.MinNotesGroupNameLength}} characters
+            Minimum length of group name is {{fieldsLength.MinNameLength}} characters
           </mat-error>
           <mat-error *ngIf="formGroup.get(formField.name)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of group name is {{fieldsLength.MaxNotesGroupNameLength}} characters
+            Maximum length of group name is {{fieldsLength.MaxNameLength}} characters
           </mat-error>
         </mat-form-field>
 

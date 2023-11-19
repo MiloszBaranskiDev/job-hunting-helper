@@ -54,6 +54,10 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
   relatedNotes: Note[] | null;
 
   ngOnInit(): void {
+    this.loadNoteAndSetData();
+  }
+
+  private loadNoteAndSetData(): void {
     this.note$ = combineLatest([
       this.route.params,
       this.route.parent!.params,
@@ -92,7 +96,7 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
               );
             })
           )
-          .subscribe(() => {});
+          .subscribe();
       }),
       map((data) => data.note)
     ) as Observable<Note>;

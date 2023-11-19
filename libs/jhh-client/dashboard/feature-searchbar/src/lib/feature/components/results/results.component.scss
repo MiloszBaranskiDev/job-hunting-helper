@@ -28,9 +28,9 @@
       color: var(--color__primary);
     }
   }
-}
 
-.noFound,
-.loading {
-  padding: 22px 16px;
+  &__noFound,
+  &__loading {
+    padding: 22px 16px;
+  }
 }

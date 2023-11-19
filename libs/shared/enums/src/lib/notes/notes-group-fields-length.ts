@@ -1,4 +1,5 @@
 export enum NotesGroupFieldsLength {
-  MinNotesGroupNameLength = 3,
-  MaxNotesGroupNameLength = 90,
+  MinNameLength = 3,
+  MaxNameLength = 90,
+  MaxNameAndSlugLengthDiff = 10,
 }

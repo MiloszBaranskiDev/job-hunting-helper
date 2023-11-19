@@ -17,7 +17,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
-import { first, Observable } from 'rxjs';
+import { first, Observable, tap } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
@@ -61,7 +61,7 @@ export class AddGroupComponent implements OnInit {
   readonly formErrorKey: typeof AddNotesGroupFormErrorKey =
     AddNotesGroupFormErrorKey;
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   addNotesGroupInProgress$: Observable<boolean>;
   addNotesGroupError$: Observable<string | null>;
@@ -93,15 +93,18 @@ export class AddGroupComponent implements OnInit {
     }
   }
 
-  handleReset(): void {
+  private handleReset(): void {
     this.addNotesGroupSuccess$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        if (val) {
-          this.formGroup?.reset();
-          this.dialogRef?.close();
-        }
-      });
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.formGroup?.reset();
+            this.dialogRef?.close();
+          }
+        })
+      )
+      .subscribe();
   }
 
   private initFormGroup(): void {
@@ -110,8 +113,8 @@ export class AddGroupComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(NotesGroupFieldsLength.MinNotesGroupNameLength),
-          Validators.maxLength(NotesGroupFieldsLength.MaxNotesGroupNameLength),
+          Validators.minLength(NotesGroupFieldsLength.MinNameLength),
+          Validators.maxLength(NotesGroupFieldsLength.MaxNameLength),
         ],
       ],
     });

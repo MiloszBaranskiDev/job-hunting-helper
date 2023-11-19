@@ -75,8 +75,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   );
 
   @Input() noteToEdit: Note;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
-  @ViewChild('scrollTarget') scrollTarget: ElementRef;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+  @ViewChild('scrollTarget') private readonly scrollTarget: ElementRef;
 
   editNoteInProgress$: Observable<boolean>;
   editNoteError$: Observable<string | null>;
@@ -95,9 +95,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editNoteInProgress$ = this.notesFacade.editNoteInProgress$;
     this.editNoteError$ = this.notesFacade.editNoteError$;
 
-    this.initFormGroup();
-
     this.slugPrefix = window.location.href.replace(/(\/[^\/?]*$)|(\?.*$)/, '/');
+
+    this.initFormGroup();
   }
 
   ngAfterViewInit(): void {
@@ -107,15 +107,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.formGroup?.reset();
     this.dialogRef.close();
-  }
-
-  openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent, {
-      panelClass: 'edit-note-dialog-container',
-    });
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.editNoteDialogService.clearNoteToEdit();
-    });
   }
 
   handleEditorCreated(quill: any): void {
@@ -176,6 +167,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     throw new Error('Content control is missing or not a FormControl');
   }
 
+  private openDialog(): void {
+    this.dialogRef = this.dialog.open(this.dialogContent, {
+      panelClass: 'edit-note-dialog-container',
+    });
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.editNoteDialogService.clearNoteToEdit();
+    });
+  }
+
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
       [this.formField.Name]: [
@@ -191,7 +191,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(this.fieldsLength.MinNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNameLength + 10),
+          Validators.maxLength(
+            this.fieldsLength.MaxNameLength +
+              this.fieldsLength.MaxNameAndSlugLengthDiff
+          ),
         ],
       ],
       [this.formField.Content]: [

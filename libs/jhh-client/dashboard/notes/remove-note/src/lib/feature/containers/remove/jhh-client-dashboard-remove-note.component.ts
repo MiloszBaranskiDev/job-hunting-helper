@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
@@ -26,9 +26,12 @@ export class JhhClientDashboardRemoveNoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.removeNoteDialogService.noteToRemove$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        this.noteToRemove$ = of(val);
-      });
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          this.noteToRemove$ = of(val);
+        })
+      )
+      .subscribe();
   }
 }

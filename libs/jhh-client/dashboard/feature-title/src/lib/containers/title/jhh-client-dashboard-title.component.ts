@@ -39,10 +39,12 @@ export class JhhClientDashboardTitleComponent implements OnInit {
   }
 
   private setDefaultRouteTitle(): void {
-    let route = this.activatedRoute;
+    let route: ActivatedRoute = this.activatedRoute;
+
     while (route.firstChild) {
       route = route.firstChild;
     }
+
     this.currentRouteTitle = route.snapshot.title;
   }
 }

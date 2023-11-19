@@ -100,7 +100,7 @@ export class WysiwygComponent
     this.editorCreated.emit(quill);
   }
 
-  imageHandler(): void {
+  private imageHandler(): void {
     const tooltip = this.quillInstance.theme.tooltip;
     const originalSave = tooltip.save;
 
@@ -135,7 +135,7 @@ export class WysiwygComponent
     tooltip.edit('image');
   }
 
-  setupClipboardMatcher(): void {
+  private setupClipboardMatcher(): void {
     if (!this.quillInstance) {
       return;
     }

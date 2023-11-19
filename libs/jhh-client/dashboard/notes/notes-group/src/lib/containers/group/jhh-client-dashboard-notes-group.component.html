@@ -14,7 +14,7 @@
     <jhh-notes-menu [group]="(group$ | async)!"></jhh-notes-menu>
     <jhh-add-note [groupId]="(group$| async)!.id"></jhh-add-note>
   </div>
-  <jhh-notes-list [sortedNotes$]="sortedNotes$" [groupSlug]="(group$ | async)!.slug"></jhh-notes-list>
+  <jhh-notes-list [sortedNotes]="sortedNotes$ | async" [groupSlug]="(group$ | async)!.slug"></jhh-notes-list>
   <ng-container *ngIf="totalPages">
     <jhh-notes-pagination [totalPages]="totalPages"></jhh-notes-pagination>
   </ng-container>

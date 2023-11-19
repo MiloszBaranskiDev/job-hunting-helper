@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import DOMPurify from 'dompurify';
 
@@ -73,7 +73,7 @@ export class AddNoteComponent implements OnInit {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   @Input() groupId: string;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   addNoteInProgress$: Observable<boolean>;
   addNoteError$: Observable<string | null>;
@@ -129,13 +129,16 @@ export class AddNoteComponent implements OnInit {
 
   handleReset(): void {
     this.addNoteSuccess$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((val) => {
-        if (val) {
-          this.formGroup?.reset();
-          this.dialogRef?.close();
-        }
-      });
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.formGroup?.reset();
+            this.dialogRef?.close();
+          }
+        })
+      )
+      .subscribe();
   }
 
   getContentSizeInBytes(): number {

@@ -8,11 +8,11 @@
         </ng-template>
       </mat-list-item>
     </mat-list>
-    <div *ngIf="results!.length === 0" class="noFound">
+    <div *ngIf="results!.length === 0" class="results__noFound">
       No results found.
     </div>
   </ng-container>
-  <div *ngIf="loading" class="loading">
+  <div *ngIf="loading" class="results__loading">
     Searching...
   </div>
 </div>

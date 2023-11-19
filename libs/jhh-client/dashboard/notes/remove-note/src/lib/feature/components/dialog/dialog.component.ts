@@ -47,7 +47,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   );
 
   @Input() noteToRemove: Note;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   removeNoteInProgress$: Observable<boolean>;
   removeNoteError$: Observable<string | null>;
@@ -67,14 +67,14 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  openDialog(): void {
+  handleRemove(noteId: string): void {
+    if (noteId) this.notesFacade.removeNote(noteId);
+  }
+
+  private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
       this.removeNoteDialogService.clearNoteToRemove();
     });
-  }
-
-  handleRemove(noteId: string): void {
-    if (noteId) this.notesFacade.removeNote(noteId);
   }
 }

@@ -53,12 +53,25 @@ export class MenuComponent implements OnInit {
     this.navigateAfterRemove();
   }
 
-  navigateAfterEdit(): void {
+  openEditNotesGroupDialog(): void {
+    this.editNotesGroupDialogService.openDialog(this.group);
+  }
+
+  openRemoveNotesGroupDialog(): void {
+    this.removeNotesGroupDialogService.openDialog(this.group);
+  }
+
+  private navigateAfterEdit(): void {
     let currentQueryParams: Params;
 
-    this.route.queryParams.pipe(first()).subscribe((params) => {
-      currentQueryParams = params;
-    });
+    this.route.queryParams
+      .pipe(
+        first(),
+        tap((params) => {
+          currentQueryParams = params;
+        })
+      )
+      .subscribe();
 
     this.editNotesGroupSuccess$
       .pipe(
@@ -91,7 +104,7 @@ export class MenuComponent implements OnInit {
       .subscribe();
   }
 
-  navigateAfterRemove(): void {
+  private navigateAfterRemove(): void {
     this.removeNotesGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -104,13 +117,5 @@ export class MenuComponent implements OnInit {
         })
       )
       .subscribe();
-  }
-
-  openEditNotesGroupDialog(): void {
-    this.editNotesGroupDialogService.openDialog(this.group);
-  }
-
-  openRemoveNotesGroupDialog(): void {
-    this.removeNotesGroupDialogService.openDialog(this.group);
   }
 }

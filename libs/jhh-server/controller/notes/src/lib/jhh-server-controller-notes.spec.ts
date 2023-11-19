@@ -1,7 +1,7 @@
-import { jhhServerControllerNotes } from './jhh-server-controller-notes';
+import { JhhServerControllerNotes } from './jhh-server-controller-notes';
 
 describe('jhhServerControllerNotes', () => {
   it('should work', () => {
-    expect(jhhServerControllerNotes()).toEqual('jhh-server-controller-notes');
+    expect(JhhServerControllerNotes()).toEqual('jhh-server-controller-notes');
   });
 });

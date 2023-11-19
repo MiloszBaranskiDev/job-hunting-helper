@@ -19,7 +19,7 @@ export class NotesListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
 
-  @Input() sortedNotes$: Observable<Note[]>;
+  @Input() sortedNotes: Note[] | null;
   @Input() groupSlug: string;
 
   breakpoint$: Observable<string>;

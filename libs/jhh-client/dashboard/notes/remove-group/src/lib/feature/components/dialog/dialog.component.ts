@@ -48,7 +48,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(RemoveNotesGroupDialogService);
 
   @Input() groupToRemove: NotesGroup;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   removeNotesGroupInProgress$: Observable<boolean>;
   removeNotesGroupError$: Observable<string | null>;
@@ -69,14 +69,14 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  openDialog(): void {
+  handleRemove(groupId: string): void {
+    if (groupId) this.notesFacade.removeNotesGroup(groupId);
+  }
+
+  private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
       this.removeNotesGroupDialogService.clearNotesGroupToRemove();
     });
-  }
-
-  handleRemove(groupId: string): void {
-    if (groupId) this.notesFacade.removeNotesGroup(groupId);
   }
 }

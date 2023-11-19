@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  DestroyRef,
   inject,
   Input,
   OnDestroy,
@@ -63,7 +62,6 @@ import { ChangeNoteGroupDialogService } from '../../service/change-note-group-di
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
@@ -71,7 +69,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(ChangeNoteGroupDialogService);
 
   @Input() noteToMove: Note;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   changeNoteGroupInProgress$: Observable<boolean>;
   changeNoteGroupError$: Observable<string | null>;
@@ -80,7 +78,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
-  formField: typeof FormField = FormField;
+  readonly formField: typeof FormField = FormField;
 
   ngOnInit(): void {
     this.changeNoteGroupInProgress$ =

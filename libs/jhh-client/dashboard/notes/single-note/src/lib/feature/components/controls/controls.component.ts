@@ -53,7 +53,23 @@ export class ControlsComponent implements OnInit {
     this.navigateAfterRemove();
   }
 
-  navigateAfterSlugChange(): void {
+  openEditNoteDialog(): void {
+    this.editNoteDialogService.openDialog(this.note);
+  }
+
+  openChangeNoteGroupDialog(): void {
+    this.changeNoteGroupDialogService.openDialog(this.note);
+  }
+
+  handleDuplicate(): void {
+    this.notesFacade.duplicateNote(this.note.id, this.note.groupId);
+  }
+
+  openRemoveNoteDialog(): void {
+    this.removeNoteDialogService.openDialog(this.note);
+  }
+
+  private navigateAfterSlugChange(): void {
     this.editNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -69,9 +85,11 @@ export class ControlsComponent implements OnInit {
               this.note.slug,
               slug!
             );
-            this.router.navigate(['']).then(() => {
-              this.router.navigate([newNoteLink]);
-            });
+            this.router
+              .navigate([''], { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([newNoteLink]);
+              });
           }
         }),
         catchError((error) => {
@@ -81,7 +99,7 @@ export class ControlsComponent implements OnInit {
       .subscribe();
   }
 
-  navigateAfterGroupChange(): void {
+  private navigateAfterGroupChange(): void {
     this.changeNoteGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -101,7 +119,7 @@ export class ControlsComponent implements OnInit {
       .subscribe();
   }
 
-  navigateAfterRemove(): void {
+  private navigateAfterRemove(): void {
     this.removeNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -115,21 +133,5 @@ export class ControlsComponent implements OnInit {
         })
       )
       .subscribe();
-  }
-
-  openEditNoteDialog(): void {
-    this.editNoteDialogService.openDialog(this.note);
-  }
-
-  openChangeNoteGroupDialog(): void {
-    this.changeNoteGroupDialogService.openDialog(this.note);
-  }
-
-  handleDuplicate(): void {
-    this.notesFacade.duplicateNote(this.note.id, this.note.groupId);
-  }
-
-  openRemoveNoteDialog(): void {
-    this.removeNoteDialogService.openDialog(this.note);
   }
 }
