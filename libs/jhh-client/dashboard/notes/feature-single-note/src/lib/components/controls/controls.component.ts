@@ -77,14 +77,17 @@ export class ControlsComponent implements OnInit {
         switchMap(() =>
           this.notesFacade.getNoteSlug$ByIds(this.note.id, this.note.groupId)
         ),
-        filter((slug) => slug !== null && slug !== this.note.slug),
-        tap((slug) => {
-          const currentLink: string = this.router.url;
-          if (currentLink.includes(this.note.slug)) {
-            const newNoteLink: string = currentLink.replace(
-              this.note.slug,
-              slug!
-            );
+        filter((newSlug) => newSlug !== null && newSlug !== this.note.slug),
+        tap((newSlug) => {
+          const currentUrlSegments: string[] = this.router.url.split('/');
+          const slugIndex: number = currentUrlSegments.findIndex(
+            (segment) => segment === this.note.slug
+          );
+
+          if (slugIndex !== -1) {
+            currentUrlSegments[slugIndex] = newSlug!;
+            const newNoteLink: string = currentUrlSegments.join('/');
+
             this.router
               .navigate([''], { skipLocationChange: true })
               .then(() => {
@@ -105,14 +108,16 @@ export class ControlsComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         filter((val) => val === true),
         switchMap(() => this.notesFacade.getGroupSlug$ByNoteId(this.note.id)),
-        tap((groupSlug) => {
-          const currentLink: string = this.router.url;
+        tap((newGroupSlug) => {
+          const currentUrlSegments: string[] = this.router.url.split('/');
+          const currentGroupSlug: string = currentUrlSegments[3];
+          const noteSlug: string = currentUrlSegments[4];
+
           const shouldNavigate: boolean =
-            currentLink.includes(this.note.slug) &&
-            !currentLink.includes(groupSlug!);
+            noteSlug === this.note.slug && currentGroupSlug !== newGroupSlug;
 
           if (shouldNavigate) {
-            this.router.navigate([ClientRoute.NotesLink + '/' + groupSlug]);
+            this.router.navigate([ClientRoute.NotesLink + '/' + newGroupSlug]);
           }
         })
       )
