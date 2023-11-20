@@ -5,12 +5,12 @@ import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes/notes.service';
-import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
-import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
+import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
-import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
-import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/edit-group';
-import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/remove-group';
+import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
+import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
+import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 
 import {
   AddNotesGroupSuccessPayload,

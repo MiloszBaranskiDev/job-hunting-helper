@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/edit-note';
-import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/change-note-group';
-import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/remove-note';
+import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
+import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
+import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { Observable } from 'rxjs';

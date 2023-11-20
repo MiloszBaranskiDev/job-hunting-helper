@@ -27,30 +27,30 @@ export const JhhClientDashboardNotesShellRoutes: Route = {
         {
           path: '',
           loadComponent: () =>
-            import('@jhh/jhh-client/dashboard/notes/notes-groups').then(
+            import('@jhh/jhh-client/dashboard/notes/feature-notes-groups').then(
               (c) => c.JhhClientDashboardNotesGroupsComponent
             ),
         },
         {
           path: ':groupSlug',
           loadComponent: () =>
-            import('@jhh/jhh-client/dashboard/notes/notes-group').then(
+            import('@jhh/jhh-client/dashboard/notes/feature-notes-group').then(
               (c) => c.JhhClientDashboardNotesGroupOutletComponent
             ),
           children: [
             {
               path: '',
               loadComponent: () =>
-                import('@jhh/jhh-client/dashboard/notes/notes-group').then(
-                  (c) => c.JhhClientDashboardNotesGroupComponent
-                ),
+                import(
+                  '@jhh/jhh-client/dashboard/notes/feature-notes-group'
+                ).then((c) => c.JhhClientDashboardNotesGroupComponent),
             },
             {
               path: ':noteSlug',
               loadComponent: () =>
-                import('@jhh/jhh-client/dashboard/notes/single-note').then(
-                  (c) => c.JhhClientDashboardNotesSingleNoteComponent
-                ),
+                import(
+                  '@jhh/jhh-client/dashboard/notes/feature-single-note'
+                ).then((c) => c.JhhClientDashboardNotesSingleNoteComponent),
             },
           ],
         },

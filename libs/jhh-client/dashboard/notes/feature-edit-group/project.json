@@ -1,0 +1,23 @@
+{
+  "name": "jhh-client-dashboard-notes-feature-edit-group",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/notes/feature-edit-group/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/notes/feature-edit-group",
+        "main": "libs/jhh-client/dashboard/notes/feature-edit-group/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/notes/feature-edit-group/tsconfig.lib.json",
+        "assets": [
+          "libs/jhh-client/dashboard/notes/feature-edit-group/*.md"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
