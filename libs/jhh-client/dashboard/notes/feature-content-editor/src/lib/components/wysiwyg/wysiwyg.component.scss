@@ -1,6 +1,16 @@
 :host {
+  #custom-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: red;
+    z-index: 5;
+  }
+
   quill-editor {
     width: 100%;
+    max-width: 100%;
+    margin-bottom: 12px;
+    position: relative;
 
     ::ng-deep {
       iframe.ql-video {
@@ -11,6 +21,24 @@
         position: relative;
         top: 0;
         left: 0;
+      }
+
+      .ql-tooltip[data-mode='image']::before {
+        content: 'Enter image URL:';
+      }
+
+      .ql-tooltip {
+        left: 50% !important;
+        right: unset !important;
+        transform: translateX(-50%) !important;
+      }
+
+      .ql-toolbar {
+        position: sticky;
+        width: 100%;
+        z-index: 5;
+        top: 0;
+        background-color: white;
       }
     }
   }

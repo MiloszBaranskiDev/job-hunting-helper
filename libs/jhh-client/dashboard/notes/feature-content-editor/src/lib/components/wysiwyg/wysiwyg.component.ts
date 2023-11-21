@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   forwardRef,
@@ -8,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import Quill from 'quill';
 import { QuillModule } from 'ngx-quill';
 import {
   ControlValueAccessor,
@@ -16,6 +14,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import Quill from 'quill';
 
 @Component({
   selector: 'jhh-note-content-wysiwyg',
@@ -31,9 +30,7 @@ import {
     },
   ],
 })
-export class WysiwygComponent
-  implements OnInit, AfterViewInit, ControlValueAccessor
-{
+export class WysiwygComponent implements OnInit, ControlValueAccessor {
   @Input() formControl: FormControl;
   @Output() editorCreated: EventEmitter<any> = new EventEmitter<any>();
 
@@ -62,39 +59,15 @@ export class WysiwygComponent
         handlers: {
           image: this.imageHandler.bind(this),
         },
-        scrollingContainer: 'html',
       },
     };
-  }
-
-  ngAfterViewInit(): void {
-    this.setupClipboardMatcher();
   }
 
   onEditorCreated(quill: any): void {
     this.quillInstance = quill;
 
     const toolbar = quill.getModule('toolbar');
-    const toolbarContainer = toolbar.container;
     toolbar.addHandler('image', this.imageHandler.bind(this));
-
-    // fix jumping on first interaction with toolbar
-    toolbarContainer.addEventListener(
-      'click',
-      (): void => {
-        const editorElement: any = document.querySelector('.ql-editor');
-        if (editorElement) {
-          editorElement.focus();
-        }
-      },
-      { once: true }
-    );
-
-    toolbarContainer.addEventListener('mousedown', (event: any) => {
-      event.preventDefault();
-      event.stopPropagation();
-    });
-    // end fix
 
     this.setupClipboardMatcher();
     this.editorCreated.emit(quill);
