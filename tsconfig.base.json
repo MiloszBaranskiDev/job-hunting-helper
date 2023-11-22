@@ -143,9 +143,6 @@
       "@jhh/jhh-client/shared/util-whitespace-validator": [
         "libs/jhh-client/shared/util-whitespace-validator/src/index.ts"
       ],
-      "@jhh/jhh-client/storybook-host": [
-        "libs/jhh-client/storybook-host/src/index.ts"
-      ],
       "@jhh/jhh-server/app": [
         "libs/jhh-server/app/src/index.ts"
       ],
