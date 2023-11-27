@@ -1,9 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
 import { JhhClientDashboardEditNotesGroupComponent } from '../../containers/edit/jhh-client-dashboard-edit-notes-group.component';
 
 describe('JhhClientDashboardNotesEditNotesGroupComponent', () => {
   let component: JhhClientDashboardEditNotesGroupComponent;
   let fixture: ComponentFixture<JhhClientDashboardEditNotesGroupComponent>;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

@@ -2,9 +2,9 @@
 export default {
   displayName: 'jhh-client-dashboard-notes-feature-notes-groups',
   preset: '../../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory:
     '../../../../../coverage/libs/jhh-client/dashboard/notes/feature-notes-groups',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

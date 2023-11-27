@@ -1,9 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { JhhClientDashboardBreadcrumbsComponent } from 'libs/jhh-client/dashboard/feature-breadcrumbs/src/lib/containers/breadcrumbs/jhh-client-dashboard-breadcrumbs.component';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
+import { JhhClientDashboardBreadcrumbsComponent } from './jhh-client-dashboard-breadcrumbs.component';
 
 describe('JhhDashboardBreadcrumbsComponent', () => {
   let component: JhhClientDashboardBreadcrumbsComponent;
   let fixture: ComponentFixture<JhhClientDashboardBreadcrumbsComponent>;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

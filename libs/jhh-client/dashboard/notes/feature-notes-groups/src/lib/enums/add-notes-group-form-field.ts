@@ -1,3 +1,3 @@
 export enum AddNotesGroupFormField {
-  name = 'name',
+  Name = 'name',
 }

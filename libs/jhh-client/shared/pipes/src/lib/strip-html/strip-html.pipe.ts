@@ -5,7 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class StripHtmlPipe implements PipeTransform {
-  transform(value: string): string {
+  transform(value: string | null): string {
+    if (value === null || value === undefined) {
+      return '';
+    }
     const doc: Document = new DOMParser().parseFromString(value, 'text/html');
     return doc.body.textContent || '';
   }

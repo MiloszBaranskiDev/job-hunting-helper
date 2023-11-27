@@ -69,7 +69,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(ChangeNoteGroupDialogService);
 
   @Input() noteToMove: Note;
-  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') readonly dialogContent: TemplateRef<any>;
 
   changeNoteGroupInProgress$: Observable<boolean>;
   changeNoteGroupError$: Observable<string | null>;

@@ -88,7 +88,7 @@ export class AddGroupComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const name = this.formGroup.get(this.formField.name)?.value;
+      const name = this.formGroup.get(this.formField.Name)?.value;
       this.notesFacade.addNotesGroup(name).pipe(first());
     }
   }
@@ -109,7 +109,7 @@ export class AddGroupComponent implements OnInit {
 
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
-      [this.formField.name]: [
+      [this.formField.Name]: [
         '',
         [
           Validators.required,
