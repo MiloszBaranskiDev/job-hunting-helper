@@ -24,11 +24,14 @@ export class JhhClientDashboardEditNotesGroupComponent {
   notesGroupToEdit$: Observable<NotesGroup | undefined>;
 
   ngOnInit(): void {
-    this.editNotesGroupDialogService.notesGroupToEdit$.pipe(
-      takeUntilDestroyed(this.destroyRef),
-      tap((val) => {
-        this.notesGroupToEdit$ = of(val);
-      })
-    );
+    this.editNotesGroupDialogService.notesGroupToEdit$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          console.log(val, 'val');
+          this.notesGroupToEdit$ = of(val);
+        })
+      )
+      .subscribe();
   }
 }
