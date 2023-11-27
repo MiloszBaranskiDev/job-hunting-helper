@@ -8,14 +8,14 @@
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill">
           <mat-label>Group name</mat-label>
-          <input matInput placeholder="Group Name" [formControlName]="formField.name" jhhWhitespaceSanitizer required/>
-          <mat-error *ngIf="formGroup.get(formField.name)?.hasError(formErrorKey.Required)">
+          <input matInput placeholder="Group Name" [formControlName]="formField.Name" jhhWhitespaceSanitizer required/>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
             Group name is required
           </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.name)?.hasError(formErrorKey.MinLength)">
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
             Minimum length of group name is {{fieldsLength.MinNameLength}} characters
           </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.name)?.hasError(formErrorKey.MaxLength)">
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
             Maximum length of group name is {{fieldsLength.MaxNameLength}} characters
           </mat-error>
         </mat-form-field>
