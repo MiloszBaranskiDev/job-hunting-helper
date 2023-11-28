@@ -19,7 +19,7 @@ export const JhhClientDashboardBoardShellRoutes: Route = {
         {
           path: '',
           loadComponent: () =>
-            import('@jhh/jhh-client/dashboard/board/feature-board').then(
+            import('@jhh/jhh-client/dashboard/board/feature').then(
               (c) => c.JhhClientDashboardBoardComponent
             ),
         },

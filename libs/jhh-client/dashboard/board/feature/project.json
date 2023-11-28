@@ -1,7 +1,7 @@
 {
-  "name": "jhh-client-dashboard-board-feature-board",
+  "name": "jhh-client-dashboard-board-feature",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jhh-client/dashboard/board/feature-board/src",
+  "sourceRoot": "libs/jhh-client/dashboard/board/feature/src",
   "projectType": "library",
   "targets": {
     "build": {
@@ -10,11 +10,11 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/board/feature-board",
-        "main": "libs/jhh-client/dashboard/board/feature-board/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/board/feature-board/tsconfig.lib.json",
+        "outputPath": "dist/libs/jhh-client/dashboard/board/feature",
+        "main": "libs/jhh-client/dashboard/board/feature/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/board/feature/tsconfig.lib.json",
         "assets": [
-          "libs/jhh-client/dashboard/board/feature-board/*.md"
+          "libs/jhh-client/dashboard/board/feature/*.md"
         ]
       }
     },
@@ -24,7 +24,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/jhh-client/dashboard/board/feature-board/jest.config.ts",
+        "jestConfig": "libs/jhh-client/dashboard/board/feature/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

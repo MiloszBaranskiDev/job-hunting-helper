@@ -1,5 +1,5 @@
 {
-  "name": "@jhh/jhh-client/dashboard/board/feature-board",
+  "name": "@jhh/jhh-client/dashboard/board/feature",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0"
