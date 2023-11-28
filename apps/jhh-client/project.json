@@ -4,7 +4,10 @@
   "projectType": "application",
   "prefix": "jhh",
   "sourceRoot": "apps/jhh-client/src",
-  "tags": [],
+  "tags": [
+    "type:app",
+    "platform:client"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",

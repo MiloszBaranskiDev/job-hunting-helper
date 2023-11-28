@@ -3,7 +3,12 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/jhh-client/dashboard/feature-sidebar/src",
   "prefix": "jhh",
-  "tags": [],
+  "tags": [
+    "platform:client",
+    "scope:client-dashboard",
+    "type:client-feature",
+    "scope:client-dashboard-feature"
+  ],
   "projectType": "library",
   "targets": {
     "test": {

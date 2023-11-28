@@ -35,5 +35,9 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:client",
+    "type:client-shared",
+    "type:util"
+  ]
 }

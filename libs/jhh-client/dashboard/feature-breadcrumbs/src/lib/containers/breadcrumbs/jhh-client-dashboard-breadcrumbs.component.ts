@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { NavComponent } from 'libs/jhh-client/dashboard/feature-breadcrumbs/src/lib/components/nav/nav.component';
+import { NavComponent } from '../../components/nav/nav.component';
 
 import { BreadcrumbsService } from '../../service/breadcrumbs.service';
 

@@ -1,1 +1,1 @@
-export * from './lib/feature/containers/searchbar/jhh-client-dashboard-searchbar.component';
+export * from './lib/containers/searchbar/jhh-client-dashboard-searchbar.component';

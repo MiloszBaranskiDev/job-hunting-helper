@@ -16,5 +16,8 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:server",
+    "scope:server-db"
+  ]
 }

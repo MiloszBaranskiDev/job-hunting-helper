@@ -1,10 +1,10 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { QueryParamsService } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { SelectComponent } from 'libs/jhh-client/dashboard/notes/feature-sorting/src/lib/components/select/select.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SelectComponent } from '../../components/select/select.component';
 
 @Component({
   selector: 'jhh-notes-sorting',

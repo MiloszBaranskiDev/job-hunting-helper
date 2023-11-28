@@ -19,5 +19,9 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:client",
+    "scope:client-dashboard",
+    "type:interfaces"
+  ]
 }

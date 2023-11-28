@@ -6,17 +6,23 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/jhh-client/dashboard/feature-title",
         "main": "libs/jhh-client/dashboard/feature-title/src/index.ts",
         "tsConfig": "libs/jhh-client/dashboard/feature-title/tsconfig.lib.json",
-        "assets": ["libs/jhh-client/dashboard/feature-title/*.md"]
+        "assets": [
+          "libs/jhh-client/dashboard/feature-title/*.md"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/jhh-client/dashboard/feature-title/jest.config.ts",
         "passWithNoTests": true
@@ -29,5 +35,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:client",
+    "scope:client-dashboard",
+    "type:client-feature",
+    "scope:client-dashboard-feature"
+  ]
 }

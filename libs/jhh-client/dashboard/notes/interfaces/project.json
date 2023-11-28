@@ -19,5 +19,10 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:client",
+    "scope:client-dashboard",
+    "scope:client-dashboard-notes",
+    "type:interfaces"
+  ]
 }

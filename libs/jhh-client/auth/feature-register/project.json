@@ -3,7 +3,10 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/jhh-client/auth/feature-register/src",
   "prefix": "jhh",
-  "tags": [],
+  "tags": [
+    "platform:client",
+    "scope:client-auth"
+  ],
   "projectType": "library",
   "targets": {
     "test": {

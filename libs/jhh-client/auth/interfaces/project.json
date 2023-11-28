@@ -6,17 +6,23 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/jhh-client/auth/interfaces",
         "main": "libs/jhh-client/auth/interfaces/src/index.ts",
         "tsConfig": "libs/jhh-client/auth/interfaces/tsconfig.lib.json",
-        "assets": ["libs/jhh-client/auth/interfaces/*.md"]
+        "assets": [
+          "libs/jhh-client/auth/interfaces/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "libs/jhh-client/auth/interfaces/**/*.ts",
@@ -25,5 +31,9 @@
       }
     }
   },
-  "tags": []
+  "tags": [
+    "platform:client",
+    "scope:client-auth",
+    "type:interfaces"
+  ]
 }

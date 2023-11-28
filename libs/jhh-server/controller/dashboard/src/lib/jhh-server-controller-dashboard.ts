@@ -9,7 +9,6 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 export function JhhServerControllerDashboard() {
   const prisma: PrismaClient = JhhServerDb();
-
   const loadAssignedData = async (req: any, res: any): Promise<void> => {
     try {
       const notesGroups: NotesGroup[] = await prisma.notesGroup.findMany({
