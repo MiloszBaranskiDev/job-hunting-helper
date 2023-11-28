@@ -22,6 +22,7 @@ import {
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import { JhhClientDashboardNotesShellRoutes } from '@jhh/jhh-client/dashboard/notes/shell';
+import { JhhClientDashboardBoardShellRoutes } from '@jhh/jhh-client/dashboard/board/shell';
 
 export const JhhClientDashboardShellRoutes: Route = {
   path: ClientRoute.Home,
@@ -37,5 +38,8 @@ export const JhhClientDashboardShellRoutes: Route = {
     NotesFacade,
   ],
   canActivate: [authPublicGuard],
-  children: [JhhClientDashboardNotesShellRoutes],
+  children: [
+    JhhClientDashboardNotesShellRoutes,
+    JhhClientDashboardBoardShellRoutes,
+  ],
 };
