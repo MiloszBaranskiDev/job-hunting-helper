@@ -10,17 +10,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
-interface ColumnItem {
-  id: string;
-  content: string;
-}
-
-interface Column {
-  id: string;
-  name: string;
-  color: string;
-  items: ColumnItem[];
-}
+import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 
 @Component({
   selector: 'jhh-board-columns',
@@ -36,7 +26,7 @@ interface Column {
   styleUrls: ['./columns.component.scss'],
 })
 export class ColumnsComponent {
-  columns: Column[] = [
+  columns: BoardColumn[] = [
     {
       id: '1',
       name: 'Todo',
@@ -83,7 +73,7 @@ export class ColumnsComponent {
     },
   ];
 
-  drop(event: CdkDragDrop<ColumnItem[]>) {
+  drop(event: CdkDragDrop<BoardColumnItem[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -100,7 +90,7 @@ export class ColumnsComponent {
     }
   }
 
-  trackByFn(index: number, item: Column | ColumnItem): string {
+  trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
     return item.id;
   }
 }
