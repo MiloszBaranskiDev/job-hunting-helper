@@ -26,52 +26,7 @@ import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
   styleUrls: ['./columns.component.scss'],
 })
 export class ColumnsComponent {
-  columns: BoardColumn[] = [
-    {
-      id: '1',
-      name: 'Todo',
-      color: '#e55039',
-      items: [
-        { id: '1', content: 'Get to work' },
-        {
-          id: '2',
-          content: 'Pick up groceries',
-        },
-        {
-          id: '3',
-          content: 'Go home',
-        },
-        {
-          id: '4',
-          content: 'Fall asleep',
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Done',
-      color: '#6ab04c',
-      items: [
-        { id: '1', content: 'Get up' },
-        {
-          id: '2',
-          content: 'Brush teeth',
-        },
-        {
-          id: '3',
-          content: 'Take a shower',
-        },
-        {
-          id: '4',
-          content: 'Check e-mail',
-        },
-        {
-          id: '5',
-          content: 'Walk dog',
-        },
-      ],
-    },
-  ];
+  columns: BoardColumn[] = [];
 
   drop(event: CdkDragDrop<BoardColumnItem[]>) {
     if (event.previousContainer === event.container) {

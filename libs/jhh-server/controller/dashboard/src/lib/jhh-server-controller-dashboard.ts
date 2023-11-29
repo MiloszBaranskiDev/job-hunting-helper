@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { HttpStatusCode } from '@jhh/shared/enums';
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { BoardColumn, NotesGroup } from '@jhh/shared/interfaces';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
@@ -15,17 +15,29 @@ export function JhhServerControllerDashboard() {
         where: {
           userId: req.user.id,
         },
-        select: {
-          id: true,
-          createdAt: true,
-          updatedAt: true,
-          name: true,
-          slug: true,
+        include: {
           notes: true,
         },
       });
 
-      res.status(HttpStatusCode.OK).json({ data: { notesGroups } });
+      const boardColumns: BoardColumn[] = (await prisma.boardColumn.findMany({
+        where: { userId: req.user.id },
+        include: { items: true },
+      })) as unknown as BoardColumn[];
+
+      const processedBoardColumns = boardColumns.map((column) => {
+        const firstRange: string = '0-24';
+        const itemsInFirstRange = column['items' as any].slice(0, 24);
+
+        return {
+          ...column,
+          items: { [firstRange]: itemsInFirstRange },
+        };
+      });
+
+      res
+        .status(HttpStatusCode.OK)
+        .json({ data: { notesGroups, boardColumns: processedBoardColumns } });
     } catch (error) {
       console.error(error);
       return respondWithError(

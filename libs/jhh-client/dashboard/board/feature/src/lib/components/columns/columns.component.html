@@ -3,15 +3,15 @@
     <h2 class="column__heading">
       {{column.name}}
     </h2>
-    <div
-      class="column__items"
-      cdkDropList
-      [cdkDropListData]="column.items"
-      (cdkDropListDropped)="drop($event)">
-      <div class="column__item" *ngFor="let item of column.items; trackBy: trackByFn" cdkDrag>
-        <div class="column__placeholder" *cdkDragPlaceholder></div>
-        {{item.content}}
-      </div>
-    </div>
+    <!--    <div-->
+    <!--      class="column__items"-->
+    <!--      cdkDropList-->
+    <!--      [cdkDropListData]="column.items"-->
+    <!--      (cdkDropListDropped)="drop($event)">-->
+    <!--      <div class="column__item" *ngFor="let item of column.items; trackBy: trackByFn" cdkDrag>-->
+    <!--        <div class="column__placeholder" *cdkDragPlaceholder></div>-->
+    <!--        {{item.content}}-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </div>
