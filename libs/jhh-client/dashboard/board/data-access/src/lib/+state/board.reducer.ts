@@ -10,22 +10,57 @@ export const BOARD_STATE_KEY = 'board';
 export interface OperationState {
   inProgress: boolean;
   error: string | null;
-  success?: boolean;
 }
 
 export interface BoardState extends EntityState<BoardColumn> {
-  // addColumn: OperationState;
+  removeBoardColumn: OperationState;
 }
 
 export const adapter = createEntityAdapter<BoardColumn>();
 
-export const initialBoardState: BoardState = adapter.getInitialState({});
+export const initialBoardState: BoardState = adapter.getInitialState({
+  removeBoardColumn: {
+    inProgress: false,
+    error: null,
+  },
+});
 
 const reducer: ActionReducer<BoardState> = createReducer(
   initialBoardState,
   on(BoardActions.setBoard, (state, { boardColumns }) =>
     adapter.setAll(boardColumns, state)
-  )
+  ),
+  on(BoardActions.removeBoardColumn, (state) => ({
+    ...state,
+    removeBoardColumn: {
+      ...state.removeBoardColumn,
+      inProgress: true,
+      error: null,
+    },
+  })),
+  on(BoardActions.removeBoardColumnFail, (state, { payload }) => ({
+    ...state,
+    removeBoardColumn: {
+      ...state.removeBoardColumn,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(BoardActions.removeBoardColumnSuccess, (state, { payload }) => {
+    const updatedEntities = { ...state.entities };
+    delete updatedEntities[payload.removedBoardColumn.id];
+    const definedEntities = Object.values(updatedEntities).filter(
+      (column): column is BoardColumn => column !== undefined
+    );
+
+    return adapter.setAll(definedEntities, {
+      ...state,
+      removeBoardColumn: {
+        ...state.removeBoardColumn,
+        inProgress: false,
+      },
+    });
+  })
 );
 
 export function boardReducer(state: BoardState | undefined, action: Action) {

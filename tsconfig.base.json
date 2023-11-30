@@ -42,6 +42,9 @@
       "@jhh/jhh-client/dashboard/board/data-access": [
         "libs/jhh-client/dashboard/board/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/board/domain": [
+        "libs/jhh-client/dashboard/board/domain/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/board/feature": [
         "libs/jhh-client/dashboard/board/feature/src/index.ts"
       ],
@@ -148,6 +151,9 @@
         "libs/jhh-client/shared/util-whitespace-validator/src/index.ts"
       ],
       "@jhh/jhh-server/app": ["libs/jhh-server/app/src/index.ts"],
+      "@jhh/jhh-server/controller/board": [
+        "libs/jhh-server/controller/board/src/index.ts"
+      ],
       "@jhh/jhh-server/controller/dashboard": [
         "libs/jhh-server/controller/dashboard/src/index.ts"
       ],

@@ -1,10 +1,12 @@
 import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 import {
   BOARD_STATE_KEY,
+  BoardEffects,
   boardReducer,
 } from '@jhh/jhh-client/dashboard/board/data-access';
 
@@ -15,7 +17,7 @@ export const JhhClientDashboardBoardShellRoutes: Route = {
   component: JhhClientDashboardBoardShellComponent,
   providers: [
     provideState(BOARD_STATE_KEY, boardReducer),
-    // provideEffects(BoardEffects),
+    provideEffects(BoardEffects),
   ],
   children: [
     {

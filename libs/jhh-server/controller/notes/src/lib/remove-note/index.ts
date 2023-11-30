@@ -3,6 +3,7 @@ import { Note, NotesGroup, PrismaClient } from '@prisma/client';
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { HttpStatusCode } from '@jhh/shared/enums';
+
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
 const removeNote = async (req: any, res: any): Promise<void> => {

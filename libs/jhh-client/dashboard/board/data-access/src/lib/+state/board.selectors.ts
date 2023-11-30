@@ -17,3 +17,13 @@ export const selectBoardColumns = createSelector(
   selectAllColumns,
   (boardColumns: BoardColumn[]) => boardColumns
 );
+
+export const selectRemoveBoardColumnInProgress = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.removeBoardColumn.inProgress
+);
+
+export const selectRemoveBoardColumnError = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.removeBoardColumn.error
+);

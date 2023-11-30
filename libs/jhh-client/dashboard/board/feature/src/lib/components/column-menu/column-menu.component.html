@@ -1,0 +1,86 @@
+<ng-container>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Board column actions"
+    (click)="$event.preventDefault(); $event.stopPropagation();"
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openRemoveColumnDialog()">
+      <mat-icon>close</mat-icon>
+      <span>Remove</span>
+    </button>
+  </mat-menu>
+</ng-container>
+
+<ng-template #removeDialogContent>
+  <h2 mat-dialog-title>Are you sure you want to remove a board column?</h2>
+  <mat-dialog-content>
+    <div class="alert">
+      <mat-icon>error</mat-icon>
+      <p>
+        All items in this column will be gone.
+        <br>
+        If you want to keep them, move them to another column first.
+      </p>
+    </div>
+    <ul>
+      <li>
+          <span>
+            <strong>
+              Name:
+            </strong>
+          </span>
+        <span>{{column.name}}</span>
+      </li>
+      <li>
+          <span>
+            <strong>
+              Created at:
+            </strong>
+          </span>
+        <span>{{column.createdAt | date: 'dd.MM.yyyy HH:mm'}}</span>
+      </li>
+      <li>
+          <span>
+            <strong>
+              Updated at:
+            </strong>
+          </span>
+        <span>{{column.updatedAt | date: 'dd.MM.yyyy HH:mm'}}</span>
+      </li>
+      <li>
+          <span>
+            <strong>
+              Amount of items:
+            </strong>
+          </span>
+        <span>{{column.items.length}}</span>
+      </li>
+    </ul>
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="(removeBoardColumnInProgress$ | async) || (removeBoardColumnError$ | async)">
+      <mat-progress-spinner *ngIf="removeBoardColumnInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+      <mat-error *ngIf="removeBoardColumnError$ | async as error">{{ error }}</mat-error>
+      <mat-divider></mat-divider>
+    </ng-container>
+    <mat-dialog-actions>
+      <button
+        mat-stroked-button
+        mat-dialog-close
+      >
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="handleRemove()"
+        [disabled]="(removeBoardColumnInProgress$ | async)"
+      >
+        Remove
+      </button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</ng-template>

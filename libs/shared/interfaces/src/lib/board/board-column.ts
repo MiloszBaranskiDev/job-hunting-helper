@@ -6,7 +6,5 @@ export interface BoardColumn {
   updatedAt: Date;
   name: string;
   color: string;
-  items: {
-    [range: string]: BoardColumnItem[];
-  };
+  items: BoardColumnItem[];
 }

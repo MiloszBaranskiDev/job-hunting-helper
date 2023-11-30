@@ -4,6 +4,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import defaultNotesGroups from '../../default-data/notes-groups';
 import defaultBoardColumns from '../../default-data/board-columns';
+import { BoardColumnItem } from '@jhh/shared/interfaces';
 
 const assignDefaultData = async (userId: string): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -36,27 +37,20 @@ const assignDefaultData = async (userId: string): Promise<void> => {
     columnIndex < defaultBoardColumns.length;
     columnIndex++
   ) {
-    const column = defaultBoardColumns[columnIndex];
-
-    const createdColumn = await prisma.boardColumn.create({
+    await prisma.boardColumn.create({
       data: {
-        name: column.name,
-        color: column.color,
+        name: defaultBoardColumns[columnIndex].name,
+        color: defaultBoardColumns[columnIndex].color,
         userId: userId,
+        items: {
+          create: defaultBoardColumns[columnIndex].items.map(
+            (item: BoardColumnItem) => ({
+              content: item.content,
+            })
+          ),
+        },
       },
     });
-
-    for (const range in column.items) {
-      const itemsInRange = column.items[range];
-      for (const item of itemsInRange) {
-        await prisma.boardColumnItem.create({
-          data: {
-            content: item.content,
-            columnId: createdColumn.id,
-          },
-        });
-      }
-    }
   }
 };
 

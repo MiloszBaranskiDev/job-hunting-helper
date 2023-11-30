@@ -20,24 +20,14 @@ export function JhhServerControllerDashboard() {
         },
       });
 
-      const boardColumns: BoardColumn[] = (await prisma.boardColumn.findMany({
+      const boardColumns: BoardColumn[] = await prisma.boardColumn.findMany({
         where: { userId: req.user.id },
         include: { items: true },
-      })) as unknown as BoardColumn[];
-
-      const processedBoardColumns = boardColumns.map((column) => {
-        const firstRange: string = '0-24';
-        const itemsInFirstRange = column['items' as any].slice(0, 24);
-
-        return {
-          ...column,
-          items: { [firstRange]: itemsInFirstRange },
-        };
       });
 
       res
         .status(HttpStatusCode.OK)
-        .json({ data: { notesGroups, boardColumns: processedBoardColumns } });
+        .json({ data: { notesGroups, boardColumns } });
     } catch (error) {
       console.error(error);
       return respondWithError(

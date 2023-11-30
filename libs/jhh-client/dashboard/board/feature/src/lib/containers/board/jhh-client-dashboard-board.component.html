@@ -1,1 +1,3 @@
-<jhh-board-columns></jhh-board-columns>
+<ng-container *ngIf="boardColumns$ | async as boardColumns">
+  <jhh-board-columns [columns]="boardColumns"></jhh-board-columns>
+</ng-container>
