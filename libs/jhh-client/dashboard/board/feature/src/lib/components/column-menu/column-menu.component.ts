@@ -65,6 +65,10 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
     this.dialogRef?.close();
   }
 
+  handleDuplicate(): void {
+    this.boardFacade.duplicateBoardColumn(this.column.id);
+  }
+
   openRemoveColumnDialog(): void {
     this.dialogRef = this.dialog.open(this.removeDialogContent);
   }

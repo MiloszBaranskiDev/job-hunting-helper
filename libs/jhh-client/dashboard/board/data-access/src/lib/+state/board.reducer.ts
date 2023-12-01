@@ -13,12 +13,17 @@ export interface OperationState {
 }
 
 export interface BoardState extends EntityState<BoardColumn> {
+  duplicateBoardColumn: OperationState;
   removeBoardColumn: OperationState;
 }
 
 export const adapter = createEntityAdapter<BoardColumn>();
 
 export const initialBoardState: BoardState = adapter.getInitialState({
+  duplicateBoardColumn: {
+    inProgress: false,
+    error: null,
+  },
   removeBoardColumn: {
     inProgress: false,
     error: null,
@@ -30,6 +35,36 @@ const reducer: ActionReducer<BoardState> = createReducer(
   on(BoardActions.setBoard, (state, { boardColumns }) =>
     adapter.setAll(boardColumns, state)
   ),
+  on(BoardActions.duplicateBoardColumn, (state) => ({
+    ...state,
+    duplicateBoardColumn: {
+      ...state.duplicateBoardColumn,
+      inProgress: true,
+      error: null,
+    },
+  })),
+  on(BoardActions.duplicateBoardColumnFail, (state, { payload }) => ({
+    ...state,
+    duplicateBoardColumn: {
+      ...state.duplicateBoardColumn,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(BoardActions.duplicateBoardColumnSuccess, (state, { payload }) => {
+    const updatedState: BoardState = adapter.addOne(
+      payload.duplicatedBoardColumn,
+      state
+    );
+
+    return {
+      ...updatedState,
+      duplicateBoardColumn: {
+        inProgress: false,
+        error: null,
+      },
+    };
+  }),
   on(BoardActions.removeBoardColumn, (state) => ({
     ...state,
     removeBoardColumn: {

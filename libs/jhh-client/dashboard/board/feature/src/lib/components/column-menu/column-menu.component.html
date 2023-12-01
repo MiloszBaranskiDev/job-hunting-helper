@@ -8,6 +8,10 @@
     <mat-icon>more_horiz</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="handleDuplicate()">
+      <mat-icon>file_copy</mat-icon>
+      <span>Duplicate</span>
+    </button>
     <button mat-menu-item (click)="openRemoveColumnDialog()">
       <mat-icon>close</mat-icon>
       <span>Remove</span>

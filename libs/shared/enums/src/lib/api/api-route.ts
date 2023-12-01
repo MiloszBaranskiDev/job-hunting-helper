@@ -19,5 +19,6 @@ export enum ApiRoute {
   DuplicateNote = '/duplicate-note',
   ChangeNoteGroup = '/change-note-group',
   //
+  DuplicateBoardColumn = '/duplicate-board-column',
   RemoveBoardColumn = '/remove-board-column',
 }
