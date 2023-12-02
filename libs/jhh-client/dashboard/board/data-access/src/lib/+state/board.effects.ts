@@ -8,6 +8,7 @@ import * as BoardActions from './board.actions';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import {
+  AddBoardColumnSuccessPayload,
   DuplicateBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessPayload,
 } from '@jhh/jhh-client/dashboard/board/domain';
@@ -19,6 +20,25 @@ export class BoardEffects {
   private readonly actions$ = inject(Actions);
   private readonly boardService: BoardService = inject(BoardService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
+
+  addBoardColumn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BoardActions.addBoardColumn),
+      fetch({
+        run: (action) =>
+          this.boardService.addBoardColumn(action.payload).pipe(
+            map((res: AddBoardColumnSuccessPayload) =>
+              BoardActions.addBoardColumnSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.snackbarService.open('New column added successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          BoardActions.addBoardColumnFail({ payload: error }),
+      })
+    )
+  );
 
   duplicateBoardColumn$ = createEffect(() =>
     this.actions$.pipe(

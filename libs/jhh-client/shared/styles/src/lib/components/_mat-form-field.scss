@@ -2,6 +2,19 @@
   width: 100%;
   margin-bottom: 16px;
 
+  &.fieldColor {
+    width: 83px;
+
+    input {
+      height: 40px !important;
+      cursor: pointer;
+
+      &::-moz-color-swatch {
+        border-color: transparent !important;
+      }
+    }
+  }
+
   .mat-mdc-form-field-subscript-wrapper {
     &:before {
       content: none;

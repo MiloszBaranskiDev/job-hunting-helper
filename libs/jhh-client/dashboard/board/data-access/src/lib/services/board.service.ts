@@ -7,13 +7,16 @@ import { environment } from '@jhh/jhh-client/shared/config';
 
 import { ApiRoute } from '@jhh/shared/enums';
 import {
+  AddBoardColumnPayload,
+  AddBoardColumnSuccessPayload,
+  AddBoardColumnSuccessResponse,
   DuplicateBoardColumnPayload,
   DuplicateBoardColumnSuccessPayload,
+  DuplicateBoardColumnSuccessResponse,
   RemoveBoardColumnPayload,
   RemoveBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessResponse,
 } from '@jhh/jhh-client/dashboard/board/domain';
-import { DuplicateBoardColumnSuccessResponse } from 'libs/jhh-client/dashboard/board/domain/src/lib/interfaces/responses/duplicate-board-column-success-response';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +26,20 @@ export class BoardService {
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
+
+  addBoardColumn(
+    payload: AddBoardColumnPayload
+  ): Observable<AddBoardColumnSuccessPayload> {
+    return this.http
+      .post<AddBoardColumnSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.AddBoardColumn,
+        {
+          name: payload.name,
+          color: payload.color,
+        }
+      )
+      .pipe(map((res: AddBoardColumnSuccessResponse) => res.data));
+  }
 
   duplicateBoardColumn(
     payload: DuplicateBoardColumnPayload

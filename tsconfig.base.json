@@ -51,6 +51,9 @@
       "@jhh/jhh-client/dashboard/board/shell": [
         "libs/jhh-client/dashboard/board/shell/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/board/util-color-validator": [
+        "libs/jhh-client/dashboard/board/util-color-validator/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/data-access": [
         "libs/jhh-client/dashboard/data-access/src/index.ts"
       ],

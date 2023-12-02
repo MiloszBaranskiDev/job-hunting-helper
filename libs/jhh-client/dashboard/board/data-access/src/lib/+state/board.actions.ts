@@ -3,6 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { BoardColumn } from '@jhh/shared/interfaces';
 import {
+  AddBoardColumnPayload,
+  AddBoardColumnSuccessPayload,
   DuplicateBoardColumnPayload,
   DuplicateBoardColumnSuccessPayload,
   RemoveBoardColumnPayload,
@@ -11,6 +13,9 @@ import {
 
 export enum Type {
   SetBoard = '[Board] Set Board',
+  AddBoardColumn = '[Board] Add Board Column',
+  AddBoardColumnFail = '[Board] Add Board Column Fail',
+  AddBoardColumnSuccess = '[Board] Add Board Column Success',
   DuplicateBoardColumn = '[Board] Duplicate Board Column',
   DuplicateBoardColumnFail = '[Board] Duplicate Board Column Fail',
   DuplicateBoardColumnSuccess = '[Board] Duplicate Board Column Success',
@@ -22,6 +27,21 @@ export enum Type {
 export const setBoard = createAction(
   Type.SetBoard,
   props<{ boardColumns: BoardColumn[] }>()
+);
+
+export const addBoardColumn = createAction(
+  Type.AddBoardColumn,
+  props<{ payload: AddBoardColumnPayload }>()
+);
+
+export const addBoardColumnFail = createAction(
+  Type.AddBoardColumnFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const addBoardColumnSuccess = createAction(
+  Type.AddBoardColumnSuccess,
+  props<{ payload: AddBoardColumnSuccessPayload }>()
 );
 
 export const duplicateBoardColumn = createAction(
