@@ -36,6 +36,7 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'jhh-board-add-column',
@@ -50,6 +51,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatProgressSpinnerModule,
     MatInputModule,
     MatDialogModule,
+    MatDividerModule,
   ],
   templateUrl: './add-column.component.html',
   styleUrls: ['./add-column.component.scss'],

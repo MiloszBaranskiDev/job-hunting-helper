@@ -1,5 +1,5 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as BoardActions from './board.actions';
 
@@ -15,14 +15,21 @@ export interface OperationState {
 
 export interface BoardState extends EntityState<BoardColumn> {
   addBoardColumn: OperationState;
+  editBoardColumn: OperationState;
   duplicateBoardColumn: OperationState;
   removeBoardColumn: OperationState;
 }
 
-export const adapter = createEntityAdapter<BoardColumn>();
+export const adapter: EntityAdapter<BoardColumn> =
+  createEntityAdapter<BoardColumn>();
 
 export const initialBoardState: BoardState = adapter.getInitialState({
   addBoardColumn: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  editBoardColumn: {
     inProgress: false,
     error: null,
     success: false,
@@ -74,7 +81,45 @@ const reducer: ActionReducer<BoardState> = createReducer(
       },
     };
   }),
+  on(BoardActions.editBoardColumn, (state) => ({
+    ...state,
+    editBoardColumn: {
+      ...state.editBoardColumn,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(BoardActions.editBoardColumnFail, (state, { payload }) => ({
+    ...state,
+    editBoardColumn: {
+      ...state.editBoardColumn,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(BoardActions.editBoardColumnSuccess, (state, { payload }) => {
+    const updatedState: BoardState = adapter.updateOne(
+      {
+        id: payload.editedBoardColumn.id,
+        changes: {
+          updatedAt: payload.editedBoardColumn.updatedAt,
+          name: payload.editedBoardColumn.name,
+          color: payload.editedBoardColumn.color,
+        },
+      },
+      state
+    );
 
+    return {
+      ...updatedState,
+      editBoardColumn: {
+        inProgress: false,
+        error: null,
+        success: true,
+      },
+    };
+  }),
   on(BoardActions.duplicateBoardColumn, (state) => ({
     ...state,
     duplicateBoardColumn: {

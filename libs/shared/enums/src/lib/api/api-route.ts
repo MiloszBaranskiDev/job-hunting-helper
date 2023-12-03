@@ -20,6 +20,7 @@ export enum ApiRoute {
   ChangeNoteGroup = '/change-note-group',
   //
   AddBoardColumn = '/add-board-column',
+  EditBoardColumn = '/edit-board-column',
   DuplicateBoardColumn = '/duplicate-board-column',
   RemoveBoardColumn = '/remove-board-column',
 }

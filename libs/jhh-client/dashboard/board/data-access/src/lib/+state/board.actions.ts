@@ -7,6 +7,8 @@ import {
   AddBoardColumnSuccessPayload,
   DuplicateBoardColumnPayload,
   DuplicateBoardColumnSuccessPayload,
+  EditBoardColumnPayload,
+  EditBoardColumnSuccessPayload,
   RemoveBoardColumnPayload,
   RemoveBoardColumnSuccessPayload,
 } from '@jhh/jhh-client/dashboard/board/domain';
@@ -16,6 +18,10 @@ export enum Type {
   AddBoardColumn = '[Board] Add Board Column',
   AddBoardColumnFail = '[Board] Add Board Column Fail',
   AddBoardColumnSuccess = '[Board] Add Board Column Success',
+  EditBoardColumn = '[Board] Edit Board Column',
+  EditBoardColumnFail = '[Board] Edit Board Column Fail',
+  EditBoardColumnSuccess = '[Board] Edit Board Column Success',
+  ResetEditBoardColumnSuccess = '[Board] Reset Edit Board Column Success',
   DuplicateBoardColumn = '[Board] Duplicate Board Column',
   DuplicateBoardColumnFail = '[Board] Duplicate Board Column Fail',
   DuplicateBoardColumnSuccess = '[Board] Duplicate Board Column Success',
@@ -42,6 +48,25 @@ export const addBoardColumnFail = createAction(
 export const addBoardColumnSuccess = createAction(
   Type.AddBoardColumnSuccess,
   props<{ payload: AddBoardColumnSuccessPayload }>()
+);
+
+export const editBoardColumn = createAction(
+  Type.EditBoardColumn,
+  props<{ payload: EditBoardColumnPayload }>()
+);
+
+export const editBoardColumnFail = createAction(
+  Type.EditBoardColumnFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const editBoardColumnSuccess = createAction(
+  Type.EditBoardColumnSuccess,
+  props<{ payload: EditBoardColumnSuccessPayload }>()
+);
+
+export const resetEditBoardColumnSuccess = createAction(
+  Type.ResetEditBoardColumnSuccess
 );
 
 export const duplicateBoardColumn = createAction(

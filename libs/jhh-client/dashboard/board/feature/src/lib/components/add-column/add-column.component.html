@@ -30,6 +30,7 @@
           </mat-form-field>
         </div>
 
+        <mat-divider></mat-divider>
         <ng-container *ngIf="(addBoardColumnInProgress$ | async) || (addBoardColumnError$ | async)">
           <mat-progress-spinner *ngIf="addBoardColumnInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
           <mat-error *ngIf="addBoardColumnError$ | async as error">{{ error }}</mat-error>

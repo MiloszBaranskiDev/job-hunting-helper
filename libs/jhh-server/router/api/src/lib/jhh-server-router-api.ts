@@ -30,6 +30,7 @@ export function JhhServerRouterApi(): Router {
   router.delete(ApiRoute.RemoveNote, notesController.removeNote);
 
   router.post(ApiRoute.AddBoardColumn, boardController.addBoardColumn);
+  router.patch(ApiRoute.EditBoardColumn, boardController.editBoardColumn);
   router.post(
     ApiRoute.DuplicateBoardColumn,
     boardController.duplicateBoardColumn

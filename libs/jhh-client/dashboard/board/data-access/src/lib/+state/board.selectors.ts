@@ -33,6 +33,21 @@ export const selectAddBoardColumnSuccess = createSelector(
   (state: BoardState) => state.addBoardColumn.success!
 );
 
+export const selectEditBoardColumnInProgress = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.editBoardColumn.inProgress
+);
+
+export const selectEditBoardColumnError = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.editBoardColumn.error
+);
+
+export const selectEditBoardColumnSuccess = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.editBoardColumn.success!
+);
+
 export const selectDuplicateBoardColumnInProgress = createSelector(
   selectBoardState,
   (state: BoardState) => state.duplicateBoardColumn.inProgress

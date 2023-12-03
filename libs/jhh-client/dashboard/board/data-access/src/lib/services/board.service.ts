@@ -13,6 +13,9 @@ import {
   DuplicateBoardColumnPayload,
   DuplicateBoardColumnSuccessPayload,
   DuplicateBoardColumnSuccessResponse,
+  EditBoardColumnPayload,
+  EditBoardColumnSuccessPayload,
+  EditBoardColumnSuccessResponse,
   RemoveBoardColumnPayload,
   RemoveBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessResponse,
@@ -39,6 +42,21 @@ export class BoardService {
         }
       )
       .pipe(map((res: AddBoardColumnSuccessResponse) => res.data));
+  }
+
+  editBoardColumn(
+    payload: EditBoardColumnPayload
+  ): Observable<EditBoardColumnSuccessPayload> {
+    return this.http
+      .patch<EditBoardColumnSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.EditBoardColumn,
+        {
+          columnId: payload.columnId,
+          name: payload.name,
+          color: payload.color,
+        }
+      )
+      .pipe(map((res: EditBoardColumnSuccessResponse) => res.data));
   }
 
   duplicateBoardColumn(

@@ -34,6 +34,18 @@ export class BoardFacade {
     select(BoardSelectors.selectAddBoardColumnSuccess)
   );
 
+  editBoardColumnInProgress$: Observable<boolean> = this.store.pipe(
+    select(BoardSelectors.selectEditBoardColumnInProgress)
+  );
+
+  editBoardColumnError$: Observable<string | null> = this.store.pipe(
+    select(BoardSelectors.selectEditBoardColumnError)
+  );
+
+  editBoardColumnSuccess$: Observable<boolean> = this.store.pipe(
+    select(BoardSelectors.selectEditBoardColumnSuccess)
+  );
+
   duplicateBoardColumnInProgress$: Observable<boolean> = this.store.pipe(
     select(BoardSelectors.selectDuplicateBoardColumnInProgress)
   );
@@ -57,6 +69,16 @@ export class BoardFacade {
       }),
       BoardActions.Type.AddBoardColumnSuccess,
       BoardActions.Type.AddBoardColumnFail
+    );
+  }
+
+  editBoardColumn(columnId: string, name: string, color: string) {
+    return this.actionResolverService.executeAndWatch(
+      BoardActions.editBoardColumn({
+        payload: { columnId: columnId, name: name, color: color },
+      }),
+      BoardActions.Type.EditBoardColumnSuccess,
+      BoardActions.Type.EditBoardColumnFail
     );
   }
 

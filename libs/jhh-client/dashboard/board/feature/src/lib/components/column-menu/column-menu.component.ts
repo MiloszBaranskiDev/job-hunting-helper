@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
@@ -19,11 +20,27 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumnFieldsLength } from '@jhh/shared/enums';
+import {
+  BoardColumnField,
+  BoardColumnFormErrorKey,
+} from '@jhh/jhh-client/dashboard/board/domain';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
-import { Observable } from 'rxjs';
+
+import { ColorValidator } from '@jhh/jhh-client/dashboard/board/util-color-validator';
+import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'jhh-board-column-menu',
@@ -38,42 +55,126 @@ import { Observable } from 'rxjs';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
+    WhitespaceSanitizerDirective,
+    MatInputModule,
   ],
   templateUrl: './column-menu.component.html',
   styleUrls: ['./column-menu.component.scss'],
 })
 export class ColumnMenuComponent implements OnInit, OnDestroy {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   @Input({ required: true }) column: BoardColumn;
+  @ViewChild('editDialogContent')
+  private readonly editDialogContent: TemplateRef<any>;
   @ViewChild('removeDialogContent')
   private readonly removeDialogContent: TemplateRef<any>;
 
+  editBoardColumnInProgress$: Observable<boolean>;
+  editBoardColumnError$: Observable<string | null>;
+  editBoardColumnSuccess$: Observable<boolean>;
   removeBoardColumnInProgress$: Observable<boolean>;
   removeBoardColumnError$: Observable<string | null>;
 
-  dialogRef: MatDialogRef<TemplateRef<any>>;
+  formGroup: FormGroup;
+  private dialogRef: MatDialogRef<TemplateRef<any>>;
+  readonly formField: typeof BoardColumnField = BoardColumnField;
+  readonly fieldsLength: typeof BoardColumnFieldsLength =
+    BoardColumnFieldsLength;
+  readonly formErrorKey: typeof BoardColumnFormErrorKey =
+    BoardColumnFormErrorKey;
 
   ngOnInit(): void {
+    this.editBoardColumnInProgress$ =
+      this.boardFacade.editBoardColumnInProgress$;
+    this.editBoardColumnError$ = this.boardFacade.editBoardColumnError$;
+    this.editBoardColumnSuccess$ = this.boardFacade.editBoardColumnSuccess$;
     this.removeBoardColumnInProgress$ =
       this.boardFacade.removeBoardColumnInProgress$;
     this.removeBoardColumnError$ = this.boardFacade.removeBoardColumnError$;
+
+    this.initFormGroup();
+    this.handleReset();
   }
 
   ngOnDestroy(): void {
     this.dialogRef?.close();
   }
 
-  handleDuplicate(): void {
-    this.boardFacade.duplicateBoardColumn(this.column.id);
-  }
-
   openRemoveColumnDialog(): void {
     this.dialogRef = this.dialog.open(this.removeDialogContent);
   }
 
+  openEditColumnDialog(): void {
+    this.dialogRef = this.dialog.open(this.editDialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.formGroup?.reset({
+        [this.formField.Name]: this.column.name,
+        [this.formField.Color]: this.column.color,
+      });
+    });
+  }
+
+  handleDuplicate(): void {
+    this.boardFacade.duplicateBoardColumn(this.column.id);
+  }
+
   handleRemove(): void {
     this.boardFacade.removeBoardColumn(this.column.id);
+  }
+
+  onSubmit(): void {
+    if (this.formGroup.valid) {
+      const name = this.formGroup.get(this.formField.Name)?.value;
+      const color = this.formGroup.get(this.formField.Color)?.value;
+
+      if (name !== this.column.name || color !== this.column.color) {
+        this.boardFacade.editBoardColumn(this.column.id, name, color);
+      } else {
+        this.formGroup?.reset({
+          [this.formField.Name]: this.column.name,
+          [this.formField.Color]: this.column.color,
+        });
+        this.dialogRef?.close();
+      }
+    }
+  }
+
+  private handleReset(): void {
+    this.editBoardColumnSuccess$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((val) => {
+          if (val) {
+            this.formGroup?.reset({
+              [this.formField.Name]: this.column.name,
+              [this.formField.Color]: this.column.color,
+            });
+            this.dialogRef?.close();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private initFormGroup(): void {
+    this.formGroup = this.formBuilder.group({
+      [this.formField.Name]: [
+        this.column.name,
+        [
+          Validators.required,
+          Validators.minLength(BoardColumnFieldsLength.MinColumnNameLength),
+          Validators.maxLength(BoardColumnFieldsLength.MaxColumnNameLength),
+        ],
+      ],
+      [this.formField.Color]: [
+        this.column.color,
+        [Validators.required, ColorValidator],
+      ],
+    });
   }
 }

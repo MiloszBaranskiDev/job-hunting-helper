@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { map, tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as BoardActions from './board.actions';
 
@@ -10,6 +10,7 @@ import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import {
   AddBoardColumnSuccessPayload,
   DuplicateBoardColumnSuccessPayload,
+  EditBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessPayload,
 } from '@jhh/jhh-client/dashboard/board/domain';
 
@@ -36,6 +37,26 @@ export class BoardEffects {
           ),
         onError: (action, error) =>
           BoardActions.addBoardColumnFail({ payload: error }),
+      })
+    )
+  );
+
+  editBoardColumn$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BoardActions.editBoardColumn),
+      fetch({
+        run: (action) =>
+          this.boardService.editBoardColumn(action.payload).pipe(
+            mergeMap((res: EditBoardColumnSuccessPayload) => [
+              BoardActions.editBoardColumnSuccess({ payload: res }),
+              BoardActions.resetEditBoardColumnSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Column edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          BoardActions.editBoardColumnFail({ payload: error }),
       })
     )
   );
