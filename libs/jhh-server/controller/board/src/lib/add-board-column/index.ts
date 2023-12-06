@@ -72,7 +72,11 @@ const addBoardColumn = async (req: any, res: any): Promise<void> => {
         userId,
       },
       include: {
-        items: true,
+        items: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
       },
     });
 

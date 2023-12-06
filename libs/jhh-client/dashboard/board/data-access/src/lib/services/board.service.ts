@@ -19,6 +19,9 @@ import {
   RemoveBoardColumnPayload,
   RemoveBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessResponse,
+  UpdateBoardColumnsPayload,
+  UpdateBoardColumnsSuccessPayload,
+  UpdateBoardColumnsSuccessResponse,
 } from '@jhh/jhh-client/dashboard/board/domain';
 
 @Injectable({
@@ -83,5 +86,18 @@ export class BoardService {
         }
       )
       .pipe(map((res: RemoveBoardColumnSuccessResponse) => res.data));
+  }
+
+  updateBoardColumns(
+    payload: UpdateBoardColumnsPayload
+  ): Observable<UpdateBoardColumnsSuccessPayload> {
+    return this.http
+      .patch<UpdateBoardColumnsSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.UpdateBoardColumns,
+        {
+          columnsToUpdate: payload.columnsToUpdate,
+        }
+      )
+      .pipe(map((res: UpdateBoardColumnsSuccessResponse) => res.data));
   }
 }

@@ -62,6 +62,18 @@ export class BoardFacade {
     select(BoardSelectors.selectRemoveBoardColumnError)
   );
 
+  updateBoardColumnsInProgress$: Observable<boolean> = this.store.pipe(
+    select(BoardSelectors.selectUpdateBoardColumnsInProgress)
+  );
+
+  updateBoardColumnsError$: Observable<string | null> = this.store.pipe(
+    select(BoardSelectors.selectUpdateBoardColumnsError)
+  );
+
+  updateBoardColumnsSuccess$: Observable<boolean> = this.store.pipe(
+    select(BoardSelectors.selectUpdateBoardColumnsSuccess)
+  );
+
   addBoardColumn(name: string, color: string) {
     return this.actionResolverService.executeAndWatch(
       BoardActions.addBoardColumn({
@@ -99,6 +111,16 @@ export class BoardFacade {
       }),
       BoardActions.Type.RemoveBoardColumnSuccess,
       BoardActions.Type.RemoveBoardColumnFail
+    );
+  }
+
+  updateBoardColumns(columnsToUpdate: Partial<BoardColumn>[]) {
+    return this.actionResolverService.executeAndWatch(
+      BoardActions.updateBoardColumns({
+        payload: { columnsToUpdate: columnsToUpdate },
+      }),
+      BoardActions.Type.UpdateBoardColumnsSuccess,
+      BoardActions.Type.UpdateBoardColumnsFail
     );
   }
 }

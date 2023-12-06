@@ -11,6 +11,8 @@ import {
   EditBoardColumnSuccessPayload,
   RemoveBoardColumnPayload,
   RemoveBoardColumnSuccessPayload,
+  UpdateBoardColumnsPayload,
+  UpdateBoardColumnsSuccessPayload,
 } from '@jhh/jhh-client/dashboard/board/domain';
 
 export enum Type {
@@ -28,6 +30,10 @@ export enum Type {
   RemoveBoardColumn = '[Board] Remove Board Column',
   RemoveBoardColumnFail = '[Board] Remove Board Column Fail',
   RemoveBoardColumnSuccess = '[Board] Remove Board Column Success',
+  UpdateBoardColumns = '[Board] Update Board Columns',
+  UpdateBoardColumnsFail = '[Board] Update Board Columns Fail',
+  UpdateBoardColumnsSuccess = '[Board] Update Board Columns Success',
+  ResetUpdateBoardColumnsSuccess = '[Board] Reset Update Board Columns Success',
 }
 
 export const setBoard = createAction(
@@ -97,4 +103,23 @@ export const removeBoardColumnFail = createAction(
 export const removeBoardColumnSuccess = createAction(
   Type.RemoveBoardColumnSuccess,
   props<{ payload: RemoveBoardColumnSuccessPayload }>()
+);
+
+export const updateBoardColumns = createAction(
+  Type.UpdateBoardColumns,
+  props<{ payload: UpdateBoardColumnsPayload }>()
+);
+
+export const updateBoardColumnsFail = createAction(
+  Type.UpdateBoardColumnsFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const updateBoardColumnsSuccess = createAction(
+  Type.UpdateBoardColumnsSuccess,
+  props<{ payload: UpdateBoardColumnsSuccessPayload }>()
+);
+
+export const resetUpdateBoardColumnsSuccess = createAction(
+  Type.ResetUpdateBoardColumnsSuccess
 );

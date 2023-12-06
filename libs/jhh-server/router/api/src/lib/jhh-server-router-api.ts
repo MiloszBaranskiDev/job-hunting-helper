@@ -36,6 +36,7 @@ export function JhhServerRouterApi(): Router {
     boardController.duplicateBoardColumn
   );
   router.delete(ApiRoute.RemoveBoardColumn, boardController.removeBoardColumn);
+  router.patch(ApiRoute.UpdateBoardColumns, boardController.updateBoardColumns);
 
   return router;
 }

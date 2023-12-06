@@ -12,6 +12,7 @@ import {
   DuplicateBoardColumnSuccessPayload,
   EditBoardColumnSuccessPayload,
   RemoveBoardColumnSuccessPayload,
+  UpdateBoardColumnsSuccessPayload,
 } from '@jhh/jhh-client/dashboard/board/domain';
 
 import { BoardService } from '../services/board.service';
@@ -99,6 +100,26 @@ export class BoardEffects {
           ),
         onError: (action, error) =>
           BoardActions.removeBoardColumnFail({ payload: error }),
+      })
+    )
+  );
+
+  updateBoardColumns$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BoardActions.updateBoardColumns),
+      fetch({
+        run: (action) =>
+          this.boardService.updateBoardColumns(action.payload).pipe(
+            mergeMap((res: UpdateBoardColumnsSuccessPayload) => [
+              BoardActions.updateBoardColumnsSuccess({ payload: res }),
+              BoardActions.resetUpdateBoardColumnsSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Changes saved successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          BoardActions.updateBoardColumnsFail({ payload: error }),
       })
     )
   );

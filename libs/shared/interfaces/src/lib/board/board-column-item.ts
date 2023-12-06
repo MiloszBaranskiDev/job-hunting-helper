@@ -3,5 +3,6 @@ export interface BoardColumnItem {
   createdAt: Date;
   updatedAt: Date;
   content: string;
+  order: number;
   columnId: string;
 }

@@ -1,0 +1,26 @@
+:host {
+  transition: opacity 0.3s;
+
+  &.isSaving {
+    opacity: 0.5;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: wait;
+      z-index: 5;
+    }
+
+    ::ng-deep {
+      * {
+        user-select: none;
+        pointer-events: none;
+      }
+    }
+  }
+}

@@ -46,6 +46,7 @@ const assignDefaultData = async (userId: string): Promise<void> => {
           create: defaultBoardColumns[columnIndex].items.map(
             (item: BoardColumnItem) => ({
               content: item.content,
+              order: item.order,
             })
           ),
         },

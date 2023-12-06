@@ -2,6 +2,7 @@ import addBoardColumn from './add-board-column';
 import editBoardColumn from './edit-board-column';
 import duplicateBoardColumn from './duplicate-board-column';
 import removeBoardColumn from './remove-board-column/index';
+import updateBoardColumns from './update-board-columns';
 
 export function JhhServerControllerBoard() {
   return {
@@ -9,5 +10,6 @@ export function JhhServerControllerBoard() {
     editBoardColumn,
     duplicateBoardColumn,
     removeBoardColumn,
+    updateBoardColumns,
   };
 }

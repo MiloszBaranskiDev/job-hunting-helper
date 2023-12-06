@@ -43,8 +43,18 @@ const removeBoardColumn = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    await prisma.boardColumnItem.deleteMany({
-      where: { columnId },
+    const tempColumn: BoardColumn = await prisma.boardColumn.create({
+      data: {
+        name: 'Temporary Column',
+        color: '',
+        isTemporary: true,
+        userId: userId,
+      },
+    });
+
+    await prisma.boardColumnItem.updateMany({
+      where: { columnId: columnId },
+      data: { columnId: tempColumn.id },
     });
 
     const removedBoardColumn: BoardColumn = await prisma.boardColumn.delete({

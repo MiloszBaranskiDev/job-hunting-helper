@@ -18,6 +18,7 @@ export interface BoardState extends EntityState<BoardColumn> {
   editBoardColumn: OperationState;
   duplicateBoardColumn: OperationState;
   removeBoardColumn: OperationState;
+  updateBoardColumns: OperationState;
 }
 
 export const adapter: EntityAdapter<BoardColumn> =
@@ -39,6 +40,10 @@ export const initialBoardState: BoardState = adapter.getInitialState({
     error: null,
   },
   removeBoardColumn: {
+    inProgress: false,
+    error: null,
+  },
+  updateBoardColumns: {
     inProgress: false,
     error: null,
   },
@@ -180,6 +185,43 @@ const reducer: ActionReducer<BoardState> = createReducer(
         inProgress: false,
       },
     });
+  }),
+  on(BoardActions.updateBoardColumns, (state) => ({
+    ...state,
+    updateBoardColumns: {
+      ...state.updateBoardColumns,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(BoardActions.updateBoardColumnsFail, (state, { payload }) => ({
+    ...state,
+    updateBoardColumns: {
+      ...state.updateBoardColumns,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(BoardActions.updateBoardColumnsSuccess, (state, { payload }) => {
+    const updates = payload.updatedColumns.map((updatedColumn) => ({
+      id: updatedColumn.id,
+      changes: {
+        items: updatedColumn.items,
+      },
+    }));
+
+    const updatedState: BoardState = adapter.updateMany(updates, state);
+
+    return {
+      ...updatedState,
+      updateBoardColumns: {
+        ...state.updateBoardColumns,
+        inProgress: false,
+        error: null,
+        success: true,
+      },
+    };
   })
 );
 

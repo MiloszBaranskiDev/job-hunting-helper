@@ -21,8 +21,17 @@ export function JhhServerControllerDashboard() {
       });
 
       const boardColumns: BoardColumn[] = await prisma.boardColumn.findMany({
-        where: { userId: req.user.id },
-        include: { items: true },
+        where: {
+          userId: req.user.id,
+          isTemporary: false,
+        },
+        include: {
+          items: {
+            orderBy: {
+              order: 'asc',
+            },
+          },
+        },
       });
 
       res

@@ -25,7 +25,13 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
     const existingColumn: BoardColumn | null =
       await prisma.boardColumn.findUnique({
         where: { id: columnId },
-        include: { items: true },
+        include: {
+          items: {
+            orderBy: {
+              order: 'asc',
+            },
+          },
+        },
       });
 
     if (!existingColumn) {
@@ -62,6 +68,7 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
           prisma.boardColumnItem.create({
             data: {
               content: item.content,
+              order: item.order,
               columnId: duplicatedBoardColumnWithoutItems.id,
             },
           })
@@ -72,7 +79,13 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
     const duplicatedBoardColumn: BoardColumn =
       (await prisma.boardColumn.findUnique({
         where: { id: duplicatedBoardColumnWithoutItems.id },
-        include: { items: true },
+        include: {
+          items: {
+            orderBy: {
+              order: 'asc',
+            },
+          },
+        },
       })) as BoardColumn;
 
     res.status(HttpStatusCode.OK).json({ data: { duplicatedBoardColumn } });

@@ -1,4 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CdkDrag,
@@ -12,10 +20,27 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  BehaviorSubject,
+  debounceTime,
+  filter,
+  Observable,
+  Subject,
+  tap,
+} from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
+import { NavigationStart, Router } from '@angular/router';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
+
+import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 
 @Component({
   selector: 'jhh-board-columns',
@@ -34,27 +59,216 @@ import { ColumnMenuComponent } from '../column-menu/column-menu.component';
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
 })
-export class ColumnsComponent {
-  @Input({ required: true }) columns: BoardColumn[] = [];
+export class ColumnsComponent implements OnInit, OnChanges {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly router: Router = inject(Router);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
-  drop(event: CdkDragDrop<BoardColumnItem[]>) {
+  updateBoardColumnsInProgress$: Observable<boolean>;
+  updateBoardColumnsError$: Observable<string | null>;
+  updateBoardColumnsSuccess$: Observable<boolean>;
+
+  private _columns: BoardColumn[] = [];
+  private originalColumns: BoardColumn[];
+  private updateSubject: Subject<void> = new Subject<void>();
+
+  @Input() isSaving$: BehaviorSubject<boolean>;
+
+  @Input() set columns(value: BoardColumn[]) {
+    this.originalColumns = value;
+    this.mergeWithWorkingData(value);
+  }
+
+  get columns(): BoardColumn[] {
+    return this._columns;
+  }
+
+  ngOnInit(): void {
+    this.updateBoardColumnsInProgress$ =
+      this.boardFacade.updateBoardColumnsInProgress$;
+    this.updateBoardColumnsError$ = this.boardFacade.updateBoardColumnsError$;
+    this.updateBoardColumnsSuccess$ =
+      this.boardFacade.updateBoardColumnsSuccess$;
+
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart),
+        tap(() => {
+          if (this.areColumnsChanged()) {
+            this.saveChanges();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.updateSubject
+      .pipe(
+        debounceTime(3500),
+        tap(() => {
+          const areColumnsChanged: boolean = this.areColumnsChanged();
+          if (areColumnsChanged) {
+            this.saveChanges();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['columns'] && !changes['columns'].isFirstChange()) {
+      this.mergeWithWorkingData(changes['columns'].currentValue);
+    }
+  }
+
+  drop(event: CdkDragDrop<BoardColumnItem[]>): void {
+    const previousColumnIndex: number = this.columns.findIndex(
+      (c) => c.items === event.previousContainer.data
+    );
+    const currentColumnIndex: number = this.columns.findIndex(
+      (c) => c.items === event.container.data
+    );
+    const columnsClone: BoardColumn[] = this.columns.map((col) => ({
+      ...col,
+      items: [...col.items],
+    }));
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
-        event.container.data,
+        columnsClone[currentColumnIndex].items,
         event.previousIndex,
         event.currentIndex
       );
     } else {
       transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
+        columnsClone[previousColumnIndex].items,
+        columnsClone[currentColumnIndex].items,
         event.previousIndex,
         event.currentIndex
       );
     }
+
+    this._columns = columnsClone.map((column) => ({
+      ...column,
+      items: column.items.map((item, index) => ({
+        ...item,
+        order: index,
+      })),
+    }));
+
+    this.updateSubject.next();
   }
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
     return item.id;
+  }
+
+  private saveChanges(): void {
+    this.isSaving$.next(true);
+
+    const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> = this.snackBar.open(
+      'Saving data...',
+      'Close'
+    );
+    const updatedColumns: Partial<BoardColumn>[] = this.getOnlyUpdatedColumns();
+
+    if (updatedColumns && updatedColumns.length > 0) {
+      this.boardFacade.updateBoardColumns(updatedColumns);
+    }
+
+    this.updateBoardColumnsSuccess$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            this.isSaving$.next(false);
+            savingSnackBar.dismiss();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.updateBoardColumnsError$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            this.isSaving$.next(false);
+            savingSnackBar.dismiss();
+            this.snackBar.open(
+              'Something went wrong with saving data.',
+              'Close',
+              {
+                duration: 7000,
+              }
+            );
+            this._columns = JSON.parse(JSON.stringify(this.originalColumns));
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private areColumnsChanged(): boolean {
+    return (
+      JSON.stringify(this._columns) !== JSON.stringify(this.originalColumns)
+    );
+  }
+
+  private getOnlyUpdatedColumns(): Partial<BoardColumn>[] {
+    return this._columns
+      .filter(
+        (column, index) =>
+          JSON.stringify(column) !== JSON.stringify(this.originalColumns[index])
+      )
+      .map((column) => {
+        const originalColumn: BoardColumn | undefined =
+          this.originalColumns.find((c) => c.id === column.id);
+        return this.getUpdatedColumnData(column, originalColumn);
+      });
+  }
+
+  private getUpdatedColumnData(
+    newColumn: BoardColumn,
+    originalColumn?: BoardColumn
+  ): Partial<BoardColumn> {
+    if (!originalColumn) {
+      return newColumn;
+    }
+
+    const updatedColumn: Partial<BoardColumn> = { id: newColumn.id };
+    Object.keys(newColumn).forEach((key) => {
+      // @ts-ignore
+      if (newColumn[key] !== originalColumn[key]) {
+        // @ts-ignore
+        updatedColumn[key] = newColumn[key];
+      }
+    });
+
+    return updatedColumn;
+  }
+
+  private mergeWithWorkingData(newData: BoardColumn[]): void {
+    let updatedColumns = JSON.parse(JSON.stringify(this._columns));
+
+    updatedColumns = newData.map((newColumn) => {
+      const existingColumn: BoardColumn = updatedColumns.find(
+        (c: BoardColumn) => c.id === newColumn.id
+      );
+
+      if (existingColumn) {
+        return { ...existingColumn, ...newColumn, items: existingColumn.items };
+      } else {
+        return newColumn;
+      }
+    });
+
+    updatedColumns = updatedColumns.filter((column: BoardColumn) =>
+      newData.some((newColumn) => newColumn.id === column.id)
+    );
+
+    this._columns = updatedColumns;
   }
 }

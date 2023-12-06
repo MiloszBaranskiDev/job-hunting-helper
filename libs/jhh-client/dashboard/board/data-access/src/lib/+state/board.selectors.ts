@@ -67,3 +67,18 @@ export const selectRemoveBoardColumnError = createSelector(
   selectBoardState,
   (state: BoardState) => state.removeBoardColumn.error
 );
+
+export const selectUpdateBoardColumnsInProgress = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.updateBoardColumns.inProgress
+);
+
+export const selectUpdateBoardColumnsError = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.updateBoardColumns.error
+);
+
+export const selectUpdateBoardColumnsSuccess = createSelector(
+  selectBoardState,
+  (state: BoardState) => state.updateBoardColumns.success!
+);
