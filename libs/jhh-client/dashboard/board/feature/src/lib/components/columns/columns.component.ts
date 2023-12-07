@@ -35,6 +35,9 @@ import {
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 import { NavigationStart, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 
@@ -56,6 +59,9 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
     MatIconModule,
     MatMenuModule,
     ColumnMenuComponent,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
@@ -68,6 +74,13 @@ export class ColumnsComponent implements OnInit, OnChanges {
     inject(BreakpointService);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
+  @Input() isSaving$: BehaviorSubject<boolean>;
+
+  @Input() set columns(value: BoardColumn[]) {
+    this.originalColumns = value;
+    this.mergeWithWorkingData(value);
+  }
+
   updateBoardColumnsInProgress$: Observable<boolean>;
   updateBoardColumnsError$: Observable<string | null>;
   updateBoardColumnsSuccess$: Observable<boolean>;
@@ -76,13 +89,7 @@ export class ColumnsComponent implements OnInit, OnChanges {
   private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
   private updateSubject: Subject<void> = new Subject<void>();
-
-  @Input() isSaving$: BehaviorSubject<boolean>;
-
-  @Input() set columns(value: BoardColumn[]) {
-    this.originalColumns = value;
-    this.mergeWithWorkingData(value);
-  }
+  editingItemId: string | null = null;
 
   get columns(): BoardColumn[] {
     return this._columns;
@@ -166,6 +173,29 @@ export class ColumnsComponent implements OnInit, OnChanges {
         order: index,
       })),
     }));
+
+    this.updateSubject.next();
+  }
+
+  addItem(columnId: string): void {
+    const newItem: BoardColumnItem = {
+      id: `temp-${Date.now()}`,
+      createdAt: null as any,
+      updatedAt: null as any,
+      content: 'New item',
+      order: this._columns!.find((c) => c.id === columnId)!.items.length,
+      columnId: null as any,
+    };
+
+    this._columns = this._columns.map((column) => {
+      if (column.id === columnId) {
+        return {
+          ...column,
+          items: [...column.items, newItem],
+        };
+      }
+      return column;
+    });
 
     this.updateSubject.next();
   }

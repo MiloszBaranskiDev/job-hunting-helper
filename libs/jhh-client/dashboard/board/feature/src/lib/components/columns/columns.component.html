@@ -12,12 +12,17 @@
       [cdkDropListData]="column.items"
       (cdkDropListDropped)="drop($event)">
       <div class="column__item" *ngFor="let item of column.items; trackBy: trackByFn" cdkDrag>
-        <div class="column__placeholder" *cdkDragPlaceholder></div>
         {{item.content}}
         <button mat-icon-button (click)="removeItem(column.id, item.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
+    </div>
+    <div class="column__add">
+      <button mat-button (click)="addItem(column.id)">
+        <mat-icon>add</mat-icon>
+        Add item
+      </button>
     </div>
   </div>
 </div>

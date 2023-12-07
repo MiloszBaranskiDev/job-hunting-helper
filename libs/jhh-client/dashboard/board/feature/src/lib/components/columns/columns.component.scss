@@ -109,6 +109,17 @@ $itemHeight: 70px;
       min-height: $itemHeight;
       transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     }
+
+    &__add {
+      margin-top: 8px;
+      width: 100%;
+      display: flex;
+
+      button {
+        flex-grow: 1;
+        justify-content: flex-start;
+      }
+    }
   }
 
   .cdk-drag-preview {

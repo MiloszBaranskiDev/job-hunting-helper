@@ -81,14 +81,24 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         }
       } else {
         for (const item of column.items) {
-          await prisma.boardColumnItem.update({
-            where: { id: item.id },
-            data: {
-              content: item.content,
-              columnId: column.id,
-              order: item.order,
-            },
-          });
+          if (item.id.startsWith('temp-')) {
+            await prisma.boardColumnItem.create({
+              data: {
+                content: item.content,
+                columnId: column.id,
+                order: item.order,
+              },
+            });
+          } else {
+            await prisma.boardColumnItem.update({
+              where: { id: item.id },
+              data: {
+                content: item.content,
+                columnId: column.id,
+                order: item.order,
+              },
+            });
+          }
         }
       }
 
