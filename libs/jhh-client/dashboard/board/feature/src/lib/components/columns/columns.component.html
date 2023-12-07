@@ -1,4 +1,4 @@
-<div class="columns" cdkDropListGroup *ngIf="columns && columns.length > 0">
+<div [ngClass]="['columns', breakpoint$ | async]" cdkDropListGroup *ngIf="columns && columns.length > 0">
   <div class="column" *ngFor="let column of columns; trackBy: trackByFn" [style.border-top-color]="column.color">
     <header class="column__header">
       <h2>
@@ -14,6 +14,9 @@
       <div class="column__item" *ngFor="let item of column.items; trackBy: trackByFn" cdkDrag>
         <div class="column__placeholder" *cdkDragPlaceholder></div>
         {{item.content}}
+        <button mat-icon-button (click)="removeItem(column.id, item.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </div>
   </div>

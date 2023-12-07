@@ -6,6 +6,8 @@ import { HttpStatusCode } from '@jhh/shared/enums';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
+import { BoardColumnItem } from '@jhh/shared/interfaces';
+
 const updateBoardColumns = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
@@ -20,6 +22,10 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         'Invalid input format: columnsToUpdate should be an array.'
       );
     }
+
+    const allUpdatedItemIds: string[] = columnsToUpdate.flatMap((column) =>
+      column.items.map((item: BoardColumnItem) => item.id)
+    );
 
     for (const column of columnsToUpdate) {
       const existingColumn: BoardColumn | null =
@@ -84,6 +90,18 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
             },
           });
         }
+      }
+
+      // @ts-ignore
+      const existingItemIds = existingColumn['items'].map((item) => item.id);
+      const itemsToDelete = existingItemIds.filter(
+        (id: string) => !allUpdatedItemIds.includes(id)
+      );
+
+      for (const itemId of itemsToDelete) {
+        await prisma.boardColumnItem.delete({
+          where: { id: itemId },
+        });
       }
     }
 

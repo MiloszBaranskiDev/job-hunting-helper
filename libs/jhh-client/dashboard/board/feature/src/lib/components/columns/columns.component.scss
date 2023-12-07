@@ -1,4 +1,4 @@
-$itemHeight: 50px;
+$itemHeight: 70px;
 
 .columns {
   display: flex;
@@ -17,6 +17,24 @@ $itemHeight: 50px;
     border-radius: var(--radius__base);
   }
 
+  &.desktop {
+    .column {
+      &__item {
+        button {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        &:hover {
+          button {
+            opacity: 1;
+            pointer-events: inherit;
+          }
+        }
+      }
+    }
+  }
+
   .column {
     flex: 0 0 auto;
     width: 320px;
@@ -33,7 +51,7 @@ $itemHeight: 50px;
       width: 100%;
       padding: 0 10px;
       position: relative;
-      min-height: $itemHeight;
+      min-height: 48px;
       white-space: pre-line;
       margin-bottom: 5px;
 
@@ -60,17 +78,22 @@ $itemHeight: 50px;
     }
 
     &__item {
-      padding: 10px;
+      padding: 16px 45px 16px 16px;
       border-bottom: 2px solid var(--color__bg--darker);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
       box-sizing: border-box;
       cursor: move;
       background-color: white;
-      font-size: 14px;
       min-height: $itemHeight;
+      font-size: 14px;
+      position: relative;
+      white-space: pre-line;
+
+      button {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        transition: all 0.3s;
+      }
 
       &:last-child {
         border: none;

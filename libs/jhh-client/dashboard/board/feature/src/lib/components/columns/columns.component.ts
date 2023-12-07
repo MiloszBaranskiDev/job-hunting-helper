@@ -41,6 +41,7 @@ import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 @Component({
   selector: 'jhh-board-columns',
@@ -63,11 +64,14 @@ export class ColumnsComponent implements OnInit, OnChanges {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   updateBoardColumnsInProgress$: Observable<boolean>;
   updateBoardColumnsError$: Observable<string | null>;
   updateBoardColumnsSuccess$: Observable<boolean>;
+  breakpoint$: Observable<string>;
 
   private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
@@ -90,6 +94,7 @@ export class ColumnsComponent implements OnInit, OnChanges {
     this.updateBoardColumnsError$ = this.boardFacade.updateBoardColumnsError$;
     this.updateBoardColumnsSuccess$ =
       this.boardFacade.updateBoardColumnsSuccess$;
+    this.breakpoint$ = this.breakpointService.breakpoint$;
 
     this.router.events
       .pipe(
@@ -121,6 +126,10 @@ export class ColumnsComponent implements OnInit, OnChanges {
     if (changes['columns'] && !changes['columns'].isFirstChange()) {
       this.mergeWithWorkingData(changes['columns'].currentValue);
     }
+  }
+
+  trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
+    return item.id;
   }
 
   drop(event: CdkDragDrop<BoardColumnItem[]>): void {
@@ -161,8 +170,18 @@ export class ColumnsComponent implements OnInit, OnChanges {
     this.updateSubject.next();
   }
 
-  trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
-    return item.id;
+  removeItem(columnId: string, itemId: string): void {
+    this._columns = this._columns.map((column) => {
+      if (column.id === columnId) {
+        return {
+          ...column,
+          items: column.items.filter((item) => item.id !== itemId),
+        };
+      }
+      return column;
+    });
+
+    this.updateSubject.next();
   }
 
   private saveChanges(): void {
