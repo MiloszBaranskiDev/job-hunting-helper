@@ -12,10 +12,27 @@
       [cdkDropListData]="column.items"
       (cdkDropListDropped)="drop($event)">
       <div class="column__item" *ngFor="let item of column.items; trackBy: trackByFn" cdkDrag>
-        {{item.content}}
-        <button mat-icon-button (click)="removeItem(column.id, item.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <ng-container *ngIf="editingItem[item.id]; else viewMode">
+          <mat-form-field>
+            <textarea
+              matInput
+              [(ngModel)]="editableContent[item.id]"
+              (blur)="handleBlur(item)"
+              [maxlength]="boardColumnFieldsLength.MaxColumnItemLength"
+              clickOutside
+              (clickOutside)="handleBlur(item)"
+            >
+            </textarea>
+            <mat-hint align="end">{{editableContent[item.id]!.length || 0}}
+              / {{boardColumnFieldsLength.MaxColumnItemLength}}</mat-hint>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #viewMode>
+          <p (click)="startEdit(item.id, item.content)">{{item.content}}</p>
+          <button mat-icon-button (click)="removeItem(column.id, item.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-template>
       </div>
     </div>
     <div class="column__add">

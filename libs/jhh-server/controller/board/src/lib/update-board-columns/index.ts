@@ -2,7 +2,7 @@ import { BoardColumn, PrismaClient } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
+import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
@@ -81,6 +81,16 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         }
       } else {
         for (const item of column.items) {
+          if (
+            item.content.length > BoardColumnFieldsLength.MaxColumnItemLength
+          ) {
+            return respondWithError(
+              res,
+              HttpStatusCode.BadRequest,
+              `Content too long for item with ID ${item.id}. Maximum length is ${BoardColumnFieldsLength.MaxColumnItemLength} characters.`
+            );
+          }
+
           if (item.id.startsWith('temp-')) {
             await prisma.boardColumnItem.create({
               data: {

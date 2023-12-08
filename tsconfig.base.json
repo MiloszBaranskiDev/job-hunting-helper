@@ -135,6 +135,9 @@
       "@jhh/jhh-client/shared/util-breakpoint": [
         "libs/jhh-client/shared/util-breakpoint/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/util-click-outside": [
+        "libs/jhh-client/shared/util-click-outside/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/util-max-size-validator": [
         "libs/jhh-client/shared/util-max-size-validator/src/index.ts"
       ],

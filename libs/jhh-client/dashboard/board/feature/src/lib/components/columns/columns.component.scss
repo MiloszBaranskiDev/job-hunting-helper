@@ -88,6 +88,45 @@ $itemHeight: 70px;
       position: relative;
       white-space: pre-line;
 
+      p {
+        margin-bottom: 0;
+      }
+
+      mat-form-field {
+        ::ng-deep {
+          .mat-mdc-text-field-wrapper,
+          .mat-mdc-form-field-infix {
+            padding: 0 !important;
+          }
+        }
+      }
+
+      textarea {
+        font-size: 14px;
+        line-height: 18px;
+        resize: none;
+        min-height: 60px;
+        padding: 12px;
+
+        &::-webkit-scrollbar-track {
+          background-color: var(--color__bg);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--color__primary);
+          border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+      }
+
+      mat-hint {
+        font-size: 12px;
+      }
+
       button {
         position: absolute;
         top: 6px;

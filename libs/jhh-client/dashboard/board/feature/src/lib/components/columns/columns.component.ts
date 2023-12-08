@@ -40,11 +40,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
+import { BoardColumnFieldsLength } from '@jhh/shared/enums';
 
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside';
 
 @Component({
   selector: 'jhh-board-columns',
@@ -62,6 +64,7 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    ClickOutsideDirective,
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
@@ -86,10 +89,13 @@ export class ColumnsComponent implements OnInit, OnChanges {
   updateBoardColumnsSuccess$: Observable<boolean>;
   breakpoint$: Observable<string>;
 
+  readonly boardColumnFieldsLength: typeof BoardColumnFieldsLength =
+    BoardColumnFieldsLength;
   private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
   private updateSubject: Subject<void> = new Subject<void>();
-  editingItemId: string | null = null;
+  editingItem: { [key: string]: boolean } = {};
+  editableContent: { [key: string]: string } = {};
 
   get columns(): BoardColumn[] {
     return this._columns;
@@ -118,6 +124,7 @@ export class ColumnsComponent implements OnInit, OnChanges {
     this.updateSubject
       .pipe(
         debounceTime(3500),
+        filter(() => !this.isAnyItemInEditMode()),
         tap(() => {
           const areColumnsChanged: boolean = this.areColumnsChanged();
           if (areColumnsChanged) {
@@ -197,7 +204,39 @@ export class ColumnsComponent implements OnInit, OnChanges {
       return column;
     });
 
+    this.editingItem[newItem.id] = true;
+    this.editableContent[newItem.id] = newItem.content;
+
     this.updateSubject.next();
+  }
+
+  startEdit(itemId: string, content: string): void {
+    this.editingItem[itemId] = true;
+    this.editableContent[itemId] = content;
+  }
+
+  handleBlur(item: BoardColumnItem): void {
+    const updatedContent: string = this.editableContent[item.id];
+    let contentChanged: boolean = false;
+
+    if (item.content !== updatedContent) {
+      this._columns = this._columns.map((column) => {
+        if (column.id === item.columnId) {
+          const updatedItems: BoardColumnItem[] = column.items.map((i) =>
+            i.id === item.id ? { ...i, content: updatedContent } : i
+          );
+          return { ...column, items: updatedItems };
+        }
+        return column;
+      });
+      contentChanged = true;
+    }
+
+    this.editingItem[item.id] = false;
+
+    if (contentChanged || !this.isAnyItemInEditMode()) {
+      this.updateSubject.next();
+    }
   }
 
   removeItem(columnId: string, itemId: string): void {
@@ -258,6 +297,10 @@ export class ColumnsComponent implements OnInit, OnChanges {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  private isAnyItemInEditMode(): boolean {
+    return Object.values(this.editingItem).some((value) => value);
   }
 
   private areColumnsChanged(): boolean {
