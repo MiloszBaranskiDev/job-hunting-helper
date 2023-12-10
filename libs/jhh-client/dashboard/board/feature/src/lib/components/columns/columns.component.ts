@@ -4,6 +4,7 @@ import {
   inject,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
@@ -71,7 +72,7 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
 })
-export class ColumnsComponent implements OnInit, OnChanges {
+export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
@@ -111,7 +112,8 @@ export class ColumnsComponent implements OnInit, OnChanges {
       .pipe(
         filter((event) => event instanceof NavigationStart),
         tap(() => {
-          if (this.areColumnsChanged()) {
+          const areColumnsChanged: boolean = this.areColumnsChanged();
+          if (areColumnsChanged) {
             this.saveChanges();
           }
         }),
@@ -132,12 +134,18 @@ export class ColumnsComponent implements OnInit, OnChanges {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+
+    window.addEventListener('beforeunload', this.handleAppClose);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['columns'] && !changes['columns'].isFirstChange()) {
       this.mergeWithWorkingData(changes['columns'].currentValue);
     }
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('beforeunload', this.handleAppClose);
   }
 
   get columns(): BoardColumn[] {
@@ -319,6 +327,17 @@ export class ColumnsComponent implements OnInit, OnChanges {
       )
       .subscribe();
   }
+
+  private handleAppClose = (): void => {
+    const areColumnsChanged: boolean = this.areColumnsChanged();
+    const updatedColumns: Partial<BoardColumn>[] = this.getOnlyUpdatedColumns();
+
+    if (areColumnsChanged) {
+      if (updatedColumns && updatedColumns.length > 0) {
+        this.boardFacade.updateBoardColumns(updatedColumns);
+      }
+    }
+  };
 
   private isAnyItemInEditMode(): boolean {
     return Object.values(this.editingItem).some((value) => value);
