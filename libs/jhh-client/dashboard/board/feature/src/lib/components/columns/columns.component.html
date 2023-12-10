@@ -34,6 +34,7 @@
       <div
         class="column__item"
         *ngFor="let item of column.items; trackBy: trackByFn"
+        [@itemAnimation]
         cdkDrag
       >
         <div class="column__itemPlaceholder" *cdkDragPlaceholder></div>

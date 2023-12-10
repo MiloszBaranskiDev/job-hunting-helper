@@ -40,6 +40,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 import { BoardColumnFieldsLength } from '@jhh/shared/enums';
@@ -68,6 +69,15 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
     MatInputModule,
     ClickOutsideDirective,
     CdkDragHandle,
+  ],
+  animations: [
+    trigger('itemAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
+    ]),
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
