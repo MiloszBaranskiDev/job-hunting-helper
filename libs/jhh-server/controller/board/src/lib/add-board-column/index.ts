@@ -65,10 +65,21 @@ const addBoardColumn = async (req: any, res: any): Promise<void> => {
       );
     }
 
+    const maxOrderColumn = await prisma.boardColumn.aggregate({
+      _max: {
+        order: true,
+      },
+      where: {
+        userId,
+      },
+    });
+    const newOrder: number = (maxOrderColumn._max.order ?? 0) + 1;
+
     const newBoardColumn: BoardColumn = await prisma.boardColumn.create({
       data: {
         name,
         color,
+        order: newOrder,
         userId,
       },
       include: {

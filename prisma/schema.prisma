@@ -63,6 +63,7 @@ model BoardColumn {
   color       String
   isTemporary Boolean @default(false)
 
+  order  Int
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
 

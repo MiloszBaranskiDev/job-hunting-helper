@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import {
   CdkDrag,
   CdkDragDrop,
+  CdkDragHandle,
   CdkDragPlaceholder,
   CdkDropList,
   CdkDropListGroup,
@@ -65,6 +66,7 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
     MatFormFieldModule,
     MatInputModule,
     ClickOutsideDirective,
+    CdkDragHandle,
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
@@ -96,10 +98,6 @@ export class ColumnsComponent implements OnInit, OnChanges {
   private updateSubject: Subject<void> = new Subject<void>();
   editingItem: { [key: string]: boolean } = {};
   editableContent: { [key: string]: string } = {};
-
-  get columns(): BoardColumn[] {
-    return this._columns;
-  }
 
   ngOnInit(): void {
     this.updateBoardColumnsInProgress$ =
@@ -142,11 +140,34 @@ export class ColumnsComponent implements OnInit, OnChanges {
     }
   }
 
+  get columns(): BoardColumn[] {
+    return this._columns;
+  }
+
+  get connectedDropLists(): string[] {
+    return this.columns.map((column) => 'drop-list-' + column.id);
+  }
+
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
     return item.id;
   }
 
-  drop(event: CdkDragDrop<BoardColumnItem[]>): void {
+  dropColumn(event: CdkDragDrop<BoardColumn[]>): void {
+    if (event.previousContainer === event.container) {
+      const columnsClone: BoardColumn[] = [...this.columns];
+
+      moveItemInArray(columnsClone, event.previousIndex, event.currentIndex);
+
+      this._columns = columnsClone.map((column, index) => ({
+        ...column,
+        order: index,
+      }));
+
+      this.updateSubject.next();
+    }
+  }
+
+  dropItem(event: CdkDragDrop<BoardColumnItem[]>): void {
     const previousColumnIndex: number = this.columns.findIndex(
       (c) => c.items === event.previousContainer.data
     );
@@ -191,7 +212,7 @@ export class ColumnsComponent implements OnInit, OnChanges {
       updatedAt: null as any,
       content: 'New item',
       order: this._columns!.find((c) => c.id === columnId)!.items.length,
-      columnId: null as any,
+      columnId: columnId,
     };
 
     this._columns = this._columns.map((column) => {
@@ -311,35 +332,29 @@ export class ColumnsComponent implements OnInit, OnChanges {
 
   private getOnlyUpdatedColumns(): Partial<BoardColumn>[] {
     return this._columns
-      .filter(
-        (column, index) =>
-          JSON.stringify(column) !== JSON.stringify(this.originalColumns[index])
-      )
-      .map((column) => {
-        const originalColumn: BoardColumn | undefined =
-          this.originalColumns.find((c) => c.id === column.id);
-        return this.getUpdatedColumnData(column, originalColumn);
-      });
-  }
+      .map((column, index) => {
+        const originalColumn: BoardColumn = this.originalColumns[index];
+        const updatedColumn: Partial<BoardColumn> = {
+          id: column.id,
+          order: column.order,
+          items: column.items,
+        };
 
-  private getUpdatedColumnData(
-    newColumn: BoardColumn,
-    originalColumn?: BoardColumn
-  ): Partial<BoardColumn> {
-    if (!originalColumn) {
-      return newColumn;
-    }
+        if (column.order !== originalColumn.order) {
+          return column;
+        }
 
-    const updatedColumn: Partial<BoardColumn> = { id: newColumn.id };
-    Object.keys(newColumn).forEach((key) => {
-      // @ts-ignore
-      if (newColumn[key] !== originalColumn[key]) {
-        // @ts-ignore
-        updatedColumn[key] = newColumn[key];
-      }
-    });
+        Object.keys(column).forEach((key) => {
+          // @ts-ignore
+          if (column[key] !== originalColumn[key]) {
+            // @ts-ignore
+            updatedColumn[key] = column[key];
+          }
+        });
 
-    return updatedColumn;
+        return updatedColumn;
+      })
+      .filter((column) => Object.keys(column).length > 1);
   }
 
   private mergeWithWorkingData(newData: BoardColumn[]): void {
@@ -351,7 +366,11 @@ export class ColumnsComponent implements OnInit, OnChanges {
       );
 
       if (existingColumn) {
-        return { ...existingColumn, ...newColumn, items: existingColumn.items };
+        return {
+          ...existingColumn,
+          ...newColumn,
+          items: existingColumn.items,
+        };
       } else {
         return newColumn;
       }

@@ -48,6 +48,7 @@ const removeBoardColumn = async (req: any, res: any): Promise<void> => {
         name: 'Temporary Column',
         color: '',
         isTemporary: true,
+        order: 1337,
         userId: userId,
       },
     });

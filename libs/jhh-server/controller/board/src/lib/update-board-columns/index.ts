@@ -24,7 +24,9 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
     }
 
     const allUpdatedItemIds: string[] = columnsToUpdate.flatMap((column) =>
-      column.items.map((item: BoardColumnItem) => item.id)
+      Array.isArray(column.items)
+        ? column.items.map((item: BoardColumnItem) => item.id)
+        : []
     );
 
     for (const column of columnsToUpdate) {
@@ -55,6 +57,13 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
           'User is not the owner of the board column.'
         );
       }
+
+      await prisma.boardColumn.update({
+        where: { id: column.id },
+        data: {
+          order: column.order,
+        },
+      });
 
       if (existingColumn.isTemporary) {
         let maxOrder: number = 0;
@@ -147,6 +156,9 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
 
     const updatedColumns: BoardColumn[] = await prisma.boardColumn.findMany({
       where: { id: { in: columnsToUpdate.map((c) => c.id) } },
+      orderBy: {
+        order: 'asc',
+      },
       include: {
         items: {
           orderBy: {

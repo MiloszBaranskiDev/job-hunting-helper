@@ -207,14 +207,20 @@ const reducer: ActionReducer<BoardState> = createReducer(
     const updates = payload.updatedColumns.map((updatedColumn) => ({
       id: updatedColumn.id,
       changes: {
+        order: updatedColumn.order,
         items: updatedColumn.items,
       },
     }));
 
-    const updatedState: BoardState = adapter.updateMany(updates, state);
+    let updatedState: BoardState = adapter.updateMany(updates, state);
 
-    return {
+    const sortedColumns: BoardColumn[] = Object.values(updatedState.entities)
+      .filter((column): column is BoardColumn => column !== undefined)
+      .sort((a, b) => a.order - b.order);
+
+    updatedState = {
       ...updatedState,
+      ids: sortedColumns.map((column) => column.id),
       updateBoardColumns: {
         ...state.updateBoardColumns,
         inProgress: false,
@@ -222,6 +228,8 @@ const reducer: ActionReducer<BoardState> = createReducer(
         success: true,
       },
     };
+
+    return updatedState;
   })
 );
 

@@ -25,6 +25,9 @@ export function JhhServerControllerDashboard() {
           userId: req.user.id,
           isTemporary: false,
         },
+        orderBy: {
+          order: 'asc',
+        },
         include: {
           items: {
             orderBy: {

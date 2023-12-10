@@ -6,5 +6,6 @@ export interface BoardColumn {
   updatedAt: Date;
   name: string;
   color: string;
+  order: number;
   items: BoardColumnItem[];
 }

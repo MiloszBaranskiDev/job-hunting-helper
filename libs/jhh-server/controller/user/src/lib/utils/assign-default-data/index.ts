@@ -4,6 +4,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import defaultNotesGroups from '../../default-data/notes-groups';
 import defaultBoardColumns from '../../default-data/board-columns';
+
 import { BoardColumnItem } from '@jhh/shared/interfaces';
 
 const assignDefaultData = async (userId: string): Promise<void> => {
@@ -33,7 +34,7 @@ const assignDefaultData = async (userId: string): Promise<void> => {
   }
 
   for (
-    let columnIndex = 0;
+    let columnIndex: number = 0;
     columnIndex < defaultBoardColumns.length;
     columnIndex++
   ) {
@@ -41,6 +42,7 @@ const assignDefaultData = async (userId: string): Promise<void> => {
       data: {
         name: defaultBoardColumns[columnIndex].name,
         color: defaultBoardColumns[columnIndex].color,
+        order: defaultBoardColumns[columnIndex].order,
         userId: userId,
         items: {
           create: defaultBoardColumns[columnIndex].items.map(
