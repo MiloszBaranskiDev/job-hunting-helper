@@ -7,14 +7,15 @@ $columnWidth: 320px;
   overflow-x: auto;
   white-space: nowrap;
   gap: 32px;
-  padding-bottom: 25px;
+  padding-bottom: 40px;
 
   &::-webkit-scrollbar {
-    height: 10px;
+    height: 8px;
+    border-radius: var(--radius__base);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--color__bg--darker);
+    background: var(--color__scroll);
     border-radius: var(--radius__base);
   }
 
@@ -48,6 +49,7 @@ $columnWidth: 320px;
     border-top-width: 4px;
 
     &__placeholder {
+      min-width: $columnWidth;
       width: $columnWidth;
       min-height: 350px;
       border: 2px dashed var(--color__primary);
@@ -101,6 +103,17 @@ $columnWidth: 320px;
       display: block;
       min-height: $itemHeight;
       padding: 0 12px;
+      max-height: 500px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--color__scroll);
+        border-radius: var(--radius__base);
+      }
     }
 
     &__item {
@@ -131,21 +144,16 @@ $columnWidth: 320px;
         font-size: 14px;
         line-height: 18px;
         resize: none;
-        min-height: 60px;
+        min-height: 70px;
         padding: 12px;
-
-        &::-webkit-scrollbar-track {
-          background-color: var(--color__bg);
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background-color: var(--color__primary);
-          border-radius: 10px;
-        }
 
         &::-webkit-scrollbar {
           width: 8px;
-          height: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--color__scroll);
+          border-radius: var(--radius__base);
         }
       }
 
@@ -212,6 +220,10 @@ $columnWidth: 320px;
   .column {
     &__header {
       padding: 13px 8px;
+
+      span {
+        display: none;
+      }
     }
 
     &__item {

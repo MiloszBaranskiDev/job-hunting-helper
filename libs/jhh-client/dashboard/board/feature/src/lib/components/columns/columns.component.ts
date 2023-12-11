@@ -1,18 +1,21 @@
 import {
   Component,
   DestroyRef,
+  ElementRef,
   inject,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CdkDrag,
   CdkDragDrop,
   CdkDragHandle,
+  CdkDragMove,
   CdkDragPlaceholder,
   CdkDropList,
   CdkDropListGroup,
@@ -89,6 +92,8 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
+
+  @ViewChild('horizontalScrollContainer') horizontalScrollContainer: ElementRef;
 
   @Input() isSaving$: BehaviorSubject<boolean>;
 
@@ -168,6 +173,13 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
     return item.id;
+  }
+
+  dragMoved(event: CdkDragMove, columnEl?: HTMLDivElement): void {
+    this.scrollHorizontal(event);
+    if (columnEl) {
+      this.scrollVertical(event, columnEl);
+    }
   }
 
   dropColumn(event: CdkDragDrop<BoardColumn[]>): void {
@@ -410,5 +422,40 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
     );
 
     this._columns = updatedColumns;
+  }
+
+  private scrollHorizontal(event: CdkDragMove): void {
+    const point: { x: number; y: number } = event.pointerPosition;
+    const bounds =
+      this.horizontalScrollContainer.nativeElement.getBoundingClientRect();
+    const leftDistance: number = point.x - bounds.left;
+    const rightDistance: number = bounds.right - point.x;
+    const edgeThreshold: number = 50;
+    let scrollSpeed: number = 0;
+
+    if (leftDistance < edgeThreshold) {
+      scrollSpeed = Math.max(1, (leftDistance / edgeThreshold) * 20);
+      this.horizontalScrollContainer.nativeElement.scrollLeft -= scrollSpeed;
+    } else if (rightDistance < edgeThreshold) {
+      scrollSpeed = Math.max(1, (rightDistance / edgeThreshold) * 20);
+      this.horizontalScrollContainer.nativeElement.scrollLeft += scrollSpeed;
+    }
+  }
+
+  private scrollVertical(event: CdkDragMove, columnEl: HTMLDivElement): void {
+    const point: { x: number; y: number } = event.pointerPosition;
+    const bounds = columnEl.getBoundingClientRect();
+    const topDistance: number = point.y - bounds.top;
+    const bottomDistance: number = bounds.bottom - point.y;
+    const edgeThreshold: number = 50;
+    let scrollSpeed: number = 0;
+
+    if (topDistance < edgeThreshold) {
+      scrollSpeed = Math.max(1, (topDistance / edgeThreshold) * 20);
+      columnEl.scrollTop -= scrollSpeed;
+    } else if (bottomDistance < edgeThreshold) {
+      scrollSpeed = Math.max(1, (bottomDistance / edgeThreshold) * 20);
+      columnEl.scrollTop += scrollSpeed;
+    }
   }
 }

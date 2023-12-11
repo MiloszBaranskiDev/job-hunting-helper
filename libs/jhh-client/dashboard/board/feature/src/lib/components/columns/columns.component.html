@@ -1,17 +1,19 @@
 <div
   *ngIf="columns && columns.length > 0"
   [ngClass]="['columns', breakpoint$ | async]"
+  #horizontalScrollContainer
   cdkDropList
   cdkDropListOrientation="horizontal"
   [cdkDropListData]="columns"
   (cdkDropListDropped)="dropColumn($event)"
 >
   <div
-    class="column"
-    cdkDragLockAxis="x"
-    cdkDrag
     *ngFor="let column of columns; trackBy: trackByFn"
+    class="column"
     [style.border-top-color]="column.color"
+    cdkDrag
+    cdkDragLockAxis="x"
+    (cdkDragMoved)="dragMoved($event)"
   >
     <div class="column__placeholder" *cdkDragPlaceholder></div>
 
@@ -31,6 +33,7 @@
     <div
       class="column__items"
       [id]="'drop-list-' + column.id"
+      #columnScrollContainer
       cdkDropList
       [cdkDropListData]="column.items"
       [cdkDropListConnectedTo]="connectedDropLists"
@@ -42,6 +45,7 @@
         *ngFor="let item of column.items; trackBy: trackByFn"
         [@itemAnimation]
         cdkDrag
+        (cdkDragMoved)="dragMoved($event, columnScrollContainer)"
       >
         <div class="column__itemPlaceholder" *cdkDragPlaceholder></div>
         <ng-container *ngIf="editingItem[item.id]; else viewMode">
