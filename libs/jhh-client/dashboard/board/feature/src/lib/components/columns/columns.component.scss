@@ -57,12 +57,29 @@ $columnWidth: 320px;
 
     &__header {
       width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       position: relative;
       min-height: 48px;
       white-space: pre-line;
       margin-bottom: 5px;
       padding: 25px 20px;
       cursor: move;
+
+      span {
+        $size: 24px;
+        min-width: $size;
+        max-width: $size;
+        min-height: $size;
+        max-height: $size;
+        border-radius: 100%;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+      }
 
       h2 {
         margin-bottom: 0;

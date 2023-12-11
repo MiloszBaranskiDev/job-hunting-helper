@@ -16,6 +16,12 @@
     <div class="column__placeholder" *cdkDragPlaceholder></div>
 
     <header cdkDragHandle class="column__header">
+      <span
+        *ngIf="column.items.length > 0"
+        [style.background-color]="column.color"
+      >
+        {{column.items.length <= 99 ? column.items.length : '99+'}}
+      </span>
       <h2>
         {{column.name}}
       </h2>
