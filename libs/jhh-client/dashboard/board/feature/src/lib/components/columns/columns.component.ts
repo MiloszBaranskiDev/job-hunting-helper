@@ -112,6 +112,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
   private updateSubject: Subject<void> = new Subject<void>();
+  private isItemBeingDragged: boolean = false;
   editingItem: { [key: string]: boolean } = {};
   editableContent: { [key: string]: string } = {};
 
@@ -139,7 +140,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
     this.updateSubject
       .pipe(
         debounceTime(3500),
-        filter(() => !this.isAnyItemInEditMode()),
+        filter(() => !this.isAnyItemInEditMode() && !this.isItemBeingDragged),
         tap(() => {
           const areColumnsChanged: boolean = this.areColumnsChanged();
           if (areColumnsChanged) {
@@ -173,6 +174,14 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
     return item.id;
+  }
+
+  dragStarted(): void {
+    this.isItemBeingDragged = true;
+  }
+
+  dragEnded(): void {
+    this.isItemBeingDragged = false;
   }
 
   dragMoved(event: CdkDragMove, columnEl?: HTMLDivElement): void {
@@ -366,8 +375,22 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private areColumnsChanged(): boolean {
+    const ignoreNotNeededFields = (obj: any) => {
+      const excludedKeys: string[] = [
+        'updatedAt',
+        'createdAt',
+        'columnId',
+        'isTemporary',
+      ];
+
+      return JSON.stringify(obj, (key, value) =>
+        excludedKeys.includes(key) ? undefined : value
+      );
+    };
+
     return (
-      JSON.stringify(this._columns) !== JSON.stringify(this.originalColumns)
+      ignoreNotNeededFields(this._columns) !==
+      ignoreNotNeededFields(this.originalColumns)
     );
   }
 

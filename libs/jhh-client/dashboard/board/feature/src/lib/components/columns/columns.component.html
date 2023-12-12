@@ -13,6 +13,8 @@
     [style.border-top-color]="column.color"
     cdkDrag
     cdkDragLockAxis="x"
+    (cdkDragStarted)="dragStarted()"
+    (cdkDragEnded)="dragEnded()"
     (cdkDragMoved)="dragMoved($event)"
   >
     <div class="column__placeholder" *cdkDragPlaceholder></div>
@@ -45,6 +47,8 @@
         *ngFor="let item of column.items; trackBy: trackByFn"
         [@itemAnimation]
         cdkDrag
+        (cdkDragStarted)="dragStarted()"
+        (cdkDragEnded)="dragEnded()"
         (cdkDragMoved)="dragMoved($event, columnScrollContainer)"
       >
         <div class="column__itemPlaceholder" *cdkDragPlaceholder></div>
