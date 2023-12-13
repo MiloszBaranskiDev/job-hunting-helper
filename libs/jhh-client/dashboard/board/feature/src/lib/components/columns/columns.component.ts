@@ -359,13 +359,20 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe();
   }
 
-  private handleAppClose = (): void => {
+  private handleAppClose = (event: BeforeUnloadEvent): string | void => {
     const areColumnsChanged: boolean = this.areColumnsChanged();
     const updatedColumns: Partial<BoardColumn>[] = this.getOnlyUpdatedColumns();
 
     if (areColumnsChanged) {
       if (updatedColumns && updatedColumns.length > 0) {
         this.boardFacade.updateBoardColumns(updatedColumns);
+
+        const message: string =
+          "Unsaved changes detected! If you're refreshing the app, please wait for the save confirmation. If you're closing the app, you can ignore this message.";
+
+        event.returnValue = message;
+
+        return message;
       }
     }
   };
