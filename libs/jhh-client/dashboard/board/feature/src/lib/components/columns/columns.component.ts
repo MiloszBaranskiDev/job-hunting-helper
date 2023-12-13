@@ -173,7 +173,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
-    return item.id;
+    return item.id + '_' + item.order;
   }
 
   dragStarted(): void {
