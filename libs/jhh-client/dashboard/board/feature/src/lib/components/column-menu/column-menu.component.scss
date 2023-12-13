@@ -1,6 +1,27 @@
-.fieldsRow {
+.row {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
   width: 100%;
+
+  mat-form-field {
+    margin-bottom: 0;
+  }
+}
+
+.defaultColors {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  button {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: 2px solid white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 }

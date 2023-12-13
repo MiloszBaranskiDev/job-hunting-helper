@@ -6,21 +6,22 @@
     <h2 mat-dialog-title>Add new column</h2>
     <mat-dialog-content>
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-        <div class="fieldsRow">
-          <mat-form-field appearance="fill">
-            <mat-label>Column name</mat-label>
-            <input matInput [formControlName]="formField.Name" jhhWhitespaceSanitizer required/>
-            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
-              Column name is required
-            </mat-error>
-            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
-              Minimum length of column name is {{fieldsLength.MinColumnNameLength}} characters
-            </mat-error>
-            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of column name is {{fieldsLength.MaxColumnNameLength}} characters
-            </mat-error>
-          </mat-form-field>
 
+        <mat-form-field appearance="fill">
+          <mat-label>Column name</mat-label>
+          <input matInput [formControlName]="formField.Name" jhhWhitespaceSanitizer required/>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
+            Column name is required
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
+            Minimum length of column name is {{fieldsLength.MinColumnNameLength}} characters
+          </mat-error>
+          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
+            Maximum length of column name is {{fieldsLength.MaxColumnNameLength}} characters
+          </mat-error>
+        </mat-form-field>
+
+        <div class="row">
           <mat-form-field class="fieldColor" appearance="fill">
             <mat-label>Color</mat-label>
             <input type="color" matInput [formControlName]="formField.Color" required/>
@@ -28,6 +29,15 @@
               Invalid color
             </mat-error>
           </mat-form-field>
+
+          <div class="defaultColors">
+            <button
+              type="button"
+              *ngFor="let color of defaultColorsValue"
+              [style.background]="color"
+              (click)="selectDefaultColor($any(color))">
+            </button>
+          </div>
         </div>
 
         <mat-divider></mat-divider>

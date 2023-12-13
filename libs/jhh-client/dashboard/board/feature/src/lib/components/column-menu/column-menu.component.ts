@@ -28,10 +28,12 @@ import {
 } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatInputModule } from '@angular/material/input';
 
 import { BoardColumn } from '@jhh/shared/interfaces';
 import { BoardColumnFieldsLength } from '@jhh/shared/enums';
 import {
+  BoardColumnDefaultColors,
   BoardColumnField,
   BoardColumnFormErrorKey,
 } from '@jhh/jhh-client/dashboard/board/domain';
@@ -40,7 +42,6 @@ import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 
 import { ColorValidator } from '@jhh/jhh-client/dashboard/board/util-color-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'jhh-board-column-menu',
@@ -87,6 +88,9 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
     BoardColumnFieldsLength;
   readonly formErrorKey: typeof BoardColumnFormErrorKey =
     BoardColumnFormErrorKey;
+  readonly defaultColors: typeof BoardColumnDefaultColors =
+    BoardColumnDefaultColors;
+  readonly defaultColorsValue: string[] = Object.values(this.defaultColors);
 
   ngOnInit(): void {
     this.editBoardColumnInProgress$ =
@@ -125,6 +129,16 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
 
   handleRemove(): void {
     this.boardFacade.removeBoardColumn(this.column.id);
+  }
+
+  selectDefaultColor(color: BoardColumnDefaultColors): void {
+    if (this.defaultColorsValue.includes(color)) {
+      this.formGroup.get(this.formField.Color)?.setValue(color);
+    } else {
+      this.formGroup
+        .get(this.formField.Color)
+        ?.setValue(this.defaultColors.SkyBlue);
+    }
   }
 
   onSubmit(): void {

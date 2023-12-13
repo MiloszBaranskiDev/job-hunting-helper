@@ -24,8 +24,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDividerModule } from '@angular/material/divider';
 
 import {
+  BoardColumnDefaultColors,
   BoardColumnField,
   BoardColumnFormErrorKey,
 } from '@jhh/jhh-client/dashboard/board/domain';
@@ -35,8 +38,6 @@ import { ColorValidator } from '@jhh/jhh-client/dashboard/board/util-color-valid
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'jhh-board-add-column',
@@ -71,7 +72,9 @@ export class AddColumnComponent implements OnInit {
     BoardColumnFieldsLength;
   readonly formErrorKey: typeof BoardColumnFormErrorKey =
     BoardColumnFormErrorKey;
-  private readonly defaultColor: string = '#54a0ff';
+  readonly defaultColors: typeof BoardColumnDefaultColors =
+    BoardColumnDefaultColors;
+  readonly defaultColorsValue: string[] = Object.values(this.defaultColors);
 
   addBoardColumnSuccess$: Observable<boolean>;
   addBoardColumnInProgress$: Observable<boolean>;
@@ -90,9 +93,19 @@ export class AddColumnComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
       this.formGroup.reset({
-        [this.formField.Color]: this.defaultColor,
+        [this.formField.Color]: this.defaultColors.SkyBlue,
       });
     });
+  }
+
+  selectDefaultColor(color: BoardColumnDefaultColors): void {
+    if (this.defaultColorsValue.includes(color)) {
+      this.formGroup.get(this.formField.Color)?.setValue(color);
+    } else {
+      this.formGroup
+        .get(this.formField.Color)
+        ?.setValue(this.defaultColors.SkyBlue);
+    }
   }
 
   onSubmit(): void {
@@ -112,7 +125,7 @@ export class AddColumnComponent implements OnInit {
         tap((val) => {
           if (val) {
             this.formGroup.reset({
-              [this.formField.Color]: this.defaultColor,
+              [this.formField.Color]: this.defaultColors.SkyBlue,
             });
             this.dialogRef?.close();
           }
@@ -132,7 +145,7 @@ export class AddColumnComponent implements OnInit {
         ],
       ],
       [this.formField.Color]: [
-        this.defaultColor,
+        this.defaultColors.SkyBlue,
         [Validators.required, ColorValidator],
       ],
     });

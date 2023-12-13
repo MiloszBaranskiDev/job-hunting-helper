@@ -17,3 +17,4 @@ export * from './lib/interfaces/responses/update-board-columns-success-response'
 
 export * from './lib/enums/board-column-field';
 export * from './lib/enums/board-column-form-error-key';
+export * from './lib/enums/board-column-default-colors';
