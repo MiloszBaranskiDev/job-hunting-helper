@@ -96,6 +96,9 @@ export class BoardService {
         this.API_DASHBOARD_URL + ApiRoute.UpdateBoardColumns,
         {
           columnsToUpdate: payload.columnsToUpdate,
+          unsavedBoardRequestId: payload.unsavedBoardRequestId
+            ? payload.unsavedBoardRequestId
+            : null,
         }
       )
       .pipe(map((res: UpdateBoardColumnsSuccessResponse) => res.data));

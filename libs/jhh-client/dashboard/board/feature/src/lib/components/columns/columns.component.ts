@@ -46,7 +46,7 @@ import { MatInputModule } from '@angular/material/input';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
-import { BoardColumnFieldsLength } from '@jhh/shared/enums';
+import { BoardColumnFieldsLength, LocalStorageKeys } from '@jhh/shared/enums';
 
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
 
@@ -365,14 +365,15 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
 
     if (areColumnsChanged) {
       if (updatedColumns && updatedColumns.length > 0) {
-        this.boardFacade.updateBoardColumns(updatedColumns);
-
-        const message: string =
-          "Unsaved changes detected! If you're refreshing the app, please wait for the save confirmation. If you're closing the app, you can ignore this message.";
-
-        event.returnValue = message;
-
-        return message;
+        const unsavedBoardRequestId: string = String(Date.now());
+        localStorage.setItem(
+          LocalStorageKeys.UnsavedBoardRequestId,
+          unsavedBoardRequestId
+        );
+        this.boardFacade.updateBoardColumns(
+          updatedColumns,
+          unsavedBoardRequestId
+        );
       }
     }
   };

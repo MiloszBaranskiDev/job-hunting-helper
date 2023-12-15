@@ -90,6 +90,7 @@ export function JhhServerControllerUser() {
         data: {
           username: username,
           password: await hashPassword(password),
+          unsavedBoardRequestId: '',
         },
       });
 
@@ -97,6 +98,7 @@ export function JhhServerControllerUser() {
 
       const token: string = createJWT(user);
       delete user['password'];
+      delete user['unsavedBoardRequestId'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });
     } catch (err) {
       console.error(err);
@@ -165,6 +167,7 @@ export function JhhServerControllerUser() {
 
       const token: string = createJWT(user);
       delete user['password'];
+      delete user['unsavedBoardRequestId'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });
     } catch (error) {
       console.error(error);

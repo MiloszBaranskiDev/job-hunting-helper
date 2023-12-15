@@ -19,6 +19,8 @@ model User {
 
   notesGroups  NotesGroup[]
   boardColumns BoardColumn[]
+
+  unsavedBoardRequestId String
 }
 
 model NotesGroup {

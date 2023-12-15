@@ -1,13 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap } from 'rxjs/operators';
+import { delay, map, retryWhen, switchMap, take, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
+import { of, timer } from 'rxjs';
 
 import * as DashboardActions from './dashboard.actions';
 import { DashboardFacade } from './dashboard.facade';
 import { DashboardService } from '../services/dashboard.service';
 
 import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
+import { LocalStorageKeys } from '@jhh/shared/enums';
 
 @Injectable()
 export class DashboardEffects {
@@ -20,17 +22,44 @@ export class DashboardEffects {
     this.actions$.pipe(
       ofType(DashboardActions.loadAssignedData),
       fetch({
-        run: () =>
-          this.dashboardService.loadAssignedData().pipe(
-            map((res: LoadAssignedDataSuccessPayload) =>
-              DashboardActions.loadAssignedDataSuccess({ payload: res })
+        run: () => {
+          const unsavedBoardRequestId: string | null = localStorage.getItem(
+            LocalStorageKeys.UnsavedBoardRequestId
+          );
+          const ERROR_MESSAGE: string = 'Board update still pending';
+
+          return this.dashboardService.loadAssignedData().pipe(
+            map((res: LoadAssignedDataSuccessPayload) => {
+              if (
+                unsavedBoardRequestId &&
+                unsavedBoardRequestId.length > 0 &&
+                res.unsavedBoardRequestId !== unsavedBoardRequestId
+              ) {
+                throw new Error(ERROR_MESSAGE);
+              }
+              return DashboardActions.loadAssignedDataSuccess({ payload: res });
+            }),
+            retryWhen((errors) =>
+              errors.pipe(
+                delay(1500),
+                take(10),
+                switchMap((error) => {
+                  if (error.message === ERROR_MESSAGE) {
+                    return timer(1500);
+                  }
+                  return of(error);
+                })
+              )
             ),
             tap((val) => {
               this.dashboardFacade.setData(val);
+              localStorage.removeItem(LocalStorageKeys.UnsavedBoardRequestId);
             })
-          ),
-        onError: (action, error) =>
-          DashboardActions.loadAssignedDataFail({ payload: error }),
+          );
+        },
+        onError: (action, error) => {
+          return DashboardActions.loadAssignedDataFail({ payload: error });
+        },
       })
     )
   );

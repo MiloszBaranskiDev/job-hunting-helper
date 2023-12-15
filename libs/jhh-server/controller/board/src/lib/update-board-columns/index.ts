@@ -12,7 +12,7 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { columnsToUpdate } = req.body;
+    const { columnsToUpdate, unsavedBoardRequestId } = req.body;
     const userId = req.user.id;
 
     if (!Array.isArray(columnsToUpdate)) {
@@ -167,6 +167,17 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         },
       },
     });
+
+    if (unsavedBoardRequestId) {
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          unsavedBoardRequestId: unsavedBoardRequestId,
+        },
+      });
+    }
 
     res.status(HttpStatusCode.OK).json({ data: { updatedColumns } });
   } catch (error) {

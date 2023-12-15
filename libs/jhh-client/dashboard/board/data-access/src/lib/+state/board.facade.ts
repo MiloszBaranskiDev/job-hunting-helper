@@ -8,6 +8,7 @@ import * as BoardSelectors from './board.selectors';
 import * as BoardActions from './board.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+import { UpdateBoardColumnsPayload } from '@jhh/jhh-client/dashboard/board/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -114,10 +115,17 @@ export class BoardFacade {
     );
   }
 
-  updateBoardColumns(columnsToUpdate: Partial<BoardColumn>[]) {
+  updateBoardColumns(
+    columnsToUpdate: Partial<BoardColumn>[],
+    unsavedBoardRequestId?: string
+  ) {
+    const payload: UpdateBoardColumnsPayload = unsavedBoardRequestId
+      ? { columnsToUpdate, unsavedBoardRequestId }
+      : { columnsToUpdate };
+
     return this.actionResolverService.executeAndWatch(
       BoardActions.updateBoardColumns({
-        payload: { columnsToUpdate: columnsToUpdate },
+        payload: payload,
       }),
       BoardActions.Type.UpdateBoardColumnsSuccess,
       BoardActions.Type.UpdateBoardColumnsFail

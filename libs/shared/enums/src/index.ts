@@ -8,3 +8,5 @@ export * from './lib/notes/note-fields-length';
 export * from './lib/notes/note-size';
 
 export * from './lib/board/board-column-fields-length';
+
+export * from './lib/local-storage/local-storage-keys';
