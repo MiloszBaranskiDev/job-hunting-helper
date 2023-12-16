@@ -109,9 +109,10 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
 
   readonly boardColumnFieldsLength: typeof BoardColumnFieldsLength =
     BoardColumnFieldsLength;
+  private updateSubject: Subject<void> = new Subject<void>();
   private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
-  private updateSubject: Subject<void> = new Subject<void>();
+  private removedItemIds: string[] = [];
   private isItemBeingDragged: boolean = false;
   editingItem: { [key: string]: boolean } = {};
   editableContent: { [key: string]: string } = {};
@@ -128,10 +129,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(
         filter((event) => event instanceof NavigationStart),
         tap(() => {
-          const areColumnsChanged: boolean = this.areColumnsChanged();
-          if (areColumnsChanged) {
-            this.saveChanges();
-          }
+          this.saveChanges();
         }),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -142,10 +140,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
         debounceTime(3500),
         filter(() => !this.isAnyItemInEditMode() && !this.isItemBeingDragged),
         tap(() => {
-          const areColumnsChanged: boolean = this.areColumnsChanged();
-          if (areColumnsChanged) {
-            this.saveChanges();
-          }
+          this.saveChanges();
         }),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -302,6 +297,12 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   removeItem(columnId: string, itemId: string): void {
     this._columns = this._columns.map((column) => {
       if (column.id === columnId) {
+        const itemToRemove: BoardColumnItem | undefined = column.items.find(
+          (item) => item.id === itemId
+        );
+        if (itemToRemove && !itemToRemove.id.startsWith('temp-')) {
+          this.removedItemIds.push(itemToRemove.id);
+        }
         return {
           ...column,
           items: column.items.filter((item) => item.id !== itemId),
@@ -314,67 +315,67 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private saveChanges(): void {
-    this.isSaving$.next(true);
+    const updatedColumns: Partial<BoardColumn | null>[] =
+      this.getOnlyUpdatedColumns();
 
-    const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> = this.snackBar.open(
-      'Saving data...',
-      'Close'
-    );
-    const updatedColumns: Partial<BoardColumn>[] = this.getOnlyUpdatedColumns();
+    if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
+      this.isSaving$.next(true);
 
-    if (updatedColumns && updatedColumns.length > 0) {
-      this.boardFacade.updateBoardColumns(updatedColumns);
+      const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> =
+        this.snackBar.open('Saving data...', 'Close');
+
+      this.boardFacade.updateBoardColumns(updatedColumns, this.removedItemIds);
+
+      this.updateBoardColumnsSuccess$
+        .pipe(
+          tap((val) => {
+            if (val) {
+              this.removedItemIds = [];
+              this.isSaving$.next(false);
+              savingSnackBar.dismiss();
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe();
+
+      this.updateBoardColumnsError$
+        .pipe(
+          tap((val) => {
+            if (val) {
+              this.isSaving$.next(false);
+              savingSnackBar.dismiss();
+              this.snackBar.open(
+                'Something went wrong with saving data.',
+                'Close',
+                {
+                  duration: 7000,
+                }
+              );
+              this._columns = JSON.parse(JSON.stringify(this.originalColumns));
+            }
+          }),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe();
     }
-
-    this.updateBoardColumnsSuccess$
-      .pipe(
-        tap((val) => {
-          if (val) {
-            this.isSaving$.next(false);
-            savingSnackBar.dismiss();
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-
-    this.updateBoardColumnsError$
-      .pipe(
-        tap((val) => {
-          if (val) {
-            this.isSaving$.next(false);
-            savingSnackBar.dismiss();
-            this.snackBar.open(
-              'Something went wrong with saving data.',
-              'Close',
-              {
-                duration: 7000,
-              }
-            );
-            this._columns = JSON.parse(JSON.stringify(this.originalColumns));
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
   }
 
   private handleAppClose = (event: BeforeUnloadEvent): string | void => {
-    const areColumnsChanged: boolean = this.areColumnsChanged();
-    const updatedColumns: Partial<BoardColumn>[] = this.getOnlyUpdatedColumns();
+    const updatedColumns: Partial<BoardColumn | null>[] =
+      this.getOnlyUpdatedColumns();
 
-    if (areColumnsChanged) {
-      if (updatedColumns && updatedColumns.length > 0) {
-        const unsavedBoardRequestId: string = String(Date.now());
-        localStorage.setItem(
-          LocalStorageKeys.UnsavedBoardRequestId,
-          unsavedBoardRequestId
-        );
-        this.boardFacade.updateBoardColumns(
-          updatedColumns,
-          unsavedBoardRequestId
-        );
-      }
+    if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
+      const unsavedBoardRequestId: string = String(Date.now());
+      localStorage.setItem(
+        LocalStorageKeys.UnsavedBoardRequestId,
+        unsavedBoardRequestId
+      );
+      this.boardFacade.updateBoardColumns(
+        updatedColumns,
+        this.removedItemIds,
+        unsavedBoardRequestId
+      );
     }
   };
 
@@ -382,77 +383,71 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
     return Object.values(this.editingItem).some((value) => value);
   }
 
-  private areColumnsChanged(): boolean {
-    const ignoreNotNeededFields = (obj: any) => {
-      const excludedKeys: string[] = [
-        'updatedAt',
-        'createdAt',
-        'columnId',
-        'isTemporary',
-      ];
-
-      return JSON.stringify(obj, (key, value) =>
-        excludedKeys.includes(key) ? undefined : value
-      );
+  private getOnlyUpdatedColumns(): Partial<BoardColumn | null>[] {
+    const isItemsEqual = (
+      items1: BoardColumnItem[],
+      items2: BoardColumnItem[]
+    ): boolean => {
+      if (items1.length !== items2.length) {
+        return false;
+      }
+      for (let i = 0; i < items1.length; i++) {
+        if (items1[i].id !== items2[i].id) {
+          return false;
+        }
+      }
+      return true;
     };
 
-    return (
-      ignoreNotNeededFields(this._columns) !==
-      ignoreNotNeededFields(this.originalColumns)
-    );
-  }
-
-  private getOnlyUpdatedColumns(): Partial<BoardColumn>[] {
     return this._columns
-      .map((column, index) => {
-        const originalColumn: BoardColumn = this.originalColumns[index];
-        const updatedColumn: Partial<BoardColumn> = {
-          id: column.id,
-          order: column.order,
-          items: column.items,
-        };
+      .map((column, index): Partial<BoardColumn> | null => {
+        const originalColumn: BoardColumn | undefined =
+          this.originalColumns.find((oc) => oc.id === column.id);
+        if (!originalColumn) return null;
 
-        if (column.order !== originalColumn.order) {
-          return column;
+        const hasOrderChanged: boolean = column.order !== originalColumn.order;
+        const areItemsEqual: boolean = isItemsEqual(
+          column.items,
+          originalColumn.items
+        );
+
+        if (hasOrderChanged && areItemsEqual) {
+          return { id: column.id, order: column.order, items: [] };
+        } else if (!areItemsEqual || (hasOrderChanged && !areItemsEqual)) {
+          return { ...column };
         }
 
-        Object.keys(column).forEach((key) => {
-          // @ts-ignore
-          if (column[key] !== originalColumn[key]) {
-            // @ts-ignore
-            updatedColumn[key] = column[key];
-          }
-        });
-
-        return updatedColumn;
+        return null;
       })
-      .filter((column) => Object.keys(column).length > 1);
+      .filter((column) => column !== null);
   }
 
   private mergeWithWorkingData(newData: BoardColumn[]): void {
-    let updatedColumns = JSON.parse(JSON.stringify(this._columns));
-
-    updatedColumns = newData.map((newColumn) => {
-      const existingColumn: BoardColumn = updatedColumns.find(
-        (c: BoardColumn) => c.id === newColumn.id
+    this._columns = newData.map((newColumn) => {
+      const existingColumn: BoardColumn | undefined = this._columns.find(
+        (c) => c.id === newColumn.id
       );
 
       if (existingColumn) {
         return {
           ...existingColumn,
           ...newColumn,
-          items: existingColumn.items,
+          items: newColumn.items.map((newItem) => {
+            const existingItem: BoardColumnItem | undefined =
+              existingColumn.items.find(
+                (i) =>
+                  (i.id.startsWith('temp-') &&
+                    i.content === newItem.content &&
+                    i.order === newItem.order) ||
+                  i.id === newItem.id
+              );
+            return existingItem ? { ...existingItem, ...newItem } : newItem;
+          }),
         };
       } else {
         return newColumn;
       }
     });
-
-    updatedColumns = updatedColumns.filter((column: BoardColumn) =>
-      newData.some((newColumn) => newColumn.id === column.id)
-    );
-
-    this._columns = updatedColumns;
   }
 
   private scrollHorizontal(event: CdkDragMove): void {

@@ -96,6 +96,7 @@ export class BoardService {
         this.API_DASHBOARD_URL + ApiRoute.UpdateBoardColumns,
         {
           columnsToUpdate: payload.columnsToUpdate,
+          removedItemIds: payload.removedItemIds,
           unsavedBoardRequestId: payload.unsavedBoardRequestId
             ? payload.unsavedBoardRequestId
             : null,

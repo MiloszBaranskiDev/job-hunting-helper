@@ -116,12 +116,13 @@ export class BoardFacade {
   }
 
   updateBoardColumns(
-    columnsToUpdate: Partial<BoardColumn>[],
+    columnsToUpdate: Partial<BoardColumn | null>[],
+    removedItemIds: string[],
     unsavedBoardRequestId?: string
   ) {
     const payload: UpdateBoardColumnsPayload = unsavedBoardRequestId
-      ? { columnsToUpdate, unsavedBoardRequestId }
-      : { columnsToUpdate };
+      ? { columnsToUpdate, removedItemIds, unsavedBoardRequestId }
+      : { columnsToUpdate, removedItemIds };
 
     return this.actionResolverService.executeAndWatch(
       BoardActions.updateBoardColumns({

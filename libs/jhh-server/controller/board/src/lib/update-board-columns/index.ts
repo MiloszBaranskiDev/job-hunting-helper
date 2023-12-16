@@ -6,13 +6,11 @@ import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
-import { BoardColumnItem } from '@jhh/shared/interfaces';
-
 const updateBoardColumns = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { columnsToUpdate, unsavedBoardRequestId } = req.body;
+    const { columnsToUpdate, removedItemIds, unsavedBoardRequestId } = req.body;
     const userId = req.user.id;
 
     if (!Array.isArray(columnsToUpdate)) {
@@ -23,11 +21,21 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const allUpdatedItemIds: string[] = columnsToUpdate.flatMap((column) =>
-      Array.isArray(column.items)
-        ? column.items.map((item: BoardColumnItem) => item.id)
-        : []
-    );
+    if (!Array.isArray(removedItemIds)) {
+      return respondWithError(
+        res,
+        HttpStatusCode.BadRequest,
+        'Invalid input format: removedItemIds should be an array.'
+      );
+    }
+
+    if (removedItemIds) {
+      for (const itemId of removedItemIds) {
+        await prisma.boardColumnItem.delete({
+          where: { id: itemId },
+        });
+      }
+    }
 
     for (const column of columnsToUpdate) {
       const existingColumn: BoardColumn | null =
@@ -119,18 +127,6 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
             });
           }
         }
-      }
-
-      // @ts-ignore
-      const existingItemIds = existingColumn['items'].map((item) => item.id);
-      const itemsToDelete = existingItemIds.filter(
-        (id: string) => !allUpdatedItemIds.includes(id)
-      );
-
-      for (const itemId of itemsToDelete) {
-        await prisma.boardColumnItem.delete({
-          where: { id: itemId },
-        });
       }
     }
 
