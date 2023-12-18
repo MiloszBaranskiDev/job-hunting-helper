@@ -4,10 +4,8 @@ import {
   ElementRef,
   inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,7 +16,6 @@ import {
   CdkDragMove,
   CdkDragPlaceholder,
   CdkDropList,
-  CdkDropListGroup,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
@@ -43,7 +40,6 @@ import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 import { BoardColumnFieldsLength, LocalStorageKeys } from '@jhh/shared/enums';
@@ -59,7 +55,6 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
   standalone: true,
   imports: [
     CommonModule,
-    CdkDropListGroup,
     CdkDropList,
     CdkDrag,
     CdkDragPlaceholder,
@@ -73,19 +68,10 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
     ClickOutsideDirective,
     CdkDragHandle,
   ],
-  animations: [
-    trigger('itemAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
-    ]),
-  ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
 })
-export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
+export class ColumnsComponent implements OnInit, OnDestroy {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
   private readonly snackBar: MatSnackBar = inject(MatSnackBar);
@@ -96,6 +82,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('horizontalScrollContainer') horizontalScrollContainer: ElementRef;
 
   @Input() isSaving$: BehaviorSubject<boolean>;
+  @Input() wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
 
   @Input() set columns(value: BoardColumn[]) {
     this.originalColumns = value;
@@ -137,7 +124,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
 
     this.updateSubject
       .pipe(
-        debounceTime(3500),
+        debounceTime(8000),
         filter(() => !this.isAnyItemInEditMode() && !this.isItemBeingDragged),
         tap(() => {
           this.saveChanges();
@@ -147,12 +134,6 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe();
 
     window.addEventListener('beforeunload', this.handleAppClose);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['columns'] && !changes['columns'].isFirstChange()) {
-      this.mergeWithWorkingData(changes['columns'].currentValue);
-    }
   }
 
   ngOnDestroy(): void {
@@ -168,7 +149,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
-    return item.id + '_' + item.order;
+    return item.id;
   }
 
   dragStarted(): void {
@@ -315,8 +296,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private saveChanges(): void {
-    const updatedColumns: Partial<BoardColumn | null>[] =
-      this.getOnlyUpdatedColumns();
+    const updatedColumns: BoardColumn[] = this.getOnlyUpdatedColumns();
 
     if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
       this.isSaving$.next(true);
@@ -362,8 +342,7 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private handleAppClose = (event: BeforeUnloadEvent): string | void => {
-    const updatedColumns: Partial<BoardColumn | null>[] =
-      this.getOnlyUpdatedColumns();
+    const updatedColumns: BoardColumn[] = this.getOnlyUpdatedColumns();
 
     if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
       const unsavedBoardRequestId: string = String(Date.now());
@@ -383,71 +362,129 @@ export class ColumnsComponent implements OnInit, OnChanges, OnDestroy {
     return Object.values(this.editingItem).some((value) => value);
   }
 
-  private getOnlyUpdatedColumns(): Partial<BoardColumn | null>[] {
-    const isItemsEqual = (
-      items1: BoardColumnItem[],
-      items2: BoardColumnItem[]
-    ): boolean => {
-      if (items1.length !== items2.length) {
-        return false;
-      }
-      for (let i = 0; i < items1.length; i++) {
-        if (items1[i].id !== items2[i].id) {
-          return false;
+  private getOnlyUpdatedColumns(): BoardColumn[] {
+    const updatedColumns: BoardColumn[] = [];
+
+    const originalItemDetails: Map<
+      string,
+      { originalOrder: number; originalColumnId: string }
+    > = new Map<string, { originalOrder: number; originalColumnId: string }>();
+
+    this.originalColumns.forEach((column) => {
+      column.items.forEach((item, index) => {
+        originalItemDetails.set(item.id, {
+          originalOrder: index,
+          originalColumnId: column.id,
+        });
+      });
+    });
+
+    this._columns.forEach((column) => {
+      const originalColumn: BoardColumn | undefined = this.originalColumns.find(
+        (oc) => oc.id === column.id
+      );
+      let columnUpdated: boolean = false;
+
+      const updatedColumn: Partial<BoardColumn> = {
+        id: column.id,
+        items: [],
+      };
+
+      if (originalColumn) {
+        if (column.name !== originalColumn.name) {
+          updatedColumn.name = column.name;
+          columnUpdated = true;
+        }
+
+        if (column.color !== originalColumn.color) {
+          updatedColumn.color = column.color;
+          columnUpdated = true;
+        }
+
+        if (column.order !== originalColumn.order) {
+          updatedColumn.order = column.order;
+          columnUpdated = true;
         }
       }
-      return true;
-    };
 
-    return this._columns
-      .map((column, index): Partial<BoardColumn> | null => {
-        const originalColumn: BoardColumn | undefined =
-          this.originalColumns.find((oc) => oc.id === column.id);
-        if (!originalColumn) return null;
+      column.items.forEach((item, index) => {
+        const originalItem: BoardColumnItem | undefined =
+          originalColumn?.items.find((oi) => oi.id === item.id);
+        const originalDetails:
+          | {
+              originalOrder: number;
+              originalColumnId: string;
+            }
+          | undefined = originalItemDetails.get(item.id);
 
-        const hasOrderChanged: boolean = column.order !== originalColumn.order;
-        const areItemsEqual: boolean = isItemsEqual(
-          column.items,
-          originalColumn.items
-        );
-
-        if (hasOrderChanged && areItemsEqual) {
-          return { id: column.id, order: column.order, items: [] };
-        } else if (!areItemsEqual || (hasOrderChanged && !areItemsEqual)) {
-          return { ...column };
+        if (
+          !originalItem ||
+          (originalItem && item.content !== originalItem.content) ||
+          (originalDetails &&
+            (originalDetails.originalOrder !== index ||
+              originalDetails.originalColumnId !== column.id))
+        ) {
+          updatedColumn.items!.push(item);
+          columnUpdated = true;
         }
+      });
 
-        return null;
-      })
-      .filter((column) => column !== null);
+      if (
+        originalColumn &&
+        originalColumn.items.length !== column.items.length
+      ) {
+        columnUpdated = true;
+      }
+
+      if (columnUpdated) {
+        updatedColumns.push(updatedColumn as BoardColumn);
+      }
+    });
+
+    return updatedColumns;
   }
 
   private mergeWithWorkingData(newData: BoardColumn[]): void {
-    this._columns = newData.map((newColumn) => {
-      const existingColumn: BoardColumn | undefined = this._columns.find(
-        (c) => c.id === newColumn.id
+    if (this.wasUpdateTriggeredByColumnsComponent$.getValue()) {
+      this._columns = newData;
+    } else {
+      const newDataIds: Set<string> = new Set(
+        newData.map((column) => column.id)
+      );
+      const existingColumnsMap: Map<string, BoardColumn> = new Map(
+        this._columns.map((column) => [column.id, column])
       );
 
-      if (existingColumn) {
-        return {
-          ...existingColumn,
-          ...newColumn,
-          items: newColumn.items.map((newItem) => {
-            const existingItem: BoardColumnItem | undefined =
-              existingColumn.items.find(
-                (i) =>
-                  (i.id.startsWith('temp-') &&
-                    i.content === newItem.content &&
-                    i.order === newItem.order) ||
-                  i.id === newItem.id
-              );
-            return existingItem ? { ...existingItem, ...newItem } : newItem;
-          }),
-        };
-      } else {
-        return newColumn;
-      }
-    });
+      const mergedColumns: BoardColumn[] = [];
+
+      newData.forEach((newColumn) => {
+        const existingColumn: BoardColumn | undefined = existingColumnsMap.get(
+          newColumn.id
+        );
+        if (existingColumn) {
+          mergedColumns.push({
+            ...existingColumn,
+            name: newColumn.name,
+            color: newColumn.color,
+          });
+          existingColumnsMap.delete(newColumn.id);
+        } else {
+          mergedColumns.push(newColumn);
+        }
+      });
+
+      this._columns.forEach((column) => {
+        if (existingColumnsMap.has(column.id)) {
+          mergedColumns.push(column);
+        }
+      });
+
+      this._columns = mergedColumns.filter((column) =>
+        newDataIds.has(column.id)
+      );
+    }
+
+    this.wasUpdateTriggeredByColumnsComponent$.next(false);
   }
 
   private scrollHorizontal(event: CdkDragMove): void {

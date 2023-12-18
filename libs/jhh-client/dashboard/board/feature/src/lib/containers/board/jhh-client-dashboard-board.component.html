@@ -1,5 +1,10 @@
 <jhh-board-add-column></jhh-board-add-column>
 <ng-container *ngIf="boardColumns$ | async as boardColumns">
-  <jhh-board-columns [columns]="boardColumns" [isSaving$]="isSaving$"></jhh-board-columns>
+  <jhh-board-columns
+    [wasUpdateTriggeredByColumnsComponent$]="wasUpdateTriggeredByColumnsComponent$"
+    [columns]="boardColumns"
+    [isSaving$]="isSaving$"
+  >
+  </jhh-board-columns>
 </ng-container>
 

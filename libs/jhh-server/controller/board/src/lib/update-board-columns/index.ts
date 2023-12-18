@@ -73,30 +73,7 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         },
       });
 
-      if (existingColumn.isTemporary) {
-        let maxOrder: number = 0;
-        const targetColumn = await prisma.boardColumn.findUnique({
-          where: { id: column.id },
-          include: {
-            items: true,
-          },
-        });
-        if (targetColumn && targetColumn.items.length > 0) {
-          maxOrder = Math.max(...targetColumn.items.map((item) => item.order));
-        }
-
-        for (const item of column.items) {
-          maxOrder++;
-          await prisma.boardColumnItem.update({
-            where: { id: item.id },
-            data: {
-              content: item.content,
-              columnId: column.id,
-              order: maxOrder,
-            },
-          });
-        }
-      } else {
+      if (column.items.length > 0) {
         for (const item of column.items) {
           if (
             item.content.length > BoardColumnFieldsLength.MaxColumnItemLength
@@ -141,9 +118,14 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
       },
     });
 
-    for (const tempColumn of tempColumns) {
-      // @ts-ignore
-      if (tempColumn['items'].length === 0) {
+    if (tempColumns?.length > 0) {
+      for (const tempColumn of tempColumns) {
+        await prisma.boardColumnItem.deleteMany({
+          where: {
+            columnId: tempColumn.id,
+          },
+        });
+
         await prisma.boardColumn.delete({
           where: { id: tempColumn.id },
         });

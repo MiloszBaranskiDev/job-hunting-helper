@@ -45,7 +45,6 @@
       <div
         class="column__item"
         *ngFor="let item of column.items; trackBy: trackByFn"
-        [@itemAnimation]
         cdkDrag
         (cdkDragStarted)="dragStarted()"
         (cdkDragEnded)="dragEnded()"
