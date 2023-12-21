@@ -70,6 +70,7 @@ export class BoardService {
         this.API_DASHBOARD_URL + ApiRoute.DuplicateBoardColumn,
         {
           columnId: payload.columnId,
+          items: payload.items,
         }
       )
       .pipe(map((res: DuplicateBoardColumnSuccessResponse) => res.data));

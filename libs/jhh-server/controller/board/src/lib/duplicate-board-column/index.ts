@@ -2,8 +2,7 @@ import { BoardColumn, PrismaClient } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
-import { BoardColumn as IBoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
@@ -11,7 +10,7 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { columnId } = req.body;
+    const { columnId, items } = req.body;
     const userId = req.user.id;
 
     if (!columnId) {
@@ -22,16 +21,17 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
       );
     }
 
+    if (!items) {
+      return respondWithError(
+        res,
+        HttpStatusCode.BadRequest,
+        'Board items array is required.'
+      );
+    }
+
     const existingColumn: BoardColumn | null =
       await prisma.boardColumn.findUnique({
         where: { id: columnId },
-        include: {
-          items: {
-            orderBy: {
-              order: 'asc',
-            },
-          },
-        },
       });
 
     if (!existingColumn) {
@@ -50,30 +50,52 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
       );
     }
 
+    const maxOrderColumn = await prisma.boardColumn.aggregate({
+      _max: {
+        order: true,
+      },
+      where: {
+        userId,
+      },
+    });
+    const newOrder: number = (maxOrderColumn._max.order ?? 0) + 1;
+
     const duplicatedBoardColumnWithoutItems: BoardColumn =
       await prisma.boardColumn.create({
         data: {
-          name: existingColumn.name,
+          name: existingColumn.name + ' - copy',
           color: existingColumn.color,
+          order: newOrder,
           userId: userId,
         } as BoardColumn,
       });
 
-    if (
-      (existingColumn as unknown as IBoardColumn).items &&
-      (existingColumn as unknown as IBoardColumn).items.length > 0
-    ) {
-      await Promise.all(
-        (existingColumn as unknown as IBoardColumn).items.map((item) =>
-          prisma.boardColumnItem.create({
-            data: {
-              content: item.content,
-              order: item.order,
-              columnId: duplicatedBoardColumnWithoutItems.id,
-            },
-          })
-        )
-      );
+    if (items.length > 0) {
+      for (const item of items) {
+        if (item.content.length > BoardColumnFieldsLength.MaxColumnItemLength) {
+          return respondWithError(
+            res,
+            HttpStatusCode.BadRequest,
+            `Content too long for item with ID ${item.id}. Maximum length is ${BoardColumnFieldsLength.MaxColumnItemLength} characters.`
+          );
+        }
+
+        if (item.columnId !== existingColumn.id) {
+          return respondWithError(
+            res,
+            HttpStatusCode.NotFound,
+            'Invalid column ID of column item.'
+          );
+        }
+
+        await prisma.boardColumnItem.create({
+          data: {
+            content: item.content,
+            columnId: duplicatedBoardColumnWithoutItems.id,
+            order: item.order,
+          },
+        });
+      }
     }
 
     const duplicatedBoardColumn: BoardColumn =

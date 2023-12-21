@@ -1,18 +1,17 @@
 <div
-  *ngIf="columns && columns.length > 0"
+  *ngIf="_columns && _columns.length > 0"
   [ngClass]="['columns', breakpoint$ | async]"
   #horizontalScrollContainer
   cdkDropList
   cdkDropListOrientation="horizontal"
-  [cdkDropListData]="columns"
+  [cdkDropListData]="_columns"
   (cdkDropListDropped)="dropColumn($event)"
 >
   <div
-    *ngFor="let column of columns; trackBy: trackByFn"
+    *ngFor="let column of _columns; trackBy: trackByFn"
     class="column"
     [style.border-top-color]="column.color"
     cdkDrag
-    cdkDragLockAxis="x"
     (cdkDragStarted)="dragStarted()"
     (cdkDragEnded)="dragEnded()"
     (cdkDragMoved)="dragMoved($event)"
@@ -29,13 +28,16 @@
       <h2>
         {{column.name}}
       </h2>
-      <jhh-board-column-menu [column]="column"></jhh-board-column-menu>
+      <jhh-board-column-menu
+        [column]="column"
+        [fetchItems]="fetchItemsForColumn.bind(this)"
+      ></jhh-board-column-menu>
     </header>
 
     <div
       class="column__items"
       [id]="'drop-list-' + column.id"
-      #columnScrollContainer
+      #columnItemsContainer
       cdkDropList
       [cdkDropListData]="column.items"
       [cdkDropListConnectedTo]="connectedDropLists"
@@ -46,9 +48,10 @@
         class="column__item"
         *ngFor="let item of column.items; trackBy: trackByFn"
         cdkDrag
+        [@itemAnimation]
         (cdkDragStarted)="dragStarted()"
         (cdkDragEnded)="dragEnded()"
-        (cdkDragMoved)="dragMoved($event, columnScrollContainer)"
+        (cdkDragMoved)="dragMoved($event, columnItemsContainer)"
       >
         <div class="column__itemPlaceholder" *cdkDragPlaceholder></div>
         <ng-container *ngIf="editingItem[item.id]; else viewMode">
@@ -67,7 +70,7 @@
           </mat-form-field>
         </ng-container>
         <ng-template #viewMode>
-          <p (click)="startEdit(item.id, item.content)">{{item.content}}</p>
+          <p (click)="startEdit(item.id, item.content)">{{item.content || 'Untilted'}}</p>
           <button mat-icon-button (click)="removeItem(column.id, item.id)">
             <mat-icon>delete</mat-icon>
           </button>

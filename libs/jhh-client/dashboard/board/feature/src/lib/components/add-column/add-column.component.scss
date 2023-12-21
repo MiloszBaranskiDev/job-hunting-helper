@@ -2,6 +2,12 @@ mat-icon {
   color: white !important;
 }
 
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
+}
+
 .row {
   display: flex;
   justify-content: flex-start;

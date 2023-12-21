@@ -30,7 +30,7 @@ import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 import { BoardColumnFieldsLength } from '@jhh/shared/enums';
 import {
   BoardColumnDefaultColors,
@@ -70,6 +70,8 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   @Input({ required: true }) column: BoardColumn;
+  @Input() fetchItems: (columnId: string) => BoardColumnItem[];
+
   @ViewChild('editDialogContent')
   private readonly editDialogContent: TemplateRef<any>;
   @ViewChild('removeDialogContent')
@@ -124,7 +126,11 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   }
 
   handleDuplicate(): void {
-    this.boardFacade.duplicateBoardColumn(this.column.id);
+    const items: BoardColumnItem[] = this.fetchItems
+      ? this.fetchItems(this.column.id)
+      : [];
+
+    this.boardFacade.duplicateBoardColumn(this.column.id, items);
   }
 
   handleRemove(): void {

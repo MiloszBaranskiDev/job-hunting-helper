@@ -6,7 +6,9 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -40,6 +42,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 import { BoardColumnFieldsLength, LocalStorageKeys } from '@jhh/shared/enums';
@@ -68,6 +71,15 @@ import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside
     ClickOutsideDirective,
     CdkDragHandle,
   ],
+  animations: [
+    trigger('itemAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
+    ]),
+  ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
 })
@@ -80,6 +92,8 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   @ViewChild('horizontalScrollContainer') horizontalScrollContainer: ElementRef;
+  @ViewChildren('columnItemsContainer')
+  columnItemsContainers: QueryList<ElementRef>;
 
   @Input() isSaving$: BehaviorSubject<boolean>;
   @Input() wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
@@ -97,10 +111,10 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   readonly boardColumnFieldsLength: typeof BoardColumnFieldsLength =
     BoardColumnFieldsLength;
   private updateSubject: Subject<void> = new Subject<void>();
-  private _columns: BoardColumn[] = [];
   private originalColumns: BoardColumn[];
   private removedItemIds: string[] = [];
   private isItemBeingDragged: boolean = false;
+  _columns: BoardColumn[] = [];
   editingItem: { [key: string]: boolean } = {};
   editableContent: { [key: string]: string } = {};
 
@@ -140,12 +154,8 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     window.removeEventListener('beforeunload', this.handleAppClose);
   }
 
-  get columns(): BoardColumn[] {
-    return this._columns;
-  }
-
   get connectedDropLists(): string[] {
-    return this.columns.map((column) => 'drop-list-' + column.id);
+    return this._columns.map((column) => 'drop-list-' + column.id);
   }
 
   trackByFn(index: number, item: BoardColumn | BoardColumnItem): string {
@@ -169,7 +179,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
 
   dropColumn(event: CdkDragDrop<BoardColumn[]>): void {
     if (event.previousContainer === event.container) {
-      const columnsClone: BoardColumn[] = [...this.columns];
+      const columnsClone: BoardColumn[] = [...this._columns];
 
       moveItemInArray(columnsClone, event.previousIndex, event.currentIndex);
 
@@ -183,13 +193,13 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   }
 
   dropItem(event: CdkDragDrop<BoardColumnItem[]>): void {
-    const previousColumnIndex: number = this.columns.findIndex(
+    const previousColumnIndex: number = this._columns.findIndex(
       (c) => c.items === event.previousContainer.data
     );
-    const currentColumnIndex: number = this.columns.findIndex(
+    const currentColumnIndex: number = this._columns.findIndex(
       (c) => c.items === event.container.data
     );
-    const columnsClone: BoardColumn[] = this.columns.map((col) => ({
+    const columnsClone: BoardColumn[] = this._columns.map((col) => ({
       ...col,
       items: [...col.items],
     }));
@@ -244,6 +254,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     this.editableContent[newItem.id] = newItem.content;
 
     this.updateSubject.next();
+    this.scrollItemsToBottom(columnId);
   }
 
   startEdit(itemId: string, content: string): void {
@@ -293,6 +304,14 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     });
 
     this.updateSubject.next();
+  }
+
+  fetchItemsForColumn(columnId: string): BoardColumnItem[] {
+    const items: BoardColumnItem[] = this._columns.find(
+      (column) => column.id === columnId
+    )!.items;
+
+    return items;
   }
 
   private saveChanges(): void {
@@ -485,6 +504,23 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     }
 
     this.wasUpdateTriggeredByColumnsComponent$.next(false);
+  }
+
+  private scrollItemsToBottom(columnId: string): void {
+    const columnElement = this.columnItemsContainers.find(
+      (elRef) => elRef.nativeElement.id === 'drop-list-' + columnId
+    );
+
+    if (columnElement) {
+      setTimeout(() => {
+        const items =
+          columnElement.nativeElement.querySelectorAll('.column__item');
+        const lastItem = items[items.length - 1];
+        if (lastItem) {
+          lastItem.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   }
 
   private scrollHorizontal(event: CdkDragMove): void {

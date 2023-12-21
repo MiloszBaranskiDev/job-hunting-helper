@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
 
 import * as BoardSelectors from './board.selectors';
 import * as BoardActions from './board.actions';
@@ -95,10 +95,10 @@ export class BoardFacade {
     );
   }
 
-  duplicateBoardColumn(columnId: string) {
+  duplicateBoardColumn(columnId: string, items: BoardColumnItem[]) {
     return this.actionResolverService.executeAndWatch(
       BoardActions.duplicateBoardColumn({
-        payload: { columnId: columnId },
+        payload: { columnId: columnId, items: items },
       }),
       BoardActions.Type.DuplicateBoardColumnSuccess,
       BoardActions.Type.DuplicateBoardColumnFail
