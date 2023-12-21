@@ -12,4 +12,7 @@ export enum ClientRoute {
   //
   Board = 'board',
   BoardLink = '/dashboard/board',
+  //
+  Offers = 'offers',
+  OffersLink = '/dashboard/offers',
 }

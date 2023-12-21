@@ -44,6 +44,7 @@ export class JhhClientDashboardFeatureSidebarComponent implements OnInit {
     { icon: 'home', text: 'Home', route: ClientRoute.HomeLink },
     { icon: 'view_column', text: 'Board', route: ClientRoute.BoardLink },
     { icon: 'note_add', text: 'Notes', route: ClientRoute.NotesLink },
+    { icon: 'work', text: 'Offers', route: ClientRoute.OffersLink },
   ];
 
   ngOnInit(): void {
