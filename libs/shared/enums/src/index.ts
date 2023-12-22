@@ -10,3 +10,9 @@ export * from './lib/notes/note-size';
 export * from './lib/board/board-column-fields-length';
 
 export * from './lib/local-storage/local-storage-keys';
+
+export * from './lib/offers/offer-company-type';
+export * from './lib/offers/offer-status';
+export * from './lib/offers/offer-salary-currency';
+export * from './lib/offers/offer-priority';
+export * from './lib/offers/offer-location';

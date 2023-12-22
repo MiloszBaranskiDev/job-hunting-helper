@@ -5,3 +5,5 @@ export * from './lib/notes/note';
 
 export * from './lib/board/board-column';
 export * from './lib/board/board-column-item';
+
+export * from './lib/offers/offer';

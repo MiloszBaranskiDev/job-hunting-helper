@@ -4,6 +4,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import defaultNotesGroups from '../../default-data/notes-groups';
 import defaultBoardColumns from '../../default-data/board-columns';
+import defaultOffers from '../../default-data/offers';
 
 import { BoardColumnItem } from '@jhh/shared/interfaces';
 
@@ -54,6 +55,22 @@ const assignDefaultData = async (userId: string): Promise<void> => {
         },
       },
     });
+  }
+
+  for (
+    let offerIndex: number = 0;
+    offerIndex < defaultOffers.length;
+    offerIndex++
+  ) {
+    const offer = defaultOffers[offerIndex];
+    await prisma.offer.create({
+      data: {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        ...offer,
+        userId: userId,
+      },
+    } as any);
   }
 };
 
