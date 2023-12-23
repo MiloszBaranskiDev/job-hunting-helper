@@ -1,0 +1,47 @@
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+
+  th {
+    div {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 16px;
+      user-select: none;
+    }
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    mat-icon {
+      $size: 18px;
+      width: $size;
+      height: $size;
+      font-size: $size;
+    }
+  }
+
+  .priority {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: var(--radius__base);
+    color: white;
+    font-weight: 600;
+
+    &--High {
+      background-color: var(--color__warn);
+    }
+
+    &--Medium {
+      background-color: var(--color__accent);
+    }
+
+    &--Low {
+      background-color: var(--color__green);
+    }
+  }
+}

@@ -1,1 +1,9 @@
-<p>jhh-client-dashboard-offers works!</p>
+<ng-container *ngIf="offers$ | async as offers">
+  <ng-container *ngIf="offers.length > 0; else emptyList">
+    <jhh-offers-table [offers]="offers"></jhh-offers-table>
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyList>
+  <p>No offers found</p>
+</ng-template>
