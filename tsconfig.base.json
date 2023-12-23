@@ -120,6 +120,9 @@
       "@jhh/jhh-client/dashboard/notes/ui-note-card": [
         "libs/jhh-client/dashboard/notes/ui-note-card/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/offers/data-access": [
+        "libs/jhh-client/dashboard/offers/data-access/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/offers/feature": [
         "libs/jhh-client/dashboard/offers/feature/src/index.ts"
       ],

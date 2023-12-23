@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Offer, PrismaClient } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -50,9 +50,15 @@ export function JhhServerControllerDashboard() {
         },
       });
 
-      res
-        .status(HttpStatusCode.OK)
-        .json({ data: { notesGroups, boardColumns, unsavedBoardRequestId } });
+      const offers: Offer[] = await prisma.offer.findMany({
+        where: {
+          userId: userId,
+        },
+      });
+
+      res.status(HttpStatusCode.OK).json({
+        data: { notesGroups, boardColumns, offers, unsavedBoardRequestId },
+      });
     } catch (error) {
       console.error(error);
       return respondWithError(
