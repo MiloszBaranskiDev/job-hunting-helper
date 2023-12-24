@@ -22,6 +22,10 @@ import {
   BOARD_STATE_KEY,
   boardReducer,
 } from '@jhh/jhh-client/dashboard/board/data-access';
+import {
+  OFFERS_STATE_KEY,
+  offersReducer,
+} from '@jhh/jhh-client/dashboard/offers/data-access';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
@@ -37,6 +41,7 @@ export const JhhClientDashboardShellRoutes: Route = {
     provideState(DASHBOARD_STATE_KEY, dashboardReducer),
     provideState(NOTES_STATE_KEY, notesReducer),
     provideState(BOARD_STATE_KEY, boardReducer),
+    provideState(OFFERS_STATE_KEY, offersReducer),
     provideEffects(DashboardEffects),
     AuthFeatureFacade,
     AuthPublicFacade,

@@ -24,8 +24,12 @@
       font-size: $size;
     }
   }
+}
 
+::ng-deep,
+:host {
   .priority {
+    display: inline-block;
     font-size: 12px;
     padding: 4px 8px;
     border-radius: var(--radius__base);

@@ -123,6 +123,9 @@
       "@jhh/jhh-client/dashboard/offers/data-access": [
         "libs/jhh-client/dashboard/offers/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/offers/domain": [
+        "libs/jhh-client/dashboard/offers/domain/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/offers/feature": [
         "libs/jhh-client/dashboard/offers/feature/src/index.ts"
       ],
@@ -174,6 +177,9 @@
       ],
       "@jhh/jhh-server/controller/notes": [
         "libs/jhh-server/controller/notes/src/index.ts"
+      ],
+      "@jhh/jhh-server/controller/offers": [
+        "libs/jhh-server/controller/offers/src/index.ts"
       ],
       "@jhh/jhh-server/controller/user": [
         "libs/jhh-server/controller/user/src/index.ts"

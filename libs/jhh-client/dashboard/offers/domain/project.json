@@ -1,0 +1,44 @@
+{
+  "name": "jhh-client-dashboard-offers-domain",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/offers/domain/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/offers/domain",
+        "main": "libs/jhh-client/dashboard/offers/domain/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/offers/domain/tsconfig.lib.json",
+        "assets": [
+          "libs/jhh-client/dashboard/offers/domain/*.md"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/jhh-client/dashboard/offers/domain/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": [
+    "platform:client",
+    "scope:client-dashboard",
+    "scope:client-dashboard-offers",
+    "type:domain"
+  ]
+}

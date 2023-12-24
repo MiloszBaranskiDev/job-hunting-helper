@@ -5,6 +5,7 @@ import { ApiRoute } from '@jhh/shared/enums';
 import { JhhServerControllerDashboard } from '@jhh/jhh-server/controller/dashboard';
 import { JhhServerControllerNotes } from '@jhh/jhh-server/controller/notes';
 import { JhhServerControllerBoard } from '@jhh/jhh-server/controller/board';
+import { JhhServerControllerOffers } from '@jhh/jhh-server/controller/offers';
 
 export function JhhServerRouterApi(): Router {
   const router: Router = Router();
@@ -12,6 +13,7 @@ export function JhhServerRouterApi(): Router {
   const dashboardController = JhhServerControllerDashboard();
   const notesController = JhhServerControllerNotes();
   const boardController = JhhServerControllerBoard();
+  const offersController = JhhServerControllerOffers();
 
   router.get(ApiRoute.Test, (req, res) => {
     res.send('Hello World!');
@@ -37,6 +39,8 @@ export function JhhServerRouterApi(): Router {
   );
   router.delete(ApiRoute.RemoveBoardColumn, boardController.removeBoardColumn);
   router.patch(ApiRoute.UpdateBoardColumns, boardController.updateBoardColumns);
+
+  router.delete(ApiRoute.RemoveOffer, offersController.removeOffer);
 
   return router;
 }

@@ -2,7 +2,9 @@ import {
   AfterViewInit,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,19 +15,29 @@ import { MatIconModule } from '@angular/material/icon';
 import { Offer } from '@jhh/shared/interfaces';
 import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
 
+import { MenuComponent } from '../menu/menu.component';
+
 @Component({
   selector: 'jhh-offers-table',
   standalone: true,
-  imports: [CommonModule, MatSortModule, MatTableModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatSortModule,
+    MatTableModule,
+    MatIconModule,
+    MenuComponent,
+  ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input({ required: true }) offers: Offer[];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource: MatTableDataSource<Offer>;
+  readonly offerStatus: typeof OfferStatus = OfferStatus;
+
   readonly displayedColumns: string[] = [
     'position',
     'company',
@@ -33,6 +45,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     'salary',
     'status',
     'priority',
+    'actions',
   ];
 
   readonly priorityMapping: { [key: string]: number } = {
@@ -66,5 +79,11 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['offers']) {
+      this.dataSource = new MatTableDataSource(this.offers);
+    }
   }
 }

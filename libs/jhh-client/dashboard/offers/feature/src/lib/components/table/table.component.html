@@ -62,12 +62,12 @@
       </th>
       <td mat-cell *matCellDef="let element">
         <div class="status">
-          <mat-icon *ngIf="element.status === 'Not applied'">drafts</mat-icon>
-          <mat-icon *ngIf="element.status === 'Applied'">assignment_returned</mat-icon>
-          <mat-icon *ngIf="element.status === 'Interviewing'">timelapse</mat-icon>
-          <mat-icon *ngIf="element.status === 'Offer received'">work</mat-icon>
-          <mat-icon *ngIf="element.status === 'Accepted'">check_circle</mat-icon>
-          <mat-icon *ngIf="element.status === 'Rejected'">cancel</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.NotApplied">drafts</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.Applied">assignment_returned</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.Interviewing">timelapse</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.OfferReceived">work</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.Accepted">check_circle</mat-icon>
+          <mat-icon *ngIf="element.status === offerStatus.Rejected">cancel</mat-icon>
           <span>
             {{ element.status }}
           </span>
@@ -88,6 +88,13 @@
       <span class="priority" [class]="'priority--' + element.priority">
         {{ element.priority }}
       </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <jhh-offers-menu [offer]="element"></jhh-offers-menu>
       </td>
     </ng-container>
 

@@ -1,0 +1,87 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>more_horiz</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openRemoveOfferDialog()">
+    <mat-icon>close</mat-icon>
+    <span>Remove</span>
+  </button>
+</mat-menu>
+
+<ng-template #removeDialogContent>
+  <h2 mat-dialog-title>Are you sure you want to remove a offer?</h2>
+  <mat-dialog-content>
+    <ul>
+      <li>
+        <span>
+          <strong>
+            Position:
+          </strong>
+        </span>
+        <span>{{offer.position}}</span>
+      </li>
+      <li>
+        <span>
+          <strong>
+            Company:
+          </strong>
+        </span>
+        <span>{{offer.company}}</span>
+      </li>
+      <li>
+        <span>
+          <strong>
+            Location:
+          </strong>
+        </span>
+        <span>{{offer.location}}</span>
+      </li>
+      <li *ngIf="offer.salary">
+        <span>
+          <strong>
+            Salary:
+          </strong>
+        </span>
+        <span>{{ offer.salary | currency:offer.salaryCurrency:'symbol':'1.0-0' }}</span>
+      </li>
+      <li>
+        <span>
+          <strong>
+            Status:
+          </strong>
+        </span>
+        <span>{{ offer.status }}</span>
+      </li>
+      <li>
+        <span>
+          <strong>
+            Priority:
+          </strong>
+        </span>
+        <span class="priority" [class]="'priority--' + offer.priority">{{ offer.priority }}</span>
+      </li>
+    </ul>
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="(removeOfferInProgress$ | async) || (removeOfferError$ | async)">
+      <mat-progress-spinner *ngIf="removeOfferInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+      <mat-error *ngIf="removeOfferError$ | async as error">{{ error }}</mat-error>
+      <mat-divider></mat-divider>
+    </ng-container>
+    <mat-dialog-actions>
+      <button
+        mat-stroked-button
+        mat-dialog-close
+      >
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="handleRemove()"
+        [disabled]="(removeOfferInProgress$ | async)"
+      >
+        Remove
+      </button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</ng-template>

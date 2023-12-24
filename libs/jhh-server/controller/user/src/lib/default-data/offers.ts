@@ -35,8 +35,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.Remote,
     status: OfferStatus.Applied,
     priority: OfferPriority.High,
-    salary: 3400,
-    salaryCurrency: OfferSalaryCurrency.USD,
+    salary: 13250,
+    salaryCurrency: OfferSalaryCurrency.PLN,
     email: 'hr@example.com',
   },
   {
