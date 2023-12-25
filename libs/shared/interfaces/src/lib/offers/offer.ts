@@ -19,7 +19,8 @@ export interface Offer {
   location: OfferLocation;
   status: OfferStatus;
   priority: OfferPriority;
-  salary?: number;
+  minSalary?: number;
+  maxSalary?: number;
   salaryCurrency?: OfferSalaryCurrency;
   email?: string;
 }

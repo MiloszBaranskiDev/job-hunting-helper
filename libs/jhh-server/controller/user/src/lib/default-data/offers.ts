@@ -19,7 +19,8 @@ interface DefaultOffer
     | 'location'
     | 'status'
     | 'priority'
-    | 'salary'
+    | 'minSalary'
+    | 'maxSalary'
     | 'salaryCurrency'
     | 'email'
   > {}
@@ -35,7 +36,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.Remote,
     status: OfferStatus.Applied,
     priority: OfferPriority.High,
-    salary: 13250,
+    minSalary: 11500,
+    maxSalary: 16000,
     salaryCurrency: OfferSalaryCurrency.PLN,
     email: 'hr@example.com',
   },
@@ -49,7 +51,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.OnSite,
     status: OfferStatus.Interviewing,
     priority: OfferPriority.Medium,
-    salary: 4900,
+    minSalary: 4900,
+    maxSalary: null,
     salaryCurrency: OfferSalaryCurrency.EUR,
     email: 'careers@example.com',
   },
@@ -63,7 +66,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.Hybrid,
     status: OfferStatus.NotApplied,
     priority: OfferPriority.Low,
-    salary: 5750,
+    minSalary: 5750,
+    maxSalary: 6500,
     salaryCurrency: OfferSalaryCurrency.GBP,
     email: null,
   },
@@ -77,7 +81,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.Hybrid,
     status: OfferStatus.Rejected,
     priority: OfferPriority.Medium,
-    salary: 6000,
+    minSalary: null,
+    maxSalary: 6000,
     salaryCurrency: OfferSalaryCurrency.EUR,
     email: 'recruit@example.com',
   },
@@ -91,7 +96,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.OnSite,
     status: OfferStatus.OfferReceived,
     priority: OfferPriority.Low,
-    salary: null,
+    minSalary: null,
+    maxSalary: null,
     salaryCurrency: null,
     email: 'talent@example.com',
   },
@@ -105,7 +111,8 @@ const defaultOffers: DefaultOffer[] = [
     location: OfferLocation.Remote,
     status: OfferStatus.Accepted,
     priority: OfferPriority.High,
-    salary: 6800,
+    minSalary: 5800,
+    maxSalary: 7000,
     salaryCurrency: OfferSalaryCurrency.USD,
     email: 'careers@example.com',
   },

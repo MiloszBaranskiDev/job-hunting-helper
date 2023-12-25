@@ -47,8 +47,17 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.salary ? (element.salary | currency:element.salaryCurrency:'symbol':'1.0-0') : '-' }}
+        {{
+        element.minSalary && element.maxSalary ?
+          (element.minSalary | currency:element.salaryCurrency:'symbol':'1.0-0') + ' - ' + (element.maxSalary | currency:element.salaryCurrency:'symbol':'1.0-0') :
+          element.minSalary ?
+            (element.minSalary | currency:element.salaryCurrency:'symbol':'1.0-0') :
+            element.maxSalary ?
+              (element.maxSalary | currency:element.salaryCurrency:'symbol':'1.0-0') :
+              '-'
+        }}
       </td>
+
     </ng-container>
 
     <ng-container matColumnDef="status">

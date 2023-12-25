@@ -99,7 +99,8 @@ model Offer {
   location       String
   status         String
   priority       String
-  salary         Int?
+  minSalary      Int?
+  maxSalary      Int?
   salaryCurrency String?
   email          String?
 

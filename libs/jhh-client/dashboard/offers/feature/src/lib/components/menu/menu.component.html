@@ -36,13 +36,23 @@
         </span>
         <span>{{offer.location}}</span>
       </li>
-      <li *ngIf="offer.salary">
+      <li>
         <span>
           <strong>
             Salary:
           </strong>
         </span>
-        <span>{{ offer.salary | currency:offer.salaryCurrency:'symbol':'1.0-0' }}</span>
+        <span>
+          {{
+          offer.minSalary && offer.maxSalary ?
+            (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') + ' - ' + (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+            offer.minSalary ?
+              (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+              offer.maxSalary ?
+                (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+                '-'
+          }}
+        </span>
       </li>
       <li>
         <span>
