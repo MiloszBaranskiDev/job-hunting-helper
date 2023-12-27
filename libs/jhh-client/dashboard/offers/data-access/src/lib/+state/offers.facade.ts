@@ -8,6 +8,13 @@ import * as OffersSelectors from './offers.selectors';
 import * as OffersActions from './offers.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+import {
+  OfferCompanyType,
+  OfferLocation,
+  OfferPriority,
+  OfferSalaryCurrency,
+  OfferStatus,
+} from '@jhh/shared/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +29,18 @@ export class OffersFacade {
     select(OffersSelectors.selectOffers)
   );
 
+  addOfferInProgress$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectAddOfferInProgress)
+  );
+
+  addOfferError$: Observable<string | null> = this.store.pipe(
+    select(OffersSelectors.selectAddOfferError)
+  );
+
+  addOfferSuccess$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectAddOfferSuccess)
+  );
+
   removeOfferInProgress$: Observable<boolean> = this.store.pipe(
     select(OffersSelectors.selectRemoveOfferInProgress)
   );
@@ -33,6 +52,40 @@ export class OffersFacade {
   removeOfferSuccess$: Observable<boolean> = this.store.pipe(
     select(OffersSelectors.selectRemoveOfferSuccess)
   );
+
+  addOffer(
+    position: string,
+    link: string,
+    company: string,
+    companyType: OfferCompanyType,
+    location: OfferLocation,
+    status: OfferStatus,
+    priority: OfferPriority,
+    minSalary: number | undefined,
+    maxSalary: number | undefined,
+    salaryCurrency: OfferSalaryCurrency | undefined,
+    email: string | undefined
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      OffersActions.addOffer({
+        payload: {
+          position,
+          link,
+          company,
+          companyType,
+          location,
+          status,
+          priority,
+          minSalary,
+          maxSalary,
+          salaryCurrency,
+          email,
+        },
+      }),
+      OffersActions.Type.RemoveOfferSuccess,
+      OffersActions.Type.RemoveOfferFail
+    );
+  }
 
   removeOffer(offerId: string) {
     return this.actionResolverService.executeAndWatch(

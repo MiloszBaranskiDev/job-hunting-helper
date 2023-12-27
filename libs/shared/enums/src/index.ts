@@ -16,3 +16,4 @@ export * from './lib/offers/offer-status';
 export * from './lib/offers/offer-salary-currency';
 export * from './lib/offers/offer-priority';
 export * from './lib/offers/offer-location';
+export * from './lib/offers/offer-fields-length';

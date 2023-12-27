@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
 import { TableComponent } from '../../components/table/table.component';
+import { AddComponent } from '../../components/add/add.component';
 
 import { Offer } from '@jhh/shared/interfaces';
 
 @Component({
   selector: 'jhh-offers',
   standalone: true,
-  imports: [CommonModule, TableComponent],
+  imports: [CommonModule, TableComponent, AddComponent],
   templateUrl: './jhh-client-dashboard-offers.component.html',
   styleUrls: ['./jhh-client-dashboard-offers.component.scss'],
 })

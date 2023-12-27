@@ -14,12 +14,18 @@ export interface OperationState {
 }
 
 export interface OffersState extends EntityState<Offer> {
+  addOffer: OperationState;
   removeOffer: OperationState;
 }
 
 export const adapter: EntityAdapter<Offer> = createEntityAdapter<Offer>();
 
 export const initialOffersState: OffersState = adapter.getInitialState({
+  addOffer: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
   removeOffer: {
     inProgress: false,
     error: null,
@@ -32,6 +38,41 @@ const reducer: ActionReducer<OffersState> = createReducer(
   on(OffersActions.setOffers, (state, { offers }) =>
     adapter.setAll(offers, state)
   ),
+  on(OffersActions.addOffer, (state) => ({
+    ...state,
+    addOffer: {
+      ...state.addOffer,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(OffersActions.addOfferFail, (state, { payload }) => ({
+    ...state,
+    addOffer: {
+      ...state.addOffer,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(OffersActions.addOfferSuccess, (state, { payload }) => {
+    return adapter.addOne(payload.addedOffer, {
+      ...state,
+      addOffer: {
+        ...state.addOffer,
+        inProgress: false,
+        success: true,
+        error: null,
+      },
+    });
+  }),
+  on(OffersActions.resetAddOfferSuccess, (state) => ({
+    ...state,
+    addOffer: {
+      ...state.addOffer,
+      success: false,
+    },
+  })),
   on(OffersActions.removeOffer, (state) => ({
     ...state,
     removeOffer: {

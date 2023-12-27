@@ -18,6 +18,21 @@ export const selectOffers = createSelector(
   (offers: Offer[]) => offers
 );
 
+export const selectAddOfferInProgress = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.addOffer.inProgress
+);
+
+export const selectAddOfferError = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.addOffer.error
+);
+
+export const selectAddOfferSuccess = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.addOffer.success!
+);
+
 export const selectRemoveOfferInProgress = createSelector(
   selectOffersState,
   (state: OffersState) => state.removeOffer.inProgress

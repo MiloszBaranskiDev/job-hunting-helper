@@ -25,5 +25,6 @@ export enum ApiRoute {
   RemoveBoardColumn = '/remove-board-column',
   UpdateBoardColumns = '/update-board-columns',
   //
+  AddOffer = '/add-offer',
   RemoveOffer = '/remove-offer',
 }

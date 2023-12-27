@@ -8,13 +8,36 @@ import { OffersService } from '../services/offers/offers.service';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
-import { RemoveOfferSuccessPayload } from '@jhh/jhh-client/dashboard/offers/domain';
+import {
+  AddOfferSuccessPayload,
+  RemoveOfferSuccessPayload,
+} from '@jhh/jhh-client/dashboard/offers/domain';
 
 @Injectable()
 export class OffersEffects {
   private readonly actions$ = inject(Actions);
   private readonly offersService: OffersService = inject(OffersService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
+
+  addOffer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OffersActions.addOffer),
+      fetch({
+        run: (action) =>
+          this.offersService.addOffer(action.payload).pipe(
+            mergeMap((res: AddOfferSuccessPayload) => [
+              OffersActions.addOfferSuccess({ payload: res }),
+              OffersActions.resetAddOfferSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Offer added successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          OffersActions.addOfferFail({ payload: error }),
+      })
+    )
+  );
 
   removeOffer$ = createEffect(() =>
     this.actions$.pipe(
