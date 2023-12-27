@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 import { Offer } from '@jhh/shared/interfaces';
 import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
@@ -26,6 +29,9 @@ import { MenuComponent } from '../menu/menu.component';
     MatTableModule,
     MatIconModule,
     MenuComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule,
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
@@ -33,6 +39,7 @@ import { MenuComponent } from '../menu/menu.component';
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input({ required: true }) offers: Offer[];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource: MatTableDataSource<Offer>;
@@ -65,6 +72,38 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.offers);
+    this.updateTableData();
+  }
+
+  ngAfterViewInit(): void {
+    this.updateTableData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['offers']) {
+      this.dataSource = new MatTableDataSource(this.offers);
+      this.updateTableData();
+    }
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue: string = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  onSortChange(): void {
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  private updateTableData(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'priority':
@@ -75,15 +114,5 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
           return (item as any)[property];
       }
     };
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['offers']) {
-      this.dataSource = new MatTableDataSource(this.offers);
-    }
   }
 }

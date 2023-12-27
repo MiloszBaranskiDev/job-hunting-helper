@@ -1,5 +1,10 @@
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
+</mat-form-field>
+
 <div class="tableContainer">
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortChange()">
 
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -108,5 +113,15 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row noFound" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        <span>No data matching the filter <strong>"{{input.value}}"</strong></span>
+      </td>
+    </tr>
   </table>
+</div>
+
+<div class="paginatorContainer">
+  <mat-paginator [pageSizeOptions]="[15, 20, 25, 40]" aria-label="Select page of offers"></mat-paginator>
 </div>

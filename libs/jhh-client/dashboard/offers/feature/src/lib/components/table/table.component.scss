@@ -24,6 +24,25 @@
       font-size: $size;
     }
   }
+
+  .noFound {
+    color: var(--color__warn);
+
+    span {
+      display: inline-block;
+      padding: 16px;
+    }
+  }
+}
+
+.paginatorContainer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  mat-paginator {
+    display: inline-block;
+  }
 }
 
 ::ng-deep,
