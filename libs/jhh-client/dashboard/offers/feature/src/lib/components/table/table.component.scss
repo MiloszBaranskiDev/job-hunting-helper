@@ -2,6 +2,32 @@
   width: 100%;
   overflow-x: auto;
 
+  .clickableRow {
+    cursor: pointer;
+    transition: all 0.3s;
+
+    mat-icon {
+      transition: color 0.3s;
+    }
+
+    &:hover {
+      background-color: var(--color__primary);
+      color: white;
+
+      mat-icon {
+        color: white !important;
+      }
+
+      jhh-offers-menu {
+        ::ng-deep {
+          mat-icon {
+            color: white !important;
+          }
+        }
+      }
+    }
+  }
+
   th {
     div {
       display: flex;

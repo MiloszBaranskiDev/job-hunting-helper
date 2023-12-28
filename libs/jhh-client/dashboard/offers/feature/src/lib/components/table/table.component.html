@@ -112,7 +112,8 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns; " [routerLink]="['./', row.slug]"></tr>
+    <tr mat-row class="clickableRow" *matRowDef="let row; columns: displayedColumns; "
+        [routerLink]="['./', row.slug]"></tr>
 
     <tr class="mat-row noFound" *matNoDataRow>
       <td class="mat-cell" colspan="4">
