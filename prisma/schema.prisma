@@ -93,6 +93,7 @@ model Offer {
   statusUpdatedAt DateTime?
 
   position       String
+  slug           String
   link           String
   company        String
   companyType    String
@@ -103,7 +104,10 @@ model Offer {
   maxSalary      Int?
   salaryCurrency String?
   email          String?
+  description    String?
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([slug, userId], name: "slug_userId_idx")
 }

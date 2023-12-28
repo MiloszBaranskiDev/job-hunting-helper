@@ -13,6 +13,7 @@ export interface Offer {
   appliedAt?: Date;
   statusUpdatedAt?: Date;
   position: string;
+  slug: string;
   link: string;
   company: string;
   companyType: OfferCompanyType;
@@ -23,4 +24,5 @@ export interface Offer {
   maxSalary?: number;
   salaryCurrency?: OfferSalaryCurrency;
   email?: string;
+  description?: string;
 }

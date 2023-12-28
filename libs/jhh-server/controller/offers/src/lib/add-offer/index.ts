@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import slugify from 'slugify';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -242,10 +243,20 @@ const addOffer = async (req: any, res: any): Promise<void> => {
       maxSalary = roundToTwoDecimals(maxSalary);
     }
 
+    let slug: string = slugify(position, { lower: true, strict: true });
+    let suffix: number = 2;
+    const originalSlug: string = slug;
+
+    while (await prisma.offer.findFirst({ where: { slug, userId } })) {
+      slug = `${originalSlug}-${suffix}`;
+      suffix++;
+    }
+
     const addedOffer = await prisma.offer.create({
       data: {
         appliedAt: status === OfferStatus.Applied ? new Date() : null,
         position: position,
+        slug: slug,
         link: link,
         company: company,
         companyType: companyType,

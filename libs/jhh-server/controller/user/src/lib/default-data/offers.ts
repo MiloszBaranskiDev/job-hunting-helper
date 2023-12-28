@@ -7,29 +7,14 @@ import {
   OfferStatus,
 } from '@jhh/shared/enums';
 
-interface DefaultOffer
-  extends Pick<
-    Offer,
-    | 'appliedAt'
-    | 'statusUpdatedAt'
-    | 'position'
-    | 'link'
-    | 'company'
-    | 'companyType'
-    | 'location'
-    | 'status'
-    | 'priority'
-    | 'minSalary'
-    | 'maxSalary'
-    | 'salaryCurrency'
-    | 'email'
-  > {}
+type DefaultOffer = Omit<Offer, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
 
 const defaultOffers: DefaultOffer[] = [
   {
     appliedAt: null,
     statusUpdatedAt: null,
     position: 'Frontend Developer',
+    slug: 'frontend-developer',
     link: 'http://example.com/frontend',
     company: 'Tech Solutions',
     companyType: OfferCompanyType.SoftwareHouse,
@@ -45,6 +30,7 @@ const defaultOffers: DefaultOffer[] = [
     appliedAt: new Date('2023-10-01'),
     statusUpdatedAt: new Date('2023-10-15'),
     position: 'Backend Developer',
+    slug: 'backend-developer',
     link: 'http://example.com/backend',
     company: 'Innovatech',
     companyType: OfferCompanyType.SoftwareHouse,
@@ -60,6 +46,7 @@ const defaultOffers: DefaultOffer[] = [
     appliedAt: null,
     statusUpdatedAt: null,
     position: 'Full Stack Developer',
+    slug: 'full-stack-developer',
     link: 'http://example.com/fullstack',
     company: 'CodeCraft',
     companyType: OfferCompanyType.Other,
@@ -75,6 +62,7 @@ const defaultOffers: DefaultOffer[] = [
     appliedAt: new Date('2023-09-20'),
     statusUpdatedAt: new Date('2023-10-05'),
     position: 'DevOps Engineer',
+    slug: 'devops-engineer',
     link: 'http://example.com/devops',
     company: 'CloudNet',
     companyType: OfferCompanyType.Product,
@@ -90,6 +78,7 @@ const defaultOffers: DefaultOffer[] = [
     appliedAt: null,
     statusUpdatedAt: null,
     position: 'UI/UX Designer',
+    slug: 'ui-ux-designer',
     link: 'http://example.com/uiux',
     company: 'DesignHub',
     companyType: OfferCompanyType.Outsourcing,
@@ -105,6 +94,7 @@ const defaultOffers: DefaultOffer[] = [
     appliedAt: null,
     statusUpdatedAt: null,
     position: 'Software Architect',
+    slug: 'software-architect',
     link: 'http://example.com/architect',
     company: 'BuildTech',
     companyType: OfferCompanyType.Enterprise,
