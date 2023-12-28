@@ -110,9 +110,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
           return this.priorityMapping[item.priority];
         case 'status':
           return this.statusMapping[item.status];
+        case 'salary':
+          return this.getSortableSalaryValue(item);
         default:
           return (item as any)[property];
       }
     };
+  }
+
+  private getSortableSalaryValue(item: Offer): number {
+    if (item.minSalary && item.maxSalary) {
+      return (item.minSalary + item.maxSalary) / 2;
+    } else if (item.minSalary) {
+      return item.minSalary;
+    } else if (item.maxSalary) {
+      return item.maxSalary;
+    } else {
+      return 0;
+    }
   }
 }
