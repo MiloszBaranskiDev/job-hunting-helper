@@ -32,6 +32,7 @@ const addOffer = async (req: any, res: any): Promise<void> => {
       priority,
       salaryCurrency,
       email,
+      description,
     } = req.body;
     const userId = req.user.id;
 
@@ -126,6 +127,17 @@ const addOffer = async (req: any, res: any): Promise<void> => {
         res,
         HttpStatusCode.BadRequest,
         `E-mail can have max ${OfferFieldsLength.MaxEmailLength} characters`
+      );
+    }
+
+    if (
+      description &&
+      description.length > OfferFieldsLength.MaxDescriptionLength
+    ) {
+      return respondWithError(
+        res,
+        HttpStatusCode.BadRequest,
+        `Description can have max ${OfferFieldsLength.MaxDescriptionLength} characters`
       );
     }
 
@@ -267,6 +279,7 @@ const addOffer = async (req: any, res: any): Promise<void> => {
         maxSalary: maxSalary,
         salaryCurrency: salaryCurrency,
         email: email,
+        description: description,
         userId: userId,
       },
     });

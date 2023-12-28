@@ -18,4 +18,5 @@ export interface AddOfferPayload {
   maxSalary?: number;
   salaryCurrency?: OfferSalaryCurrency;
   email?: string;
+  description?: string;
 }

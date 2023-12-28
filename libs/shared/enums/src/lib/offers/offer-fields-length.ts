@@ -7,4 +7,5 @@ export enum OfferFieldsLength {
   MinSalaryValue = 1,
   MaxSalaryValue = 99999,
   MaxEmailLength = 50,
+  MaxDescriptionLength = 3000,
 }

@@ -64,7 +64,8 @@ export class OffersFacade {
     minSalary: number | undefined,
     maxSalary: number | undefined,
     salaryCurrency: OfferSalaryCurrency | undefined,
-    email: string | undefined
+    email: string | undefined,
+    description: string | undefined
   ) {
     return this.actionResolverService.executeAndWatch(
       OffersActions.addOffer({
@@ -80,6 +81,7 @@ export class OffersFacade {
           maxSalary,
           salaryCurrency,
           email,
+          description,
         },
       }),
       OffersActions.Type.RemoveOfferSuccess,

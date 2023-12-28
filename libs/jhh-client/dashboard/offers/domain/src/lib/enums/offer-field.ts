@@ -10,4 +10,5 @@ export enum OfferField {
   MaxSalary = 'maxSalary',
   SalaryCurrency = 'salaryCurrency',
   Email = 'email',
+  Description = 'description',
 }

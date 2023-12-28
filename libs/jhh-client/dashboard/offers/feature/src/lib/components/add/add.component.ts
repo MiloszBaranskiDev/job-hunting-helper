@@ -150,6 +150,7 @@ export class AddComponent implements OnInit {
         maxSalary,
         email,
         salaryCurrency,
+        description,
       } = formData;
       const salaryCurrencyValue: OfferSalaryCurrency | undefined =
         salaryCurrency !== undefined ? salaryCurrency : undefined;
@@ -165,7 +166,8 @@ export class AddComponent implements OnInit {
         minSalary,
         maxSalary,
         salaryCurrencyValue,
-        email
+        email,
+        description
       );
     }
   }
@@ -267,6 +269,10 @@ export class AddComponent implements OnInit {
             return null;
           },
         ],
+      ],
+      [this.formField.Description]: [
+        '',
+        [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
       ],
     });
   }

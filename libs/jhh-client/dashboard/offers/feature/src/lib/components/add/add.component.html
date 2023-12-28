@@ -12,7 +12,8 @@
         <div [ngClass]="['grid', breakpoint$ | async]">
           <mat-form-field appearance="fill">
             <mat-label>Position</mat-label>
-            <input matInput [formControlName]="formField.Position" jhhWhitespaceSanitizer required/>
+            <input matInput [formControlName]="formField.Position" [maxlength]="fieldsLength.MaxPositionLength"
+                   jhhWhitespaceSanitizer required/>
             <mat-error *ngIf="formGroup.get(formField.Position)?.hasError(formErrorKey.Required)">
               Position is required
             </mat-error>
@@ -40,7 +41,8 @@
 
           <mat-form-field appearance="fill">
             <mat-label>Company</mat-label>
-            <input matInput [formControlName]="formField.Company" jhhWhitespaceSanitizer required/>
+            <input matInput [formControlName]="formField.Company" [maxlength]="fieldsLength.MaxCompanyLength"
+                   jhhWhitespaceSanitizer required/>
             <mat-error *ngIf="formGroup.get(formField.Company)?.hasError(formErrorKey.Required)">
               Company is required
             </mat-error>
@@ -128,6 +130,20 @@
             </mat-select>
             <mat-error *ngIf="formGroup.get(formField.SalaryCurrency)?.hasError(formErrorKey.Required)">
               Currency is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="fullRow" appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              placeholder="Enter description..."
+              [formControlName]="formField.Description"
+              [maxlength]="fieldsLength.MaxDescriptionLength"
+            >
+            </textarea>
+            <mat-error *ngIf="formGroup.get(formField.Description)?.hasError(formErrorKey.MaxLength)">
+              Maximum length of description is {{fieldsLength.MaxDescriptionLength}} characters
             </mat-error>
           </mat-form-field>
 

@@ -40,6 +40,7 @@ export class OffersService {
           maxSalary: payload.maxSalary,
           salaryCurrency: payload.salaryCurrency,
           email: payload.email,
+          description: payload.description,
         }
       )
       .pipe(map((res: AddOfferSuccessResponse) => res.data));
