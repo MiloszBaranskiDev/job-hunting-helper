@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { RouterLink } from '@angular/router';
 
 import { Offer } from '@jhh/shared/interfaces';
 import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
@@ -32,6 +33,7 @@ import { MenuComponent } from '../menu/menu.component';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
+    RouterLink,
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
@@ -99,6 +101,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  stopPropagation(event: Event): void {
+    event.stopPropagation();
   }
 
   private updateTableData(): void {

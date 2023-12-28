@@ -129,6 +129,9 @@
       "@jhh/jhh-client/dashboard/offers/feature": [
         "libs/jhh-client/dashboard/offers/feature/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/offers/feature-single-offer": [
+        "libs/jhh-client/dashboard/offers/feature-single-offer/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/offers/shell": [
         "libs/jhh-client/dashboard/offers/shell/src/index.ts"
       ],

@@ -98,4 +98,8 @@ export class OffersFacade {
       OffersActions.Type.RemoveOfferFail
     );
   }
+
+  getOffer$BySlug(slug: string): Observable<Offer | undefined> {
+    return this.store.pipe(select(OffersSelectors.selectOfferBySlug, slug));
+  }
 }

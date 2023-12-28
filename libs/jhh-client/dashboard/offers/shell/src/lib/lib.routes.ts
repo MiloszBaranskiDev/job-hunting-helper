@@ -31,6 +31,14 @@ export const JhhClientDashboardOffersShellRoutes: Route = {
               (c) => c.JhhClientDashboardOffersComponent
             ),
         },
+        {
+          path: ':offerSlug',
+          title: 'Offer',
+          loadComponent: () =>
+            import(
+              '@jhh/jhh-client/dashboard/offers/feature-single-offer'
+            ).then((c) => c.JhhClientDashboardOffersSingleOfferComponent),
+        },
       ],
     },
   ],

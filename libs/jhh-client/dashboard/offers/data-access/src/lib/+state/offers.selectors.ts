@@ -47,3 +47,8 @@ export const selectRemoveOfferSuccess = createSelector(
   selectOffersState,
   (state: OffersState) => state.removeOffer.success!
 );
+
+export const selectOfferBySlug = createSelector(
+  selectAllOffers,
+  (offers: Offer[], slug: string) => offers.find((offer) => offer.slug === slug)
+);
