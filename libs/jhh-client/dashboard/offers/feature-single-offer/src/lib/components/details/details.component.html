@@ -1,0 +1,59 @@
+<div [ngClass]="['details', breakpoint]">
+  <div class="details__tile">
+    <mat-icon>business_center</mat-icon>
+    <div>
+      <span class="label">Company type</span>
+      <span class="value">{{offer.companyType}}</span>
+    </div>
+  </div>
+  <div class="details__tile">
+    <mat-icon>place</mat-icon>
+    <div>
+      <span class="label">Location</span>
+      <span class="value">{{offer.location}}</span>
+    </div>
+  </div>
+  <div class="details__tile">
+    <mat-icon>{{statusIcon}}</mat-icon>
+    <div>
+      <span class="label">Status</span>
+      <span class="value">{{offer.status}}</span>
+    </div>
+  </div>
+  <div class="details__tile">
+    <mat-icon>priority_high</mat-icon>
+    <div>
+      <span class="label">Priority</span>
+      <span class="priority" [class]="'priority--' + offer.priority">{{ offer.priority }}</span>
+    </div>
+  </div>
+  <div class="details__tile" *ngIf="offer.minSalary || offer.maxSalary">
+    <mat-icon>monetization_on</mat-icon>
+    <div>
+      <span class="label">Salary</span>
+      <span class="value">
+        {{
+        offer.minSalary && offer.maxSalary ?
+          (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') + ' - ' + (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+          offer.minSalary ?
+            (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+            offer.maxSalary ?
+              (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+              '-'
+        }}
+      </span>
+    </div>
+  </div>
+  <div class="details__tile" *ngIf="offer.email">
+    <mat-icon>email</mat-icon>
+    <div>
+      <span class="label">E-mail</span>
+      <button class="email" (click)="copyEmail()">
+        <mat-icon>content_copy</mat-icon>
+        {{offer.email}}
+      </button>
+    </div>
+  </div>
+</div>
+
+

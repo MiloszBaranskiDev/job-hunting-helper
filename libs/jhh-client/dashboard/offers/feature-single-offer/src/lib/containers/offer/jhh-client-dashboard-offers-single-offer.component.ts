@@ -5,14 +5,28 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+
+import { StatusUpdatesComponent } from '../../components/status-updates/status-updates.component';
+import { HeaderComponent } from '../../components/header/header.component';
+import { ControlsComponent } from '../../components/controls/controls.component';
+import { DescriptionComponent } from '../../components/description/description.component';
+import { DetailsComponent } from '../../components/details/details.component';
 
 import { Offer } from '@jhh/shared/interfaces';
-import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
 @Component({
   selector: 'jhh-offer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    StatusUpdatesComponent,
+    HeaderComponent,
+    ControlsComponent,
+    DescriptionComponent,
+    DetailsComponent,
+  ],
   templateUrl: './jhh-client-dashboard-offers-single-offer.component.html',
   styleUrls: ['./jhh-client-dashboard-offers-single-offer.component.scss'],
 })
@@ -22,11 +36,16 @@ export class JhhClientDashboardOffersSingleOfferComponent implements OnInit {
   private readonly breadcrumbsService: BreadcrumbsService =
     inject(BreadcrumbsService);
   private readonly titleService: TitleService = inject(TitleService);
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
   offer$: Observable<Offer>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
+    this.breakpoint$ = this.breakpointService.breakpoint$;
+
     this.offer$ = this.route.params.pipe(
       pluck('offerSlug'),
       switchMap((slug: string) => this.offersFacade.getOffer$BySlug(slug)),

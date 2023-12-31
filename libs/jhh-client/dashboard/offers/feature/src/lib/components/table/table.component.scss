@@ -70,27 +70,3 @@
     display: inline-block;
   }
 }
-
-::ng-deep,
-:host {
-  .priority {
-    display: inline-block;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: var(--radius__base);
-    color: white;
-    font-weight: 600;
-
-    &--High {
-      background-color: var(--color__warn);
-    }
-
-    &--Medium {
-      background-color: var(--color__accent);
-    }
-
-    &--Low {
-      background-color: var(--color__green);
-    }
-  }
-}

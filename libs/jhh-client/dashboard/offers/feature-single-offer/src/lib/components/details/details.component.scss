@@ -1,0 +1,58 @@
+.details {
+  background-color: white;
+  border-radius: var(--radius__base);
+  padding: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  &.tablet {
+    gap: 15px 30px;
+  }
+
+  &.desktop {
+    gap: 15px 40px;
+  }
+
+  &__tile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 11px;
+        color: var(--color__icon);
+      }
+
+      .value {
+        font-weight: 300;
+      }
+
+      .email {
+        background-color: transparent;
+        border: none;
+        font-size: 14px;
+        font-weight: 300;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        mat-icon {
+          $size: 15px;
+          width: $size;
+          height: $size;
+          font-size: $size;
+        }
+      }
+    }
+  }
+}
