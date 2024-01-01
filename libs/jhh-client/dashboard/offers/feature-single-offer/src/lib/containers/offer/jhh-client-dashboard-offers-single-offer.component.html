@@ -1,6 +1,7 @@
 <div [ngClass]="['offer', breakpoint$ | async]" *ngIf="offer$ | async as offer">
   <ng-container>
     <jhh-edit-offer></jhh-edit-offer>
+    <jhh-remove-offer></jhh-remove-offer>
   </ng-container>
   <jhh-offer-status-updates></jhh-offer-status-updates>
   <div class="offer__content cornerDecoration cornerDecoration--rightLeft">

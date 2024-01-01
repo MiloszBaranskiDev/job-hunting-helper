@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { RemoveOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
 
 import { Offer } from '@jhh/shared/interfaces';
 
@@ -25,20 +26,30 @@ export class ControlsComponent implements OnInit {
   private readonly editOfferDialogService: EditOfferDialogService = inject(
     EditOfferDialogService
   );
+  private readonly removeOfferDialogService: RemoveOfferDialogService = inject(
+    RemoveOfferDialogService
+  );
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
   @Input({ required: true }) offer: Offer;
 
   editOfferSuccess$: Observable<boolean>;
+  removeOfferSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
     this.editOfferSuccess$ = this.offersFacade.editOfferSuccess$;
+    this.removeOfferSuccess$ = this.offersFacade.removeOfferSuccess$;
 
     this.navigateAfterSlugChange();
+    this.navigateAfterRemove();
   }
 
   openEditOfferDialog(): void {
     this.editOfferDialogService.openDialog(this.offer);
+  }
+
+  openRemoveOfferDialog(): void {
+    this.removeOfferDialogService.openDialog(this.offer);
   }
 
   private navigateAfterSlugChange(): void {
@@ -66,6 +77,21 @@ export class ControlsComponent implements OnInit {
         }),
         catchError((error) => {
           return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private navigateAfterRemove(): void {
+    this.removeOfferSuccess$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            this.router.navigate([
+              this.router.url.replace(this.offer.slug, ''),
+            ]);
+          }
         }),
         takeUntilDestroyed(this.destroyRef)
       )

@@ -1,0 +1,89 @@
+<ng-container *ngIf="offer">
+  <ng-template #dialogContent>
+    <h2 mat-dialog-title>Are you sure you want to remove a offer?</h2>
+    <mat-dialog-content>
+      <ul>
+        <li>
+        <span>
+          <strong>
+            Position:
+          </strong>
+        </span>
+          <span>{{offer.position}}</span>
+        </li>
+        <li>
+        <span>
+          <strong>
+            Company:
+          </strong>
+        </span>
+          <span>{{offer.company}}</span>
+        </li>
+        <li>
+        <span>
+          <strong>
+            Location:
+          </strong>
+        </span>
+          <span>{{offer.location}}</span>
+        </li>
+        <li>
+        <span>
+          <strong>
+            Salary:
+          </strong>
+        </span>
+          <span>
+          {{
+            offer.minSalary && offer.maxSalary ?
+              (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') + ' - ' + (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+              offer.minSalary ?
+                (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+                offer.maxSalary ?
+                  (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
+                  '-'
+            }}
+        </span>
+        </li>
+        <li>
+        <span>
+          <strong>
+            Status:
+          </strong>
+        </span>
+          <span>{{ offer.status }}</span>
+        </li>
+        <li>
+        <span>
+          <strong>
+            Priority:
+          </strong>
+        </span>
+          <span class="priority" [class]="'priority--' + offer.priority">{{ offer.priority }}</span>
+        </li>
+      </ul>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="(removeOfferInProgress$ | async) || (removeOfferError$ | async)">
+        <mat-progress-spinner *ngIf="removeOfferInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+        <mat-error *ngIf="removeOfferError$ | async as error">{{ error }}</mat-error>
+        <mat-divider></mat-divider>
+      </ng-container>
+      <mat-dialog-actions>
+        <button
+          mat-stroked-button
+          mat-dialog-close
+        >
+          Cancel
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="handleRemove()"
+          [disabled]="(removeOfferInProgress$ | async)"
+        >
+          Remove
+        </button>
+      </mat-dialog-actions>
+    </mat-dialog-content>
+  </ng-template>
+</ng-container>

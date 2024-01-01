@@ -8,6 +8,7 @@ import { OffersService } from '../services/offers/offers.service';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
+import { RemoveOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
 
 import {
   AddOfferSuccessPayload,
@@ -22,6 +23,9 @@ export class OffersEffects {
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly editOfferDialogService: EditOfferDialogService = inject(
     EditOfferDialogService
+  );
+  private readonly removeOfferDialogService: RemoveOfferDialogService = inject(
+    RemoveOfferDialogService
   );
 
   addOffer$ = createEffect(() =>
@@ -76,6 +80,7 @@ export class OffersEffects {
               OffersActions.resetRemoveOfferSuccess(),
             ]),
             tap(() => {
+              this.removeOfferDialogService.clearOfferToRemove();
               this.snackbarService.open('Offer removed successfully!');
             })
           ),

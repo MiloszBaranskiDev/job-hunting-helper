@@ -14,6 +14,7 @@ import { ControlsComponent } from '../../components/controls/controls.component'
 import { DescriptionComponent } from '../../components/description/description.component';
 import { DetailsComponent } from '../../components/details/details.component';
 import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
+import { JhhClientDashboardRemoveOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
 
 import { Offer } from '@jhh/shared/interfaces';
 
@@ -28,6 +29,7 @@ import { Offer } from '@jhh/shared/interfaces';
     DescriptionComponent,
     DetailsComponent,
     JhhClientDashboardEditOfferComponent,
+    JhhClientDashboardRemoveOfferComponent,
   ],
   templateUrl: './jhh-client-dashboard-offers-single-offer.component.html',
   styleUrls: ['./jhh-client-dashboard-offers-single-offer.component.scss'],
