@@ -41,6 +41,7 @@ export function JhhServerRouterApi(): Router {
   router.patch(ApiRoute.UpdateBoardColumns, boardController.updateBoardColumns);
 
   router.post(ApiRoute.AddOffer, offersController.addOffer);
+  router.put(ApiRoute.EditOffer, offersController.editOffer);
   router.delete(ApiRoute.RemoveOffer, offersController.removeOffer);
 
   return router;

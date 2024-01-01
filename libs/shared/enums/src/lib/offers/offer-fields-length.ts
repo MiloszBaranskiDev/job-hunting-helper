@@ -1,6 +1,7 @@
 export enum OfferFieldsLength {
   MinPositionLength = 2,
   MaxPositionLength = 60,
+  MaxPositionAndSlugLengthDiff = 25,
   MaxLinkLength = 150,
   MinCompanyLength = 2,
   MaxCompanyLength = 50,

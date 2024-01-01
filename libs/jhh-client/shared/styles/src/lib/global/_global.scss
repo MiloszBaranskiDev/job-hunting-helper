@@ -38,6 +38,10 @@ button {
   font-family: 'Poppins', sans-serif;
 }
 
+textarea {
+  min-height: 70px;
+}
+
 .priority {
   display: inline-block;
   font-size: 12px;
@@ -96,5 +100,26 @@ button {
       bottom: -3px;
       right: -3px;
     }
+  }
+}
+
+.formGrid {
+  width: 100%;
+
+  &.tablet,
+  &.desktop {
+    display: grid;
+    align-items: flex-start;
+    gap: 0 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fullRow {
+    grid-column: span 2 / span 2;
+  }
+
+  .radioRow {
+    display: flex;
+    flex-direction: column;
   }
 }

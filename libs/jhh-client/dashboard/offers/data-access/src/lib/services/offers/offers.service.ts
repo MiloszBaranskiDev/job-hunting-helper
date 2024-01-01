@@ -10,6 +10,9 @@ import {
   AddOfferPayload,
   AddOfferSuccessPayload,
   AddOfferSuccessResponse,
+  EditOfferPayload,
+  EditOfferSuccessPayload,
+  EditOfferSuccessResponse,
   RemoveOfferPayload,
   RemoveOfferSuccessPayload,
   RemoveOfferSuccessResponse,
@@ -44,6 +47,30 @@ export class OffersService {
         }
       )
       .pipe(map((res: AddOfferSuccessResponse) => res.data));
+  }
+
+  editOffer(payload: EditOfferPayload): Observable<EditOfferSuccessPayload> {
+    return this.http
+      .put<EditOfferSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.EditOffer,
+        {
+          offerId: payload.offerId,
+          slug: payload.slug,
+          position: payload.position,
+          link: payload.link,
+          company: payload.company,
+          companyType: payload.companyType,
+          location: payload.location,
+          status: payload.status,
+          priority: payload.priority,
+          minSalary: payload.minSalary,
+          maxSalary: payload.maxSalary,
+          salaryCurrency: payload.salaryCurrency,
+          email: payload.email,
+          description: payload.description,
+        }
+      )
+      .pipe(map((res: EditOfferSuccessResponse) => res.data));
   }
 
   removeOffer(

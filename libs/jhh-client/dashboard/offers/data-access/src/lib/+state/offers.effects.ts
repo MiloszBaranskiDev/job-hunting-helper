@@ -7,9 +7,11 @@ import * as OffersActions from './offers.actions';
 import { OffersService } from '../services/offers/offers.service';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
+import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 
 import {
   AddOfferSuccessPayload,
+  EditOfferSuccessPayload,
   RemoveOfferSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
 
@@ -18,6 +20,9 @@ export class OffersEffects {
   private readonly actions$ = inject(Actions);
   private readonly offersService: OffersService = inject(OffersService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
+  private readonly editOfferDialogService: EditOfferDialogService = inject(
+    EditOfferDialogService
+  );
 
   addOffer$ = createEffect(() =>
     this.actions$.pipe(
@@ -35,6 +40,27 @@ export class OffersEffects {
           ),
         onError: (action, error) =>
           OffersActions.addOfferFail({ payload: error }),
+      })
+    )
+  );
+
+  editOffer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OffersActions.editOffer),
+      fetch({
+        run: (action) =>
+          this.offersService.editOffer(action.payload).pipe(
+            mergeMap((res: EditOfferSuccessPayload) => [
+              OffersActions.editOfferSuccess({ payload: res }),
+              OffersActions.resetEditOfferSuccess(),
+            ]),
+            tap(() => {
+              this.editOfferDialogService.clearOfferToEdit();
+              this.snackbarService.open('Offer edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          OffersActions.editOfferFail({ payload: error }),
       })
     )
   );

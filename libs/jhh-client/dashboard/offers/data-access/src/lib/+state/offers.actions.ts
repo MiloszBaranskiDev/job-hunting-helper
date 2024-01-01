@@ -6,6 +6,8 @@ import { Offer } from '@jhh/shared/interfaces';
 import {
   AddOfferPayload,
   AddOfferSuccessPayload,
+  EditOfferPayload,
+  EditOfferSuccessPayload,
   RemoveOfferPayload,
   RemoveOfferSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
@@ -16,6 +18,10 @@ export enum Type {
   AddOfferFail = '[Offers] Add Offer Fail',
   AddOfferSuccess = '[Offers] Add Offer Success',
   ResetAddOfferSuccess = '[Offers] Reset Add Offer Success',
+  EditOffer = '[Offers] Edit Offer',
+  EditOfferFail = '[Offers] Edit Offer Fail',
+  EditOfferSuccess = '[Offers] Edit Offer Success',
+  ResetEditOfferSuccess = '[Offers] Reset Edit Offer Success',
   RemoveOffer = '[Offers] Remove Offer',
   RemoveOfferFail = '[Offers] Remove Offer Fail',
   RemoveOfferSuccess = '[Offers] Remove Offer Success',
@@ -43,6 +49,23 @@ export const addOfferSuccess = createAction(
 );
 
 export const resetAddOfferSuccess = createAction(Type.ResetAddOfferSuccess);
+
+export const editOffer = createAction(
+  Type.EditOffer,
+  props<{ payload: EditOfferPayload }>()
+);
+
+export const editOfferFail = createAction(
+  Type.EditOfferFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const editOfferSuccess = createAction(
+  Type.EditOfferSuccess,
+  props<{ payload: EditOfferSuccessPayload }>()
+);
+
+export const resetEditOfferSuccess = createAction(Type.ResetEditOfferSuccess);
 
 export const removeOffer = createAction(
   Type.RemoveOffer,

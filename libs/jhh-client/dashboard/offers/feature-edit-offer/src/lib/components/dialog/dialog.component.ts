@@ -1,42 +1,48 @@
 import {
+  AfterViewInit,
   Component,
-  DestroyRef,
   inject,
+  Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   MatDialog,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Observable, tap } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+
+import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+import { EditOfferDialogService } from '../../service/edit-offer-dialog.service';
 
 import { regex } from '@jhh/shared/regex';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
-import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
-
-import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 
 import { Offer } from '@jhh/shared/interfaces';
+import {
+  OfferField,
+  OfferFormErrorKey,
+} from '@jhh/jhh-client/dashboard/offers/domain';
 import {
   OfferCompanyType,
   OfferFieldsLength,
@@ -45,45 +51,42 @@ import {
   OfferSalaryCurrency,
   OfferStatus,
 } from '@jhh/shared/enums';
-import {
-  OfferField,
-  OfferFormErrorKey,
-} from '@jhh/jhh-client/dashboard/offers/domain';
-import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
+import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
 @Component({
-  selector: 'jhh-offers-add',
+  selector: 'jhh-edit-offer-dialog',
   standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,
+    MatDialogModule,
     MatButtonModule,
     MatDividerModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatDialogModule,
     ReactiveFormsModule,
-    WhitespaceSanitizerDirective,
     MatInputModule,
-    MatRadioModule,
+    WhitespaceSanitizerDirective,
     MatSelectModule,
+    MatRadioModule,
   ],
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss'],
+  templateUrl: './dialog.component.html',
+  styleUrls: ['./dialog.component.scss'],
 })
-export class AddComponent implements OnInit {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly dialog: MatDialog = inject(MatDialog);
+export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly offersFacade: OffersFacade = inject(OffersFacade);
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
-  private readonly offersFacade: OffersFacade = inject(OffersFacade);
+  private readonly editOfferDialogService: EditOfferDialogService = inject(
+    EditOfferDialogService
+  );
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @Input({ required: true }) offer: Offer;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  addOfferInProgress$: Observable<boolean>;
-  addOfferError$: Observable<string | null>;
-  addOfferSuccess$: Observable<boolean>;
+  editOfferInProgress$: Observable<boolean>;
+  editOfferError$: Observable<string | null>;
   breakpoint$: Observable<string>;
 
   readonly formField: typeof OfferField = OfferField;
@@ -98,15 +101,19 @@ export class AddComponent implements OnInit {
   readonly offerPriority: OfferPriority[] = Object.values(OfferPriority);
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
+  slugPrefix: string;
 
   ngOnInit(): void {
-    this.addOfferInProgress$ = this.offersFacade.addOfferInProgress$;
-    this.addOfferError$ = this.offersFacade.addOfferError$;
-    this.addOfferSuccess$ = this.offersFacade.addOfferSuccess$;
+    this.editOfferInProgress$ = this.offersFacade.editOfferInProgress$;
+    this.editOfferError$ = this.offersFacade.editOfferError$;
     this.breakpoint$ = this.breakpointService.breakpoint$;
 
+    this.slugPrefix =
+      window.location.href.split(ClientRoute.HomeLink)[0] +
+      `${ClientRoute.OffersLink}` +
+      '/';
+
     this.initFormGroup();
-    this.handleReset();
 
     this.formGroup.valueChanges
       .pipe(
@@ -124,26 +131,24 @@ export class AddComponent implements OnInit {
       .subscribe();
   }
 
-  openDialog(): void {
-    this.dialogRef = this.dialog.open(this.dialogContent);
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.clearForm();
-    });
+  ngAfterViewInit(): void {
+    this.openDialog();
+  }
+
+  ngOnDestroy(): void {
+    this.clearForm();
+    this.dialogRef.close();
   }
 
   onSubmit(): void {
     if (this.formGroup.valid) {
       type FormData = Omit<
         Offer,
-        | 'id'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'appliedAt'
-        | 'statusUpdatedAt'
-        | 'slug'
+        'id' | 'createdAt' | 'updatedAt' | 'appliedAt' | 'statusUpdatedAt'
       >;
       const formData: FormData = { ...this.formGroup.value };
       const {
+        slug,
         position,
         link,
         company,
@@ -160,51 +165,72 @@ export class AddComponent implements OnInit {
       const salaryCurrencyValue: OfferSalaryCurrency | undefined =
         salaryCurrency !== undefined ? salaryCurrency : undefined;
 
-      this.offersFacade.addOffer(
-        position,
-        link,
-        company,
-        companyType,
-        location,
-        status,
-        priority,
-        minSalary,
-        maxSalary,
-        salaryCurrencyValue,
-        email,
-        description
-      );
+      if (this.hasFormChanges()) {
+        this.offersFacade.editOffer(
+          this.offer.id,
+          slug,
+          position,
+          link,
+          company,
+          companyType,
+          location,
+          status,
+          priority,
+          minSalary,
+          maxSalary,
+          salaryCurrencyValue,
+          email,
+          description
+        );
+      } else {
+        this.clearForm();
+        this.dialogRef?.close();
+      }
     }
   }
 
-  private handleReset(): void {
-    this.addOfferSuccess$
-      .pipe(
-        tap((val) => {
-          if (val) {
-            this.clearForm();
-            this.dialogRef?.close();
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+  private openDialog(): void {
+    this.dialogRef = this.dialog.open(this.dialogContent);
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.editOfferDialogService.clearOfferToEdit();
+    });
+  }
+
+  private hasFormChanges(): boolean {
+    const formValues = this.formGroup.value;
+    for (const key of Object.keys(formValues)) {
+      if (formValues[key] !== this.offer[key as keyof Offer]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private clearForm(): void {
     this.formGroup?.reset({
-      [this.formField.CompanyType]: OfferCompanyType.SoftwareHouse,
-      [this.formField.Location]: OfferLocation.Remote,
-      [this.formField.Status]: OfferStatus.Applied,
-      [this.formField.Priority]: OfferPriority.Medium,
-      [this.formField.SalaryCurrency]: OfferSalaryCurrency.PLN,
+      [this.formField.CompanyType]: this.offer.companyType,
+      [this.formField.Location]: this.offer.location,
+      [this.formField.Status]: this.offer.location,
+      [this.formField.Priority]: this.offer.priority,
+      [this.formField.SalaryCurrency]: this.offer.salaryCurrency,
     });
   }
 
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
+      [this.formField.Slug]: [
+        this.offer.slug,
+        [
+          Validators.required,
+          Validators.minLength(this.fieldsLength.MinPositionLength),
+          Validators.maxLength(
+            this.fieldsLength.MaxPositionLength +
+              this.fieldsLength.MaxPositionAndSlugLengthDiff
+          ),
+        ],
+      ],
       [this.formField.Position]: [
-        '',
+        this.offer.position,
         [
           Validators.required,
           Validators.minLength(this.fieldsLength.MinPositionLength),
@@ -212,7 +238,7 @@ export class AddComponent implements OnInit {
         ],
       ],
       [this.formField.Link]: [
-        '',
+        this.offer.link,
         [
           Validators.required,
           Validators.pattern(regex.link),
@@ -220,7 +246,7 @@ export class AddComponent implements OnInit {
         ],
       ],
       [this.formField.Company]: [
-        '',
+        this.offer.company,
         [
           Validators.required,
           Validators.minLength(this.fieldsLength.MinCompanyLength),
@@ -228,41 +254,44 @@ export class AddComponent implements OnInit {
         ],
       ],
       [this.formField.CompanyType]: [
-        OfferCompanyType.SoftwareHouse,
+        this.offer.companyType,
         [Validators.required, EnumValidator(OfferCompanyType)],
       ],
       [this.formField.Location]: [
-        OfferLocation.Remote,
+        this.offer.location,
         [Validators.required, EnumValidator(OfferLocation)],
       ],
       [this.formField.Status]: [
-        OfferStatus.Applied,
+        this.offer.status,
         [Validators.required, EnumValidator(OfferStatus)],
       ],
       [this.formField.Priority]: [
-        OfferPriority.Medium,
+        this.offer.priority,
         [Validators.required, EnumValidator(OfferPriority)],
       ],
       [this.formField.MinSalary]: [
-        undefined,
+        this.offer.minSalary,
         [
           Validators.min(this.fieldsLength.MinSalaryValue),
           Validators.max(this.fieldsLength.MaxSalaryValue),
         ],
       ],
       [this.formField.MaxSalary]: [
-        undefined,
+        this.offer.maxSalary,
         [
           Validators.min(this.fieldsLength.MinSalaryValue),
           Validators.max(this.fieldsLength.MaxSalaryValue),
         ],
       ],
       [this.formField.SalaryCurrency]: [
-        { value: OfferSalaryCurrency.PLN, disabled: true },
+        {
+          value: this.offer.salaryCurrency ?? OfferSalaryCurrency.PLN,
+          disabled: !(this.offer.minSalary || this.offer.maxSalary),
+        },
         [Validators.required, EnumValidator(OfferSalaryCurrency)],
       ],
       [this.formField.Email]: [
-        '',
+        this.offer.email,
         [
           Validators.maxLength(this.fieldsLength.MaxEmailLength),
           (control: any) => {
@@ -276,7 +305,7 @@ export class AddComponent implements OnInit {
         ],
       ],
       [this.formField.Description]: [
-        '',
+        this.offer.description,
         [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
       ],
     });

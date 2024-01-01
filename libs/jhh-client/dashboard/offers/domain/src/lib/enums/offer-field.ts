@@ -1,5 +1,6 @@
 export enum OfferField {
   Position = 'position',
+  Slug = 'slug',
   Link = 'link',
   Company = 'company',
   CompanyType = 'companyType',

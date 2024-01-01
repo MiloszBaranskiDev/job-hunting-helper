@@ -7,28 +7,3 @@
     color: white !important;
   }
 }
-
-.grid {
-  width: 100%;
-
-  &.tablet,
-  &.desktop {
-    display: grid;
-    align-items: flex-start;
-    gap: 0 12px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .fullRow {
-    grid-column: span 2 / span 2;
-  }
-
-  .radioRow {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-textarea {
-  min-height: 60px;
-}

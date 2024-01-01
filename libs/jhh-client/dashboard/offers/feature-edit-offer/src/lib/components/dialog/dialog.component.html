@@ -1,15 +1,31 @@
-<div>
-  <div class="buttonContainer">
-    <button mat-fab color="primary" (click)="openDialog()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+<ng-container *ngIf="offer">
   <ng-template #dialogContent>
-    <h2 mat-dialog-title>Add new offer</h2>
+    <h2 mat-dialog-title>Edit offer</h2>
     <mat-dialog-content>
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
         <div [ngClass]="['formGrid', breakpoint$ | async]">
+          <mat-form-field class="fullRow" appearance="fill">
+            <mat-label>{{slugPrefix}}</mat-label>
+            <input
+              matInput
+              [formControlName]="formField.Slug"
+              placeholder="Enter slug here"
+              jhhWhitespaceSanitizer
+              required
+            >
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.Required)">
+              Slug is required
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
+              Minimum length of slug is {{fieldsLength.MinPositionLength}} characters
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
+              Maximum length of slug is {{fieldsLength.MaxPositionLength + fieldsLength.MaxPositionAndSlugLengthDiff}}
+              characters
+            </mat-error>
+          </mat-form-field>
+
           <mat-form-field appearance="fill">
             <mat-label>Position</mat-label>
             <input matInput [formControlName]="formField.Position" [maxlength]="fieldsLength.MaxPositionLength"
@@ -172,23 +188,23 @@
         </div>
 
         <mat-divider></mat-divider>
-        <ng-container *ngIf="(addOfferInProgress$ | async) || (addOfferError$ | async)">
-          <mat-progress-spinner *ngIf="addOfferInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
-          <mat-error *ngIf="addOfferError$ | async as error">{{ error }}</mat-error>
+        <ng-container *ngIf="(editOfferInProgress$ | async) || (editOfferError$ | async)">
+          <mat-progress-spinner *ngIf="editOfferInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
+          <mat-error *ngIf="editOfferError$ | async as error">{{ error }}</mat-error>
+          <mat-divider></mat-divider>
         </ng-container>
-
         <mat-dialog-actions>
           <button mat-stroked-button mat-dialog-close>Cancel</button>
           <button
             mat-flat-button
             color="primary"
             type="submit"
-            [disabled]="formGroup.invalid || (addOfferInProgress$ | async)"
+            [disabled]="formGroup.invalid || (editOfferInProgress$ | async)"
           >
-            Add
+            Save
           </button>
         </mat-dialog-actions>
       </form>
     </mat-dialog-content>
   </ng-template>
-</div>
+</ng-container>

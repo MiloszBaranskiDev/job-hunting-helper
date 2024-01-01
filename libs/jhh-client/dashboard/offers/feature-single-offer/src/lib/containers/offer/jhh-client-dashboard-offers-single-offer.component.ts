@@ -13,6 +13,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ControlsComponent } from '../../components/controls/controls.component';
 import { DescriptionComponent } from '../../components/description/description.component';
 import { DetailsComponent } from '../../components/details/details.component';
+import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 
 import { Offer } from '@jhh/shared/interfaces';
 
@@ -26,6 +27,7 @@ import { Offer } from '@jhh/shared/interfaces';
     ControlsComponent,
     DescriptionComponent,
     DetailsComponent,
+    JhhClientDashboardEditOfferComponent,
   ],
   templateUrl: './jhh-client-dashboard-offers-single-offer.component.html',
   styleUrls: ['./jhh-client-dashboard-offers-single-offer.component.scss'],

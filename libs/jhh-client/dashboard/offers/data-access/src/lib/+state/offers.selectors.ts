@@ -33,6 +33,21 @@ export const selectAddOfferSuccess = createSelector(
   (state: OffersState) => state.addOffer.success!
 );
 
+export const selectEditOfferInProgress = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.editOffer.inProgress
+);
+
+export const selectEditOfferError = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.editOffer.error
+);
+
+export const selectEditOfferSuccess = createSelector(
+  selectOffersState,
+  (state: OffersState) => state.editOffer.success!
+);
+
 export const selectRemoveOfferInProgress = createSelector(
   selectOffersState,
   (state: OffersState) => state.removeOffer.inProgress
@@ -51,4 +66,19 @@ export const selectRemoveOfferSuccess = createSelector(
 export const selectOfferBySlug = createSelector(
   selectAllOffers,
   (offers: Offer[], slug: string) => offers.find((offer) => offer.slug === slug)
+);
+
+export const selectOfferSlugById = createSelector(
+  selectAllOffers,
+  (offers: Offer[], props: { offerId: string }) => {
+    if (!props.offerId) {
+      return null;
+    }
+
+    const offer: Offer | undefined = offers.find(
+      (offer) => offer.id === props.offerId
+    );
+
+    return offer ? offer.slug : null;
+  }
 );

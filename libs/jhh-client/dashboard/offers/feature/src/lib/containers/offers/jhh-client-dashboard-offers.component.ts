@@ -6,13 +6,19 @@ import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
 import { TableComponent } from '../../components/table/table.component';
 import { AddComponent } from '../../components/add/add.component';
+import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 
 import { Offer } from '@jhh/shared/interfaces';
 
 @Component({
   selector: 'jhh-offers',
   standalone: true,
-  imports: [CommonModule, TableComponent, AddComponent],
+  imports: [
+    CommonModule,
+    TableComponent,
+    AddComponent,
+    JhhClientDashboardEditOfferComponent,
+  ],
   templateUrl: './jhh-client-dashboard-offers.component.html',
   styleUrls: ['./jhh-client-dashboard-offers.component.scss'],
 })

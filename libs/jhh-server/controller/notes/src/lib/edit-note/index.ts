@@ -94,7 +94,8 @@ const editNote = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const slugLengthDifference: number = 10;
+    const slugLengthDifference: number =
+      NoteFieldsLength.MaxNameAndSlugLengthDiff;
     if (Math.abs(name.length - slug.length) > slugLengthDifference) {
       return respondWithError(
         res,

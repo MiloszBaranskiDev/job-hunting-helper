@@ -41,6 +41,18 @@ export class OffersFacade {
     select(OffersSelectors.selectAddOfferSuccess)
   );
 
+  editOfferInProgress$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectEditOfferInProgress)
+  );
+
+  editOfferError$: Observable<string | null> = this.store.pipe(
+    select(OffersSelectors.selectEditOfferError)
+  );
+
+  editOfferSuccess$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectEditOfferSuccess)
+  );
+
   removeOfferInProgress$: Observable<boolean> = this.store.pipe(
     select(OffersSelectors.selectRemoveOfferInProgress)
   );
@@ -89,6 +101,46 @@ export class OffersFacade {
     );
   }
 
+  editOffer(
+    offerId: string,
+    slug: string,
+    position: string,
+    link: string,
+    company: string,
+    companyType: OfferCompanyType,
+    location: OfferLocation,
+    status: OfferStatus,
+    priority: OfferPriority,
+    minSalary: number | undefined,
+    maxSalary: number | undefined,
+    salaryCurrency: OfferSalaryCurrency | undefined,
+    email: string | undefined,
+    description: string | undefined
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      OffersActions.editOffer({
+        payload: {
+          offerId,
+          slug,
+          position,
+          link,
+          company,
+          companyType,
+          location,
+          status,
+          priority,
+          minSalary,
+          maxSalary,
+          salaryCurrency,
+          email,
+          description,
+        },
+      }),
+      OffersActions.Type.RemoveOfferSuccess,
+      OffersActions.Type.RemoveOfferFail
+    );
+  }
+
   removeOffer(offerId: string) {
     return this.actionResolverService.executeAndWatch(
       OffersActions.removeOffer({
@@ -101,5 +153,11 @@ export class OffersFacade {
 
   getOffer$BySlug(slug: string): Observable<Offer | undefined> {
     return this.store.pipe(select(OffersSelectors.selectOfferBySlug, slug));
+  }
+
+  getOfferSlug$ById(offerId: string): Observable<string | null> {
+    return this.store.pipe(
+      select(OffersSelectors.selectOfferSlugById, { offerId })
+    );
   }
 }

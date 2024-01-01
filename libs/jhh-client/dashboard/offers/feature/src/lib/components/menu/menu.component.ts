@@ -20,11 +20,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 
 import { Offer } from '@jhh/shared/interfaces';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'jhh-offers-menu',
@@ -46,6 +47,9 @@ export class MenuComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
+  private readonly editOfferDialogService: EditOfferDialogService = inject(
+    EditOfferDialogService
+  );
 
   @Input({ required: true }) offer: Offer;
   @ViewChild('removeDialogContent')
@@ -67,6 +71,10 @@ export class MenuComponent implements OnInit {
 
   openRemoveOfferDialog(): void {
     this.dialogRef = this.dialog.open(this.removeDialogContent);
+  }
+
+  openEditOfferDialog(): void {
+    this.editOfferDialogService.openDialog(this.offer);
   }
 
   handleRemove(): void {
