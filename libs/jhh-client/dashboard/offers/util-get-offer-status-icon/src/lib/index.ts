@@ -18,6 +18,6 @@ const statusIconMap: { [key in OfferStatus]: StatusIcon } = {
   [OfferStatus.Rejected]: StatusIcon.Cancel,
 };
 
-export function GetStatusIcon(status: OfferStatus): StatusIcon {
+export function GetOfferStatusIcon(status: OfferStatus): StatusIcon {
   return statusIconMap[status];
 }

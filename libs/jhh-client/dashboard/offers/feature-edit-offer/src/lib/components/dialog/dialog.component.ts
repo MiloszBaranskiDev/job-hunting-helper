@@ -142,10 +142,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      type FormData = Omit<
-        Offer,
-        'id' | 'createdAt' | 'updatedAt' | 'appliedAt' | 'statusUpdatedAt'
-      >;
+      type FormData = Omit<Offer, 'id' | 'createdAt' | 'updatedAt'>;
       const formData: FormData = { ...this.formGroup.value };
       const {
         slug,

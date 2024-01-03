@@ -12,7 +12,10 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -35,7 +38,9 @@
       "@jhh/jhh-client/auth/public": [
         "libs/jhh-client/auth/public/src/index.ts"
       ],
-      "@jhh/jhh-client/auth/shell": ["libs/jhh-client/auth/shell/src/index.ts"],
+      "@jhh/jhh-client/auth/shell": [
+        "libs/jhh-client/auth/shell/src/index.ts"
+      ],
       "@jhh/jhh-client/auth/ui-template": [
         "libs/jhh-client/auth/ui-template/src/index.ts"
       ],
@@ -141,8 +146,8 @@
       "@jhh/jhh-client/dashboard/offers/shell": [
         "libs/jhh-client/dashboard/offers/shell/src/index.ts"
       ],
-      "@jhh/jhh-client/dashboard/offers/util-get-status-icon": [
-        "libs/jhh-client/dashboard/offers/util-get-status-icon/src/index.ts"
+      "@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon": [
+        "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/shell": [
         "libs/jhh-client/dashboard/shell/src/index.ts"
@@ -183,7 +188,9 @@
       "@jhh/jhh-client/shared/util-whitespace-validator": [
         "libs/jhh-client/shared/util-whitespace-validator/src/index.ts"
       ],
-      "@jhh/jhh-server/app": ["libs/jhh-server/app/src/index.ts"],
+      "@jhh/jhh-server/app": [
+        "libs/jhh-server/app/src/index.ts"
+      ],
       "@jhh/jhh-server/controller/board": [
         "libs/jhh-server/controller/board/src/index.ts"
       ],
@@ -199,11 +206,15 @@
       "@jhh/jhh-server/controller/user": [
         "libs/jhh-server/controller/user/src/index.ts"
       ],
-      "@jhh/jhh-server/db": ["libs/jhh-server/db/src/index.ts"],
+      "@jhh/jhh-server/db": [
+        "libs/jhh-server/db/src/index.ts"
+      ],
       "@jhh/jhh-server/middleware/auth": [
         "libs/jhh-server/middleware/auth/src/index.ts"
       ],
-      "@jhh/jhh-server/router/api": ["libs/jhh-server/router/api/src/index.ts"],
+      "@jhh/jhh-server/router/api": [
+        "libs/jhh-server/router/api/src/index.ts"
+      ],
       "@jhh/jhh-server/router/user": [
         "libs/jhh-server/router/user/src/index.ts"
       ],
@@ -213,10 +224,19 @@
       "@jhh/shared/dom-purify-config": [
         "libs/shared/dom-purify-config/src/index.ts"
       ],
-      "@jhh/shared/enums": ["libs/shared/enums/src/index.ts"],
-      "@jhh/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
-      "@jhh/shared/regex": ["libs/shared/regex/src/index.ts"]
+      "@jhh/shared/enums": [
+        "libs/shared/enums/src/index.ts"
+      ],
+      "@jhh/shared/interfaces": [
+        "libs/shared/interfaces/src/index.ts"
+      ],
+      "@jhh/shared/regex": [
+        "libs/shared/regex/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

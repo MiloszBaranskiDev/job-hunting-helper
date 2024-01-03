@@ -9,10 +9,17 @@ import {
 
 type DefaultOffer = Omit<Offer, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
 
+function subtractDays(date: Date, days: number): Date {
+  const result: Date = new Date(date);
+  result.setDate(result.getDate() - days);
+  return result;
+}
+
+const today: Date = new Date();
+
 const defaultOffers: DefaultOffer[] = [
   {
-    appliedAt: null,
-    statusUpdatedAt: null,
+    statusUpdates: [{ date: new Date(), status: OfferStatus.Applied }],
     position: 'Frontend Developer',
     slug: 'frontend-developer',
     link: 'http://example.com/frontend',
@@ -27,8 +34,10 @@ const defaultOffers: DefaultOffer[] = [
     email: 'hr@example.com',
   },
   {
-    appliedAt: new Date('2023-10-01'),
-    statusUpdatedAt: new Date('2023-10-15'),
+    statusUpdates: [
+      { date: subtractDays(today, 10), status: OfferStatus.Applied },
+      { date: subtractDays(today, 3), status: OfferStatus.Interviewing },
+    ],
     position: 'Backend Developer',
     slug: 'backend-developer',
     link: 'http://example.com/backend',
@@ -43,8 +52,7 @@ const defaultOffers: DefaultOffer[] = [
     email: 'careers@example.com',
   },
   {
-    appliedAt: null,
-    statusUpdatedAt: null,
+    statusUpdates: [],
     position: 'Full Stack Developer',
     slug: 'full-stack-developer',
     link: 'http://example.com/fullstack',
@@ -59,8 +67,11 @@ const defaultOffers: DefaultOffer[] = [
     email: null,
   },
   {
-    appliedAt: new Date('2023-09-20'),
-    statusUpdatedAt: new Date('2023-10-05'),
+    statusUpdates: [
+      { date: subtractDays(today, 30), status: OfferStatus.Applied },
+      { date: subtractDays(today, 20), status: OfferStatus.Interviewing },
+      { date: subtractDays(today, 10), status: OfferStatus.Rejected },
+    ],
     position: 'DevOps Engineer',
     slug: 'devops-engineer',
     link: 'http://example.com/devops',
@@ -75,8 +86,11 @@ const defaultOffers: DefaultOffer[] = [
     email: 'recruit@example.com',
   },
   {
-    appliedAt: null,
-    statusUpdatedAt: null,
+    statusUpdates: [
+      { date: subtractDays(today, 40), status: OfferStatus.Applied },
+      { date: subtractDays(today, 25), status: OfferStatus.Interviewing },
+      { date: subtractDays(today, 15), status: OfferStatus.OfferReceived },
+    ],
     position: 'UI/UX Designer',
     slug: 'ui-ux-designer',
     link: 'http://example.com/uiux',
@@ -91,8 +105,12 @@ const defaultOffers: DefaultOffer[] = [
     email: 'talent@example.com',
   },
   {
-    appliedAt: null,
-    statusUpdatedAt: null,
+    statusUpdates: [
+      { date: subtractDays(today, 50), status: OfferStatus.Applied },
+      { date: subtractDays(today, 35), status: OfferStatus.Interviewing },
+      { date: subtractDays(today, 20), status: OfferStatus.OfferReceived },
+      { date: subtractDays(today, 5), status: OfferStatus.Accepted },
+    ],
     position: 'Software Architect',
     slug: 'software-architect',
     link: 'http://example.com/architect',

@@ -6,12 +6,13 @@ import {
   OfferStatus,
 } from '@jhh/shared/enums';
 
+import { OfferStatusUpdate } from './offer-status-update';
+
 export interface Offer {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-  appliedAt?: Date;
-  statusUpdatedAt?: Date;
+  statusUpdates: OfferStatusUpdate[];
   position: string;
   slug: string;
   link: string;

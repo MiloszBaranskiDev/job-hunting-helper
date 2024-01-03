@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { GetStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-status-icon';
+import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import { Offer } from '@jhh/shared/interfaces';
@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
   statusIcon: string;
 
   ngOnInit(): void {
-    this.statusIcon = GetStatusIcon(this.offer.status);
+    this.statusIcon = GetOfferStatusIcon(this.offer.status);
   }
 
   copyEmail(): void {

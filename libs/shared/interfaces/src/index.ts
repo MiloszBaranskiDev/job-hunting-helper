@@ -7,3 +7,4 @@ export * from './lib/board/board-column';
 export * from './lib/board/board-column-item';
 
 export * from './lib/offers/offer';
+export * from './lib/offers/offer-status-update';

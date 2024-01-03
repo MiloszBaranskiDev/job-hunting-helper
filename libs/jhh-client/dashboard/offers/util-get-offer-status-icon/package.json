@@ -1,5 +1,5 @@
 {
-  "name": "@jhh/jhh-client/dashboard/offers/util-get-status-icon",
+  "name": "@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon",
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0"

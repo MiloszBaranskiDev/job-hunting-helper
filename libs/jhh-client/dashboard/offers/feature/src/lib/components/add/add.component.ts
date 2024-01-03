@@ -133,15 +133,7 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      type FormData = Omit<
-        Offer,
-        | 'id'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'appliedAt'
-        | 'statusUpdatedAt'
-        | 'slug'
-      >;
+      type FormData = Omit<Offer, 'id' | 'createdAt' | 'updatedAt' | 'slug'>;
       const formData: FormData = { ...this.formGroup.value };
       const {
         position,

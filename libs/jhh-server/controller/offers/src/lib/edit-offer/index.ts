@@ -16,6 +16,7 @@ import { Offer, PrismaClient } from '@prisma/client';
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import { regex } from '@jhh/shared/regex';
+import { OfferStatusUpdate } from '@jhh/shared/interfaces';
 
 const editOffer = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -318,9 +319,20 @@ const editOffer = async (req: any, res: any): Promise<void> => {
       suffix++;
     }
 
+    const currentStatusUpdates: OfferStatusUpdate[] =
+      existingOffer.statusUpdates as OfferStatusUpdate[];
+    if (status !== existingOffer.status) {
+      const newStatusUpdate: OfferStatusUpdate = {
+        date: new Date(),
+        status: status,
+      };
+      currentStatusUpdates.push(newStatusUpdate);
+    }
+
     const editedOffer = await prisma.offer.update({
       where: { id: offerId },
       data: {
+        statusUpdates: currentStatusUpdates,
         slug: updatedSlug,
         position,
         link,

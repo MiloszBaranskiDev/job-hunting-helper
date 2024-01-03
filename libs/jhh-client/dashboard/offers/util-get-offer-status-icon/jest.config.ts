@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'jhh-client-dashboard-offers-util-get-status-icon',
+  displayName: 'jhh-client-dashboard-offers-util-get-offer-status-icon',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory:
-    '../../../../../coverage/libs/jhh-client/dashboard/offers/util-get-status-icon',
+    '../../../../../coverage/libs/jhh-client/dashboard/offers/util-get-offer-status-icon',
 };

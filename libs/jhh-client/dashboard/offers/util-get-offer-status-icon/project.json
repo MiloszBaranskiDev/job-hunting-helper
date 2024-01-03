@@ -1,7 +1,7 @@
 {
-  "name": "jhh-client-dashboard-offers-util-get-status-icon",
+  "name": "jhh-client-dashboard-offers-util-get-offer-status-icon",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jhh-client/dashboard/offers/util-get-status-icon/src",
+  "sourceRoot": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src",
   "projectType": "library",
   "targets": {
     "build": {
@@ -10,11 +10,11 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/offers/util-get-status-icon",
-        "main": "libs/jhh-client/dashboard/offers/util-get-status-icon/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/offers/util-get-status-icon/tsconfig.lib.json",
+        "outputPath": "dist/libs/jhh-client/dashboard/offers/util-get-offer-status-icon",
+        "main": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/tsconfig.lib.json",
         "assets": [
-          "libs/jhh-client/dashboard/offers/util-get-status-icon/*.md"
+          "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/*.md"
         ]
       }
     },
@@ -24,7 +24,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/jhh-client/dashboard/offers/util-get-status-icon/jest.config.ts",
+        "jestConfig": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

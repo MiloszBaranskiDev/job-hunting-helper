@@ -266,7 +266,7 @@ const addOffer = async (req: any, res: any): Promise<void> => {
 
     const addedOffer = await prisma.offer.create({
       data: {
-        appliedAt: status === OfferStatus.Applied ? new Date() : null,
+        statusUpdates: [{ date: new Date(), status: status }],
         position: position,
         slug: slug,
         link: link,
