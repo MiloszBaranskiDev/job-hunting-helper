@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
-import { RemoveOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
+import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
 import { Offer } from '@jhh/shared/interfaces';
 
@@ -20,9 +20,8 @@ export class MenuComponent {
   private readonly editOfferDialogService: EditOfferDialogService = inject(
     EditOfferDialogService
   );
-  private readonly removeOfferDialogService: RemoveOfferDialogService = inject(
-    RemoveOfferDialogService
-  );
+  private readonly removeOffersDialogService: RemoveOffersDialogService =
+    inject(RemoveOffersDialogService);
 
   @Input({ required: true }) offer: Offer;
 
@@ -31,6 +30,6 @@ export class MenuComponent {
   }
 
   openRemoveOfferDialog(): void {
-    this.removeOfferDialogService.openDialog(this.offer);
+    this.removeOffersDialogService.openDialog([this.offer]);
   }
 }

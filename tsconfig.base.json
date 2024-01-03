@@ -137,8 +137,8 @@
       "@jhh/jhh-client/dashboard/offers/feature-edit-offer": [
         "libs/jhh-client/dashboard/offers/feature-edit-offer/src/index.ts"
       ],
-      "@jhh/jhh-client/dashboard/offers/feature-remove-offer": [
-        "libs/jhh-client/dashboard/offers/feature-remove-offer/src/index.ts"
+      "@jhh/jhh-client/dashboard/offers/feature-remove-offers": [
+        "libs/jhh-client/dashboard/offers/feature-remove-offers/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/offers/feature-single-offer": [
         "libs/jhh-client/dashboard/offers/feature-single-offer/src/index.ts"

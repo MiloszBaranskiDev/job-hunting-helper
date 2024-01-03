@@ -1,7 +1,7 @@
 {
-  "name": "jhh-client-dashboard-offers-feature-remove-offer",
+  "name": "jhh-client-dashboard-offers-feature-remove-offers",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/jhh-client/dashboard/offers/feature-remove-offer/src",
+  "sourceRoot": "libs/jhh-client/dashboard/offers/feature-remove-offers/src",
   "projectType": "library",
   "targets": {
     "build": {
@@ -10,11 +10,11 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/offers/feature-remove-offer",
-        "main": "libs/jhh-client/dashboard/offers/feature-remove-offer/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/offers/feature-remove-offer/tsconfig.lib.json",
+        "outputPath": "dist/libs/jhh-client/dashboard/offers/feature-remove-offers",
+        "main": "libs/jhh-client/dashboard/offers/feature-remove-offers/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/offers/feature-remove-offers/tsconfig.lib.json",
         "assets": [
-          "libs/jhh-client/dashboard/offers/feature-remove-offer/*.md"
+          "libs/jhh-client/dashboard/offers/feature-remove-offers/*.md"
         ]
       }
     },
@@ -24,7 +24,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "libs/jhh-client/dashboard/offers/feature-remove-offer/jest.config.ts",
+        "jestConfig": "libs/jhh-client/dashboard/offers/feature-remove-offers/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

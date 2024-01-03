@@ -16,7 +16,7 @@ export interface OperationState {
 export interface OffersState extends EntityState<Offer> {
   addOffer: OperationState;
   editOffer: OperationState;
-  removeOffer: OperationState;
+  removeOffers: OperationState;
 }
 
 export const adapter: EntityAdapter<Offer> = createEntityAdapter<Offer>();
@@ -32,7 +32,7 @@ export const initialOffersState: OffersState = adapter.getInitialState({
     error: null,
     success: false,
   },
-  removeOffer: {
+  removeOffers: {
     inProgress: false,
     error: null,
     success: false,
@@ -111,37 +111,40 @@ const reducer: ActionReducer<OffersState> = createReducer(
       success: false,
     },
   })),
-  on(OffersActions.removeOffer, (state) => ({
+  on(OffersActions.removeOffers, (state) => ({
     ...state,
-    removeOffer: {
-      ...state.removeOffer,
+    removeOffers: {
+      ...state.removeOffers,
       inProgress: true,
       error: null,
       success: false,
     },
   })),
-  on(OffersActions.removeOfferFail, (state, { payload }) => ({
+  on(OffersActions.removeOffersFail, (state, { payload }) => ({
     ...state,
-    removeOffer: {
-      ...state.removeOffer,
+    removeOffers: {
+      ...state.removeOffers,
       inProgress: false,
       error: payload.error.message,
     },
   })),
-  on(OffersActions.removeOfferSuccess, (state, { payload }) => {
-    return adapter.removeOne(payload.removedOffer.id, {
-      ...state,
-      removeOffer: {
-        ...state.removeOffer,
-        inProgress: false,
-        success: true,
-      },
-    });
+  on(OffersActions.removeOffersSuccess, (state, { payload }) => {
+    return adapter.removeMany(
+      payload.removedOffers.map((offer) => offer.id),
+      {
+        ...state,
+        removeOffers: {
+          ...state.removeOffers,
+          inProgress: false,
+          success: true,
+        },
+      }
+    );
   }),
-  on(OffersActions.resetRemoveOfferSuccess, (state) => ({
+  on(OffersActions.resetRemoveOffersSuccess, (state) => ({
     ...state,
-    removeOffer: {
-      ...state.removeOffer,
+    removeOffers: {
+      ...state.removeOffers,
       success: false,
     },
   }))

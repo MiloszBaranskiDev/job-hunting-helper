@@ -53,16 +53,16 @@ export class OffersFacade {
     select(OffersSelectors.selectEditOfferSuccess)
   );
 
-  removeOfferInProgress$: Observable<boolean> = this.store.pipe(
-    select(OffersSelectors.selectRemoveOfferInProgress)
+  removeOffersInProgress$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectRemoveOffersInProgress)
   );
 
-  removeOfferError$: Observable<string | null> = this.store.pipe(
-    select(OffersSelectors.selectRemoveOfferError)
+  removeOffersError$: Observable<string | null> = this.store.pipe(
+    select(OffersSelectors.selectRemoveOffersError)
   );
 
-  removeOfferSuccess$: Observable<boolean> = this.store.pipe(
-    select(OffersSelectors.selectRemoveOfferSuccess)
+  removeOffersSuccess$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectRemoveOffersSuccess)
   );
 
   addOffer(
@@ -96,8 +96,8 @@ export class OffersFacade {
           description,
         },
       }),
-      OffersActions.Type.RemoveOfferSuccess,
-      OffersActions.Type.RemoveOfferFail
+      OffersActions.Type.AddOfferSuccess,
+      OffersActions.Type.AddOfferFail
     );
   }
 
@@ -136,18 +136,18 @@ export class OffersFacade {
           description,
         },
       }),
-      OffersActions.Type.RemoveOfferSuccess,
-      OffersActions.Type.RemoveOfferFail
+      OffersActions.Type.EditOfferSuccess,
+      OffersActions.Type.EditOfferFail
     );
   }
 
-  removeOffer(offerId: string) {
+  removeOffers(offersId: string[]) {
     return this.actionResolverService.executeAndWatch(
-      OffersActions.removeOffer({
-        payload: { offerId: offerId },
+      OffersActions.removeOffers({
+        payload: { offersId: offersId },
       }),
-      OffersActions.Type.RemoveOfferSuccess,
-      OffersActions.Type.RemoveOfferFail
+      OffersActions.Type.RemoveOffersSuccess,
+      OffersActions.Type.RemoveOffersFail
     );
   }
 

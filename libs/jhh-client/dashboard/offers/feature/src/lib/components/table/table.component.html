@@ -3,8 +3,37 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
 </mat-form-field>
 
+<button
+  mat-flat-button
+  color="primary"
+  (click)="removeSelectedOffers()"
+  [disabled]="selection.selected.length === 0 || ((removeOffersInProgress$ | async))"
+>
+  Remove selected
+</button>
+
 <div class="tableContainer">
   <table mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortChange()">
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          color="primary"
+          (change)="toggleAll()"
+          [checked]="areAllSelected()"
+          [indeterminate]="isSomeSelected() && !areAllSelected()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          color="primary"
+          (click)="$event.stopPropagation()"
+          (change)="checkboxToggle(element)"
+          [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -120,6 +149,7 @@
         <span>No data matching the filter <strong>"{{input.value}}"</strong></span>
       </td>
     </tr>
+
   </table>
 </div>
 

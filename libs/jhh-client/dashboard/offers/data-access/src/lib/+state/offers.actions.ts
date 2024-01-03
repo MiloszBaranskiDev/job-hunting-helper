@@ -8,8 +8,8 @@ import {
   AddOfferSuccessPayload,
   EditOfferPayload,
   EditOfferSuccessPayload,
-  RemoveOfferPayload,
-  RemoveOfferSuccessPayload,
+  RemoveOffersPayload,
+  RemoveOffersSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
 
 export enum Type {
@@ -22,10 +22,10 @@ export enum Type {
   EditOfferFail = '[Offers] Edit Offer Fail',
   EditOfferSuccess = '[Offers] Edit Offer Success',
   ResetEditOfferSuccess = '[Offers] Reset Edit Offer Success',
-  RemoveOffer = '[Offers] Remove Offer',
-  RemoveOfferFail = '[Offers] Remove Offer Fail',
-  RemoveOfferSuccess = '[Offers] Remove Offer Success',
-  ResetRemoveOfferSuccess = '[Offers] Reset Remove Offer Success',
+  RemoveOffers = '[Offers] Remove Offers',
+  RemoveOffersFail = '[Offers] Remove Offers Fail',
+  RemoveOffersSuccess = '[Offers] Remove Offers Success',
+  ResetRemoveOffersSuccess = '[Offers] Reset Remove Offers Success',
 }
 
 export const setOffers = createAction(
@@ -67,21 +67,21 @@ export const editOfferSuccess = createAction(
 
 export const resetEditOfferSuccess = createAction(Type.ResetEditOfferSuccess);
 
-export const removeOffer = createAction(
-  Type.RemoveOffer,
-  props<{ payload: RemoveOfferPayload }>()
+export const removeOffers = createAction(
+  Type.RemoveOffers,
+  props<{ payload: RemoveOffersPayload }>()
 );
 
-export const removeOfferFail = createAction(
-  Type.RemoveOfferFail,
+export const removeOffersFail = createAction(
+  Type.RemoveOffersFail,
   props<{ payload: HttpErrorResponse }>()
 );
 
-export const removeOfferSuccess = createAction(
-  Type.RemoveOfferSuccess,
-  props<{ payload: RemoveOfferSuccessPayload }>()
+export const removeOffersSuccess = createAction(
+  Type.RemoveOffersSuccess,
+  props<{ payload: RemoveOffersSuccessPayload }>()
 );
 
-export const resetRemoveOfferSuccess = createAction(
-  Type.ResetRemoveOfferSuccess
+export const resetRemoveOffersSuccess = createAction(
+  Type.ResetRemoveOffersSuccess
 );

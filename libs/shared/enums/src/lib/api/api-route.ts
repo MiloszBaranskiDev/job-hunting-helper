@@ -27,5 +27,5 @@ export enum ApiRoute {
   //
   AddOffer = '/add-offer',
   EditOffer = '/edit-offer',
-  RemoveOffer = '/remove-offer',
+  RemoveOffers = '/remove-offers',
 }

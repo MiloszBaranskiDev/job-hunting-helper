@@ -42,7 +42,7 @@ export function JhhServerRouterApi(): Router {
 
   router.post(ApiRoute.AddOffer, offersController.addOffer);
   router.put(ApiRoute.EditOffer, offersController.editOffer);
-  router.delete(ApiRoute.RemoveOffer, offersController.removeOffer);
+  router.delete(ApiRoute.RemoveOffers, offersController.removeOffers);
 
   return router;
 }

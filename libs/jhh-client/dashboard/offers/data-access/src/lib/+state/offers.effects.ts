@@ -8,12 +8,12 @@ import { OffersService } from '../services/offers/offers.service';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
-import { RemoveOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
+import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
 import {
   AddOfferSuccessPayload,
   EditOfferSuccessPayload,
-  RemoveOfferSuccessPayload,
+  RemoveOffersSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
 
 @Injectable()
@@ -24,9 +24,8 @@ export class OffersEffects {
   private readonly editOfferDialogService: EditOfferDialogService = inject(
     EditOfferDialogService
   );
-  private readonly removeOfferDialogService: RemoveOfferDialogService = inject(
-    RemoveOfferDialogService
-  );
+  private readonly removeOffersDialogService: RemoveOffersDialogService =
+    inject(RemoveOffersDialogService);
 
   addOffer$ = createEffect(() =>
     this.actions$.pipe(
@@ -71,21 +70,21 @@ export class OffersEffects {
 
   removeOffer$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(OffersActions.removeOffer),
+      ofType(OffersActions.removeOffers),
       fetch({
         run: (action) =>
-          this.offersService.removeOffer(action.payload).pipe(
-            mergeMap((res: RemoveOfferSuccessPayload) => [
-              OffersActions.removeOfferSuccess({ payload: res }),
-              OffersActions.resetRemoveOfferSuccess(),
+          this.offersService.removeOffers(action.payload).pipe(
+            mergeMap((res: RemoveOffersSuccessPayload) => [
+              OffersActions.removeOffersSuccess({ payload: res }),
+              OffersActions.resetRemoveOffersSuccess(),
             ]),
             tap(() => {
-              this.removeOfferDialogService.clearOfferToRemove();
-              this.snackbarService.open('Offer removed successfully!');
+              this.removeOffersDialogService.clearOffersToRemove();
+              this.snackbarService.open('Offer(s) removed successfully!');
             })
           ),
         onError: (action, error) =>
-          OffersActions.removeOfferFail({ payload: error }),
+          OffersActions.removeOffersFail({ payload: error }),
       })
     )
   );

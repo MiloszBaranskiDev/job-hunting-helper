@@ -13,9 +13,9 @@ import {
   EditOfferPayload,
   EditOfferSuccessPayload,
   EditOfferSuccessResponse,
-  RemoveOfferPayload,
-  RemoveOfferSuccessPayload,
-  RemoveOfferSuccessResponse,
+  RemoveOffersPayload,
+  RemoveOffersSuccessPayload,
+  RemoveOffersSuccessResponse,
 } from '@jhh/jhh-client/dashboard/offers/domain';
 
 @Injectable({
@@ -73,16 +73,16 @@ export class OffersService {
       .pipe(map((res: EditOfferSuccessResponse) => res.data));
   }
 
-  removeOffer(
-    payload: RemoveOfferPayload
-  ): Observable<RemoveOfferSuccessPayload> {
+  removeOffers(
+    payload: RemoveOffersPayload
+  ): Observable<RemoveOffersSuccessPayload> {
     return this.http
-      .delete<RemoveOfferSuccessResponse>(
-        this.API_DASHBOARD_URL + ApiRoute.RemoveOffer,
+      .delete<RemoveOffersSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.RemoveOffers,
         {
-          params: { offerId: payload.offerId },
+          params: { offersId: payload.offersId },
         }
       )
-      .pipe(map((res: RemoveOfferSuccessResponse) => res.data));
+      .pipe(map((res: RemoveOffersSuccessResponse) => res.data));
   }
 }

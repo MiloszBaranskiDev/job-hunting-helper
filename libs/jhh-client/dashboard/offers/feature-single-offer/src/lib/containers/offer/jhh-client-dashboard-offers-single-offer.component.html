@@ -1,7 +1,7 @@
 <div [ngClass]="['offer', breakpoint$ | async]" *ngIf="offer$ | async as offer">
   <ng-container>
     <jhh-edit-offer></jhh-edit-offer>
-    <jhh-remove-offer></jhh-remove-offer>
+    <jhh-remove-offers></jhh-remove-offers>
   </ng-container>
   <div class="offer__container">
     <jhh-offer-status-updates [updates]="offer.statusUpdates"></jhh-offer-status-updates>

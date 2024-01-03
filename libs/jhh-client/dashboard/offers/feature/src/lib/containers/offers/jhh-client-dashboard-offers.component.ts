@@ -7,7 +7,7 @@ import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { TableComponent } from '../../components/table/table.component';
 import { AddComponent } from '../../components/add/add.component';
 import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
-import { JhhClientDashboardRemoveOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-remove-offer';
+import { JhhClientDashboardRemoveOffersComponent } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
 import { Offer } from '@jhh/shared/interfaces';
 
@@ -19,7 +19,7 @@ import { Offer } from '@jhh/shared/interfaces';
     TableComponent,
     AddComponent,
     JhhClientDashboardEditOfferComponent,
-    JhhClientDashboardRemoveOfferComponent,
+    JhhClientDashboardRemoveOffersComponent,
   ],
   templateUrl: './jhh-client-dashboard-offers.component.html',
   styleUrls: ['./jhh-client-dashboard-offers.component.scss'],

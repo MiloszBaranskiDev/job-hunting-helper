@@ -48,19 +48,19 @@ export const selectEditOfferSuccess = createSelector(
   (state: OffersState) => state.editOffer.success!
 );
 
-export const selectRemoveOfferInProgress = createSelector(
+export const selectRemoveOffersInProgress = createSelector(
   selectOffersState,
-  (state: OffersState) => state.removeOffer.inProgress
+  (state: OffersState) => state.removeOffers.inProgress
 );
 
-export const selectRemoveOfferError = createSelector(
+export const selectRemoveOffersError = createSelector(
   selectOffersState,
-  (state: OffersState) => state.removeOffer.error
+  (state: OffersState) => state.removeOffers.error
 );
 
-export const selectRemoveOfferSuccess = createSelector(
+export const selectRemoveOffersSuccess = createSelector(
   selectOffersState,
-  (state: OffersState) => state.removeOffer.success!
+  (state: OffersState) => state.removeOffers.success!
 );
 
 export const selectOfferBySlug = createSelector(

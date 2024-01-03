@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'jhh-client-dashboard-offers-feature-remove-offer',
+  displayName: 'jhh-client-dashboard-offers-feature-remove-offers',
   preset: '../../../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
@@ -8,5 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory:
-    '../../../../../coverage/libs/jhh-client/dashboard/offers/feature-remove-offer',
+    '../../../../../coverage/libs/jhh-client/dashboard/offers/feature-remove-offers',
 };

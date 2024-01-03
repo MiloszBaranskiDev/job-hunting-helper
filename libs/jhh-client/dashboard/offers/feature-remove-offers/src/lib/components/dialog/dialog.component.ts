@@ -21,12 +21,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
-import { RemoveOfferDialogService } from '../../service/remove-offer-dialog.service';
+import { RemoveOffersDialogService } from '../../service/remove-offers-dialog.service';
 
 import { Offer } from '@jhh/shared/interfaces';
 
 @Component({
-  selector: 'jhh-remove-offer-dialog',
+  selector: 'jhh-remove-offers-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -42,24 +42,23 @@ import { Offer } from '@jhh/shared/interfaces';
 export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
-  private readonly removeOfferDialogService: RemoveOfferDialogService = inject(
-    RemoveOfferDialogService
-  );
+  private readonly removeOffersDialogService: RemoveOffersDialogService =
+    inject(RemoveOffersDialogService);
 
-  @Input({ required: true }) offer: Offer;
+  @Input({ required: true }) offers: Offer[];
   @ViewChild('dialogContent')
   private readonly dialogContent: TemplateRef<any>;
 
-  removeOfferInProgress$: Observable<boolean>;
-  removeOfferError$: Observable<string | null>;
-  removeOfferSuccess$: Observable<boolean>;
+  removeOffersInProgress$: Observable<boolean>;
+  removeOffersError$: Observable<string | null>;
+  removeOffersSuccess$: Observable<boolean>;
 
   dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
-    this.removeOfferInProgress$ = this.offersFacade.removeOfferInProgress$;
-    this.removeOfferError$ = this.offersFacade.removeOfferError$;
-    this.removeOfferSuccess$ = this.offersFacade.removeOfferSuccess$;
+    this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
+    this.removeOffersError$ = this.offersFacade.removeOffersError$;
+    this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
   }
 
   ngAfterViewInit(): void {
@@ -71,13 +70,14 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleRemove(): void {
-    this.offersFacade.removeOffer(this.offer.id);
+    const offersId: string[] = this.offers.map((offer) => offer.id);
+    this.offersFacade.removeOffers(offersId);
   }
 
   private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
-      this.removeOfferDialogService.clearOfferToRemove();
+      this.removeOffersDialogService.clearOffersToRemove();
     });
   }
 }

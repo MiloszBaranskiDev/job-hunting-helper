@@ -1,6 +1,8 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -15,11 +17,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatButtonModule } from '@angular/material/button';
+import { Observable, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { MenuComponent } from '../menu/menu.component';
 
 import { Offer } from '@jhh/shared/interfaces';
 import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
 
-import { MenuComponent } from '../menu/menu.component';
+import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
+import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -34,20 +44,32 @@ import { MenuComponent } from '../menu/menu.component';
     MatInputModule,
     MatPaginatorModule,
     RouterLink,
+    MatCheckboxModule,
+    MatButtonModule,
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly removeOffersDialogService: RemoveOffersDialogService =
+    inject(RemoveOffersDialogService);
+  private readonly offersFacade: OffersFacade = inject(OffersFacade);
+
   @Input({ required: true }) offers: Offer[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  removeOffersInProgress$: Observable<boolean>;
+  removeOffersSuccess$: Observable<boolean>;
+
   dataSource: MatTableDataSource<Offer>;
+  selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
   readonly offerStatus: typeof OfferStatus = OfferStatus;
 
   readonly displayedColumns: string[] = [
+    'select',
     'position',
     'company',
     'location',
@@ -75,6 +97,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.offers);
     this.updateTableData();
+    this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
+    this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
+
+    this.handleRemoveSuccess();
   }
 
   ngAfterViewInit(): void {
@@ -105,6 +131,49 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   stopPropagation(event: Event): void {
     event.stopPropagation();
+  }
+
+  areAllSelected(): boolean {
+    const numSelected: number = this.selection.selected.length;
+    const numRows: number = this.dataSource.data.length;
+
+    return numSelected === numRows;
+  }
+
+  isSomeSelected(): boolean {
+    return this.selection.selected.length > 0 && !this.areAllSelected();
+  }
+
+  toggleAll(): void {
+    if (this.areAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+  }
+
+  checkboxToggle(row: Offer): void {
+    this.selection.toggle(row);
+  }
+
+  removeSelectedOffers(): void {
+    const selectedOffers: Offer[] = this.selection.selected;
+    if (selectedOffers.length > 0) {
+      this.removeOffersDialogService.openDialog(selectedOffers);
+    }
+  }
+
+  private handleRemoveSuccess(): void {
+    this.removeOffersSuccess$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            this.selection.clear();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private updateTableData(): void {
