@@ -270,20 +270,45 @@ export class TableComponent
       .pipe(
         tap((val) => {
           this.filterValue = val.filter === 'null' ? '' : val.filter;
-          this.paginatorPage = val.page - 1;
-          this.paginatorSize = val.perPage;
+
+          if (this.offersPerPageValues.includes(val.perPage)) {
+            this.paginatorSize = val.perPage;
+          } else {
+            this.paginatorSize = OffersPerPage.Fifteen;
+            this.queryParamsService.updateCurrentPerPage(OffersPerPage.Fifteen);
+          }
+
+          const totalItems: number = this.dataSource.data.length;
+          const totalPages: number = Math.ceil(totalItems / this.paginatorSize);
+
+          if (
+            !Number.isInteger(val.page) ||
+            val.page < 1 ||
+            val.page > totalPages
+          ) {
+            this.paginatorPage = 1;
+            this.queryParamsService.updateCurrentPage(1);
+          } else {
+            this.paginatorPage = val.page - 1;
+          }
 
           const [active, direction] = val.sort.split(',');
-          if (
-            this.sort.active !== active ||
-            this.sort.direction !== direction
-          ) {
-            this.sort.active = active;
-            this.sort.direction = direction as 'asc' | 'desc' | '';
-            this.sort.sortChange.emit({
-              active,
-              direction: direction as SortDirection,
-            });
+          if (this.isValidSort(active, direction)) {
+            if (
+              this.sort.active !== active ||
+              this.sort.direction !== direction
+            ) {
+              this.sort.active = active;
+              this.sort.direction = direction as 'asc' | 'desc' | '';
+              this.sort.sortChange.emit({
+                active,
+                direction: direction as SortDirection,
+              });
+            }
+          } else {
+            this.queryParamsService.updateCurrentSort(',');
+            this.sort.active = '';
+            this.sort.direction = '';
           }
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -328,6 +353,12 @@ export class TableComponent
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.setSortingDataAccessor();
+  }
+
+  private isValidSort(active: string, direction: string): boolean {
+    const isValidColumn: boolean = this.displayedColumns.includes(active);
+    const isValidDirection: boolean = ['asc', 'desc', ''].includes(direction);
+    return isValidColumn && isValidDirection;
   }
 
   private getSortableSalaryValue(item: Offer): number {
