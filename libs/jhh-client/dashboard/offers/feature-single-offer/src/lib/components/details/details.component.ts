@@ -1,4 +1,11 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -15,7 +22,7 @@ import { Offer } from '@jhh/shared/interfaces';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnChanges {
   private readonly clipboard: Clipboard = inject(Clipboard);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
@@ -26,6 +33,12 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.statusIcon = GetOfferStatusIcon(this.offer.status);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['offer'] && changes['offer'].currentValue) {
+      this.statusIcon = GetOfferStatusIcon(this.offer.status);
+    }
   }
 
   copyEmail(): void {
