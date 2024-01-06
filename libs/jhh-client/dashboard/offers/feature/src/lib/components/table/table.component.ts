@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   MatSort,
   MatSortModule,
@@ -44,6 +44,7 @@ import { OffersPerPage } from '@jhh/jhh-client/dashboard/offers/domain';
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
+import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -61,7 +62,9 @@ import { QueryParamsService } from '../../services/query-params/query-params.ser
     MatCheckboxModule,
     MatButtonModule,
     FormsModule,
+    FormatOfferSalaryPipe,
   ],
+  providers: [CurrencyPipe],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })

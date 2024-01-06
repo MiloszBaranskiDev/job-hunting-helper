@@ -6,11 +6,12 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
+import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import { Offer } from '@jhh/shared/interfaces';
@@ -18,7 +19,8 @@ import { Offer } from '@jhh/shared/interfaces';
 @Component({
   selector: 'jhh-offer-details',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, FormatOfferSalaryPipe],
+  providers: [CurrencyPipe],
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })

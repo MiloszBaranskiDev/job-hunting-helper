@@ -27,19 +27,13 @@
       <span class="priority" [class]="'priority--' + offer.priority">{{ offer.priority }}</span>
     </div>
   </div>
-  <div class="details__tile" *ngIf="offer.minSalary || offer.maxSalary">
+  <div class="details__tile">
     <mat-icon>monetization_on</mat-icon>
     <div>
       <span class="label">Salary</span>
       <span class="value">
         {{
-        offer.minSalary && offer.maxSalary ?
-          (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') + ' - ' + (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
-          offer.minSalary ?
-            (offer.minSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
-            offer.maxSalary ?
-              (offer.maxSalary | currency:offer.salaryCurrency:'symbol':'1.0-0') :
-              '-'
+        offer | formatOfferSalary
         }}
       </span>
     </div>
