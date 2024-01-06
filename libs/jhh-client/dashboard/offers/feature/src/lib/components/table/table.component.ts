@@ -86,14 +86,15 @@ export class TableComponent
 
   dataSource: MatTableDataSource<Offer>;
   selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
+
   filterValue: string;
   paginatorPage: number;
   paginatorSize: number;
+
   readonly offerStatus: typeof OfferStatus = OfferStatus;
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
-
   readonly displayedColumns: string[] = [
     'select',
     'position',
@@ -104,13 +105,11 @@ export class TableComponent
     'priority',
     'actions',
   ];
-
   readonly priorityMapping: { [key: string]: number } = {
     [OfferPriority.High]: 3,
     [OfferPriority.Medium]: 2,
     [OfferPriority.Low]: 1,
   };
-
   readonly statusMapping: { [key: string]: number } = {
     [OfferStatus.Rejected]: 6,
     [OfferStatus.Accepted]: 5,
@@ -143,12 +142,16 @@ export class TableComponent
       this.updateTableSettings();
 
       if (this.paginator) {
-        const currentPageIndex: number = this.paginator.pageIndex;
-        const pageSize: number = this.paginator.pageSize;
         const totalItems: number = this.dataSource.data.length;
-        if (currentPageIndex * pageSize >= totalItems && currentPageIndex > 0) {
+        if (
+          this.paginatorPage * this.paginatorSize >= totalItems &&
+          this.paginatorPage > 0
+        ) {
           this.paginator.previousPage();
-          this.paginatorPage = currentPageIndex - 1;
+          this.paginatorPage =
+            this.paginatorPage > 1
+              ? this.paginatorPage - 1
+              : this.paginatorPage;
         }
       }
     }
@@ -171,41 +174,58 @@ export class TableComponent
     }
   }
 
-  onSortChange(sortState: Sort): void {
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-
-    const { active, direction } = sortState;
-    this.queryParamsService.updateCurrentSort(
-      `${active && direction !== '' ? active : ''},${direction || ''}`
-    );
-  }
-
-  stopPropagation(event: Event): void {
-    event.stopPropagation();
-  }
-
   areAllSelected(): boolean {
-    const numSelected: number = this.selection.selected.length;
-    const numRows: number = this.dataSource.data.length;
+    const startIndex: number = this.paginatorPage * this.paginatorSize;
+    const endIndex: number = startIndex + this.paginatorSize;
+    const currentPageData: Offer[] = this.dataSource.data.slice(
+      startIndex,
+      endIndex
+    );
+
+    const numSelected: number = currentPageData.filter((row) =>
+      this.selection.isSelected(row)
+    ).length;
+    const numRows: number = currentPageData.length;
 
     return numSelected === numRows;
+  }
+
+  areAllSelectedOnCurrentPage(): boolean {
+    const startIndex: number = this.paginatorPage * this.paginatorSize;
+    const endIndex: number = startIndex + this.paginatorSize;
+
+    const currentPageData: Offer[] = this.dataSource.data.slice(
+      startIndex,
+      endIndex
+    );
+
+    const numSelected: number = currentPageData.filter((row) =>
+      this.selection.isSelected(row)
+    ).length;
+
+    return currentPageData.length > 0 && numSelected === currentPageData.length;
   }
 
   isSomeSelected(): boolean {
     return this.selection.selected.length > 0 && !this.areAllSelected();
   }
 
-  toggleAll(): void {
-    if (this.areAllSelected()) {
-      this.selection.clear();
+  toggleAllOnCurrentPage(): void {
+    const startIndex: number = this.paginatorPage * this.paginatorSize;
+    const endIndex: number = startIndex + this.paginatorSize;
+    const currentPageData: Offer[] = this.dataSource.data.slice(
+      startIndex,
+      endIndex
+    );
+
+    if (this.areAllSelectedOnCurrentPage()) {
+      currentPageData.forEach((row) => this.selection.deselect(row));
     } else {
-      this.dataSource.data.forEach((row) => this.selection.select(row));
+      currentPageData.forEach((row) => this.selection.select(row));
     }
   }
 
-  checkboxToggle(row: Offer): void {
+  toggleCheckbox(row: Offer): void {
     this.selection.toggle(row);
   }
 
@@ -216,6 +236,17 @@ export class TableComponent
     }
   }
 
+  handleSort(sortState: Sort): void {
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+
+    const { active, direction } = sortState;
+    this.queryParamsService.updateCurrentSort(
+      `${active && direction !== '' ? active : ''},${direction || ''}`
+    );
+  }
+
   handlePaginator(event: PageEvent): void {
     if (event.pageIndex !== event.previousPageIndex) {
       this.queryParamsService.updateCurrentPage(event.pageIndex + 1);
@@ -224,6 +255,10 @@ export class TableComponent
     if (event.pageSize !== this.paginatorSize) {
       this.queryParamsService.updateCurrentPerPage(event.pageSize);
     }
+  }
+
+  stopPropagation(event: Event): void {
+    event.stopPropagation();
   }
 
   private useQueryParams(): void {

@@ -13,23 +13,22 @@
 </button>
 
 <div class="tableContainer">
-  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortChange($event)">
+  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="handleSort($event)">
 
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox
           color="primary"
-          (change)="toggleAll()"
-          [checked]="areAllSelected()"
-          [indeterminate]="isSomeSelected() && !areAllSelected()"
-        >
+          (change)="toggleAllOnCurrentPage()"
+          [checked]="areAllSelectedOnCurrentPage()"
+          [indeterminate]="isSomeSelected() && !areAllSelectedOnCurrentPage()">
         </mat-checkbox>
       </th>
       <td mat-cell *matCellDef="let element">
         <mat-checkbox
           color="primary"
           (click)="$event.stopPropagation()"
-          (change)="checkboxToggle(element)"
+          (change)="toggleCheckbox(element)"
           [checked]="selection.isSelected(element)">
         </mat-checkbox>
       </td>
