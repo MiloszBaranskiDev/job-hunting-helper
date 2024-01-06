@@ -11,3 +11,4 @@ export * from './lib/interfaces/responses/edit-offer-success-response';
 
 export * from './lib/enums/offer-field';
 export * from './lib/enums/offer-form-error-key';
+export * from './lib/enums/offers-per-page';

@@ -1,35 +1,49 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import {
+  MatSort,
+  MatSortModule,
+  Sort,
+  SortDirection,
+} from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 
 import { MenuComponent } from '../menu/menu.component';
 
 import { Offer } from '@jhh/shared/interfaces';
 import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
+import { OffersPerPage } from '@jhh/jhh-client/dashboard/offers/domain';
 
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { QueryParamsService } from '../../services/query-params/query-params.service';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -46,12 +60,18 @@ import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
     RouterLink,
     MatCheckboxModule,
     MatButtonModule,
+    FormsModule,
   ],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, AfterViewInit, OnChanges {
+export class TableComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy
+{
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly queryParamsService: QueryParamsService =
+    inject(QueryParamsService);
   private readonly removeOffersDialogService: RemoveOffersDialogService =
     inject(RemoveOffersDialogService);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
@@ -66,7 +86,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   dataSource: MatTableDataSource<Offer>;
   selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
+  filterValue: string;
+  paginatorPage: number;
+  paginatorSize: number;
   readonly offerStatus: typeof OfferStatus = OfferStatus;
+  readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
+    (value): value is number => typeof value === 'number'
+  );
 
   readonly displayedColumns: string[] = [
     'select',
@@ -96,37 +122,64 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.offers);
-    this.updateTableData();
     this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
     this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
+
+    this.queryParamsService.setFromCurrentRoute();
+    this.queryParamsService.updateQueryParams();
 
     this.handleRemoveSuccess();
   }
 
   ngAfterViewInit(): void {
-    this.updateTableData();
+    this.useQueryParams();
+    this.updateTableSettings();
+    this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['offers']) {
       this.dataSource = new MatTableDataSource(this.offers);
-      this.updateTableData();
+      this.updateTableSettings();
+
+      if (this.paginator) {
+        const currentPageIndex: number = this.paginator.pageIndex;
+        const pageSize: number = this.paginator.pageSize;
+        const totalItems: number = this.dataSource.data.length;
+        if (currentPageIndex * pageSize >= totalItems && currentPageIndex > 0) {
+          this.paginator.previousPage();
+          this.paginatorPage = currentPageIndex - 1;
+        }
+      }
     }
   }
 
-  applyFilter(event: Event): void {
-    const filterValue: string = (event.target as HTMLInputElement).value;
+  ngOnDestroy(): void {
+    this.queryParamsService.clearQueryParams();
+  }
+
+  applyFilter(event: Event | string): void {
+    const filterValue: string =
+      typeof event === 'string'
+        ? event
+        : (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.queryParamsService.updateCurrentFilter(filterValue);
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  onSortChange(): void {
+  onSortChange(sortState: Sort): void {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    const { active, direction } = sortState;
+    this.queryParamsService.updateCurrentSort(
+      `${active && direction !== '' ? active : ''},${direction || ''}`
+    );
   }
 
   stopPropagation(event: Event): void {
@@ -163,6 +216,48 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
+  handlePaginator(event: PageEvent): void {
+    if (event.pageIndex !== event.previousPageIndex) {
+      this.queryParamsService.updateCurrentPage(event.pageIndex + 1);
+    }
+
+    if (event.pageSize !== this.paginatorSize) {
+      this.queryParamsService.updateCurrentPerPage(event.pageSize);
+    }
+  }
+
+  private useQueryParams(): void {
+    this.queryParamsService
+      .getAllQueryParams$()
+      .pipe(
+        tap((val) => {
+          this.filterValue = val.filter === 'null' ? '' : val.filter;
+          this.paginatorPage = val.page - 1;
+          this.paginatorSize = val.perPage;
+
+          const [active, direction] = val.sort.split(',');
+          if (
+            this.sort.active !== active ||
+            this.sort.direction !== direction
+          ) {
+            this.sort.active = active;
+            this.sort.direction = direction as 'asc' | 'desc' | '';
+            this.sort.sortChange.emit({
+              active,
+              direction: direction as SortDirection,
+            });
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.applyFilter(this.filterValue);
+    this.paginator.pageIndex = this.paginatorPage;
+    this.paginator.pageSize = this.paginatorSize;
+    this.setSortingDataAccessor();
+  }
+
   private handleRemoveSuccess(): void {
     this.removeOffersSuccess$
       .pipe(
@@ -176,9 +271,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       .subscribe();
   }
 
-  private updateTableData(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  private setSortingDataAccessor(): void {
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'priority':
@@ -191,6 +284,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
           return (item as any)[property];
       }
     };
+  }
+
+  private updateTableSettings(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.setSortingDataAccessor();
   }
 
   private getSortableSalaryValue(item: Offer): number {

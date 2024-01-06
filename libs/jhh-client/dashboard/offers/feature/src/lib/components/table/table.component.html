@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
+  <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
 </mat-form-field>
 
 <button
@@ -13,7 +13,7 @@
 </button>
 
 <div class="tableContainer">
-  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortChange()">
+  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortChange($event)">
 
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
@@ -154,5 +154,10 @@
 </div>
 
 <div class="paginatorContainer">
-  <mat-paginator [pageSizeOptions]="[15, 20, 25, 40]" aria-label="Select page of offers"></mat-paginator>
+  <mat-paginator
+    [pageIndex]="paginatorPage"
+    [pageSizeOptions]="offersPerPageValues"
+    (page)="handlePaginator($event)"
+    aria-label="Select page of offers">
+  </mat-paginator>
 </div>
