@@ -23,7 +23,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
+import { distinctUntilChanged, map, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -33,6 +33,7 @@ import { regex } from '@jhh/shared/regex';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
@@ -49,7 +50,6 @@ import {
   OfferField,
   OfferFormErrorKey,
 } from '@jhh/jhh-client/dashboard/offers/domain';
-import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 
 @Component({
   selector: 'jhh-offers-add',
@@ -110,10 +110,19 @@ export class AddComponent implements OnInit {
 
     this.formGroup.valueChanges
       .pipe(
-        tap((val) => {
+        map((val) => ({
+          minSalary: val.minSalary,
+          maxSalary: val.maxSalary,
+        })),
+        distinctUntilChanged(
+          (prev, curr) =>
+            prev.minSalary === curr.minSalary &&
+            prev.maxSalary === curr.maxSalary
+        ),
+        tap(({ minSalary, maxSalary }) => {
           if (
-            val.minSalary >= this.fieldsLength.MinSalaryValue ||
-            val.maxSalary >= this.fieldsLength.MinSalaryValue
+            minSalary >= this.fieldsLength.MinSalaryValue ||
+            maxSalary >= this.fieldsLength.MinSalaryValue
           ) {
             this.formGroup.get(this.formField.SalaryCurrency)!.enable();
           } else {

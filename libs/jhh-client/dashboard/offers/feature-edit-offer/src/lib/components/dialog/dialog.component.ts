@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Observable, tap } from 'rxjs';
+import { distinctUntilChanged, map, Observable, tap } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
@@ -117,10 +117,19 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.formGroup.valueChanges
       .pipe(
-        tap((val) => {
+        map((val) => ({
+          minSalary: val.minSalary,
+          maxSalary: val.maxSalary,
+        })),
+        distinctUntilChanged(
+          (prev, curr) =>
+            prev.minSalary === curr.minSalary &&
+            prev.maxSalary === curr.maxSalary
+        ),
+        tap(({ minSalary, maxSalary }) => {
           if (
-            val.minSalary >= this.fieldsLength.MinSalaryValue ||
-            val.maxSalary >= this.fieldsLength.MinSalaryValue
+            minSalary >= this.fieldsLength.MinSalaryValue ||
+            maxSalary >= this.fieldsLength.MinSalaryValue
           ) {
             this.formGroup.get(this.formField.SalaryCurrency)!.enable();
           } else {
