@@ -15,4 +15,7 @@ export enum ClientRoute {
   //
   Offers = 'offers',
   OffersLink = '/dashboard/offers',
+  //
+  Schedule = 'schedule',
+  ScheduleLink = '/dashboard/schedule',
 }

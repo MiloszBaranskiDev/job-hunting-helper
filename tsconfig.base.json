@@ -147,6 +147,12 @@
       "@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon": [
         "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/schedule/feature": [
+        "libs/jhh-client/dashboard/schedule/feature/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/schedule/shell": [
+        "libs/jhh-client/dashboard/schedule/shell/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/shell": [
         "libs/jhh-client/dashboard/shell/src/index.ts"
       ],
