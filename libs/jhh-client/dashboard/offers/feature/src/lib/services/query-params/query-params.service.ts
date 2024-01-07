@@ -22,7 +22,7 @@ export class QueryParamsService {
   readonly defaultFilter: string = '';
   readonly defaultSort: string = '';
   readonly defaultPage: number = 1;
-  readonly defaultPerPage: number = OffersPerPage.Fifteen;
+  readonly defaultPerPage: number = OffersPerPage.Ten;
 
   private readonly currentFilter$: BehaviorSubject<string> =
     new BehaviorSubject<string>(this.defaultFilter);

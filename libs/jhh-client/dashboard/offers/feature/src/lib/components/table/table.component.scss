@@ -1,3 +1,22 @@
+.topContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+
+  button {
+    flex-shrink: 0;
+  }
+
+  mat-form-field {
+    max-width: 280px;
+    margin-bottom: 0;
+  }
+}
+
 .tableContainer {
   width: 100%;
   overflow-x: auto;
@@ -59,10 +78,12 @@
 
   .noFound {
     color: var(--color__warn);
+    max-width: 480px;
 
     span {
       display: inline-block;
       padding: 16px;
+      word-break: break-all;
     }
   }
 }

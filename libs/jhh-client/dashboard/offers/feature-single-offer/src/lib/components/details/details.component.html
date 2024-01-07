@@ -24,7 +24,7 @@
     <mat-icon>priority_high</mat-icon>
     <div>
       <span class="label">Priority</span>
-      <span class="priority" [class]="'priority--' + offer.priority">{{ offer.priority }}</span>
+      <span class="offerPriority" [class]="'offerPriority--' + offer.priority">{{ offer.priority }}</span>
     </div>
   </div>
   <div class="details__tile">
@@ -42,7 +42,7 @@
     <mat-icon>email</mat-icon>
     <div>
       <span class="label">E-mail</span>
-      <button class="email" (click)="copyEmail()">
+      <button class="email" matTooltip="Click to copy" (click)="copyEmail()">
         <mat-icon>content_copy</mat-icon>
         {{offer.email}}
       </button>

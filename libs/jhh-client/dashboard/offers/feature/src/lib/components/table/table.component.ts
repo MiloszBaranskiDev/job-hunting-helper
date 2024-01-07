@@ -6,7 +6,6 @@ import {
   inject,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild,
@@ -45,6 +44,11 @@ import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feat
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
 import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
+import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
+
+interface OfferWithIcon extends Offer {
+  statusIcon: string;
+}
 
 @Component({
   selector: 'jhh-offers-table',
@@ -68,9 +72,7 @@ import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-for
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent
-  implements OnInit, AfterViewInit, OnChanges, OnDestroy
-{
+export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private readonly queryParamsService: QueryParamsService =
@@ -87,14 +89,13 @@ export class TableComponent
   removeOffersInProgress$: Observable<boolean>;
   removeOffersSuccess$: Observable<boolean>;
 
-  dataSource: MatTableDataSource<Offer>;
+  dataSource: MatTableDataSource<OfferWithIcon>;
   selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
 
   filterValue: string;
   paginatorPage: number;
   paginatorSize: number;
 
-  readonly offerStatus: typeof OfferStatus = OfferStatus;
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
@@ -123,7 +124,8 @@ export class TableComponent
   };
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.offers);
+    this.updateDataSource();
+
     this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
     this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
 
@@ -141,7 +143,7 @@ export class TableComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['offers']) {
-      this.dataSource = new MatTableDataSource(this.offers);
+      this.updateDataSource();
       this.updateTableSettings();
 
       if (this.paginator) {
@@ -158,10 +160,6 @@ export class TableComponent
         }
       }
     }
-  }
-
-  ngOnDestroy(): void {
-    this.queryParamsService.clearQueryParams();
   }
 
   applyFilter(event: Event | string): void {
@@ -353,6 +351,18 @@ export class TableComponent
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.setSortingDataAccessor();
+  }
+
+  private updateDataSource(): void {
+    this.dataSource = new MatTableDataSource(
+      this.offers.map(
+        (offer) =>
+          ({
+            ...offer,
+            statusIcon: GetOfferStatusIcon(offer.status),
+          } as OfferWithIcon)
+      )
+    );
   }
 
   private isValidSort(active: string, direction: string): boolean {

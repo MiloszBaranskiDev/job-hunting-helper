@@ -9,6 +9,14 @@ import {
 
 type DefaultOffer = Omit<Offer, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
 
+const defaultDescription: string =
+  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n" +
+  '\n' +
+  '- lorem ipsum\n' +
+  '- lorem ipsum\n' +
+  '- lorem ipsum\n' +
+  '- lorem ipsum';
+
 function subtractDays(date: Date, days: number): Date {
   const result: Date = new Date(date);
   result.setDate(result.getDate() - days);
@@ -32,6 +40,7 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: 16000,
     salaryCurrency: OfferSalaryCurrency.PLN,
     email: 'hr@example.com',
+    description: defaultDescription,
   },
   {
     statusUpdates: [
@@ -50,6 +59,7 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: null,
     salaryCurrency: OfferSalaryCurrency.EUR,
     email: 'careers@example.com',
+    description: defaultDescription,
   },
   {
     statusUpdates: [],
@@ -65,6 +75,7 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: 6500,
     salaryCurrency: OfferSalaryCurrency.GBP,
     email: null,
+    description: defaultDescription,
   },
   {
     statusUpdates: [
@@ -84,6 +95,7 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: 6000,
     salaryCurrency: OfferSalaryCurrency.EUR,
     email: 'recruit@example.com',
+    description: defaultDescription,
   },
   {
     statusUpdates: [
@@ -103,6 +115,7 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: null,
     salaryCurrency: null,
     email: 'talent@example.com',
+    description: defaultDescription,
   },
   {
     statusUpdates: [
@@ -123,6 +136,116 @@ const defaultOffers: DefaultOffer[] = [
     maxSalary: 7000,
     salaryCurrency: OfferSalaryCurrency.USD,
     email: 'careers@example.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [
+      { date: subtractDays(today, 2), status: OfferStatus.Applied },
+    ],
+    position: 'Mobile Developer',
+    slug: 'mobile-developer',
+    link: 'http://example.com/mobile',
+    company: 'Mobile Innovations',
+    companyType: OfferCompanyType.Product,
+    location: OfferLocation.Remote,
+    status: OfferStatus.Applied,
+    priority: OfferPriority.Medium,
+    minSalary: 8000,
+    maxSalary: 10000,
+    salaryCurrency: OfferSalaryCurrency.USD,
+    email: 'jobs@mobileinnovations.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [
+      { date: subtractDays(today, 7), status: OfferStatus.Applied },
+    ],
+    position: 'QA Engineer',
+    slug: 'qa-engineer',
+    link: 'http://example.com/qa',
+    company: 'Quality Assurance Ltd.',
+    companyType: OfferCompanyType.SoftwareHouse,
+    location: OfferLocation.OnSite,
+    status: OfferStatus.Applied,
+    priority: OfferPriority.High,
+    minSalary: 7000,
+    maxSalary: 9000,
+    salaryCurrency: OfferSalaryCurrency.PLN,
+    email: 'hr@qaltd.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [],
+    position: 'Data Scientist',
+    slug: 'data-scientist',
+    link: 'http://example.com/data-scientist',
+    company: 'DataWise',
+    companyType: OfferCompanyType.Enterprise,
+    location: OfferLocation.Hybrid,
+    status: OfferStatus.NotApplied,
+    priority: OfferPriority.Low,
+    minSalary: 9500,
+    maxSalary: 12000,
+    salaryCurrency: OfferSalaryCurrency.GBP,
+    email: 'contact@datawise.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [
+      { date: subtractDays(today, 1), status: OfferStatus.Applied },
+    ],
+    position: 'Cloud Engineer',
+    slug: 'cloud-engineer',
+    link: 'http://example.com/cloud',
+    company: 'CloudTech',
+    companyType: OfferCompanyType.Outsourcing,
+    location: OfferLocation.Remote,
+    status: OfferStatus.Applied,
+    priority: OfferPriority.Medium,
+    minSalary: 10000,
+    maxSalary: 15000,
+    salaryCurrency: OfferSalaryCurrency.EUR,
+    email: 'careers@cloudtech.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [
+      { date: subtractDays(today, 4), status: OfferStatus.Applied },
+      { date: subtractDays(today, 2), status: OfferStatus.Interviewing },
+    ],
+    position: 'Security Specialist',
+    slug: 'security-specialist',
+    link: 'http://example.com/security',
+    company: 'SecureTech',
+    companyType: OfferCompanyType.Product,
+    location: OfferLocation.OnSite,
+    status: OfferStatus.Interviewing,
+    priority: OfferPriority.High,
+    minSalary: 8500,
+    maxSalary: 11000,
+    salaryCurrency: OfferSalaryCurrency.USD,
+    email: 'jobs@securetech.com',
+    description: defaultDescription,
+  },
+  {
+    statusUpdates: [
+      { date: subtractDays(today, 8), status: OfferStatus.Applied },
+      { date: subtractDays(today, 3), status: OfferStatus.Interviewing },
+      { date: subtractDays(today, 1), status: OfferStatus.Rejected },
+    ],
+    position: 'Game Developer',
+    slug: 'game-developer',
+    link: 'http://example.com/game-dev',
+    company: 'GameWorks',
+    companyType: OfferCompanyType.SoftwareHouse,
+    location: OfferLocation.Hybrid,
+    status: OfferStatus.Rejected,
+    priority: OfferPriority.Low,
+    minSalary: 6000,
+    maxSalary: 8500,
+    salaryCurrency: OfferSalaryCurrency.EUR,
+    email: 'hr@gameworks.com',
+    description: defaultDescription,
   },
 ];
 
