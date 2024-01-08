@@ -27,7 +27,8 @@
           "apps/jhh-client/src/assets"
         ],
         "styles": [
-          "libs/jhh-client/shared/styles/src/index.scss"
+          "libs/jhh-client/shared/styles/src/index.scss",
+          "node_modules/angular-calendar/css/angular-calendar.css"
         ],
         "scripts": []
       },
