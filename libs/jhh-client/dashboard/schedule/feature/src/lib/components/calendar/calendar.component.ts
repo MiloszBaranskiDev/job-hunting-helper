@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import {
@@ -27,7 +27,10 @@ import { EventColor } from 'calendar-utils';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
+  @Input({ required: true }) view: CalendarView;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+
+  protected readonly CalendarView = CalendarView;
 
   colors: Record<string, EventColor> = {
     red: {
@@ -43,10 +46,6 @@ export class CalendarComponent {
       secondary: '#FDF1BA',
     },
   };
-
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
 
   viewDate: Date = new Date();
 
@@ -153,10 +152,6 @@ export class CalendarComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     console.log(action, event);
-  }
-
-  setView(view: CalendarView): void {
-    this.view = view;
   }
 
   closeOpenMonthViewDay(): void {
