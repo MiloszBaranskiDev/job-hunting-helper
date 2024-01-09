@@ -1,4 +1,11 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import {
@@ -28,6 +35,10 @@ import { EventColor } from 'calendar-utils';
 })
 export class CalendarComponent {
   @Input({ required: true }) view: CalendarView;
+  @Input({ required: true }) viewDate: Date;
+  @Input({ required: true }) isActiveDayOpen: boolean;
+  @Output() toggleIsActiveDayOpen: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   protected readonly CalendarView = CalendarView;
@@ -46,8 +57,6 @@ export class CalendarComponent {
       secondary: '#FDF1BA',
     },
   };
-
-  viewDate: Date = new Date();
 
   modalData: {
     action: string;
@@ -115,17 +124,15 @@ export class CalendarComponent {
     },
   ];
 
-  activeDayIsOpen: boolean = true;
-
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        (isSameDay(this.viewDate, date) && this.isActiveDayOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        this.toggleIsActiveDayOpen.emit(false);
       } else {
-        this.activeDayIsOpen = true;
+        this.toggleIsActiveDayOpen.emit(true);
       }
       this.viewDate = date;
     }
@@ -152,9 +159,5 @@ export class CalendarComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     console.log(action, event);
-  }
-
-  closeOpenMonthViewDay(): void {
-    this.activeDayIsOpen = false;
   }
 }

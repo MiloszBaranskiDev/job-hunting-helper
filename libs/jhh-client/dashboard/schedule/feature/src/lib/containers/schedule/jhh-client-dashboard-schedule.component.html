@@ -1,2 +1,18 @@
-<jhh-schedule-view-toggle [view]="view" (viewChange)="setView($event)"></jhh-schedule-view-toggle>
-<jhh-schedule-calendar [view]="view"></jhh-schedule-calendar>
+<jhh-schedule-view-date-toggle
+  [view]="view"
+  [(viewDate)]="viewDate"
+  (toggleIsActiveDayOpen)="toggleIsActiveDayOpen($event)"
+>
+</jhh-schedule-view-date-toggle>
+<jhh-schedule-view-toggle
+  [view]="view"
+  (viewChange)="setView($event)"
+>
+</jhh-schedule-view-toggle>
+<jhh-schedule-calendar
+  [view]="view"
+  [viewDate]="viewDate"
+  [isActiveDayOpen]="isActiveDayOpen"
+  (toggleIsActiveDayOpen)="toggleIsActiveDayOpen($event)"
+>
+</jhh-schedule-calendar>
