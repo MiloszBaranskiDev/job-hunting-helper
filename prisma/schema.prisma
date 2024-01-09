@@ -85,6 +85,11 @@ model BoardColumnItem {
   column   BoardColumn @relation(fields: [columnId], references: [id])
 }
 
+type StatusUpdate {
+  date   DateTime
+  status String
+}
+
 model Offer {
   id            String         @id @default(auto()) @map("_id") @db.ObjectId
   createdAt     DateTime       @default(now())
@@ -111,7 +116,15 @@ model Offer {
   @@unique([slug, userId], name: "slug_userId_idx")
 }
 
-type StatusUpdate {
-  date   DateTime
-  status String
+model ScheduleEvent {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startDate DateTime
+  endDate   DateTime
+
+  title       String
+  color       String
+  description String?
 }
