@@ -1,0 +1,43 @@
+{
+  "name": "jhh-client-dashboard-schedule-data-access",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/schedule/data-access/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/schedule/data-access",
+        "main": "libs/jhh-client/dashboard/schedule/data-access/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/schedule/data-access/tsconfig.lib.json",
+        "assets": [
+          "libs/jhh-client/dashboard/schedule/data-access/*.md"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/jhh-client/dashboard/schedule/data-access/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": [
+    "platform:client",
+    "scope:client-schedule",
+    "scope:client-dashboard-schedule"
+  ]
+}
