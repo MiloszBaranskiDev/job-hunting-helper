@@ -30,7 +30,7 @@ export const initialScheduleState: ScheduleState = adapter.getInitialState({
 
 const reducer: ActionReducer<ScheduleState> = createReducer(
   initialScheduleState,
-  on(ScheduleActions.setEvents, (state, { events }) =>
+  on(ScheduleActions.setScheduleEvents, (state, { events }) =>
     adapter.setAll(events, state)
   )
 );

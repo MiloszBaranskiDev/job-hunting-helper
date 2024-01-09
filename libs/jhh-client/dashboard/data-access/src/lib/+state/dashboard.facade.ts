@@ -7,6 +7,7 @@ import * as DashboardActions from './dashboard.actions';
 import { setNotes } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { setBoard } from '@jhh/jhh-client/dashboard/board/data-access';
 import { setOffers } from '@jhh/jhh-client/dashboard/offers/data-access';
+import { setScheduleEvents } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
@@ -43,5 +44,8 @@ export class DashboardFacade {
     this.store.dispatch(setNotes({ notesGroups: data.payload.notesGroups }));
     this.store.dispatch(setBoard({ boardColumns: data.payload.boardColumns }));
     this.store.dispatch(setOffers({ offers: data.payload.offers }));
+    this.store.dispatch(
+      setScheduleEvents({ events: data.payload.scheduleEvents })
+    );
   }
 }

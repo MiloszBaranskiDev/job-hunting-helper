@@ -3,10 +3,10 @@ import { createAction, props } from '@ngrx/store';
 import { ScheduleEvent } from '@jhh/shared/interfaces';
 
 export enum Type {
-  SetEvents = '[Schedule] Set Events',
+  SetScheduleEvents = '[Schedule] Set Schedule Events',
 }
 
-export const setEvents = createAction(
-  Type.SetEvents,
+export const setScheduleEvents = createAction(
+  Type.SetScheduleEvents,
   props<{ events: ScheduleEvent[] }>()
 );

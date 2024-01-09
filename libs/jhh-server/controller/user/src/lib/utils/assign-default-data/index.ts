@@ -5,8 +5,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 import defaultNotesGroups from '../../default-data/notes-groups';
 import defaultBoardColumns from '../../default-data/board-columns';
 import defaultOffers from '../../default-data/offers';
-
-import { BoardColumnItem } from '@jhh/shared/interfaces';
+import getDefaultScheduleEvents from '../../default-data/schedule-events';
 
 const assignDefaultData = async (userId: string): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -46,12 +45,10 @@ const assignDefaultData = async (userId: string): Promise<void> => {
         order: defaultBoardColumns[columnIndex].order,
         userId: userId,
         items: {
-          create: defaultBoardColumns[columnIndex].items.map(
-            (item: BoardColumnItem) => ({
-              content: item.content,
-              order: item.order,
-            })
-          ),
+          create: defaultBoardColumns[columnIndex].items.map((item) => ({
+            content: item.content,
+            order: item.order,
+          })),
         },
       },
     });
@@ -68,6 +65,24 @@ const assignDefaultData = async (userId: string): Promise<void> => {
         createdAt: new Date(),
         updatedAt: new Date(),
         ...offer,
+        userId: userId,
+      },
+    } as any);
+  }
+
+  const today: Date = new Date();
+  const defaultScheduleEvents = getDefaultScheduleEvents(today);
+  for (
+    let eventIndex: number = 0;
+    eventIndex < defaultScheduleEvents.length;
+    eventIndex++
+  ) {
+    const event = defaultScheduleEvents[eventIndex];
+    await prisma.scheduleEvent.create({
+      data: {
+        createdAt: today,
+        updatedAt: today,
+        ...event,
         userId: userId,
       },
     } as any);

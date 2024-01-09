@@ -22,6 +22,7 @@ model User {
 
   unsavedBoardRequestId String
   Offer                 Offer[]
+  ScheduleEvent         ScheduleEvent[]
 }
 
 model NotesGroup {
@@ -127,4 +128,7 @@ model ScheduleEvent {
   title       String
   color       String
   description String?
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
 }

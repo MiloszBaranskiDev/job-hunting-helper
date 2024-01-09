@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
@@ -6,6 +7,7 @@ import { JhhClientDashboardScheduleShellComponent } from './containers/shell/jhh
 import { provideState } from '@ngrx/store';
 import {
   SCHEDULE_STATE_KEY,
+  ScheduleEffects,
   scheduleReducer,
 } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
@@ -14,7 +16,7 @@ export const JhhClientDashboardScheduleShellRoutes: Route = {
   component: JhhClientDashboardScheduleShellComponent,
   providers: [
     provideState(SCHEDULE_STATE_KEY, scheduleReducer),
-    // provideEffects(OffersEffects),
+    provideEffects(ScheduleEffects),
   ],
   children: [
     {
