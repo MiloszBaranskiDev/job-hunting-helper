@@ -1,6 +1,6 @@
 export interface AddEventPayload {
-  startDate: Date;
-  endDate: Date;
+  start: Date;
+  end: Date;
   title: string;
   color: string;
   description?: string;

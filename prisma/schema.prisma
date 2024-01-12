@@ -122,8 +122,8 @@ model ScheduleEvent {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  startDate DateTime
-  endDate   DateTime
+  start DateTime
+  end   DateTime
 
   title       String
   color       String

@@ -1,6 +1,6 @@
 export enum EventField {
-  StartDate = 'start-date',
-  EndDate = 'end-date',
+  Start = 'start',
+  End = 'end',
   Title = 'title',
   Color = 'color',
   Description = 'description',

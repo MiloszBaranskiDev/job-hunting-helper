@@ -13,7 +13,7 @@
             <input
               type="text"
               mwlFlatpickr
-              [formControlName]="formField.StartDate"
+              [formControlName]="formField.Start"
               [altInput]="true"
               [convertModelValue]="true"
               [enableTime]="true"
@@ -22,7 +22,7 @@
               placeholder="Not set"
               required
             />
-            <mat-error *ngIf="formGroup.get(formField.StartDate)?.hasError(formErrorKey.Required)">
+            <mat-error *ngIf="formGroup.get(formField.Start)?.hasError(formErrorKey.Required)">
               Start date is required
             </mat-error>
           </div>
@@ -32,7 +32,7 @@
             <input
               type="text"
               mwlFlatpickr
-              [formControlName]="formField.EndDate"
+              [formControlName]="formField.End"
               [altInput]="true"
               [convertModelValue]="true"
               [enableTime]="true"
@@ -41,10 +41,10 @@
               placeholder="Not set"
               required
             />
-            <mat-error *ngIf="formGroup.get(formField.EndDate)?.hasError(formErrorKey.Required)">
+            <mat-error *ngIf="formGroup.get(formField.End)?.hasError(formErrorKey.Required)">
               End date is required
             </mat-error>
-            <mat-error *ngIf="formGroup.get(formField.EndDate)?.hasError(formErrorKey.InvalidDateRange)">
+            <mat-error *ngIf="formGroup.get(formField.End)?.hasError(formErrorKey.InvalidDateRange)">
               The end date cannot be earlier than the start date.
             </mat-error>
           </div>

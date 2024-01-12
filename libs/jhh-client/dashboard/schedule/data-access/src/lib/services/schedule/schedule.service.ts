@@ -26,8 +26,8 @@ export class ScheduleService {
       .post<AddEventSuccessResponse>(
         this.API_DASHBOARD_URL + ApiRoute.AddScheduleEvent,
         {
-          startDate: payload.startDate,
-          endDate: payload.endDate,
+          start: payload.start,
+          end: payload.end,
           title: payload.title,
           color: payload.color,
           description: payload.description,

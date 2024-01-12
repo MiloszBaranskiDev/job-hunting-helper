@@ -11,6 +11,7 @@
 >
 </jhh-schedule-view-toggle>
 <jhh-schedule-calendar
+  [events]="(events$ | async)!"
   [view]="view"
   [viewDate]="viewDate"
   [isActiveDayOpen]="isActiveDayOpen"

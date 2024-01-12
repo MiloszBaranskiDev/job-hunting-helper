@@ -12,10 +12,10 @@ export function DateRangeValidator(
       return null;
     }
 
-    const startDate = startControl.value;
-    const endDate = endControl.value;
+    const start = startControl.value;
+    const end = endControl.value;
 
-    if (startDate && endDate && endDate < startDate) {
+    if (start && end && end < start) {
       endControl.setErrors({ invalidDateRange: true });
       return { invalidDateRange: true };
     }

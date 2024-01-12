@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, ScheduleEvent } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -10,10 +10,10 @@ const addEvent = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { startDate, endDate, title, color, description } = req.body;
+    const { start, end, title, color, description } = req.body;
     const userId = req.user.id;
 
-    if (!startDate || !endDate || !title || !color) {
+    if (!start || !end || !title || !color) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
@@ -68,10 +68,10 @@ const addEvent = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const start: Date = new Date(startDate);
-    const end: Date = new Date(endDate);
+    const startDate: Date = new Date(start);
+    const endDate: Date = new Date(end);
 
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
@@ -79,7 +79,7 @@ const addEvent = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    if (end <= start) {
+    if (endDate <= startDate) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
@@ -87,10 +87,10 @@ const addEvent = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const addedEvent = await prisma.scheduleEvent.create({
+    const addedEvent: ScheduleEvent = await prisma.scheduleEvent.create({
       data: {
-        startDate: startDate,
-        endDate: endDate,
+        start: startDate,
+        end: endDate,
         title: title,
         color: color,
         description: description,

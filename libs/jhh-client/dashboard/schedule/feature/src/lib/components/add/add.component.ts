@@ -108,23 +108,17 @@ export class AddComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const { StartDate, EndDate, Title, Color, Description } = this.formField;
-      const [startDate, endDate, title, color, description] = [
-        StartDate,
-        EndDate,
+      const { Start, End, Title, Color, Description } = this.formField;
+      const [start, end, title, color, description] = [
+        Start,
+        End,
         Title,
         Color,
         Description,
       ].map((field) => this.formGroup.get(field)?.value);
 
-      if (startDate && endDate && title && color && description) {
-        this.scheduleFacade.addEvent(
-          startDate,
-          endDate,
-          title,
-          color,
-          description
-        );
+      if (start && end && title && color) {
+        this.scheduleFacade.addEvent(start, end, title, color, description);
       }
     }
   }
@@ -145,8 +139,8 @@ export class AddComponent implements OnInit {
 
   private clearForm(): void {
     this.formGroup.reset({
-      [this.formField.StartDate]: startOfDay(new Date()),
-      [this.formField.EndDate]: endOfDay(new Date()),
+      [this.formField.Start]: startOfDay(new Date()),
+      [this.formField.End]: endOfDay(new Date()),
       [this.formField.Color]: this.defaultColor.SkyBlue,
     });
   }
@@ -154,11 +148,8 @@ export class AddComponent implements OnInit {
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group(
       {
-        [this.formField.StartDate]: [
-          startOfDay(new Date()),
-          [Validators.required],
-        ],
-        [this.formField.EndDate]: [endOfDay(new Date()), [Validators.required]],
+        [this.formField.Start]: [startOfDay(new Date()), [Validators.required]],
+        [this.formField.End]: [endOfDay(new Date()), [Validators.required]],
         [this.formField.Title]: [
           '',
           [
@@ -178,8 +169,8 @@ export class AddComponent implements OnInit {
       },
       {
         validators: DateRangeValidator(
-          this.formField.StartDate,
-          this.formField.EndDate
+          this.formField.Start,
+          this.formField.End
         ),
       }
     );

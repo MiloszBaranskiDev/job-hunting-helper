@@ -35,8 +35,8 @@ export class ScheduleFacade {
   );
 
   addEvent(
-    startDate: Date,
-    endDate: Date,
+    start: Date,
+    end: Date,
     title: string,
     color: string,
     description: string | undefined
@@ -44,8 +44,8 @@ export class ScheduleFacade {
     return this.actionResolverService.executeAndWatch(
       ScheduleActions.addEvent({
         payload: {
-          startDate,
-          endDate,
+          start,
+          end,
           title,
           color,
           description,
