@@ -68,17 +68,6 @@ const addEvent = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const addedEvent = await prisma.scheduleEvent.create({
-      data: {
-        startDate: startDate,
-        endDate: endDate,
-        title: title,
-        color: color,
-        description: description,
-        userId: userId,
-      },
-    });
-
     const start: Date = new Date(startDate);
     const end: Date = new Date(endDate);
 
@@ -97,6 +86,17 @@ const addEvent = async (req: any, res: any): Promise<void> => {
         'endDate must be later than startDate.'
       );
     }
+
+    const addedEvent = await prisma.scheduleEvent.create({
+      data: {
+        startDate: startDate,
+        endDate: endDate,
+        title: title,
+        color: color,
+        description: description,
+        userId: userId,
+      },
+    });
 
     res.status(HttpStatusCode.OK).json({ data: { addedEvent } });
   } catch (error) {
