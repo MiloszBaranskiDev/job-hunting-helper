@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ScheduleEvent } from '@jhh/shared/interfaces';
 
 import * as ScheduleSelectors from './schedule.selectors';
+import * as ScheduleActions from './schedule.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
@@ -20,4 +21,38 @@ export class ScheduleFacade {
   events$: Observable<ScheduleEvent[]> = this.store.pipe(
     select(ScheduleSelectors.selectEvents)
   );
+
+  addEventInProgress$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectAddEventInProgress)
+  );
+
+  addEventError$: Observable<string | null> = this.store.pipe(
+    select(ScheduleSelectors.selectAddEventError)
+  );
+
+  addEventSuccess$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectAddEventSuccess)
+  );
+
+  addEvent(
+    startDate: Date,
+    endDate: Date,
+    title: string,
+    color: string,
+    description: string | undefined
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      ScheduleActions.addEvent({
+        payload: {
+          startDate,
+          endDate,
+          title,
+          color,
+          description,
+        },
+      }),
+      ScheduleActions.Type.AddEventSuccess,
+      ScheduleActions.Type.AddEventFail
+    );
+  }
 }

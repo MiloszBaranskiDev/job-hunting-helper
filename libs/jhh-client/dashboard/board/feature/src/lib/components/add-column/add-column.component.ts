@@ -34,8 +34,8 @@ import {
 } from '@jhh/jhh-client/dashboard/board/domain';
 import { BoardColumnFieldsLength } from '@jhh/shared/enums';
 
-import { ColorValidator } from '@jhh/jhh-client/dashboard/board/util-color-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 

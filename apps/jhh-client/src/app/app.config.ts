@@ -16,6 +16,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
 
@@ -42,7 +43,8 @@ export const appConfig: ApplicationConfig = {
       CalendarModule.forRoot({
         provide: DateAdapter,
         useFactory: adapterFactory,
-      })
+      }),
+      FlatpickrModule.forRoot()
     ),
     MatSnackBar,
   ],

@@ -6,6 +6,7 @@ import { JhhServerControllerDashboard } from '@jhh/jhh-server/controller/dashboa
 import { JhhServerControllerNotes } from '@jhh/jhh-server/controller/notes';
 import { JhhServerControllerBoard } from '@jhh/jhh-server/controller/board';
 import { JhhServerControllerOffers } from '@jhh/jhh-server/controller/offers';
+import { JhhServerControllerSchedule } from '@jhh/jhh-server/controller/schedule';
 
 export function JhhServerRouterApi(): Router {
   const router: Router = Router();
@@ -14,6 +15,7 @@ export function JhhServerRouterApi(): Router {
   const notesController = JhhServerControllerNotes();
   const boardController = JhhServerControllerBoard();
   const offersController = JhhServerControllerOffers();
+  const scheduleController = JhhServerControllerSchedule();
 
   router.get(ApiRoute.Test, (req, res) => {
     res.send('Hello World!');
@@ -43,6 +45,8 @@ export function JhhServerRouterApi(): Router {
   router.post(ApiRoute.AddOffer, offersController.addOffer);
   router.put(ApiRoute.EditOffer, offersController.editOffer);
   router.delete(ApiRoute.RemoveOffers, offersController.removeOffers);
+
+  router.post(ApiRoute.AddScheduleEvent, scheduleController.addEvent);
 
   return router;
 }

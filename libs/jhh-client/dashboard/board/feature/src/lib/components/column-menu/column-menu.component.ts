@@ -40,8 +40,8 @@ import {
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 
-import { ColorValidator } from '@jhh/jhh-client/dashboard/board/util-color-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 
 @Component({
   selector: 'jhh-board-column-menu',

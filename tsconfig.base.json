@@ -51,9 +51,6 @@
       "@jhh/jhh-client/dashboard/board/shell": [
         "libs/jhh-client/dashboard/board/shell/src/index.ts"
       ],
-      "@jhh/jhh-client/dashboard/board/util-color-validator": [
-        "libs/jhh-client/dashboard/board/util-color-validator/src/index.ts"
-      ],
       "@jhh/jhh-client/dashboard/data-access": [
         "libs/jhh-client/dashboard/data-access/src/index.ts"
       ],
@@ -150,11 +147,17 @@
       "@jhh/jhh-client/dashboard/schedule/data-access": [
         "libs/jhh-client/dashboard/schedule/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/schedule/domain": [
+        "libs/jhh-client/dashboard/schedule/domain/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/schedule/feature": [
         "libs/jhh-client/dashboard/schedule/feature/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/schedule/shell": [
         "libs/jhh-client/dashboard/schedule/shell/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/schedule/util-date-range-validator": [
+        "libs/jhh-client/dashboard/schedule/util-date-range-validator/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/shell": [
         "libs/jhh-client/dashboard/shell/src/index.ts"
@@ -173,6 +176,9 @@
       ],
       "@jhh/jhh-client/shared/util-click-outside": [
         "libs/jhh-client/shared/util-click-outside/src/index.ts"
+      ],
+      "@jhh/jhh-client/shared/util-color-validator": [
+        "libs/jhh-client/shared/util-color-validator/src/index.ts"
       ],
       "@jhh/jhh-client/shared/util-enum-validator": [
         "libs/jhh-client/shared/util-enum-validator/src/index.ts"
@@ -207,6 +213,9 @@
       ],
       "@jhh/jhh-server/controller/offers": [
         "libs/jhh-server/controller/offers/src/index.ts"
+      ],
+      "@jhh/jhh-server/controller/schedule": [
+        "libs/jhh-server/controller/schedule/src/index.ts"
       ],
       "@jhh/jhh-server/controller/user": [
         "libs/jhh-server/controller/user/src/index.ts"

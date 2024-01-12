@@ -5,6 +5,7 @@ import { CalendarView } from 'angular-calendar';
 import { CalendarComponent } from '../../components/calendar/calendar.component';
 import { ViewToggleComponent } from '../../components/view-toggle/view-toggle.component';
 import { ViewDateToggleComponent } from '../../components/view-date-toggle/view-date-toggle.component';
+import { AddComponent } from '../../components/add/add.component';
 
 @Component({
   selector: 'jhh-schedule',
@@ -14,6 +15,7 @@ import { ViewDateToggleComponent } from '../../components/view-date-toggle/view-
     CalendarComponent,
     ViewToggleComponent,
     ViewDateToggleComponent,
+    AddComponent,
   ],
   templateUrl: './jhh-client-dashboard-schedule.component.html',
   styleUrls: ['./jhh-client-dashboard-schedule.component.scss'],

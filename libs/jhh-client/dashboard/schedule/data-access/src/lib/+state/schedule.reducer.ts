@@ -32,7 +32,35 @@ const reducer: ActionReducer<ScheduleState> = createReducer(
   initialScheduleState,
   on(ScheduleActions.setScheduleEvents, (state, { events }) =>
     adapter.setAll(events, state)
-  )
+  ),
+  on(ScheduleActions.addEvent, (state) => ({
+    ...state,
+    addEvent: {
+      ...state.addEvent,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(ScheduleActions.addEventFail, (state, { payload }) => ({
+    ...state,
+    addEvent: {
+      ...state.addEvent,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(ScheduleActions.addEventSuccess, (state, { payload }) => {
+    return adapter.addOne(payload.addedEvent, {
+      ...state,
+      addEvent: {
+        ...state.addEvent,
+        inProgress: false,
+        success: true,
+        error: null,
+      },
+    });
+  })
 );
 
 export function scheduleReducer(

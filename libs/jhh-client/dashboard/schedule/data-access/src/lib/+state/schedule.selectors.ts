@@ -17,3 +17,18 @@ export const selectEvents = createSelector(
   selectAllEvents,
   (events: ScheduleEvent[]) => events
 );
+
+export const selectAddEventInProgress = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.addEvent.inProgress
+);
+
+export const selectAddEventError = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.addEvent.error
+);
+
+export const selectAddEventSuccess = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.addEvent.success!
+);

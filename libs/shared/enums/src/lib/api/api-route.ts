@@ -28,4 +28,6 @@ export enum ApiRoute {
   AddOffer = '/add-offer',
   EditOffer = '/edit-offer',
   RemoveOffers = '/remove-offers',
+  //
+  AddScheduleEvent = '/add-schedule-event',
 }
