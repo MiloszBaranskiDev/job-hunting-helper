@@ -55,4 +55,8 @@ export class ScheduleFacade {
       ScheduleActions.Type.AddEventFail
     );
   }
+
+  getEvent$ById(eventId: string): Observable<ScheduleEvent | undefined> {
+    return this.store.pipe(select(ScheduleSelectors.selectEventById, eventId));
+  }
 }

@@ -1,4 +1,5 @@
 <jhh-schedule-add></jhh-schedule-add>
+
 <jhh-schedule-view-date-toggle
   [view]="view"
   [(viewDate)]="viewDate"
@@ -10,8 +11,15 @@
   (viewChange)="setView($event)"
 >
 </jhh-schedule-view-toggle>
+
+<jhh-schedule-event-dialog
+  [clickedEventId$]="clickedEventId$"
+>
+</jhh-schedule-event-dialog>
+
 <jhh-schedule-calendar
   [events]="(events$ | async)!"
+  [clickedEventId$]="clickedEventId$"
   [view]="view"
   [viewDate]="viewDate"
   [isActiveDayOpen]="isActiveDayOpen"

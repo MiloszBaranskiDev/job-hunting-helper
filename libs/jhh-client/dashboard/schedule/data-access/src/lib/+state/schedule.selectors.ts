@@ -32,3 +32,9 @@ export const selectAddEventSuccess = createSelector(
   selectScheduleState,
   (state: ScheduleState) => state.addEvent.success!
 );
+
+export const selectEventById = createSelector(
+  selectAllEvents,
+  (events: ScheduleEvent[], id: string) =>
+    events.find((event) => event.id === id)
+);

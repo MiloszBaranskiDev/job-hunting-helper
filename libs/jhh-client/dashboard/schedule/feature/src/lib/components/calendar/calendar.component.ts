@@ -29,6 +29,7 @@ export class CalendarComponent {
     );
   }
 
+  @Input({ required: true }) clickedEventId$: Subject<string | null>;
   @Input({ required: true }) view: CalendarView;
   @Input({ required: true }) viewDate: Date;
   @Input({ required: true }) isActiveDayOpen: boolean;
@@ -84,11 +85,14 @@ export class CalendarComponent {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    console.log(action, event);
+    if (action === 'Clicked' && event.id) {
+      this.clickedEventId$.next(String(event.id));
+    }
   }
 
   private convertToCalendarEvent(event: ScheduleEvent): CalendarEvent {
     return {
+      id: event.id,
       start: new Date(event.start),
       end: new Date(event.end),
       title: event.title,
