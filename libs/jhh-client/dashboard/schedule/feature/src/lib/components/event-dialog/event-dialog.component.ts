@@ -15,6 +15,8 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
@@ -23,7 +25,7 @@ import { ScheduleEvent } from '@jhh/shared/interfaces';
 @Component({
   selector: 'jhh-schedule-event-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, MatTabsModule, MatIconModule],
   templateUrl: './event-dialog.component.html',
   styleUrls: ['./event-dialog.component.scss'],
 })

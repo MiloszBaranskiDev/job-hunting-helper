@@ -1,8 +1,51 @@
 <ng-container>
   <ng-template #dialogContent>
-    <h2 mat-dialog-title>{{event.title}}</h2>
+    <h2 mat-dialog-title>
+      <span [style.background-color]="event.color" class="circle"></span>
+      <span>
+        {{event.title}}
+      </span>
+    </h2>
     <mat-dialog-content>
-      mat-tab-group
+      <mat-tab-group>
+        <mat-tab class="tab">
+          <ng-template mat-tab-label>
+            <mat-icon class="button-icon">info</mat-icon>
+            Details
+          </ng-template>
+          <div class="tab__content">
+            <div class="dates">
+              <mat-icon>event</mat-icon>
+              <span>{{ event.start | date: 'dd.MM.yy HH:mm' }}</span>
+              <span>&nbsp;-&nbsp;</span>
+              <span>{{ event.end | date: 'dd.MM.yy HH:mm' }}</span>
+            </div>
+            <div class="description" *ngIf="event.description">
+              <p>{{event.description}}</p>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab class="tab">
+          <ng-template mat-tab-label>
+            <mat-icon class="button-icon">edit</mat-icon>
+            Edit
+          </ng-template>
+          <div class="tab__content">
+            Content 2
+          </div>
+        </mat-tab>
+
+        <mat-tab class="tab">
+          <ng-template mat-tab-label>
+            <mat-icon class="button-icon">close</mat-icon>
+            Remove
+          </ng-template>
+          <div class="tab__content">
+            Content 3
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </mat-dialog-content>
   </ng-template>
 </ng-container>

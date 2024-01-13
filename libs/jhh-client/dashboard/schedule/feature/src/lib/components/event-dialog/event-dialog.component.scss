@@ -1,0 +1,46 @@
+h2 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+
+  .circle {
+    $size: 12px;
+    width: $size;
+    height: $size;
+    border-radius: 100%;
+    display: block;
+    margin-right: 8px;
+  }
+}
+
+mat-tab-group {
+  width: 100%;
+
+  .button-icon {
+    margin-right: 6px;
+  }
+}
+
+.tab {
+  &__content {
+    margin-top: 16px;
+    white-space: pre-wrap;
+
+    .dates {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+
+      mat-icon {
+        margin-right: 6px;
+      }
+    }
+
+    .description {
+      white-space: pre-wrap;
+      font-size: 16px;
+    }
+  }
+}
