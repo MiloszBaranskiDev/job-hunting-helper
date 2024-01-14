@@ -33,6 +33,21 @@ export const selectAddEventSuccess = createSelector(
   (state: ScheduleState) => state.addEvent.success!
 );
 
+export const selectRemoveEventInProgress = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.removeEvent.inProgress
+);
+
+export const selectRemoveEventError = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.removeEvent.error
+);
+
+export const selectRemoveEventSuccess = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.removeEvent.success!
+);
+
 export const selectEventById = createSelector(
   selectAllEvents,
   (events: ScheduleEvent[], id: string) =>

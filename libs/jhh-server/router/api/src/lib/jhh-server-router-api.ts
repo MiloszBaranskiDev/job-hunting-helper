@@ -47,6 +47,7 @@ export function JhhServerRouterApi(): Router {
   router.delete(ApiRoute.RemoveOffers, offersController.removeOffers);
 
   router.post(ApiRoute.AddScheduleEvent, scheduleController.addEvent);
+  router.delete(ApiRoute.RemoveScheduleEvent, scheduleController.removeEvent);
 
   return router;
 }

@@ -42,7 +42,42 @@
             Remove
           </ng-template>
           <div class="tab__content">
-            Content 3
+            <div class="alert">
+              <mat-icon>error</mat-icon>
+              <p>
+                Are you sure you want to remove a event?
+                <br>
+                <strong>
+                  Type 'remove' to enable button.
+                </strong>
+              </p>
+            </div>
+            <div class="remove">
+              <mat-form-field appearance="fill">
+                <input
+                  type="text"
+                  matInput
+                  [(ngModel)]="removeConfirmationText"
+                  placeholder="Type 'remove' here to enable button"
+                />
+              </mat-form-field>
+              <button
+                mat-flat-button
+                color="warn"
+                (click)="handleRemove()"
+                [disabled]="(removeEventInProgress$ | async) || !isRemoveConfirmationValid()"
+              >
+                Remove
+              </button>
+            </div>
+            <div class="status" *ngIf="(removeEventInProgress$ | async) || (removeEventError$ | async)">
+              <mat-progress-spinner
+                *ngIf="removeEventInProgress$ | async"
+                mode="indeterminate"
+              >
+              </mat-progress-spinner>
+              <mat-error *ngIf="removeEventError$ | async as error">{{ error }}</mat-error>
+            </div>
           </div>
         </mat-tab>
       </mat-tab-group>

@@ -9,7 +9,10 @@ import * as ScheduleActions from './schedule.actions';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { ScheduleService } from '../services/schedule/schedule.service';
 
-import { AddEventSuccessPayload } from '@jhh/jhh-client/dashboard/schedule/domain';
+import {
+  AddEventSuccessPayload,
+  RemoveEventSuccessPayload,
+} from '@jhh/jhh-client/dashboard/schedule/domain';
 
 @Injectable()
 export class ScheduleEffects {
@@ -33,6 +36,26 @@ export class ScheduleEffects {
           ),
         onError: (action, error) =>
           ScheduleActions.addEvent({ payload: error }),
+      })
+    )
+  );
+
+  removeEvent$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ScheduleActions.removeEvent),
+      fetch({
+        run: (action) =>
+          this.scheduleService.removeEvent(action.payload).pipe(
+            mergeMap((res: RemoveEventSuccessPayload) => [
+              ScheduleActions.removeEventSuccess({ payload: res }),
+              ScheduleActions.resetRemoveEventSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Schedule event removed successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          ScheduleActions.removeEventFail({ payload: error }),
       })
     )
   );

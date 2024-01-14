@@ -15,6 +15,7 @@ export interface OperationState {
 
 export interface ScheduleState extends EntityState<ScheduleEvent> {
   addEvent: OperationState;
+  removeEvent: OperationState;
 }
 
 export const adapter: EntityAdapter<ScheduleEvent> =
@@ -22,6 +23,11 @@ export const adapter: EntityAdapter<ScheduleEvent> =
 
 export const initialScheduleState: ScheduleState = adapter.getInitialState({
   addEvent: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  removeEvent: {
     inProgress: false,
     error: null,
     success: false,
@@ -60,7 +66,41 @@ const reducer: ActionReducer<ScheduleState> = createReducer(
         error: null,
       },
     });
-  })
+  }),
+  on(ScheduleActions.removeEvent, (state) => ({
+    ...state,
+    removeEvent: {
+      ...state.removeEvent,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(ScheduleActions.removeEventFail, (state, { payload }) => ({
+    ...state,
+    removeEvent: {
+      ...state.removeEvent,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(ScheduleActions.removeEventSuccess, (state, { payload }) => {
+    return adapter.removeOne(payload.removedEvent.id, {
+      ...state,
+      removeEvent: {
+        ...state.removeEvent,
+        inProgress: false,
+        success: true,
+      },
+    });
+  }),
+  on(ScheduleActions.resetRemoveEventSuccess, (state) => ({
+    ...state,
+    removeEvent: {
+      ...state.removeEvent,
+      success: false,
+    },
+  }))
 );
 
 export function scheduleReducer(

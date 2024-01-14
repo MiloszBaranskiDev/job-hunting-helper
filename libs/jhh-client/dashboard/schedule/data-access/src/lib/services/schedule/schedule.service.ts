@@ -10,6 +10,9 @@ import {
   AddEventPayload,
   AddEventSuccessPayload,
   AddEventSuccessResponse,
+  RemoveEventPayload,
+  RemoveEventSuccessPayload,
+  RemoveEventSuccessResponse,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
 
 @Injectable({
@@ -34,5 +37,18 @@ export class ScheduleService {
         }
       )
       .pipe(map((res: AddEventSuccessResponse) => res.data));
+  }
+
+  removeEvent(
+    payload: RemoveEventPayload
+  ): Observable<RemoveEventSuccessPayload> {
+    return this.http
+      .delete<RemoveEventSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.RemoveScheduleEvent,
+        {
+          params: { eventId: payload.eventId },
+        }
+      )
+      .pipe(map((res: RemoveEventSuccessResponse) => res.data));
   }
 }

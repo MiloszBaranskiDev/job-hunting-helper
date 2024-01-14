@@ -34,6 +34,18 @@ export class ScheduleFacade {
     select(ScheduleSelectors.selectAddEventSuccess)
   );
 
+  removeEventInProgress$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectRemoveEventInProgress)
+  );
+
+  removeEventError$: Observable<string | null> = this.store.pipe(
+    select(ScheduleSelectors.selectRemoveEventError)
+  );
+
+  removeEventSuccess$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectRemoveEventSuccess)
+  );
+
   addEvent(
     start: Date,
     end: Date,
@@ -53,6 +65,16 @@ export class ScheduleFacade {
       }),
       ScheduleActions.Type.AddEventSuccess,
       ScheduleActions.Type.AddEventFail
+    );
+  }
+
+  removeEvent(eventId: string) {
+    return this.actionResolverService.executeAndWatch(
+      ScheduleActions.removeEvent({
+        payload: { eventId: eventId },
+      }),
+      ScheduleActions.Type.RemoveEventSuccess,
+      ScheduleActions.Type.RemoveEventFail
     );
   }
 

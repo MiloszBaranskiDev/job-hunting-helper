@@ -42,5 +42,25 @@ mat-tab-group {
       white-space: pre-wrap;
       font-size: 16px;
     }
+
+    .remove {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      mat-form-field {
+        margin-bottom: 0;
+      }
+
+      button {
+        flex-shrink: 0;
+      }
+    }
+
+    .status {
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+    }
   }
 }
