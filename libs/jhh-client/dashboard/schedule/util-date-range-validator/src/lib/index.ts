@@ -12,8 +12,12 @@ export function DateRangeValidator(
       return null;
     }
 
-    const start = startControl.value;
-    const end = endControl.value;
+    const start: Date = new Date(startControl.value);
+    const end: Date = new Date(endControl.value);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return { invalidDateRange: true };
+    }
 
     if (start && end && end < start) {
       endControl.setErrors({ invalidDateRange: true });

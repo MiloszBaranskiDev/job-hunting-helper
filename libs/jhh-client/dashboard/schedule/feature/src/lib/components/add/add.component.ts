@@ -72,13 +72,13 @@ export class AddComponent implements OnInit {
   addEventError$: Observable<string | null>;
   addEventSuccess$: Observable<boolean>;
 
+  formGroup: FormGroup;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof EventField = EventField;
   readonly fieldsLength: typeof EventFieldsLength = EventFieldsLength;
   readonly formErrorKey: typeof EventFormErrorKey = EventFormErrorKey;
   readonly defaultColor: typeof EventDefaultColor = EventDefaultColor;
   readonly defaultColorsValue: string[] = Object.values(this.defaultColor);
-  formGroup: FormGroup;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.addEventInProgress$ = this.scheduleFacade.addEventInProgress$;

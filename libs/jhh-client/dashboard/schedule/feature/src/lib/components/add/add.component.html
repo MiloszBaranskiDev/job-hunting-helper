@@ -7,7 +7,7 @@
     <mat-dialog-content>
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
-        <div class="dates">
+        <div class="formDates">
           <div class="date">
             <mat-label>Start Date</mat-label>
             <input
@@ -64,7 +64,7 @@
           </mat-error>
         </mat-form-field>
 
-        <div class="colorsRow">
+        <div class="formColorsRow">
           <mat-form-field class="fieldColor" appearance="fill">
             <mat-label>Color</mat-label>
             <input type="color" matInput [formControlName]="formField.Color" required/>

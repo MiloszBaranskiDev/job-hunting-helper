@@ -11,6 +11,7 @@ import { ScheduleService } from '../services/schedule/schedule.service';
 
 import {
   AddEventSuccessPayload,
+  EditEventSuccessPayload,
   RemoveEventSuccessPayload,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
 
@@ -36,6 +37,26 @@ export class ScheduleEffects {
           ),
         onError: (action, error) =>
           ScheduleActions.addEvent({ payload: error }),
+      })
+    )
+  );
+
+  editEvent$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ScheduleActions.editEvent),
+      fetch({
+        run: (action) =>
+          this.scheduleService.editEvent(action.payload).pipe(
+            mergeMap((res: EditEventSuccessPayload) => [
+              ScheduleActions.editEventSuccess({ payload: res }),
+              ScheduleActions.resetEditEventSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Schedule event edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          ScheduleActions.editEventFail({ payload: error }),
       })
     )
   );

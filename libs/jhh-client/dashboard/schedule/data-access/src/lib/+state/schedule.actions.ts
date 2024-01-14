@@ -5,6 +5,8 @@ import { ScheduleEvent } from '@jhh/shared/interfaces';
 import {
   AddEventPayload,
   AddEventSuccessPayload,
+  EditEventPayload,
+  EditEventSuccessPayload,
   RemoveEventPayload,
   RemoveEventSuccessPayload,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
@@ -15,6 +17,10 @@ export enum Type {
   AddEventFail = '[Schedule] Add Event Fail',
   AddEventSuccess = '[Schedule] Add Event Success',
   ResetAddEventSuccess = '[Schedule] Reset Add Event Success',
+  EditEvent = '[Schedule] Edit Event',
+  EditEventFail = '[Schedule] Edit Event Fail',
+  EditEventSuccess = '[Schedule] Edit Event Success',
+  ResetEditEventSuccess = '[Schedule] Reset Edit Event Success',
   RemoveEvent = '[Schedule] Remove Event',
   RemoveEventFail = '[Schedule] Remove Event Fail',
   RemoveEventSuccess = '[Schedule] Remove Event Success',
@@ -42,6 +48,23 @@ export const addEventSuccess = createAction(
 );
 
 export const resetAddEventSuccess = createAction(Type.ResetAddEventSuccess);
+
+export const editEvent = createAction(
+  Type.EditEvent,
+  props<{ payload: EditEventPayload }>()
+);
+
+export const editEventFail = createAction(
+  Type.EditEventFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const editEventSuccess = createAction(
+  Type.EditEventSuccess,
+  props<{ payload: EditEventSuccessPayload }>()
+);
+
+export const resetEditEventSuccess = createAction(Type.ResetEditEventSuccess);
 
 export const removeEvent = createAction(
   Type.RemoveEvent,

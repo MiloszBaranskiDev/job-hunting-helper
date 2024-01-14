@@ -10,6 +10,9 @@ import {
   AddEventPayload,
   AddEventSuccessPayload,
   AddEventSuccessResponse,
+  EditEventPayload,
+  EditEventSuccessPayload,
+  EditEventSuccessResponse,
   RemoveEventPayload,
   RemoveEventSuccessPayload,
   RemoveEventSuccessResponse,
@@ -23,6 +26,22 @@ export class ScheduleService {
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
+
+  editEvent(payload: EditEventPayload): Observable<EditEventSuccessPayload> {
+    return this.http
+      .put<EditEventSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.EditScheduleEvent,
+        {
+          eventId: payload.eventId,
+          start: payload.start,
+          end: payload.end,
+          title: payload.title,
+          color: payload.color,
+          description: payload.description,
+        }
+      )
+      .pipe(map((res: EditEventSuccessResponse) => res.data));
+  }
 
   addEvent(payload: AddEventPayload): Observable<AddEventSuccessPayload> {
     return this.http

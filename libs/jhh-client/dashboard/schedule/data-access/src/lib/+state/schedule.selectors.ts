@@ -33,6 +33,21 @@ export const selectAddEventSuccess = createSelector(
   (state: ScheduleState) => state.addEvent.success!
 );
 
+export const selectEditEventInProgress = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.editEvent.inProgress
+);
+
+export const selectEditEventError = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.editEvent.error
+);
+
+export const selectEditEventSuccess = createSelector(
+  selectScheduleState,
+  (state: ScheduleState) => state.editEvent.success!
+);
+
 export const selectRemoveEventInProgress = createSelector(
   selectScheduleState,
   (state: ScheduleState) => state.removeEvent.inProgress

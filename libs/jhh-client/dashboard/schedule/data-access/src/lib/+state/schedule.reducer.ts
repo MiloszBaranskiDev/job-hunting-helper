@@ -15,6 +15,7 @@ export interface OperationState {
 
 export interface ScheduleState extends EntityState<ScheduleEvent> {
   addEvent: OperationState;
+  editEvent: OperationState;
   removeEvent: OperationState;
 }
 
@@ -23,6 +24,11 @@ export const adapter: EntityAdapter<ScheduleEvent> =
 
 export const initialScheduleState: ScheduleState = adapter.getInitialState({
   addEvent: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  editEvent: {
     inProgress: false,
     error: null,
     success: false,
@@ -67,6 +73,38 @@ const reducer: ActionReducer<ScheduleState> = createReducer(
       },
     });
   }),
+  on(ScheduleActions.editEvent, (state) => ({
+    ...state,
+    editEvent: {
+      ...state.editEvent,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(ScheduleActions.editEventFail, (state, { payload }) => ({
+    ...state,
+    editEvent: {
+      ...state.editEvent,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(ScheduleActions.editEventSuccess, (state, { payload }) => ({
+    ...adapter.upsertOne(payload.editedEvent, state),
+    editEvent: {
+      ...state.editEvent,
+      inProgress: false,
+      success: true,
+    },
+  })),
+  on(ScheduleActions.resetEditEventSuccess, (state) => ({
+    ...state,
+    editEvent: {
+      ...state.editEvent,
+      success: false,
+    },
+  })),
   on(ScheduleActions.removeEvent, (state) => ({
     ...state,
     removeEvent: {

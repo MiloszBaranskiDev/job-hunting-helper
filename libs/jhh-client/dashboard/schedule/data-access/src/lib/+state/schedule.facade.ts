@@ -34,6 +34,18 @@ export class ScheduleFacade {
     select(ScheduleSelectors.selectAddEventSuccess)
   );
 
+  editEventInProgress$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectEditEventInProgress)
+  );
+
+  editEventError$: Observable<string | null> = this.store.pipe(
+    select(ScheduleSelectors.selectEditEventError)
+  );
+
+  editEventSuccess$: Observable<boolean> = this.store.pipe(
+    select(ScheduleSelectors.selectEditEventSuccess)
+  );
+
   removeEventInProgress$: Observable<boolean> = this.store.pipe(
     select(ScheduleSelectors.selectRemoveEventInProgress)
   );
@@ -65,6 +77,30 @@ export class ScheduleFacade {
       }),
       ScheduleActions.Type.AddEventSuccess,
       ScheduleActions.Type.AddEventFail
+    );
+  }
+
+  editEvent(
+    eventId: string,
+    start: Date,
+    end: Date,
+    title: string,
+    color: string,
+    description: string | undefined
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      ScheduleActions.editEvent({
+        payload: {
+          eventId: eventId,
+          start: start,
+          end: end,
+          title: title,
+          color: color,
+          description: description,
+        },
+      }),
+      ScheduleActions.Type.EditEventSuccess,
+      ScheduleActions.Type.EditEventFail
     );
   }
 
