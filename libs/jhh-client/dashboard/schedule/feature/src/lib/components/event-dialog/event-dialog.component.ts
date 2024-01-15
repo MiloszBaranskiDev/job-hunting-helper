@@ -224,7 +224,7 @@ export class EventDialogComponent implements OnInit {
   }
 
   private clearForm(): void {
-    this.formGroup.reset({
+    this.formGroup?.reset({
       [this.formField.Start]: this.event.start,
       [this.formField.End]: this.event.end,
       [this.formField.Title]: this.event.title,

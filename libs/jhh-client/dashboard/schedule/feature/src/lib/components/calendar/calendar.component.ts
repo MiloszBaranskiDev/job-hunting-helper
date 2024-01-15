@@ -1,15 +1,31 @@
 import {
   Component,
+  DestroyRef,
   EventEmitter,
+  inject,
   Input,
+  OnInit,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
-import { CalendarEvent, CalendarModule, CalendarView } from 'angular-calendar';
+import { Observable, Subject, tap } from 'rxjs';
+import {
+  CalendarEvent,
+  CalendarEventTimesChangedEvent,
+  CalendarModule,
+  CalendarView,
+} from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
+
+import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
 import { ScheduleEvent } from '@jhh/shared/interfaces';
 
@@ -20,7 +36,11 @@ import { ScheduleEvent } from '@jhh/shared/interfaces';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly scheduleFacade: ScheduleFacade = inject(ScheduleFacade);
+
   @Input({ required: true }) set events(value: ScheduleEvent[]) {
     this._events = value;
     this.refresh.next();
@@ -37,15 +57,21 @@ export class CalendarComponent {
     new EventEmitter<boolean>();
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  protected readonly CalendarView = CalendarView;
+  editEventInProgress$: Observable<boolean>;
+  editEventError$: Observable<string | null>;
+  editEventSuccess$: Observable<boolean>;
+
+  readonly CalendarView = CalendarView;
 
   private _events: ScheduleEvent[];
   calendarEvents: CalendarEvent[];
   refresh: Subject<void> = new Subject<void>();
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
+
+  ngOnInit(): void {
+    this.editEventInProgress$ = this.scheduleFacade.editEventInProgress$;
+    this.editEventError$ = this.scheduleFacade.editEventError$;
+    this.editEventSuccess$ = this.scheduleFacade.editEventSuccess$;
+  }
 
   get events(): ScheduleEvent[] {
     return this._events;
@@ -65,29 +91,69 @@ export class CalendarComponent {
     }
   }
 
-  // eventTimesChanged({
-  //   event,
-  //   newStart,
-  //   newEnd,
-  // }: CalendarEventTimesChangedEvent): void {
-  //   this.events = this.events.map((iEvent) => {
-  //     if (iEvent === event) {
-  //       return {
-  //         ...event,
-  //         start: newStart,
-  //         end: newEnd,
-  //       };
-  //     }
-  //     return iEvent;
-  //   });
-  //   this.handleEvent('Dropped or resized', event);
-  // }
+  handleTimesChange({
+    event,
+    newStart,
+    newEnd,
+  }: CalendarEventTimesChangedEvent): void {
+    const calendarEvent: CalendarEvent = this.calendarEvents.find(
+      (cEvent) => cEvent.id === event.id
+    )!;
+    const eventToSave: ScheduleEvent = this._events.find(
+      (ev) => ev.id === event.id
+    )!;
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    if (action === 'Clicked' && event.id) {
-      this.clickedEventId$.next(String(event.id));
-    }
+    calendarEvent.start = newStart;
+    calendarEvent.end = newEnd;
+
+    this.refresh.next();
+
+    const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> = this.snackBar.open(
+      'Saving data...',
+      'Close'
+    );
+
+    this.scheduleFacade.editEvent(
+      eventToSave.id,
+      newStart,
+      newEnd!,
+      eventToSave.title,
+      eventToSave.color,
+      eventToSave.description
+    );
+
+    this.editEventSuccess$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            savingSnackBar.dismiss();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.editEventError$
+      .pipe(
+        tap((val) => {
+          if (val) {
+            savingSnackBar.dismiss();
+            this.snackBar.open(
+              'Something went wrong with saving data.',
+              'Close',
+              {
+                duration: 7000,
+              }
+            );
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  handleClick(action: string, event: CalendarEvent): void {
+    this.clickedEventId$.next(String(event.id));
   }
 
   private convertToCalendarEvent(event: ScheduleEvent): CalendarEvent {
