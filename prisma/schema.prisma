@@ -17,12 +17,13 @@ model User {
   username String @unique
   password String
 
-  notesGroups  NotesGroup[]
-  boardColumns BoardColumn[]
+  notesGroups   NotesGroup[]
+  boardColumns  BoardColumn[]
+  Offer         Offer[]
+  ScheduleEvent ScheduleEvent[]
 
   unsavedBoardRequestId String
-  Offer                 Offer[]
-  ScheduleEvent         ScheduleEvent[]
+  Quiz                  Quiz[]
 }
 
 model NotesGroup {
@@ -131,4 +132,33 @@ model ScheduleEvent {
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Quiz {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  slug        String
+  description String?
+  imageUrl    String?
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  items QuizItem[]
+
+  @@unique([name, userId], name: "name_userId_idx")
+  @@unique([slug, userId], name: "slug_userId_idx")
+}
+
+type QuizItem {
+  question String
+  answers  QuizItemAnswer[]
+}
+
+type QuizItemAnswer {
+  isCorrect Boolean
+  text      String
 }
