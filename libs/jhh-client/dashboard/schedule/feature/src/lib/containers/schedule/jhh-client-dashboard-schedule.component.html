@@ -1,21 +1,26 @@
-<jhh-schedule-add></jhh-schedule-add>
-
-<jhh-schedule-view-date-toggle
-  [view]="view"
-  [(viewDate)]="viewDate"
-  (toggleIsActiveDayOpen)="toggleIsActiveDayOpen($event)"
->
-</jhh-schedule-view-date-toggle>
-<jhh-schedule-view-toggle
-  [view]="view"
-  (viewChange)="setView($event)"
->
-</jhh-schedule-view-toggle>
-
-<jhh-schedule-event-dialog
-  [clickedEventId$]="clickedEventId$"
->
-</jhh-schedule-event-dialog>
+<div [ngClass]="['topContainer', breakpoint$ | async]">
+  <jhh-schedule-add></jhh-schedule-add>
+  <jhh-schedule-view-date-toggle
+    [view]="view"
+    [(viewDate)]="viewDate"
+    (toggleIsActiveDayOpen)="toggleIsActiveDayOpen($event)"
+  >
+  </jhh-schedule-view-date-toggle>
+  <jhh-schedule-view-date
+    [view]="view"
+    [viewDate]="viewDate"
+  >
+  </jhh-schedule-view-date>
+  <jhh-schedule-view-toggle
+    [view]="view"
+    (viewChange)="setView($event)"
+  >
+  </jhh-schedule-view-toggle>
+  <jhh-schedule-event-dialog
+    [clickedEventId$]="clickedEventId$"
+  >
+  </jhh-schedule-event-dialog>
+</div>
 
 <jhh-schedule-calendar
   [events]="(events$ | async)!"

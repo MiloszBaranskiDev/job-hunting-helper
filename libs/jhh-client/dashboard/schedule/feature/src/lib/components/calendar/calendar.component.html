@@ -1,7 +1,3 @@
-<div>
-  <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-</div>
-
 <div [ngClass]="{'isSaving': (editEventInProgress$ | async)}">
   <div [ngSwitch]="view">
     <mwl-calendar-month-view

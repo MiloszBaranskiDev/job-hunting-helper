@@ -10,6 +10,9 @@ import { ViewToggleComponent } from '../../components/view-toggle/view-toggle.co
 import { ViewDateToggleComponent } from '../../components/view-date-toggle/view-date-toggle.component';
 import { AddComponent } from '../../components/add/add.component';
 import { EventDialogComponent } from '../../components/event-dialog/event-dialog.component';
+import { ViewDateComponent } from '../../components/view-date/view-date.component';
+
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { ScheduleEvent } from '@jhh/shared/interfaces';
 
@@ -23,15 +26,19 @@ import { ScheduleEvent } from '@jhh/shared/interfaces';
     ViewDateToggleComponent,
     AddComponent,
     EventDialogComponent,
+    ViewDateComponent,
   ],
   templateUrl: './jhh-client-dashboard-schedule.component.html',
   styleUrls: ['./jhh-client-dashboard-schedule.component.scss'],
 })
 export class JhhClientDashboardScheduleComponent implements OnInit {
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly scheduleFacade: ScheduleFacade = inject(ScheduleFacade);
 
   events$: Observable<ScheduleEvent[]>;
   clickedEventId$: Subject<string | null> = new Subject<string | null>();
+  breakpoint$: Observable<string>;
 
   view: CalendarView = CalendarView.Month;
   isActiveDayOpen: boolean = true;
@@ -39,6 +46,7 @@ export class JhhClientDashboardScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.events$ = this.scheduleFacade.events$;
+    this.breakpoint$ = this.breakpointService.breakpoint$;
   }
 
   setView(view: CalendarView): void {

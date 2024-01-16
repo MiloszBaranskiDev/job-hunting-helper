@@ -1,0 +1,14 @@
+.topContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+
+  &.tablet,
+  &.desktop {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+}
