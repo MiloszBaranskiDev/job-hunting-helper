@@ -37,6 +37,7 @@ import { JhhClientDashboardNotesShellRoutes } from '@jhh/jhh-client/dashboard/no
 import { JhhClientDashboardBoardShellRoutes } from '@jhh/jhh-client/dashboard/board/shell';
 import { JhhClientDashboardOffersShellRoutes } from '@jhh/jhh-client/dashboard/offers/shell';
 import { JhhClientDashboardScheduleShellRoutes } from '@jhh/jhh-client/dashboard/schedule/shell';
+import { JhhClientDashboardPracticeShellRoutes } from '@jhh/jhh-client/dashboard/practice/shell';
 
 export const JhhClientDashboardShellRoutes: Route = {
   path: ClientRoute.Home,
@@ -60,5 +61,6 @@ export const JhhClientDashboardShellRoutes: Route = {
     JhhClientDashboardBoardShellRoutes,
     JhhClientDashboardOffersShellRoutes,
     JhhClientDashboardScheduleShellRoutes,
+    JhhClientDashboardPracticeShellRoutes,
   ],
 };

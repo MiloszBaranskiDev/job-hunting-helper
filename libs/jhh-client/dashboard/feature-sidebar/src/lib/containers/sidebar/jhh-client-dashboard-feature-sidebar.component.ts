@@ -45,6 +45,7 @@ export class JhhClientDashboardFeatureSidebarComponent implements OnInit {
     { icon: 'work', text: 'Offers', route: ClientRoute.OffersLink },
     { icon: 'event', text: 'Schedule', route: ClientRoute.ScheduleLink },
     { icon: 'view_column', text: 'Board', route: ClientRoute.BoardLink },
+    { icon: 'school', text: 'Practice', route: ClientRoute.PracticeLink },
     { icon: 'note_add', text: 'Notes', route: ClientRoute.NotesLink },
   ];
 

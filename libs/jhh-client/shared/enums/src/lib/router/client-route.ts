@@ -18,4 +18,7 @@ export enum ClientRoute {
   //
   Schedule = 'schedule',
   ScheduleLink = '/dashboard/schedule',
+  //
+  Practice = 'practice',
+  PracticeLink = '/dashboard/practice',
 }
