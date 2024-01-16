@@ -1,4 +1,4 @@
-import { Offer, PrismaClient, ScheduleEvent } from '@prisma/client';
+import { Offer, PrismaClient, Quiz, ScheduleEvent } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -63,12 +63,19 @@ export function JhhServerControllerDashboard() {
           },
         });
 
+      const practiceQuizzes: Quiz[] = await prisma.quiz.findMany({
+        where: {
+          userId: userId,
+        },
+      });
+
       res.status(HttpStatusCode.OK).json({
         data: {
           notesGroups,
           boardColumns,
           offers,
           scheduleEvents,
+          practiceQuizzes,
           unsavedBoardRequestId,
         },
       });

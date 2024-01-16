@@ -5,6 +5,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 import defaultNotesGroups from '../../default-data/notes-groups';
 import defaultBoardColumns from '../../default-data/board-columns';
 import defaultOffers from '../../default-data/offers';
+import defaultPracticeQuizzes from '../../default-data/practice-quizzes';
 import getDefaultScheduleEvents from '../../default-data/schedule-events';
 
 const assignDefaultData = async (userId: string): Promise<void> => {
@@ -83,6 +84,20 @@ const assignDefaultData = async (userId: string): Promise<void> => {
         createdAt: today,
         updatedAt: today,
         ...event,
+        userId: userId,
+      },
+    } as any);
+  }
+
+  for (
+    let quizIndex: number = 0;
+    quizIndex < defaultPracticeQuizzes.length;
+    quizIndex++
+  ) {
+    const quiz = defaultPracticeQuizzes[quizIndex];
+    await prisma.quiz.create({
+      data: {
+        ...quiz,
         userId: userId,
       },
     } as any);
