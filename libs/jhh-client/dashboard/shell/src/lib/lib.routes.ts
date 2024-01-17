@@ -30,6 +30,10 @@ import {
   SCHEDULE_STATE_KEY,
   scheduleReducer,
 } from '@jhh/jhh-client/dashboard/schedule/data-access';
+import {
+  PRACTICE_STATE_KEY,
+  practiceReducer,
+} from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/enums';
 
@@ -49,6 +53,7 @@ export const JhhClientDashboardShellRoutes: Route = {
     provideState(BOARD_STATE_KEY, boardReducer),
     provideState(OFFERS_STATE_KEY, offersReducer),
     provideState(SCHEDULE_STATE_KEY, scheduleReducer),
+    provideState(PRACTICE_STATE_KEY, practiceReducer),
     provideEffects(DashboardEffects),
     AuthFeatureFacade,
     AuthPublicFacade,

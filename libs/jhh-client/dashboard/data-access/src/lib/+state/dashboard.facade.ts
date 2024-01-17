@@ -12,6 +12,7 @@ import { setScheduleEvents } from '@jhh/jhh-client/dashboard/schedule/data-acces
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
 import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
+import { setPracticeQuizzes } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 @Injectable()
 export class DashboardFacade {
@@ -46,6 +47,9 @@ export class DashboardFacade {
     this.store.dispatch(setOffers({ offers: data.payload.offers }));
     this.store.dispatch(
       setScheduleEvents({ events: data.payload.scheduleEvents })
+    );
+    this.store.dispatch(
+      setPracticeQuizzes({ quizzes: data.payload.practiceQuizzes })
     );
   }
 }
