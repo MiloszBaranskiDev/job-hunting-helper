@@ -1,0 +1,17 @@
+<ul [ngClass]="breakpoint$ | async">
+  <li *ngFor="let quiz of quizzes; let i = index">
+    <a [routerLink]="'./' + quiz.slug"
+       [ngClass]="i % 2 === 0 ? 'cornerDecoration--rightLeft' : 'cornerDecoration--leftRight'"
+       class="quizCard cornerDecoration">
+      <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
+      <header>
+        <h2>
+          {{quiz.name}}
+        </h2>
+        <p *ngIf="quiz.description">
+          {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
+        </p>
+      </header>
+    </a>
+  </li>
+</ul>

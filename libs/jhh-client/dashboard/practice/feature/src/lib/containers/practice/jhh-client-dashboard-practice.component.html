@@ -1,1 +1,9 @@
-<p>jhh-client-dashboard-practice works!</p>
+<ng-container *ngIf="quizzes$ | async as quizzes">
+  <ng-container *ngIf="quizzes.length > 0; else emptyList">
+    <jhh-practice-quizzes-list [quizzes]="quizzes"></jhh-practice-quizzes-list>
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyList>
+  <p>No quizzes found</p>
+</ng-template>

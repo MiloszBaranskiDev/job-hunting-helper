@@ -1,0 +1,40 @@
+ul {
+  display: grid;
+  gap: 24px;
+
+  &.tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &.desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .quizCard {
+    background-color: var(--color__bg--darker);
+    display: block;
+    height: 100%;
+    border-radius: var(--radius__base);
+    color: inherit;
+    padding: 20px;
+
+    &:hover {
+      background-color: var(--color__primary);
+
+      * {
+        color: white;
+      }
+    }
+
+    img {
+      height: 120px;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+      background-color: var(--color__bg--darker);
+      border-radius: var(--radius__base);
+      padding: 12px 20px;
+      margin-bottom: 6px;
+    }
+  }
+}
