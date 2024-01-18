@@ -20,4 +20,8 @@ export class PracticeFacade {
   quizzes$: Observable<Quiz[]> = this.store.pipe(
     select(PracticeSelectors.selectQuizzes)
   );
+
+  getQuiz$BySlug(slug: string): Observable<Quiz | undefined> {
+    return this.store.pipe(select(PracticeSelectors.selectQuizBySlug, slug));
+  }
 }

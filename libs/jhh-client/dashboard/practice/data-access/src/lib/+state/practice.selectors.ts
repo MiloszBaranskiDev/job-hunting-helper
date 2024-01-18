@@ -18,3 +18,8 @@ export const selectQuizzes = createSelector(
   selectAllQuizzes,
   (quizzes: Quiz[]) => quizzes
 );
+
+export const selectQuizBySlug = createSelector(
+  selectAllQuizzes,
+  (quizzes: Quiz[], slug: string) => quizzes.find((quiz) => quiz.slug === slug)
+);

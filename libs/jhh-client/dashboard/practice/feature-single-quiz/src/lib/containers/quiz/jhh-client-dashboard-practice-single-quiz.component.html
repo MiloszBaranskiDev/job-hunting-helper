@@ -1,0 +1,16 @@
+<div *ngIf="quiz$ | async as quiz">
+  <div [ngClass]="['columns', breakpoint$ | async]">
+    <div class="left">
+      <jhh-practice-quiz-details
+        [name]="quiz.name"
+        [description]="quiz.description"
+        [imageUrl]="quiz.imageUrl"
+      >
+      </jhh-practice-quiz-details>
+      <jhh-practice-quiz-controls [quizId]="quiz.id"></jhh-practice-quiz-controls>
+    </div>
+    <div class="right">
+      <jhh-practice-quiz-questions [questions]="quiz.items"></jhh-practice-quiz-questions>
+    </div>
+  </div>
+</div>

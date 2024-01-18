@@ -31,6 +31,14 @@ export const JhhClientDashboardPracticeShellRoutes: Route = {
               (c) => c.JhhClientDashboardPracticeComponent
             ),
         },
+        {
+          path: ':quizSlug',
+          title: 'Quiz',
+          loadComponent: () =>
+            import(
+              '@jhh/jhh-client/dashboard/practice/feature-single-quiz'
+            ).then((c) => c.JhhClientDashboardPracticeSingleQuizComponent),
+        },
       ],
     },
   ],

@@ -1,0 +1,14 @@
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  .play {
+    flex-grow: 1;
+
+    mat-icon {
+      color: white !important;
+    }
+  }
+}
