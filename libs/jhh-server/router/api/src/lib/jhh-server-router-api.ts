@@ -7,6 +7,7 @@ import { JhhServerControllerNotes } from '@jhh/jhh-server/controller/notes';
 import { JhhServerControllerBoard } from '@jhh/jhh-server/controller/board';
 import { JhhServerControllerOffers } from '@jhh/jhh-server/controller/offers';
 import { JhhServerControllerSchedule } from '@jhh/jhh-server/controller/schedule';
+import { JhhServerControllerPractice } from '@jhh/jhh-server/controller/practice';
 
 export function JhhServerRouterApi(): Router {
   const router: Router = Router();
@@ -16,6 +17,7 @@ export function JhhServerRouterApi(): Router {
   const boardController = JhhServerControllerBoard();
   const offersController = JhhServerControllerOffers();
   const scheduleController = JhhServerControllerSchedule();
+  const practiceControler = JhhServerControllerPractice();
 
   router.get(ApiRoute.Test, (req, res) => {
     res.send('Hello World!');
@@ -49,6 +51,8 @@ export function JhhServerRouterApi(): Router {
   router.post(ApiRoute.AddScheduleEvent, scheduleController.addEvent);
   router.put(ApiRoute.EditScheduleEvent, scheduleController.editEvent);
   router.delete(ApiRoute.RemoveScheduleEvent, scheduleController.removeEvent);
+
+  router.delete(ApiRoute.RemovePracticeQuiz, practiceControler.removeQuiz);
 
   return router;
 }

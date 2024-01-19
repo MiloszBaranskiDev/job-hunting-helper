@@ -13,6 +13,7 @@ import { Quiz } from '@jhh/shared/interfaces';
 import { QuestionsComponent } from '../../components/questions/questions.component';
 import { DetailsComponent } from '../../components/details/details.component';
 import { ControlsComponent } from '../../components/controls/controls.component';
+import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 @Component({
   selector: 'jhh-practice-quiz',
@@ -22,6 +23,7 @@ import { ControlsComponent } from '../../components/controls/controls.component'
     QuestionsComponent,
     DetailsComponent,
     ControlsComponent,
+    JhhClientDashboardRemovePracticeQuizComponent,
   ],
   templateUrl: './jhh-client-dashboard-practice-single-quiz.component.html',
   styleUrls: ['./jhh-client-dashboard-practice-single-quiz.component.scss'],

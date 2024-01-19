@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Quiz } from '@jhh/shared/interfaces';
 
 import * as PracticeSelectors from './practice.selectors';
+import * as PracticeActions from './practice.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
@@ -20,6 +21,28 @@ export class PracticeFacade {
   quizzes$: Observable<Quiz[]> = this.store.pipe(
     select(PracticeSelectors.selectQuizzes)
   );
+
+  removeQuizInProgress$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectRemoveQuizInProgress)
+  );
+
+  removeQuizError$: Observable<string | null> = this.store.pipe(
+    select(PracticeSelectors.selectRemoveQuizError)
+  );
+
+  removeQuizSuccess$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectRemoveQuizSuccess)
+  );
+
+  removeQuiz(quizId: string) {
+    return this.actionResolverService.executeAndWatch(
+      PracticeActions.removeQuiz({
+        payload: { quizId: quizId },
+      }),
+      PracticeActions.Type.RemoveQuizSuccess,
+      PracticeActions.Type.RemoveQuizFail
+    );
+  }
 
   getQuiz$BySlug(slug: string): Observable<Quiz | undefined> {
     return this.store.pipe(select(PracticeSelectors.selectQuizBySlug, slug));

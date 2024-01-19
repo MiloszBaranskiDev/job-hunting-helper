@@ -14,13 +14,13 @@ export interface OperationState {
 }
 
 export interface PracticeState extends EntityState<Quiz> {
-  addQuiz: OperationState;
+  removeQuiz: OperationState;
 }
 
 export const adapter: EntityAdapter<Quiz> = createEntityAdapter<Quiz>();
 
 export const initialPracticeState: PracticeState = adapter.getInitialState({
-  addQuiz: {
+  removeQuiz: {
     inProgress: false,
     error: null,
     success: false,
@@ -31,7 +31,41 @@ const reducer: ActionReducer<PracticeState> = createReducer(
   initialPracticeState,
   on(PracticeActions.setPracticeQuizzes, (state, { quizzes }) =>
     adapter.setAll(quizzes, state)
-  )
+  ),
+  on(PracticeActions.removeQuiz, (state) => ({
+    ...state,
+    removeQuiz: {
+      ...state.removeQuiz,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(PracticeActions.removeQuizFail, (state, { payload }) => ({
+    ...state,
+    removeQuiz: {
+      ...state.removeQuiz,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(PracticeActions.removeQuizSuccess, (state, { payload }) => {
+    return adapter.removeOne(payload.removedQuiz.id, {
+      ...state,
+      removeQuiz: {
+        ...state.removeQuiz,
+        inProgress: false,
+        success: true,
+      },
+    });
+  }),
+  on(PracticeActions.resetRemoveQuizSuccess, (state) => ({
+    ...state,
+    removeQuiz: {
+      ...state.removeQuiz,
+      success: false,
+    },
+  }))
 );
 
 export function practiceReducer(

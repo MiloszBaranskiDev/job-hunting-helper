@@ -147,8 +147,14 @@
       "@jhh/jhh-client/dashboard/practice/data-access": [
         "libs/jhh-client/dashboard/practice/data-access/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/practice/domain": [
+        "libs/jhh-client/dashboard/practice/domain/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/practice/feature": [
         "libs/jhh-client/dashboard/practice/feature/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/practice/feature-remove-quiz": [
+        "libs/jhh-client/dashboard/practice/feature-remove-quiz/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/practice/feature-single-quiz": [
         "libs/jhh-client/dashboard/practice/feature-single-quiz/src/index.ts"
@@ -225,6 +231,9 @@
       ],
       "@jhh/jhh-server/controller/offers": [
         "libs/jhh-server/controller/offers/src/index.ts"
+      ],
+      "@jhh/jhh-server/controller/practice": [
+        "libs/jhh-server/controller/practice/src/index.ts"
       ],
       "@jhh/jhh-server/controller/schedule": [
         "libs/jhh-server/controller/schedule/src/index.ts"

@@ -8,10 +8,10 @@ export const selectPracticeState =
   createFeatureSelector<PracticeState>(PRACTICE_STATE_KEY);
 
 export const {
-  selectIds: selectEventsIds,
+  selectIds: selectQuizzesIds,
   selectEntities: selectColumnEntities,
   selectAll: selectAllQuizzes,
-  selectTotal: selectTotalEvents,
+  selectTotal: selectTotalQuizzes,
 } = adapter.getSelectors(selectPracticeState);
 
 export const selectQuizzes = createSelector(
@@ -22,4 +22,19 @@ export const selectQuizzes = createSelector(
 export const selectQuizBySlug = createSelector(
   selectAllQuizzes,
   (quizzes: Quiz[], slug: string) => quizzes.find((quiz) => quiz.slug === slug)
+);
+
+export const selectRemoveQuizInProgress = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.removeQuiz.inProgress
+);
+
+export const selectRemoveQuizError = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.removeQuiz.error
+);
+
+export const selectRemoveQuizSuccess = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.removeQuiz.success!
 );

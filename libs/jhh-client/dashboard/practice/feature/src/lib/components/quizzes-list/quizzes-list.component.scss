@@ -36,5 +36,25 @@ ul {
       padding: 12px 20px;
       margin-bottom: 6px;
     }
+
+    header {
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 6px;
+
+        h2 {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &:hover {
+      mat-icon {
+        color: white !important;
+      }
+    }
   }
 }
