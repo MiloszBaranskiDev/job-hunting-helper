@@ -24,6 +24,21 @@ export const selectQuizBySlug = createSelector(
   (quizzes: Quiz[], slug: string) => quizzes.find((quiz) => quiz.slug === slug)
 );
 
+export const selectAddQuizInProgress = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuiz.inProgress
+);
+
+export const selectAddQuizError = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuiz.error
+);
+
+export const selectAddQuizSuccess = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuiz.success!
+);
+
 export const selectRemoveQuizInProgress = createSelector(
   selectPracticeState,
   (state: PracticeState) => state.removeQuiz.inProgress

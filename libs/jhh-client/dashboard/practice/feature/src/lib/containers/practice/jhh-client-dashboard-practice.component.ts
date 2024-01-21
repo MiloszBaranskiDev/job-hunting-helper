@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { QuizzesListComponent } from '../../components/quizzes-list/quizzes-list.component';
+import { AddComponent } from '../../components/add/add.component';
 import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 import { Quiz } from '@jhh/shared/interfaces';
@@ -16,6 +17,7 @@ import { Quiz } from '@jhh/shared/interfaces';
     CommonModule,
     QuizzesListComponent,
     JhhClientDashboardRemovePracticeQuizComponent,
+    AddComponent,
   ],
   templateUrl: './jhh-client-dashboard-practice.component.html',
   styleUrls: ['./jhh-client-dashboard-practice.component.scss'],

@@ -1,3 +1,5 @@
+<jhh-practice-add-quiz></jhh-practice-add-quiz>
+
 <ng-container *ngIf="quizzes$ | async as quizzes">
   <ng-container *ngIf="quizzes.length > 0; else emptyList">
     <jhh-remove-practice-quiz></jhh-remove-practice-quiz>

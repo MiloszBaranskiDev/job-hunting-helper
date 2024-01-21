@@ -7,6 +7,9 @@ import { environment } from '@jhh/jhh-client/shared/config';
 
 import { ApiRoute } from '@jhh/shared/enums';
 import {
+  AddQuizPayload,
+  AddQuizSuccessPayload,
+  AddQuizSuccessResponse,
   RemoveQuizPayload,
   RemoveQuizSuccessPayload,
   RemoveQuizSuccessResponse,
@@ -20,6 +23,20 @@ export class PracticeService {
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
+
+  addQuiz(payload: AddQuizPayload): Observable<AddQuizSuccessPayload> {
+    return this.http
+      .post<AddQuizSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.AddPracticeQuiz,
+        {
+          name: payload.name,
+          description: payload.description,
+          imageUrl: payload.imageUrl,
+          items: payload.items,
+        }
+      )
+      .pipe(map((res: AddQuizSuccessResponse) => res.data));
+  }
 
   removeQuiz(payload: RemoveQuizPayload): Observable<RemoveQuizSuccessPayload> {
     return this.http

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz, QuizItem } from '@jhh/shared/interfaces';
 
 import * as PracticeSelectors from './practice.selectors';
 import * as PracticeActions from './practice.actions';
@@ -22,6 +22,18 @@ export class PracticeFacade {
     select(PracticeSelectors.selectQuizzes)
   );
 
+  addQuizInProgress$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectAddQuizInProgress)
+  );
+
+  addQuizError$: Observable<string | null> = this.store.pipe(
+    select(PracticeSelectors.selectAddQuizError)
+  );
+
+  addQuizSuccess$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectAddQuizSuccess)
+  );
+
   removeQuizInProgress$: Observable<boolean> = this.store.pipe(
     select(PracticeSelectors.selectRemoveQuizInProgress)
   );
@@ -33,6 +45,26 @@ export class PracticeFacade {
   removeQuizSuccess$: Observable<boolean> = this.store.pipe(
     select(PracticeSelectors.selectRemoveQuizSuccess)
   );
+
+  addQuiz(
+    name: string,
+    description: string | undefined,
+    imageUrl: string | undefined,
+    items: QuizItem[]
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      PracticeActions.addQuiz({
+        payload: {
+          name,
+          description,
+          imageUrl,
+          items,
+        },
+      }),
+      PracticeActions.Type.AddQuizSuccess,
+      PracticeActions.Type.AddQuizFail
+    );
+  }
 
   removeQuiz(quizId: string) {
     return this.actionResolverService.executeAndWatch(

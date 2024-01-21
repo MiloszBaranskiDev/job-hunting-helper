@@ -19,3 +19,5 @@ export * from './lib/offers/offer-location';
 export * from './lib/offers/offer-fields-length';
 
 export * from './lib/schedule/event-fields-length';
+
+export * from './lib/practice/quiz-fields-length';

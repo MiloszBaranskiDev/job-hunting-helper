@@ -162,6 +162,9 @@
       "@jhh/jhh-client/dashboard/practice/shell": [
         "libs/jhh-client/dashboard/practice/shell/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/practice/util-answers-validator": [
+        "libs/jhh-client/dashboard/practice/util-answers-validator/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/schedule/data-access": [
         "libs/jhh-client/dashboard/schedule/data-access/src/index.ts"
       ],
@@ -201,8 +204,14 @@
       "@jhh/jhh-client/shared/util-enum-validator": [
         "libs/jhh-client/shared/util-enum-validator/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/util-image-url-validator": [
+        "libs/jhh-client/shared/util-image-url-validator/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/util-max-size-validator": [
         "libs/jhh-client/shared/util-max-size-validator/src/index.ts"
+      ],
+      "@jhh/jhh-client/shared/util-min-array-length-validator": [
+        "libs/jhh-client/shared/util-min-array-length-validator/src/index.ts"
       ],
       "@jhh/jhh-client/shared/util-ngrx": [
         "libs/jhh-client/shared/util-ngrx/src/index.ts"
