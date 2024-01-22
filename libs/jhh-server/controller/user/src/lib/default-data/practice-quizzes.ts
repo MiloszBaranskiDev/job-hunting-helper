@@ -229,10 +229,10 @@ const defaultPracticeQuizzes: DefaultQuiz[] = [
         question:
           'How do you make each word in a text start with a capital letter?',
         answers: [
-          { isCorrect: true, text: 'text-transform:capitalize' },
-          { isCorrect: false, text: 'text-style:capitalize' },
-          { isCorrect: false, text: 'text-decoration:capitalize' },
-          { isCorrect: false, text: 'font-style:capitalize' },
+          { isCorrect: true, text: 'text-transform: capitalize' },
+          { isCorrect: false, text: 'text-style: capitalize' },
+          { isCorrect: false, text: 'text-decoration: capitalize' },
+          { isCorrect: false, text: 'font-style: capitalize' },
         ],
       },
       {

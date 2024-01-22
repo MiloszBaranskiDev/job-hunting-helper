@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
@@ -26,6 +26,7 @@ export class ControlsComponent implements OnInit {
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
   @Input({ required: true }) quiz: Quiz;
+  @Input({ required: true }) isPlayMode$: BehaviorSubject<boolean>;
 
   removeQuizSuccess$: Observable<boolean>;
 
@@ -33,6 +34,10 @@ export class ControlsComponent implements OnInit {
     this.removeQuizSuccess$ = this.practiceFacade.removeQuizSuccess$;
 
     this.navigateAfterRemove();
+  }
+
+  turnPlayMode(): void {
+    this.isPlayMode$.next(true);
   }
 
   openRemoveQuizDialog(): void {

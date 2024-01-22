@@ -1,6 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filter, Observable, pluck, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  Observable,
+  pluck,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
@@ -13,6 +20,7 @@ import { Quiz } from '@jhh/shared/interfaces';
 import { QuestionsComponent } from '../../components/questions/questions.component';
 import { DetailsComponent } from '../../components/details/details.component';
 import { ControlsComponent } from '../../components/controls/controls.component';
+import { PlayComponent } from '../../components/play/play.component';
 import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 @Component({
@@ -24,6 +32,7 @@ import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/d
     DetailsComponent,
     ControlsComponent,
     JhhClientDashboardRemovePracticeQuizComponent,
+    PlayComponent,
   ],
   templateUrl: './jhh-client-dashboard-practice-single-quiz.component.html',
   styleUrls: ['./jhh-client-dashboard-practice-single-quiz.component.scss'],
@@ -40,6 +49,7 @@ export class JhhClientDashboardPracticeSingleQuizComponent implements OnInit {
 
   quiz$: Observable<Quiz>;
   breakpoint$: Observable<string>;
+  isPlayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;

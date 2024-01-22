@@ -1,17 +1,23 @@
 <div *ngIf="quiz$ | async as quiz">
-  <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
-  <div [ngClass]="['columns', breakpoint$ | async]">
-    <div class="left">
-      <jhh-practice-quiz-details
-        [name]="quiz.name"
-        [description]="quiz.description"
-        [imageUrl]="quiz.imageUrl"
-      >
-      </jhh-practice-quiz-details>
-      <jhh-practice-quiz-controls [quiz]="quiz"></jhh-practice-quiz-controls>
+  <jhh-practice-quiz-play
+    *ngIf="isPlayMode$.getValue()"
+    [quiz]="quiz"
+    [isPlayMode$]="isPlayMode$"></jhh-practice-quiz-play>
+  <ng-container *ngIf="!isPlayMode$.getValue()">
+    <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
+    <div [ngClass]="['columns', breakpoint$ | async]">
+      <div class="left">
+        <jhh-practice-quiz-details
+          [name]="quiz.name"
+          [description]="quiz.description"
+          [imageUrl]="quiz.imageUrl"
+        >
+        </jhh-practice-quiz-details>
+        <jhh-practice-quiz-controls [quiz]="quiz" [isPlayMode$]="isPlayMode$"></jhh-practice-quiz-controls>
+      </div>
+      <div class="right">
+        <jhh-practice-quiz-questions [questions]="quiz.items"></jhh-practice-quiz-questions>
+      </div>
     </div>
-    <div class="right">
-      <jhh-practice-quiz-questions [questions]="quiz.items"></jhh-practice-quiz-questions>
-    </div>
-  </div>
+  </ng-container>
 </div>
