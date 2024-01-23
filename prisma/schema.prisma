@@ -144,13 +144,25 @@ model Quiz {
   description String?
   imageUrl    String?
 
-  items QuizItem[]
+  items   QuizItem[]
+  results QuizResults[]
 
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
 
   @@unique([name, userId], name: "name_userId_idx")
   @@unique([slug, userId], name: "slug_userId_idx")
+}
+
+model QuizResults {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items QuizResult[]
+
+  quizId String @db.ObjectId
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
 }
 
 type QuizItem {
@@ -161,4 +173,11 @@ type QuizItem {
 type QuizItemAnswer {
   isCorrect Boolean
   text      String
+}
+
+type QuizResult {
+  question       String
+  userAnswers    String[]
+  correctAnswers String[]
+  isCorrect      Boolean
 }

@@ -16,6 +16,7 @@ export interface OperationState {
 export interface PracticeState extends EntityState<Quiz> {
   addQuiz: OperationState;
   removeQuiz: OperationState;
+  addQuizResults: OperationState;
 }
 
 export const adapter: EntityAdapter<Quiz> = createEntityAdapter<Quiz>();
@@ -27,6 +28,11 @@ export const initialPracticeState: PracticeState = adapter.getInitialState({
     success: false,
   },
   removeQuiz: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  addQuizResults: {
     inProgress: false,
     error: null,
     success: false,
@@ -104,6 +110,59 @@ const reducer: ActionReducer<PracticeState> = createReducer(
     ...state,
     removeQuiz: {
       ...state.removeQuiz,
+      success: false,
+    },
+  })),
+  on(PracticeActions.addQuizResults, (state) => ({
+    ...state,
+    addQuizResults: {
+      ...state.addQuizResults,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(PracticeActions.addQuizResultsFail, (state, { payload }) => ({
+    ...state,
+    addQuizResults: {
+      ...state.addQuizResults,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(PracticeActions.addQuizResultsSuccess, (state, { payload }) => {
+    const updatedEntities = { ...state.entities };
+    const quiz: Quiz | undefined = updatedEntities[payload.quizId];
+
+    if (quiz) {
+      const updatedQuiz: Quiz = {
+        ...quiz,
+        results: [...quiz.results, payload.addedResults],
+      };
+
+      updatedEntities[payload.quizId] = updatedQuiz;
+
+      return adapter.setAll(
+        Object.values(updatedEntities).filter(
+          (quiz): quiz is Quiz => quiz !== undefined
+        ),
+        {
+          ...state,
+          addQuizResults: {
+            ...state.addQuizResults,
+            inProgress: false,
+            success: true,
+          },
+        }
+      );
+    }
+
+    return state;
+  }),
+  on(PracticeActions.resetAddQuizResultsSuccess, (state) => ({
+    ...state,
+    addQuizResults: {
+      ...state.addQuizResults,
       success: false,
     },
   }))

@@ -67,6 +67,9 @@ export function JhhServerControllerDashboard() {
         where: {
           userId: userId,
         },
+        include: {
+          results: true,
+        },
       });
 
       res.status(HttpStatusCode.OK).json({

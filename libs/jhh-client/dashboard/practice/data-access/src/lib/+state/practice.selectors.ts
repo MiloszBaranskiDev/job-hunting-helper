@@ -53,3 +53,18 @@ export const selectRemoveQuizSuccess = createSelector(
   selectPracticeState,
   (state: PracticeState) => state.removeQuiz.success!
 );
+
+export const selectAddQuizResultsInProgress = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuizResults.inProgress
+);
+
+export const selectAddQuizResultsError = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuizResults.error
+);
+
+export const selectAddQuizResultsSuccess = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.addQuizResults.success!
+);

@@ -8,6 +8,9 @@ import { environment } from '@jhh/jhh-client/shared/config';
 import { ApiRoute } from '@jhh/shared/enums';
 import {
   AddQuizPayload,
+  AddQuizResultsPayload,
+  AddQuizResultsSuccessPayload,
+  AddQuizResultsSuccessResponse,
   AddQuizSuccessPayload,
   AddQuizSuccessResponse,
   RemoveQuizPayload,
@@ -47,5 +50,19 @@ export class PracticeService {
         }
       )
       .pipe(map((res: RemoveQuizSuccessResponse) => res.data));
+  }
+
+  addQuizResults(
+    payload: AddQuizResultsPayload
+  ): Observable<AddQuizResultsSuccessPayload> {
+    return this.http
+      .post<AddQuizResultsSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.AddPracticeQuizResults,
+        {
+          quizId: payload.quizId,
+          items: payload.items,
+        }
+      )
+      .pipe(map((res: AddQuizResultsSuccessResponse) => res.data));
   }
 }

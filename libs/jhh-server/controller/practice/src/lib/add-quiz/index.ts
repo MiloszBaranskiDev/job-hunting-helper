@@ -17,8 +17,6 @@ const addQuiz = async (req: any, res: any): Promise<void> => {
     const { name, description, imageUrl, items } = req.body;
     const userId = req.user.id;
 
-    console.log(req.body);
-
     if (!name || !items) {
       return respondWithError(
         res,
@@ -169,6 +167,9 @@ const addQuiz = async (req: any, res: any): Promise<void> => {
         imageUrl: imageUrl,
         items: items,
         userId: userId,
+      },
+      include: {
+        results: true,
       },
     });
 

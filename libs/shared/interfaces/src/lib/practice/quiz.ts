@@ -1,4 +1,5 @@
 import { QuizItem } from './quiz-item';
+import { QuizResults } from './quiz-results';
 
 export interface Quiz {
   id: string;
@@ -9,4 +10,5 @@ export interface Quiz {
   description?: string;
   imageUrl?: string;
   items: QuizItem[];
+  results: QuizResults[];
 }

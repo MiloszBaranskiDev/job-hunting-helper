@@ -8,6 +8,7 @@ import { PracticeService } from '../services/practice/practice.service';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import {
+  AddQuizResultsSuccessPayload,
   AddQuizSuccessPayload,
   RemoveQuizSuccessPayload,
 } from '@jhh/jhh-client/dashboard/practice/domain';
@@ -34,6 +35,30 @@ export class PracticeEffects {
           ),
         onError: (action, error) =>
           PracticeActions.addQuizFail({ payload: error }),
+      })
+    )
+  );
+
+  addQuizResults$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PracticeActions.addQuizResults),
+      fetch({
+        run: (action) =>
+          this.practiceService.addQuizResults(action.payload).pipe(
+            mergeMap((res: AddQuizResultsSuccessPayload) => [
+              PracticeActions.addQuizResultsSuccess({ payload: res }),
+              PracticeActions.resetAddQuizResultsSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Quiz results saved successfully!');
+            })
+          ),
+        onError: (action, error) => {
+          this.snackbarService.open(
+            'Something went wrong when saving quiz results.'
+          );
+          return PracticeActions.addQuizResultsFail({ payload: error });
+        },
       })
     )
   );

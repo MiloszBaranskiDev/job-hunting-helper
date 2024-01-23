@@ -35,4 +35,5 @@ export enum ApiRoute {
   //
   AddPracticeQuiz = '/add-practice-quiz',
   RemovePracticeQuiz = '/remove-practice-quiz',
+  AddPracticeQuizResults = '/add-practice-quiz-results',
 }

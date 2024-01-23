@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { Quiz, QuizItem } from '@jhh/shared/interfaces';
+import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
+
+import { Quiz, QuizItem, QuizResult } from '@jhh/shared/interfaces';
 
 @Component({
   selector: 'jhh-practice-quiz-play',
@@ -28,18 +30,15 @@ import { Quiz, QuizItem } from '@jhh/shared/interfaces';
   styleUrls: ['./play.component.scss'],
 })
 export class PlayComponent {
+  private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
+
   @Input({ required: true }) quiz: Quiz;
   @Input({ required: true }) isPlayMode$: BehaviorSubject<boolean>;
 
   currentQuestionIndex: number = 0;
   selectedAnswers: Map<number, string[]> = new Map<number, string[]>();
   totalScore: number;
-  quizResults: {
-    question: string;
-    userAnswers: string[];
-    correctAnswers: string[];
-    isCorrect: boolean;
-  }[];
+  quizResults: QuizResult[];
 
   get progressPercentage(): number {
     const totalQuestions: number = this.quiz.items.length;
@@ -145,5 +144,9 @@ export class PlayComponent {
     this.totalScore = this.quizResults.filter(
       (result) => result.isCorrect
     ).length;
+
+    if (this.quizResults.length > 0) {
+      this.practiceFacade.addQuizResults(this.quiz.id, this.quizResults);
+    }
   }
 }

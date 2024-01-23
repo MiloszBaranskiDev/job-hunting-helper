@@ -24,12 +24,12 @@
     <form (ngSubmit)="onSubmitQuiz()">
       <div *ngIf="quiz.items[currentQuestionIndex] as currentQuestion">
         <h3 class="question">
-        <span>
-          {{ currentQuestionIndex + 1 }}/{{quiz.items.length}}
-        </span>
           <span>
-          {{ currentQuestion.question }}
-        </span>
+            {{ currentQuestionIndex + 1 }}/{{quiz.items.length}}
+          </span>
+          <span>
+            {{ currentQuestion.question }}
+          </span>
         </h3>
         <mat-radio-group
           *ngIf="!isMultipleChoice(currentQuestionIndex)"
@@ -69,17 +69,17 @@
           [disabled]="currentQuestionIndex === 0">
           <mat-icon>arrow_back</mat-icon>
           <span>
-          Previous
-        </span>
+            Previous
+          </span>
         </button>
         <button
           mat-flat-button
           type="button"
           (click)="nextQuestion()"
           [disabled]="currentQuestionIndex === quiz.items.length - 1">
-        <span>
-          Next
-        </span>
+          <span>
+            Next
+          </span>
           <mat-icon iconPositionEnd>arrow_forward</mat-icon>
         </button>
         <button
@@ -91,8 +91,8 @@
         >
           <mat-icon>assessment</mat-icon>
           <span>
-          Show Result
-        </span>
+            Show Result
+          </span>
         </button>
         <button
           mat-stroked-button
@@ -102,8 +102,8 @@
         >
           <mat-icon>exit_to_app</mat-icon>
           <span>
-          Quit
-        </span>
+            Quit
+          </span>
         </button>
       </div>
     </form>
@@ -121,8 +121,8 @@
               {{result.isCorrect ? 'check' : 'clear'}}
             </mat-icon>
             <span>
-          {{i + 1}}. {{result.question}}
-        </span>
+              {{i + 1}}. {{result.question}}
+            </span>
           </h4>
           <p><strong>Your answer:</strong> {{result.userAnswers.join(', ')}}</p>
           <p><strong>Correct answer:</strong> {{result.correctAnswers.join(', ')}}</p>

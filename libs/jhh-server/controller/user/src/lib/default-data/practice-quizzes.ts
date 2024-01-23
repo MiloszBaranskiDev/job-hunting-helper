@@ -149,6 +149,7 @@ const defaultPracticeQuizzes: DefaultQuiz[] = [
         ],
       },
     ],
+    results: [],
   },
   {
     name: 'CSS',
@@ -254,6 +255,7 @@ const defaultPracticeQuizzes: DefaultQuiz[] = [
         ],
       },
     ],
+    results: [],
   },
 ];
 

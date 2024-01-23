@@ -54,6 +54,10 @@ export function JhhServerRouterApi(): Router {
 
   router.post(ApiRoute.AddPracticeQuiz, practiceControler.addQuiz);
   router.delete(ApiRoute.RemovePracticeQuiz, practiceControler.removeQuiz);
+  router.post(
+    ApiRoute.AddPracticeQuizResults,
+    practiceControler.addQuizResults
+  );
 
   return router;
 }

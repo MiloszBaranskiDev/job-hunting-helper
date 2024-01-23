@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Quiz } from '@jhh/shared/interfaces';
 import {
-  AddQuizPayload,
+  AddQuizPayload, AddQuizResultsPayload, AddQuizResultsSuccessPayload,
   AddQuizSuccessPayload,
   RemoveQuizPayload,
   RemoveQuizSuccessPayload,
@@ -19,6 +19,10 @@ export enum Type {
   RemoveQuizFail = '[Practice] Remove Quiz Fail',
   RemoveQuizSuccess = '[Practice] Remove Quiz Success',
   ResetRemoveQuizSuccess = '[Practice] Reset Remove Quiz Success',
+  AddQuizResults = '[Practice] Add Quiz Results',
+  AddQuizResultsFail = '[Practice] Add Quiz Results Fail',
+  AddQuizResultsSuccess = '[Practice] Add Quiz Results Success',
+  ResetAddQuizResultsSuccess = '[Practice] Reset Add Quiz Results Success',
 }
 
 export const setPracticeQuizzes = createAction(
@@ -59,3 +63,22 @@ export const removeQuizSuccess = createAction(
 );
 
 export const resetRemoveQuizSuccess = createAction(Type.ResetRemoveQuizSuccess);
+
+export const addQuizResults = createAction(
+  Type.AddQuizResults,
+  props<{ payload: AddQuizResultsPayload }>()
+);
+
+export const addQuizResultsFail = createAction(
+  Type.AddQuizResultsFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const addQuizResultsSuccess = createAction(
+  Type.AddQuizResultsSuccess,
+  props<{ payload: AddQuizResultsSuccessPayload }>()
+);
+
+export const resetAddQuizResultsSuccess = createAction(
+  Type.ResetAddQuizResultsSuccess
+);
