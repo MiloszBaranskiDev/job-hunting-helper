@@ -97,13 +97,13 @@
     padding: 20px;
 
     h3 {
-      .score {
-        background-color: var(--color__primary);
-        color: white;
-        font-size: 14px;
-        border-radius: var(--radius__base);
-        padding: 8px 16px;
-        margin-left: 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      span {
+        display: block;
       }
     }
 

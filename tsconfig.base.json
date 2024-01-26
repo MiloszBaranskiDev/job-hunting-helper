@@ -165,6 +165,9 @@
       "@jhh/jhh-client/dashboard/practice/util-answers-validator": [
         "libs/jhh-client/dashboard/practice/util-answers-validator/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/practice/util-get-percentage-class": [
+        "libs/jhh-client/dashboard/practice/util-get-percentage-class/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/schedule/data-access": [
         "libs/jhh-client/dashboard/schedule/data-access/src/index.ts"
       ],

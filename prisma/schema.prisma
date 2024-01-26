@@ -159,7 +159,9 @@ model QuizResults {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  items QuizResult[]
+  items      QuizResult[]
+  totalScore Int
+  percentage Int
 
   quizId String @db.ObjectId
   quiz   Quiz   @relation(fields: [quizId], references: [id])

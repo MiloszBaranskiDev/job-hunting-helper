@@ -63,6 +63,30 @@ textarea {
   }
 }
 
+.resultsPercentage {
+  font-size: 16px;
+
+  &--High {
+    color: var(--color__green);
+  }
+
+  &--Medium {
+    color: var(--color__accent);
+  }
+
+  &--Low {
+    color: var(--color__red);
+  }
+}
+
+.resultsScore {
+  background-color: var(--color__primary);
+  color: white;
+  font-size: 14px;
+  border-radius: var(--radius__base);
+  padding: 6px 12px;
+}
+
 .cornerDecoration {
   position: relative;
 

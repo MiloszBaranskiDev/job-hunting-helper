@@ -97,8 +97,19 @@ const assignDefaultData = async (userId: string): Promise<void> => {
     const quiz = defaultPracticeQuizzes[quizIndex];
     await prisma.quiz.create({
       data: {
-        ...quiz,
+        name: quiz.name,
+        slug: quiz.slug,
+        description: quiz.description,
+        imageUrl: quiz.imageUrl,
+        items: quiz.items,
         userId: userId,
+        results: {
+          create: quiz.results.map((result) => ({
+            items: result.items,
+            totalScore: result.totalScore,
+            percentage: result.percentage,
+          })),
+        },
       },
     } as any);
   }

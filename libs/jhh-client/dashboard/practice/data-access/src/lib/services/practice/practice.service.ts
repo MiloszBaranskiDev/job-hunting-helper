@@ -61,6 +61,8 @@ export class PracticeService {
         {
           quizId: payload.quizId,
           items: payload.items,
+          totalScore: payload.totalScore,
+          percentage: payload.percentage,
         }
       )
       .pipe(map((res: AddQuizResultsSuccessResponse) => res.data));

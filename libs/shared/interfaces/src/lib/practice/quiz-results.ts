@@ -5,4 +5,6 @@ export interface QuizResults {
   createdAt: Date;
   updatedAt: Date;
   items: QuizResult[];
+  totalScore: number;
+  percentage: number;
 }

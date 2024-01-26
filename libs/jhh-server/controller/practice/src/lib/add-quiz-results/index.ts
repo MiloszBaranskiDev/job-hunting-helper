@@ -10,14 +10,14 @@ const addQuizResults = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { quizId, items } = req.body;
+    const { quizId, items, totalScore, percentage } = req.body;
     const userId = req.user.id;
 
-    if (!quizId || !items) {
+    if (!quizId || !items || !totalScore || !percentage) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        'These fields are required: ID, items'
+        'These fields are required: ID, items, totalScore, percentage'
       );
     }
 
@@ -26,6 +26,22 @@ const addQuizResults = async (req: any, res: any): Promise<void> => {
         res,
         HttpStatusCode.BadRequest,
         'Items must be a non-empty array.'
+      );
+    }
+
+    if (typeof totalScore !== 'number' || totalScore < 0) {
+      return respondWithError(
+        res,
+        HttpStatusCode.BadRequest,
+        'Total score must be a non-negative number.'
+      );
+    }
+
+    if (typeof percentage !== 'number' || percentage < 0 || percentage > 100) {
+      return respondWithError(
+        res,
+        HttpStatusCode.BadRequest,
+        'Percentage must be a number between 0 and 100.'
       );
     }
 
@@ -64,6 +80,8 @@ const addQuizResults = async (req: any, res: any): Promise<void> => {
       data: {
         quizId,
         items,
+        totalScore,
+        percentage,
       },
     });
 

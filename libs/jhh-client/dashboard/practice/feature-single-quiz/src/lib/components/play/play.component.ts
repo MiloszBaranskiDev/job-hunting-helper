@@ -11,6 +11,8 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
+import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
+
 import { Quiz, QuizItem, QuizResult } from '@jhh/shared/interfaces';
 
 @Component({
@@ -37,8 +39,9 @@ export class PlayComponent {
 
   currentQuestionIndex: number = 0;
   selectedAnswers: Map<number, string[]> = new Map<number, string[]>();
-  totalScore: number;
   quizResults: QuizResult[];
+  totalScore: number;
+  percentage: number;
 
   get progressPercentage(): number {
     const totalQuestions: number = this.quiz.items.length;
@@ -55,6 +58,10 @@ export class PlayComponent {
         this.selectedAnswers.has(index) &&
         this.selectedAnswers.get(index)!.length > 0
     );
+  }
+
+  get percentageClass(): string {
+    return GetPercentageClass(this.percentage);
   }
 
   getMaxSelectableAnswers(questionIndex: number): number {
@@ -144,9 +151,17 @@ export class PlayComponent {
     this.totalScore = this.quizResults.filter(
       (result) => result.isCorrect
     ).length;
+    this.percentage = Number(
+      ((this.totalScore / this.quiz.items.length) * 100).toFixed()
+    );
 
     if (this.quizResults.length > 0) {
-      this.practiceFacade.addQuizResults(this.quiz.id, this.quizResults);
+      this.practiceFacade.addQuizResults(
+        this.quiz.id,
+        this.quizResults,
+        this.totalScore,
+        this.percentage
+      );
     }
   }
 }

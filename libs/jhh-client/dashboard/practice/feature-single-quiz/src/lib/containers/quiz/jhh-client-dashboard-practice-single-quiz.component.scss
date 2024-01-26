@@ -19,9 +19,13 @@
     }
   }
 
-  .left {
+  .box {
     background-color: var(--color__bg);
     border-radius: var(--radius__base);
     padding: 20px;
+
+    &:not(:last-child) {
+      margin-bottom: 24px;
+    }
   }
 }

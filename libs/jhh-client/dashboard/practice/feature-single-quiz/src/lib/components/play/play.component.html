@@ -111,7 +111,11 @@
 
   <ng-template #results>
     <div *ngIf="quizResults && quizResults.length > 0" class="results">
-      <h3>Quiz results <span class="score">{{totalScore}}/{{quiz.items.length}}</span></h3>
+      <h3>
+        Quiz results
+        <span class="resultsScore">{{totalScore}}/{{quiz.items.length}}</span>
+        <span [ngClass]="['resultsPercentage', percentageClass]">{{percentage}}%</span>
+      </h3>
       <ul>
         <li *ngFor="let result of quizResults; let i = index">
           <h4>

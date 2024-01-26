@@ -88,10 +88,20 @@ export class PracticeFacade {
     );
   }
 
-  addQuizResults(quizId: string, items: QuizResult[]) {
+  addQuizResults(
+    quizId: string,
+    items: QuizResult[],
+    totalScore: number,
+    percentage: number
+  ) {
     return this.actionResolverService.executeAndWatch(
       PracticeActions.addQuizResults({
-        payload: { quizId: quizId, items: items },
+        payload: {
+          quizId: quizId,
+          items: items,
+          totalScore: totalScore,
+          percentage: percentage,
+        },
       }),
       PracticeActions.Type.AddQuizResultsSuccess,
       PracticeActions.Type.AddQuizResultsFail
