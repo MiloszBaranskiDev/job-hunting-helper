@@ -57,11 +57,17 @@
       "@jhh/jhh-client/dashboard/feature-breadcrumbs": [
         "libs/jhh-client/dashboard/feature-breadcrumbs/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/feature-pagination": [
+        "libs/jhh-client/dashboard/feature-pagination/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/feature-searchbar": [
         "libs/jhh-client/dashboard/feature-searchbar/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/feature-sidebar": [
         "libs/jhh-client/dashboard/feature-sidebar/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/feature-sorting": [
+        "libs/jhh-client/dashboard/feature-sorting/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/feature-title": [
         "libs/jhh-client/dashboard/feature-title/src/index.ts"
@@ -93,9 +99,6 @@
       "@jhh/jhh-client/dashboard/notes/feature-notes-groups": [
         "libs/jhh-client/dashboard/notes/feature-notes-groups/src/index.ts"
       ],
-      "@jhh/jhh-client/dashboard/notes/feature-pagination": [
-        "libs/jhh-client/dashboard/notes/feature-pagination/src/index.ts"
-      ],
       "@jhh/jhh-client/dashboard/notes/feature-remove-group": [
         "libs/jhh-client/dashboard/notes/feature-remove-group/src/index.ts"
       ],
@@ -104,9 +107,6 @@
       ],
       "@jhh/jhh-client/dashboard/notes/feature-single-note": [
         "libs/jhh-client/dashboard/notes/feature-single-note/src/index.ts"
-      ],
-      "@jhh/jhh-client/dashboard/notes/feature-sorting": [
-        "libs/jhh-client/dashboard/notes/feature-sorting/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/notes/interfaces": [
         "libs/jhh-client/dashboard/notes/interfaces/src/index.ts"

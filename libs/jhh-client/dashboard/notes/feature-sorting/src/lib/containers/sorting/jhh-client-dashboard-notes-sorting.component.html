@@ -1,8 +1,0 @@
-<ng-container *ngIf="currentSort$ | async as currentSort">
-  <jhh-notes-sorting-select
-    [currentSort]="currentSort"
-    [sortOptionsValues]="sortOptionsValues"
-    (selectionChange)="onSortChange($event)"
-  >
-  </jhh-notes-sorting-select>
-</ng-container>

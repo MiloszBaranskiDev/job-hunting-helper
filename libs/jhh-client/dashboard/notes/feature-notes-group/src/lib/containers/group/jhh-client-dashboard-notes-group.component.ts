@@ -8,6 +8,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  BehaviorSubject,
   combineLatest,
   filter,
   first,
@@ -37,8 +38,8 @@ import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dash
 import { JhhClientDashboardRemoveNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 import { JhhClientDashboardEditNotesGroupComponent } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
 import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/feature-searchbar';
-import { JhhClientDashboardNotesSortingComponent } from '@jhh/jhh-client/dashboard/notes/feature-sorting';
-import { JhhClientDashboardNotesPaginationComponent } from '@jhh/jhh-client/dashboard/notes/feature-pagination';
+import { JhhClientDashboardPaginationComponent } from '@jhh/jhh-client/dashboard/feature-pagination';
+import { JhhClientDashboardSortingComponent } from '@jhh/jhh-client/dashboard/feature-sorting';
 
 @Component({
   selector: 'jhh-notes-group',
@@ -54,8 +55,8 @@ import { JhhClientDashboardNotesPaginationComponent } from '@jhh/jhh-client/dash
     JhhClientDashboardRemoveNotesGroupComponent,
     JhhClientDashboardEditNotesGroupComponent,
     JhhClientDashboardSearchbarComponent,
-    JhhClientDashboardNotesSortingComponent,
-    JhhClientDashboardNotesPaginationComponent,
+    JhhClientDashboardPaginationComponent,
+    JhhClientDashboardSortingComponent,
   ],
   templateUrl: './jhh-client-dashboard-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-notes-group.component.scss'],
@@ -76,13 +77,21 @@ export class JhhClientDashboardNotesGroupComponent
   groupSlug$: Observable<string>;
   group$: Observable<NotesGroup>;
   sortedNotes$: Observable<Note[]>;
+  currentPage$: BehaviorSubject<number>;
+  currentSort$: BehaviorSubject<string>;
 
   readonly sortOptionsValues: string[] = Object.values(NotesListSort);
   readonly notesPerPage: number = 16;
+  defaultPage: number;
+  defaultSort: string;
   totalPages: number;
 
   ngOnInit(): void {
     this.queryParamsService.setFromCurrentRoute();
+    this.defaultPage = this.queryParamsService.defaultPage;
+    this.defaultSort = this.queryParamsService.defaultSort;
+    this.currentPage$ = this.queryParamsService.getCurrentPage$();
+    this.currentSort$ = this.queryParamsService.getCurrentSort$();
 
     this.groupSlug$ = this.route.params.pipe(
       pluck('groupSlug')
@@ -119,18 +128,24 @@ export class JhhClientDashboardNotesGroupComponent
     );
   };
 
+  handlePageChange(newPage: number) {
+    this.queryParamsService.updateCurrentPage(newPage);
+  }
+
+  handleSortChange(newSort: string) {
+    this.queryParamsService.updateCurrentSort(newSort);
+  }
+
   private getSortedNotes(): void {
     this.sortedNotes$ = combineLatest([
       this.group$.pipe(pluck('notes')),
-      this.queryParamsService.getCurrentSort$(),
-      this.queryParamsService.getCurrentPage$(),
+      this.currentSort$,
+      this.currentPage$,
     ]).pipe(
       tap(([notes]) => {
         this.totalPages = Math.ceil(notes.length / this.notesPerPage);
 
-        const currentPage: number = this.queryParamsService
-          .getCurrentPage$()
-          .getValue();
+        const currentPage: number = this.currentPage$.getValue();
         const start: number = (currentPage - 1) * this.notesPerPage;
         if (notes.length <= start && currentPage > 1) {
           this.queryParamsService.updateCurrentPage(currentPage - 1);
@@ -139,12 +154,8 @@ export class JhhClientDashboardNotesGroupComponent
         this.cdr.detectChanges();
       }),
       map(([notes]) => {
-        const currentPage: number = this.queryParamsService
-          .getCurrentPage$()
-          .getValue();
-        const currentSort: string = this.queryParamsService
-          .getCurrentSort$()
-          .getValue();
+        const currentPage: number = this.currentPage$.getValue();
+        const currentSort: string = this.currentSort$.getValue();
         const sortedNotes: Note[] = this.sortNotes(
           notes,
           currentSort as NotesListSort
