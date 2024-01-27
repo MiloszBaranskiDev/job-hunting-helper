@@ -52,6 +52,10 @@ export class JhhClientDashboardPracticeSingleQuizComponent implements OnInit {
   quiz$: Observable<Quiz>;
   breakpoint$: Observable<string>;
   isPlayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isQuizShuffled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+  questionsLimit$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;

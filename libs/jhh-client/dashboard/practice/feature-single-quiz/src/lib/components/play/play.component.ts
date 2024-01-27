@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
@@ -31,20 +31,35 @@ import { Quiz, QuizItem, QuizResult } from '@jhh/shared/interfaces';
   templateUrl: './play.component.html',
   styleUrls: ['./play.component.scss'],
 })
-export class PlayComponent {
+export class PlayComponent implements OnInit {
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
   @Input({ required: true }) quiz: Quiz;
   @Input({ required: true }) isPlayMode$: BehaviorSubject<boolean>;
+  @Input({ required: true }) isQuizShuffled$: BehaviorSubject<boolean>;
+  @Input({ required: true }) questionsLimit$: BehaviorSubject<number>;
 
   currentQuestionIndex: number = 0;
+  shuffledAndLimitedQuestions: QuizItem[];
   selectedAnswers: Map<number, string[]> = new Map<number, string[]>();
   quizResults: QuizResult[];
   totalScore: number;
   percentage: number;
 
+  ngOnInit(): void {
+    this.shuffledAndLimitedQuestions = [...this.quiz.items];
+
+    if (this.isQuizShuffled$.getValue()) {
+      this.shuffleQuestions();
+    }
+
+    if (this.questionsLimit$.getValue() > 0) {
+      this.limitQuestions();
+    }
+  }
+
   get progressPercentage(): number {
-    const totalQuestions: number = this.quiz.items.length;
+    const totalQuestions: number = this.shuffledAndLimitedQuestions.length;
     const answeredQuestions: number = Array.from(
       this.selectedAnswers.entries()
     ).filter(([index, answers]) => answers.length > 0).length;
@@ -53,7 +68,7 @@ export class PlayComponent {
   }
 
   get allQuestionsAnswered(): boolean {
-    return this.quiz.items.every(
+    return this.shuffledAndLimitedQuestions.every(
       (_, index) =>
         this.selectedAnswers.has(index) &&
         this.selectedAnswers.get(index)!.length > 0
@@ -65,7 +80,7 @@ export class PlayComponent {
   }
 
   getMaxSelectableAnswers(questionIndex: number): number {
-    const question: QuizItem = this.quiz.items[questionIndex];
+    const question: QuizItem = this.shuffledAndLimitedQuestions[questionIndex];
     return question.answers.filter((answer) => answer.isCorrect).length;
   }
 
@@ -97,7 +112,7 @@ export class PlayComponent {
   }
 
   isMultipleChoice(questionIndex: number): boolean {
-    const question: QuizItem = this.quiz.items[questionIndex];
+    const question: QuizItem = this.shuffledAndLimitedQuestions[questionIndex];
     const correctAnswersCount: number = question.answers.filter(
       (answer) => answer.isCorrect
     ).length;
@@ -106,7 +121,10 @@ export class PlayComponent {
   }
 
   nextQuestion(): void {
-    if (this.currentQuestionIndex < this.quiz.items.length - 1) {
+    if (
+      this.currentQuestionIndex <
+      this.shuffledAndLimitedQuestions.length - 1
+    ) {
       this.currentQuestionIndex++;
     }
   }
@@ -132,7 +150,7 @@ export class PlayComponent {
   }
 
   onSubmitQuiz(): void {
-    this.quizResults = this.quiz.items.map((item, index) => {
+    this.quizResults = this.shuffledAndLimitedQuestions.map((item, index) => {
       const userAnswers: string[] = this.selectedAnswers.get(index) || [];
       const correctAnswers: string[] = item.answers
         .filter((a) => a.isCorrect)
@@ -152,7 +170,10 @@ export class PlayComponent {
       (result) => result.isCorrect
     ).length;
     this.percentage = Number(
-      ((this.totalScore / this.quiz.items.length) * 100).toFixed()
+      (
+        (this.totalScore / this.shuffledAndLimitedQuestions.length) *
+        100
+      ).toFixed()
     );
 
     if (this.quizResults.length > 0) {
@@ -161,6 +182,31 @@ export class PlayComponent {
         this.quizResults,
         this.totalScore,
         this.percentage
+      );
+    }
+  }
+
+  private shuffleQuestions(): void {
+    for (let i = this.shuffledAndLimitedQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [
+        this.shuffledAndLimitedQuestions[i],
+        this.shuffledAndLimitedQuestions[j],
+      ] = [
+        this.shuffledAndLimitedQuestions[j],
+        this.shuffledAndLimitedQuestions[i],
+      ];
+    }
+  }
+
+  private limitQuestions(): void {
+    const limit: number = this.questionsLimit$.getValue();
+
+    if (limit > 0 && limit < this.shuffledAndLimitedQuestions.length) {
+      this.shuffledAndLimitedQuestions = this.shuffledAndLimitedQuestions.slice(
+        0,
+        limit
       );
     }
   }

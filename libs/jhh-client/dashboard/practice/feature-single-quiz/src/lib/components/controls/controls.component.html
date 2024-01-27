@@ -3,7 +3,7 @@
     class="play"
     mat-flat-button
     color="primary"
-    (click)="turnPlayMode()"
+    (click)="openPlayDialog()"
   >
     <mat-icon>play_circle_filled</mat-icon>
     <span>Play</span>
@@ -17,3 +17,29 @@
     <span>Remove</span>
   </button>
 </div>
+
+<ng-template #dialogContent>
+  <h2 mat-dialog-title>Play settings</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <mat-checkbox (change)="setShuffleQuestions($event.checked)" color="primary">Shuffle</mat-checkbox>
+      <mat-form-field appearance="fill">
+        <mat-label>Number of Questions</mat-label>
+        <mat-select (selectionChange)="setQuestionLimit($event.value)">
+          <mat-option *ngFor="let limit of getQuestionLimits()" [value]="limit">{{ limit }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+      <button mat-stroked-button mat-dialog-close>Cancel</button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="turnPlayMode()"
+      >
+        Play
+      </button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</ng-template>

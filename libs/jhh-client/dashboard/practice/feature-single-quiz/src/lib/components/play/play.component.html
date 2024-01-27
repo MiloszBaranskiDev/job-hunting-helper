@@ -12,7 +12,7 @@
 
     <div class="questionsNavigation">
       <button
-        *ngFor="let item of quiz.items; let i = index"
+        *ngFor="let item of shuffledAndLimitedQuestions; let i = index"
         type="button"
         [ngClass]="{'answered': selectedAnswers.has(i) && selectedAnswers.get(i)!.length > 0, 'current': i === currentQuestionIndex}"
         (click)="goToQuestion(i)"
@@ -22,10 +22,10 @@
     </div>
 
     <form (ngSubmit)="onSubmitQuiz()">
-      <div *ngIf="quiz.items[currentQuestionIndex] as currentQuestion">
+      <div *ngIf="shuffledAndLimitedQuestions[currentQuestionIndex] as currentQuestion">
         <h3 class="question">
           <span>
-            {{ currentQuestionIndex + 1 }}/{{quiz.items.length}}
+            {{ currentQuestionIndex + 1 }}/{{shuffledAndLimitedQuestions.length}}
           </span>
           <span>
             {{ currentQuestion.question }}
@@ -76,7 +76,7 @@
           mat-flat-button
           type="button"
           (click)="nextQuestion()"
-          [disabled]="currentQuestionIndex === quiz.items.length - 1">
+          [disabled]="currentQuestionIndex === shuffledAndLimitedQuestions.length - 1">
           <span>
             Next
           </span>
@@ -113,7 +113,7 @@
     <div *ngIf="quizResults && quizResults.length > 0" class="results">
       <h3>
         Quiz results
-        <span class="resultsScore">{{totalScore}}/{{quiz.items.length}}</span>
+        <span class="resultsScore">{{totalScore}}/{{shuffledAndLimitedQuestions.length}}</span>
         <span [ngClass]="['resultsPercentage', percentageClass]">{{percentage}}%</span>
       </h3>
       <ul>

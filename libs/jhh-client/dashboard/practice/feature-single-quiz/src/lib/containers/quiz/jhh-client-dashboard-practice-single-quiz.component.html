@@ -2,7 +2,10 @@
   <jhh-practice-quiz-play
     *ngIf="isPlayMode$.getValue()"
     [quiz]="quiz"
-    [isPlayMode$]="isPlayMode$"></jhh-practice-quiz-play>
+    [isPlayMode$]="isPlayMode$"
+    [isQuizShuffled$]="isQuizShuffled$"
+    [questionsLimit$]="questionsLimit$"
+  ></jhh-practice-quiz-play>
   <ng-container *ngIf="!isPlayMode$.getValue()">
     <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
     <div [ngClass]="['columns', breakpoint$ | async]">
@@ -14,7 +17,13 @@
             [imageUrl]="quiz.imageUrl"
           >
           </jhh-practice-quiz-details>
-          <jhh-practice-quiz-controls [quiz]="quiz" [isPlayMode$]="isPlayMode$"></jhh-practice-quiz-controls>
+          <jhh-practice-quiz-controls
+            [quiz]="quiz"
+            [isPlayMode$]="isPlayMode$"
+            [isQuizShuffled$]="isQuizShuffled$"
+            [questionsLimit$]="questionsLimit$"
+          >
+          </jhh-practice-quiz-controls>
         </div>
         <div class="box" *ngIf="quiz.results && quiz.results.length > 0">
           <jhh-practice-quiz-results [results]="quiz.results"></jhh-practice-quiz-results>
