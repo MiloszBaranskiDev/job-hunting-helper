@@ -3,6 +3,7 @@
 <ng-container *ngIf="quizzes$ | async as quizzes">
   <ng-container *ngIf="quizzes.length > 0; else emptyList">
     <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
+    <jhh-searchbar [searchFunction]="searchQuizzes" [placeholder]="'Enter quiz name...'"></jhh-searchbar>
     <jhh-practice-quizzes-list [quizzes]="quizzes"></jhh-practice-quizzes-list>
   </ng-container>
 </ng-container>

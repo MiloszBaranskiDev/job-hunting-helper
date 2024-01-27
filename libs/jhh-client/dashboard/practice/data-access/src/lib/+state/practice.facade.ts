@@ -111,4 +111,10 @@ export class PracticeFacade {
   getQuiz$BySlug(slug: string): Observable<Quiz | undefined> {
     return this.store.pipe(select(PracticeSelectors.selectQuizBySlug, slug));
   }
+
+  searchQuizzes$ByName(query: string): Observable<Quiz[] | null> {
+    return this.store.pipe(
+      select(PracticeSelectors.selectSearchQuizzes, { query })
+    );
+  }
 }

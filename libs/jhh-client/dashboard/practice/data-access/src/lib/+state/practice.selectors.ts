@@ -68,3 +68,19 @@ export const selectAddQuizResultsSuccess = createSelector(
   selectPracticeState,
   (state: PracticeState) => state.addQuizResults.success!
 );
+
+export const selectSearchQuizzes = createSelector(
+  selectAllQuizzes,
+  (quizzes: Quiz[], props: { query: string }) => {
+    if (!props.query) {
+      return null;
+    }
+    if (quizzes.length > 0) {
+      return quizzes.filter((quiz) =>
+        quiz.name.toLowerCase().includes(props.query.toLowerCase())
+      );
+    } else {
+      return [];
+    }
+  }
+);
