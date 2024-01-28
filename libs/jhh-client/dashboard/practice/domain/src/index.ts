@@ -11,3 +11,4 @@ export * from './lib/interfaces/responses/add-quiz-results-success-response';
 
 export * from './lib/enums/quiz-field';
 export * from './lib/enums/quiz-form-error-key';
+export * from './lib/enums/quizzes-sort';
