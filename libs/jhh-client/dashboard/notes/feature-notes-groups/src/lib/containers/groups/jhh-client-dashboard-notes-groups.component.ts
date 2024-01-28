@@ -23,10 +23,8 @@ import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/
 import { JhhClientDashboardPaginationComponent } from '@jhh/jhh-client/dashboard/feature-pagination';
 import { JhhClientDashboardSortingComponent } from '@jhh/jhh-client/dashboard/feature-sorting';
 
-import {
-  NotesFacade,
-  QueryParamsService,
-} from '@jhh/jhh-client/dashboard/notes/data-access';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
 import { NotesGroup } from '@jhh/shared/interfaces';
 import { NotesGroupsSort } from '../../enums/notes-groups-sort';

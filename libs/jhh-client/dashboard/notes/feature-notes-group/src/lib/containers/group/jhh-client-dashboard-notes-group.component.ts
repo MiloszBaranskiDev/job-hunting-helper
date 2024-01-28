@@ -19,12 +19,10 @@ import {
   tap,
 } from 'rxjs';
 
-import {
-  NotesFacade,
-  QueryParamsService,
-} from '@jhh/jhh-client/dashboard/notes/data-access';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
+import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
 import { Note, NotesGroup } from '@jhh/shared/interfaces';
 import { NotesListSort } from '../../enums/notes-list-sort';
