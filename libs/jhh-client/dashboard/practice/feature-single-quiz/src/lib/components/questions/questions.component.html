@@ -10,8 +10,8 @@
     <mat-expansion-panel *ngFor="let item of questions; index as i">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <span>{{i + 1}}.&nbsp;</span>
-          <span>{{item.question}}</span>
+          {{i + 1}}.
+          {{item.question}}
         </mat-panel-title>
       </mat-expansion-panel-header>
       <ul>
