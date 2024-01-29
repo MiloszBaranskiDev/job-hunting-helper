@@ -58,6 +58,7 @@
               </mat-panel-title>
               <button
                 mat-icon-button
+                type="button"
                 style="margin-right: 4px"
                 (click)="removeQuestion(i)"
               >
@@ -99,7 +100,10 @@
                     Maximum length of answer is {{fieldsLength.MaxAnswerLength}} characters
                   </mat-error>
                 </mat-form-field>
-                <button mat-icon-button (click)="removeAnswer(i, idx)">
+                <button
+                  mat-icon-button
+                  type="button"
+                  (click)="removeAnswer(i, idx)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -117,6 +121,7 @@
 
             <button
               mat-stroked-button
+              type="button"
               style="margin-top: 12px"
               (click)="addAnswer(i)"
               [disabled]="getAnswers(question).length >= 6">
@@ -135,6 +140,7 @@
 
         <button
           mat-stroked-button
+          type="button"
           style="margin-top: 12px"
           (click)="addQuestion()"
           [disabled]="questions.length >= fieldsLength.MaxQuestions">
@@ -151,7 +157,11 @@
         </ng-container>
 
         <mat-dialog-actions>
-          <button mat-stroked-button mat-dialog-close>Cancel</button>
+          <button
+            mat-stroked-button
+            type="button"
+            mat-dialog-close>Cancel
+          </button>
           <button
             mat-flat-button
             color="primary"
