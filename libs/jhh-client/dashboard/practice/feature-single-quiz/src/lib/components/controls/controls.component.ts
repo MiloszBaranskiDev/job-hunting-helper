@@ -51,7 +51,8 @@ export class ControlsComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly removePracticeQuizDialogService: RemovePracticeQuizDialogService =
     inject(RemovePracticeQuizDialogService);
-  private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService;
+  private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService =
+    inject(EditPracticeQuizDialogService);
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
   @Input({ required: true }) quiz: Quiz;
