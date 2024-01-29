@@ -1,4 +1,7 @@
 .results {
+  max-height: 440px;
+  overflow-y: auto;
+
   ul {
     li {
       display: flex;
@@ -32,6 +35,10 @@ mat-dialog-content {
   }
 
   li {
+    mat-icon {
+      flex-shrink: 0;
+    }
+
     p {
       margin-bottom: 4px;
 
