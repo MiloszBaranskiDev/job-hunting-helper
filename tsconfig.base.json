@@ -153,11 +153,17 @@
       "@jhh/jhh-client/dashboard/practice/feature": [
         "libs/jhh-client/dashboard/practice/feature/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/practice/feature-edit-quiz": [
+        "libs/jhh-client/dashboard/practice/feature-edit-quiz/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/practice/feature-remove-quiz": [
         "libs/jhh-client/dashboard/practice/feature-remove-quiz/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/practice/feature-single-quiz": [
         "libs/jhh-client/dashboard/practice/feature-single-quiz/src/index.ts"
+      ],
+      "@jhh/jhh-client/dashboard/practice/feature/feature-edit-quiz": [
+        "libs/jhh-client/dashboard/practice/feature/feature-edit-quiz/src/index.ts"
       ],
       "@jhh/jhh-client/dashboard/practice/shell": [
         "libs/jhh-client/dashboard/practice/shell/src/index.ts"

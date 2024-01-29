@@ -1,4 +1,5 @@
 export enum QuizField {
+  Slug = 'slug',
   Name = 'name',
   Description = 'description',
   ImageUrl = 'imageUrl',

@@ -10,6 +10,7 @@ import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import {
   AddQuizResultsSuccessPayload,
   AddQuizSuccessPayload,
+  EditQuizSuccessPayload,
   RemoveQuizSuccessPayload,
 } from '@jhh/jhh-client/dashboard/practice/domain';
 
@@ -35,6 +36,26 @@ export class PracticeEffects {
           ),
         onError: (action, error) =>
           PracticeActions.addQuizFail({ payload: error }),
+      })
+    )
+  );
+
+  editQuiz$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PracticeActions.editQuiz),
+      fetch({
+        run: (action) =>
+          this.practiceService.editQuiz(action.payload).pipe(
+            mergeMap((res: EditQuizSuccessPayload) => [
+              PracticeActions.editQuizSuccess({ payload: res }),
+              PracticeActions.resetEditQuizSuccess(),
+            ]),
+            tap(() => {
+              this.snackbarService.open('Practice quiz edited successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          PracticeActions.editQuizFail({ payload: error }),
       })
     )
   );

@@ -34,6 +34,18 @@ export class PracticeFacade {
     select(PracticeSelectors.selectAddQuizSuccess)
   );
 
+  editQuizInProgress$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectEditQuizInProgress)
+  );
+
+  editQuizError$: Observable<string | null> = this.store.pipe(
+    select(PracticeSelectors.selectEditQuizError)
+  );
+
+  editQuizSuccess$: Observable<boolean> = this.store.pipe(
+    select(PracticeSelectors.selectEditQuizSuccess)
+  );
+
   removeQuizInProgress$: Observable<boolean> = this.store.pipe(
     select(PracticeSelectors.selectRemoveQuizInProgress)
   );
@@ -78,6 +90,30 @@ export class PracticeFacade {
     );
   }
 
+  editQuiz(
+    quizId: string,
+    slug: string,
+    name: string,
+    description: string | undefined,
+    imageUrl: string | undefined,
+    items: QuizItem[]
+  ) {
+    return this.actionResolverService.executeAndWatch(
+      PracticeActions.editQuiz({
+        payload: {
+          quizId,
+          slug,
+          name,
+          description,
+          imageUrl,
+          items,
+        },
+      }),
+      PracticeActions.Type.EditQuizSuccess,
+      PracticeActions.Type.EditQuizFail
+    );
+  }
+
   removeQuiz(quizId: string) {
     return this.actionResolverService.executeAndWatch(
       PracticeActions.removeQuiz({
@@ -110,6 +146,12 @@ export class PracticeFacade {
 
   getQuiz$BySlug(slug: string): Observable<Quiz | undefined> {
     return this.store.pipe(select(PracticeSelectors.selectQuizBySlug, slug));
+  }
+
+  getQuizSlug$ById(quizId: string): Observable<string | null> {
+    return this.store.pipe(
+      select(PracticeSelectors.selectQuizSlugById, { quizId })
+    );
   }
 
   searchQuizzes$ByName(query: string): Observable<Quiz[] | null> {

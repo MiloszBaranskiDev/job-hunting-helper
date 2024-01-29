@@ -19,6 +19,10 @@
               <mat-icon>more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openEditQuizDialog(quiz)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
               <button mat-menu-item (click)="openRemoveQuizDialog(quiz)">
                 <mat-icon>close</mat-icon>
                 <span>Remove</span>

@@ -39,6 +39,21 @@ export const selectAddQuizSuccess = createSelector(
   (state: PracticeState) => state.addQuiz.success!
 );
 
+export const selectEditQuizInProgress = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.editQuiz.inProgress
+);
+
+export const selectEditQuizError = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.editQuiz.error
+);
+
+export const selectEditQuizSuccess = createSelector(
+  selectPracticeState,
+  (state: PracticeState) => state.editQuiz.success!
+);
+
 export const selectRemoveQuizInProgress = createSelector(
   selectPracticeState,
   (state: PracticeState) => state.removeQuiz.inProgress
@@ -67,6 +82,21 @@ export const selectAddQuizResultsError = createSelector(
 export const selectAddQuizResultsSuccess = createSelector(
   selectPracticeState,
   (state: PracticeState) => state.addQuizResults.success!
+);
+
+export const selectQuizSlugById = createSelector(
+  selectAllQuizzes,
+  (quizzes: Quiz[], props: { quizId: string }) => {
+    if (!props.quizId) {
+      return null;
+    }
+
+    const quiz: Quiz | undefined = quizzes.find(
+      (quiz) => quiz.id === props.quizId
+    );
+
+    return quiz ? quiz.slug : null;
+  }
 );
 
 export const selectSearchQuizzes = createSelector(

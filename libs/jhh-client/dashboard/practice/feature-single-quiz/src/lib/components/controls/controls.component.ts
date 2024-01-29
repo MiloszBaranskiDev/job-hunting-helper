@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   MatDialog,
@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
+import { EditPracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { Quiz } from '@jhh/shared/interfaces';
@@ -50,6 +51,7 @@ export class ControlsComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly removePracticeQuizDialogService: RemovePracticeQuizDialogService =
     inject(RemovePracticeQuizDialogService);
+  private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService;
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
   @Input({ required: true }) quiz: Quiz;
@@ -60,11 +62,14 @@ export class ControlsComponent implements OnInit {
 
   dialogRef: MatDialogRef<TemplateRef<any>>;
 
+  editQuizSuccess$: Observable<boolean>;
   removeQuizSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
+    this.editQuizSuccess$ = this.practiceFacade.editQuizSuccess$;
     this.removeQuizSuccess$ = this.practiceFacade.removeQuizSuccess$;
 
+    this.navigateAfterSlugChange();
     this.navigateAfterRemove();
   }
 
@@ -79,10 +84,6 @@ export class ControlsComponent implements OnInit {
   turnPlayMode(): void {
     this.isPlayMode$.next(true);
     this.dialogRef.close();
-  }
-
-  openRemoveQuizDialog(): void {
-    this.removePracticeQuizDialogService.openDialog(this.quiz);
   }
 
   getQuestionLimits(): number[] {
@@ -108,6 +109,42 @@ export class ControlsComponent implements OnInit {
 
   setQuestionLimit(value: number): void {
     this.questionsLimit$.next(value);
+  }
+
+  openEditQuizDialog(): void {
+    this.editPracticeQuizDialogService.openDialog(this.quiz);
+  }
+
+  openRemoveQuizDialog(): void {
+    this.removePracticeQuizDialogService.openDialog(this.quiz);
+  }
+
+  private navigateAfterSlugChange(): void {
+    this.editQuizSuccess$
+      .pipe(
+        filter((val) => val === true),
+        switchMap(() => this.practiceFacade.getQuizSlug$ById(this.quiz.id)),
+        filter((newSlug) => newSlug !== null && newSlug !== this.quiz.slug),
+        tap((newSlug) => {
+          const currentUrlSegments: string[] = this.router.url.split('/');
+          const slugIndex: number = currentUrlSegments.findIndex(
+            (segment) => segment === this.quiz.slug
+          );
+
+          if (slugIndex !== -1) {
+            currentUrlSegments[slugIndex] = newSlug!;
+            const newQuizLink: string = currentUrlSegments.join('/');
+
+            this.router
+              .navigate([''], { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([newQuizLink]);
+              });
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private navigateAfterRemove(): void {

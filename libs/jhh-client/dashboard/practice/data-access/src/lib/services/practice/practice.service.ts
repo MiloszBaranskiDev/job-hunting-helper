@@ -13,6 +13,9 @@ import {
   AddQuizResultsSuccessResponse,
   AddQuizSuccessPayload,
   AddQuizSuccessResponse,
+  EditQuizPayload,
+  EditQuizSuccessPayload,
+  EditQuizSuccessResponse,
   RemoveQuizPayload,
   RemoveQuizSuccessPayload,
   RemoveQuizSuccessResponse,
@@ -39,6 +42,22 @@ export class PracticeService {
         }
       )
       .pipe(map((res: AddQuizSuccessResponse) => res.data));
+  }
+
+  editQuiz(payload: EditQuizPayload): Observable<EditQuizSuccessPayload> {
+    return this.http
+      .put<EditQuizSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.EditPracticeQuiz,
+        {
+          quizId: payload.quizId,
+          slug: payload.slug,
+          name: payload.name,
+          description: payload.description,
+          imageUrl: payload.imageUrl,
+          items: payload.items,
+        }
+      )
+      .pipe(map((res: EditQuizSuccessResponse) => res.data));
   }
 
   removeQuiz(payload: RemoveQuizPayload): Observable<RemoveQuizSuccessPayload> {

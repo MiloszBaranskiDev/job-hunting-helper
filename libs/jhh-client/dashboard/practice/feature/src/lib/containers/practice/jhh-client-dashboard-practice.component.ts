@@ -18,6 +18,7 @@ import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/d
 import { JhhClientDashboardSearchbarComponent } from '@jhh/jhh-client/dashboard/feature-searchbar';
 import { JhhClientDashboardSortingComponent } from '@jhh/jhh-client/dashboard/feature-sorting';
 import { JhhClientDashboardPaginationComponent } from '@jhh/jhh-client/dashboard/feature-pagination';
+import { JhhClientDashboardEditPracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 
 import { Quiz } from '@jhh/shared/interfaces';
 import { QuizzesSort } from '@jhh/jhh-client/dashboard/practice/domain';
@@ -33,6 +34,7 @@ import { QuizzesSort } from '@jhh/jhh-client/dashboard/practice/domain';
     JhhClientDashboardSearchbarComponent,
     JhhClientDashboardSortingComponent,
     JhhClientDashboardPaginationComponent,
+    JhhClientDashboardEditPracticeQuizComponent,
   ],
   templateUrl: './jhh-client-dashboard-practice.component.html',
   styleUrls: ['./jhh-client-dashboard-practice.component.scss'],

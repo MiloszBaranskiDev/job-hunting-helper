@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
+import { EditPracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 
 import { Quiz } from '@jhh/shared/interfaces';
 
@@ -30,6 +31,8 @@ export class QuizzesListComponent implements OnInit {
     inject(BreakpointService);
   private readonly removePracticeQuizDialogService: RemovePracticeQuizDialogService =
     inject(RemovePracticeQuizDialogService);
+  private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService =
+    inject(EditPracticeQuizDialogService);
 
   @Input({ required: true }) quizzes: Quiz[];
 
@@ -37,6 +40,10 @@ export class QuizzesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  openEditQuizDialog(quiz: Quiz): void {
+    this.editPracticeQuizDialogService.openDialog(quiz);
   }
 
   openRemoveQuizDialog(quiz: Quiz): void {

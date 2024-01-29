@@ -34,6 +34,7 @@ export enum ApiRoute {
   RemoveScheduleEvent = '/remove-schedule-event',
   //
   AddPracticeQuiz = '/add-practice-quiz',
+  EditPracticeQuiz = '/edit-practice-quiz',
   RemovePracticeQuiz = '/remove-practice-quiz',
   AddPracticeQuizResults = '/add-practice-quiz-results',
 }

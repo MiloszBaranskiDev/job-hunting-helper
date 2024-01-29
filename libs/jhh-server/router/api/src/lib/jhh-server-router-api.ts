@@ -53,6 +53,7 @@ export function JhhServerRouterApi(): Router {
   router.delete(ApiRoute.RemoveScheduleEvent, scheduleController.removeEvent);
 
   router.post(ApiRoute.AddPracticeQuiz, practiceControler.addQuiz);
+  router.put(ApiRoute.EditPracticeQuiz, practiceControler.editQuiz);
   router.delete(ApiRoute.RemovePracticeQuiz, practiceControler.removeQuiz);
   router.post(
     ApiRoute.AddPracticeQuizResults,

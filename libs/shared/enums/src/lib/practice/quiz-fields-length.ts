@@ -10,4 +10,5 @@ export enum QuizFieldsLength {
   MaxQuestions = 50,
   MinAnswers = 2,
   MaxAnswers = 6,
+  MaxNameAndSlugLengthDiff = 25,
 }

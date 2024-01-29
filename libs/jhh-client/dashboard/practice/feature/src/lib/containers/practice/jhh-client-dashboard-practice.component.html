@@ -2,6 +2,7 @@
 
 <ng-container *ngIf="sortedQuizzes$ | async as quizzes">
   <ng-container *ngIf="totalPages; else emptyList">
+    <jhh-edit-practice-quiz></jhh-edit-practice-quiz>
     <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
     <jhh-searchbar [searchFunction]="searchQuizzes" [placeholder]="'Enter quiz name...'"></jhh-searchbar>
     <jhh-sorting

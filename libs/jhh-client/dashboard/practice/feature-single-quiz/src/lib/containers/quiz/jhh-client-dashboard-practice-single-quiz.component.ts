@@ -23,6 +23,7 @@ import { ControlsComponent } from '../../components/controls/controls.component'
 import { PlayComponent } from '../../components/play/play.component';
 import { ResultsComponent } from '../../components/results/results.component';
 import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
+import { JhhClientDashboardEditPracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 
 @Component({
   selector: 'jhh-practice-quiz',
@@ -35,6 +36,7 @@ import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/d
     JhhClientDashboardRemovePracticeQuizComponent,
     PlayComponent,
     ResultsComponent,
+    JhhClientDashboardEditPracticeQuizComponent,
   ],
   templateUrl: './jhh-client-dashboard-practice-single-quiz.component.html',
   styleUrls: ['./jhh-client-dashboard-practice-single-quiz.component.scss'],
