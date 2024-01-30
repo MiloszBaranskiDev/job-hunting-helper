@@ -1,8 +1,22 @@
 <ul [ngClass]="breakpoint$ | async">
-  <li *ngFor="let quiz of quizzes; let i = index">
-    <a [routerLink]="'./' + quiz.slug"
-       [ngClass]="i % 2 === 0 ? 'cornerDecoration--rightLeft' : 'cornerDecoration--leftRight'"
-       class="quizCard cornerDecoration">
+  <li *ngFor="let quiz of extendedQuizzes; let i = index">
+    <a
+      [routerLink]="'./' + quiz.slug"
+      [ngClass]="i % 2 === 0 ? 'cornerDecoration--rightLeft' : 'cornerDecoration--leftRight'"
+      class="quizCard cornerDecoration"
+    >
+      <span
+        *ngIf="quiz.passRate > 0"
+        [ngClass]="['resultsPercentage', quiz.percentageClass]"
+      >
+        {{quiz.passRate.toFixed()}}%
+      </span>
+      <span
+        *ngIf="quiz.items.length > 0"
+        class="circleCounter"
+      >
+        {{quiz.items.length <= 99 ? quiz.items.length : '99+'}}
+      </span>
       <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
       <header>
         <div class="row">
@@ -30,10 +44,11 @@
             </mat-menu>
           </ng-container>
         </div>
-        <p *ngIf="quiz.description">
-          {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
-        </p>
+
       </header>
+      <p *ngIf="quiz.description">
+        {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
+      </p>
     </a>
   </li>
 </ul>

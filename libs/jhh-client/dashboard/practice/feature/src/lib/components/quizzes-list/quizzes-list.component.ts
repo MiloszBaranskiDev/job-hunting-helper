@@ -1,4 +1,11 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -7,11 +14,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
-
 import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 import { EditPracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 
+import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
+
 import { Quiz } from '@jhh/shared/interfaces';
+import { QuizResults } from '@prisma/client';
+
+interface ExtendedQuiz extends Quiz {
+  passRate: number;
+  percentageClass: string;
+}
 
 @Component({
   selector: 'jhh-practice-quizzes-list',
@@ -26,7 +40,7 @@ import { Quiz } from '@jhh/shared/interfaces';
   templateUrl: './quizzes-list.component.html',
   styleUrls: ['./quizzes-list.component.scss'],
 })
-export class QuizzesListComponent implements OnInit {
+export class QuizzesListComponent implements OnInit, OnChanges {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
   private readonly removePracticeQuizDialogService: RemovePracticeQuizDialogService =
@@ -36,10 +50,18 @@ export class QuizzesListComponent implements OnInit {
 
   @Input({ required: true }) quizzes: Quiz[];
 
+  extendedQuizzes: ExtendedQuiz[];
+
   breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['quizzes']) {
+      this.extendQuizzes();
+    }
   }
 
   openEditQuizDialog(quiz: Quiz): void {
@@ -48,5 +70,23 @@ export class QuizzesListComponent implements OnInit {
 
   openRemoveQuizDialog(quiz: Quiz): void {
     this.removePracticeQuizDialogService.openDialog(quiz);
+  }
+
+  private extendQuizzes(): void {
+    this.extendedQuizzes = this.quizzes.map((quiz) => {
+      const passRate = this.calculatePassRate(quiz.results as QuizResults[]);
+      const percentageClass = GetPercentageClass(passRate);
+
+      return {
+        ...quiz,
+        passRate,
+        percentageClass,
+      };
+    });
+  }
+
+  private calculatePassRate(results: QuizResults[]): number {
+    const total = results.reduce((sum, result) => sum + result.percentage, 0);
+    return results.length > 0 ? total / results.length : 0;
   }
 }

@@ -67,15 +67,15 @@ textarea {
   font-size: 16px;
 
   &--High {
-    color: var(--color__green);
+    color: var(--color__green) !important;
   }
 
   &--Medium {
-    color: var(--color__accent);
+    color: var(--color__accent) !important;
   }
 
   &--Low {
-    color: var(--color__red);
+    color: var(--color__red) !important;
   }
 }
 
@@ -240,4 +240,23 @@ textarea {
       pointer-events: none;
     }
   }
+}
+
+.circleCounter {
+  $size: 30px;
+  min-width: $size;
+  max-width: $size;
+  min-height: $size;
+  max-height: $size;
+  border-radius: 100%;
+  background-color: var(--color__primary);
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  transition: all 0.3s;
 }

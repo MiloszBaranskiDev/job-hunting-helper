@@ -18,8 +18,27 @@ ul {
     color: inherit;
     padding: 20px;
 
+    .resultsPercentage {
+      pointer-events: none;
+      position: absolute;
+      top: 10px;
+      left: 6px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: var(--radius__base);
+    }
+
     &:hover {
       background-color: var(--color__primary);
+
+      .circleCounter {
+        background-color: var(--color__bg--darker);
+        color: var(--color__text);
+      }
+
+      .resultsPercentage {
+        background-color: var(--color__bg--darker);
+      }
 
       * {
         color: white;
