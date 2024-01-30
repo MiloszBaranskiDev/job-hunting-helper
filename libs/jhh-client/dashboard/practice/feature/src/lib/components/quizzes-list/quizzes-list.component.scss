@@ -10,6 +10,13 @@ ul {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  &.tablet,
+  &.desktop {
+    .emptyFigure {
+      height: 120px !important;
+    }
+  }
+
   .quizCard {
     background-color: var(--color__bg--darker);
     display: block;
@@ -45,15 +52,23 @@ ul {
       }
     }
 
-    img {
+    figure {
       height: 120px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-      background-color: var(--color__bg--darker);
-      border-radius: var(--radius__base);
-      padding: 12px 20px;
       margin-bottom: 6px;
+
+      &.emptyFigure {
+        height: 20px;
+      }
+
+      img {
+        background-color: var(--color__bg--darker);
+        border-radius: var(--radius__base);
+        padding: 12px 20px;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
     }
 
     header {
