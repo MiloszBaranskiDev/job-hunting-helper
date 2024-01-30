@@ -13,7 +13,14 @@ const addQuizResults = async (req: any, res: any): Promise<void> => {
     const { quizId, items, totalScore, percentage } = req.body;
     const userId = req.user.id;
 
-    if (!quizId || !items || !totalScore || !percentage) {
+    if (
+      !quizId ||
+      !items ||
+      totalScore === null ||
+      totalScore === undefined ||
+      percentage === null ||
+      percentage === undefined
+    ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
