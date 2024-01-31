@@ -37,6 +37,10 @@ const removeQuiz = async (req: any, res: any): Promise<void> => {
       );
     }
 
+    await prisma.quizResults.deleteMany({
+      where: { quizId },
+    });
+
     const removedQuiz: Quiz = await prisma.quiz.delete({
       where: { id: quizId },
       include: {

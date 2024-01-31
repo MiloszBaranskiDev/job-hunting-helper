@@ -1,5 +1,5 @@
 <ul [ngClass]="breakpoint$ | async">
-  <li *ngFor="let quiz of extendedQuizzes; let i = index">
+  <li *ngFor="let quiz of extendedQuizzes; let i = index; trackBy: trackByFn">
     <a
       [routerLink]="'./' + quiz.slug"
       [ngClass]="i % 2 === 0 ? 'cornerDecoration--rightLeft' : 'cornerDecoration--leftRight'"

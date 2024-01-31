@@ -13,12 +13,15 @@ import {
   EditQuizSuccessPayload,
   RemoveQuizSuccessPayload,
 } from '@jhh/jhh-client/dashboard/practice/domain';
+import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 @Injectable()
 export class PracticeEffects {
   private readonly actions$ = inject(Actions);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly practiceService: PracticeService = inject(PracticeService);
+  private readonly removePracticeQuizDialogService: RemovePracticeQuizDialogService =
+    inject(RemovePracticeQuizDialogService);
 
   addQuiz$ = createEffect(() =>
     this.actions$.pipe(
@@ -95,6 +98,7 @@ export class PracticeEffects {
               PracticeActions.resetRemoveQuizSuccess(),
             ]),
             tap(() => {
+              this.removePracticeQuizDialogService.clearQuizToRemove();
               this.snackbarService.open('Practice quiz removed successfully!');
             })
           ),

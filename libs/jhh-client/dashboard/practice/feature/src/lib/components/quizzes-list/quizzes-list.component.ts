@@ -72,6 +72,10 @@ export class QuizzesListComponent implements OnInit, OnChanges {
     this.removePracticeQuizDialogService.openDialog(quiz);
   }
 
+  trackByFn(index: number, item: ExtendedQuiz): string {
+    return item.id;
+  }
+
   private extendQuizzes(): void {
     this.extendedQuizzes = this.quizzes.map((quiz) => {
       const passRate = this.calculatePassRate(quiz.results as QuizResults[]);

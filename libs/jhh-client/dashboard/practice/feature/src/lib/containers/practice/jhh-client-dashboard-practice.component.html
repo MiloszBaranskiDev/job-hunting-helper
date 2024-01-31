@@ -1,18 +1,21 @@
-<jhh-practice-add-quiz></jhh-practice-add-quiz>
-
-<ng-container *ngIf="sortedQuizzes$ | async as quizzes">
-  <ng-container *ngIf="totalPages; else emptyList">
-    <jhh-edit-practice-quiz></jhh-edit-practice-quiz>
-    <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
-    <jhh-searchbar [searchFunction]="searchQuizzes" [placeholder]="'Enter quiz name...'"></jhh-searchbar>
-    <jhh-sorting
-      [sortOptionsValues]="sortOptionsValues"
-      [defaultSort]="defaultSort"
-      [currentSort$]="currentSort$"
-      (updateCurrentSort)="handleSortChange($event)"
-    >
-    </jhh-sorting>
-    <jhh-practice-quizzes-list [quizzes]="quizzes"></jhh-practice-quizzes-list>
+<ng-container>
+  <jhh-edit-practice-quiz></jhh-edit-practice-quiz>
+  <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
+  <div class="topContainer">
+    <jhh-practice-add-quiz></jhh-practice-add-quiz>
+    <ng-container *ngIf="(sortedQuizzes$ | async)?.length">
+      <jhh-searchbar [searchFunction]="searchQuizzes" [placeholder]="'Enter quiz name...'"></jhh-searchbar>
+      <jhh-sorting
+        [sortOptionsValues]="sortOptionsValues"
+        [defaultSort]="defaultSort"
+        [currentSort$]="currentSort$"
+        (updateCurrentSort)="handleSortChange($event)"
+      >
+      </jhh-sorting>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="(sortedQuizzes$ | async)?.length; else emptyList">
+    <jhh-practice-quizzes-list [quizzes]="(sortedQuizzes$ | async)!"></jhh-practice-quizzes-list>
     <jhh-pagination
       [totalPages]="totalPages"
       [defaultPage]="defaultPage"
@@ -26,6 +29,3 @@
 <ng-template #emptyList>
   <p>No quizzes found</p>
 </ng-template>
-
-
-

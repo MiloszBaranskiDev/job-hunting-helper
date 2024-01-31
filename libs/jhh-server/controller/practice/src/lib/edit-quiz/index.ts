@@ -64,8 +64,7 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
 
     const existingQuiz = await prisma.quiz.findFirst({
       where: {
-        name,
-        userId,
+        id: quizId,
       },
     });
 
