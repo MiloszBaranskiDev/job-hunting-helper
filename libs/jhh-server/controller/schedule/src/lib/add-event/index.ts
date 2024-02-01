@@ -1,10 +1,12 @@
 import { PrismaClient, ScheduleEvent } from '@prisma/client';
 
+import { JhhServerDb } from '@jhh/jhh-server/db';
+
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { EventFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
+import { regex } from '@jhh/shared/regex';
 
-import { JhhServerDb } from '@jhh/jhh-server/db';
+import { EventFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
 
 const addEvent = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -59,8 +61,7 @@ const addEvent = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const hexColorRegex: RegExp = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
-    if (!hexColorRegex.test(color)) {
+    if (!regex.color.test(color)) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,

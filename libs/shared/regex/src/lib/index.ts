@@ -4,4 +4,5 @@ export const regex = {
   ),
   link: new RegExp(/^https?:\/\/[^\s$.?#].[^\s]*$/),
   imageUrl: new RegExp(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))$/i),
+  color: new RegExp(/^#(?:[0-9a-fA-F]{3}){1,2}$/),
 };

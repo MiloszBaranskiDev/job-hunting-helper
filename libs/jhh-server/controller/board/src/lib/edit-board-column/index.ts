@@ -4,6 +4,8 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
+import { regex } from '@jhh/shared/regex';
+
 import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
 
 const editBoardColumn = async (req: any, res: any): Promise<void> => {
@@ -64,8 +66,7 @@ const editBoardColumn = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    const hexColorRegex: RegExp = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
-    if (!hexColorRegex.test(color)) {
+    if (!regex.color.test(color)) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
