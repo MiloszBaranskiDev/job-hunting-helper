@@ -11,22 +11,22 @@ export class TitleService {
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  private titleSubject: BehaviorSubject<string | null> = new BehaviorSubject<
+  private _title$: BehaviorSubject<string | null> = new BehaviorSubject<
     string | null
   >(null);
-  title$: Observable<string | null> = this.titleSubject.asObservable();
+  title$: Observable<string | null> = this._title$.asObservable();
 
   constructor() {
     this.router.events
       .pipe(
         filter((event: any) => event instanceof NavigationEnd),
-        tap((event: NavigationEnd) => {
-          let route = this.activatedRoute;
+        tap(() => {
+          let route: ActivatedRoute = this.activatedRoute;
           while (route.firstChild) {
             route = route.firstChild;
           }
           const defaultTitle: string | undefined = route.snapshot.title;
-          if (defaultTitle) this.titleSubject.next(defaultTitle);
+          if (defaultTitle) this._title$.next(defaultTitle);
         })
       )
       .subscribe();
@@ -34,6 +34,6 @@ export class TitleService {
 
   setTitle(newTitle: string): void {
     this.titleService.setTitle(newTitle);
-    this.titleSubject.next(newTitle);
+    this._title$.next(newTitle);
   }
 }
