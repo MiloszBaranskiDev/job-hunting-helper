@@ -4,9 +4,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 
 import { SidebarService } from '../../service/sidebar.service';
 
@@ -29,13 +34,16 @@ interface SidebarItem {
     MatToolbarModule,
     MatButtonModule,
     RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './jhh-client-dashboard-feature-sidebar.component.html',
   styleUrls: ['./jhh-client-dashboard-feature-sidebar.component.scss'],
 })
 export class JhhClientDashboardFeatureSidebarComponent implements OnInit {
   private readonly sidebarService: SidebarService = inject(SidebarService);
+  private readonly router: Router = inject(Router);
 
+  activeLink$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   isBreakpointMobile$: Observable<boolean>;
   isSidebarOpened$: Observable<boolean>;
   isSidebarExpanded$: Observable<boolean>;
@@ -53,9 +61,24 @@ export class JhhClientDashboardFeatureSidebarComponent implements OnInit {
     this.isBreakpointMobile$ = this.sidebarService.isBreakpointMobile$;
     this.isSidebarOpened$ = this.sidebarService.isSidebarOpened$;
     this.isSidebarExpanded$ = this.sidebarService.isSidebarExpanded$;
+
+    this.detectActiveLink();
   }
 
   handleClose(): void {
     this.sidebarService.toggleSidebar();
+  }
+
+  private detectActiveLink(): void {
+    this.activeLink$.next(this.router.url.split('?')[0]);
+
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        tap(() => {
+          this.activeLink$.next(this.router.url.split('?')[0]);
+        })
+      )
+      .subscribe();
   }
 }

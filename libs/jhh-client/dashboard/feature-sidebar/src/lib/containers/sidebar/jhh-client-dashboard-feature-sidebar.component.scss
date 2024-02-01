@@ -25,6 +25,14 @@
   }
 
   &__item {
+    border: 1px solid transparent;
+    border-radius: var(--radius__base);
+    transition: border-color 0.2s;
+
+    &--active {
+      border-color: white;
+    }
+
     ::ng-deep {
       .mdc-list-item__content {
         .mat-mdc-list-item-unscoped-content {
