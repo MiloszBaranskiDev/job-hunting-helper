@@ -12,7 +12,7 @@
 
         <mat-form-field>
           <mat-label>Quiz name</mat-label>
-          <input matInput jhhWhitespaceSanitizer required [formControlName]="formField.Name">
+          <input matInput whitespaceSanitizer required [formControlName]="formField.Name">
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
             Quiz name is required
           </mat-error>

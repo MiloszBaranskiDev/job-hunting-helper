@@ -98,7 +98,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Title</mat-label>
-        <input matInput [formControlName]="formField.Title" jhhWhitespaceSanitizer required/>
+        <input matInput [formControlName]="formField.Title" whitespaceSanitizer required/>
         <mat-error *ngIf="formGroup.get(formField.Title)?.hasError(formErrorKey.Required)">
           Title is required
         </mat-error>

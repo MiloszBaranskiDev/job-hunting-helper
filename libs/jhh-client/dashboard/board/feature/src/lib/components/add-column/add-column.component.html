@@ -11,7 +11,7 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Column name</mat-label>
-          <input matInput [formControlName]="formField.Name" jhhWhitespaceSanitizer required/>
+          <input matInput [formControlName]="formField.Name" whitespaceSanitizer required/>
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
             Column name is required
           </mat-error>

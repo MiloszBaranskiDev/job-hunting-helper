@@ -9,7 +9,7 @@
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput [formControlName]="formField.Name" placeholder="Name" jhhWhitespaceSanitizer required>
+            <input matInput [formControlName]="formField.Name" placeholder="Name" whitespaceSanitizer required>
             <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
               Name is required
             </mat-error>

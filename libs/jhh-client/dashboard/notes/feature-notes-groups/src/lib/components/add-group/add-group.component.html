@@ -8,7 +8,7 @@
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill">
           <mat-label>Group name</mat-label>
-          <input matInput placeholder="Group Name" [formControlName]="formField.Name" jhhWhitespaceSanitizer required/>
+          <input matInput placeholder="Group Name" [formControlName]="formField.Name" whitespaceSanitizer required/>
           <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
             Group name is required
           </mat-error>

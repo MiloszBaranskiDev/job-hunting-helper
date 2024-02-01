@@ -9,7 +9,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[jhhWhitespaceSanitizer]',
+  selector: '[whitespaceSanitizer]',
   standalone: true,
 })
 export class WhitespaceSanitizerDirective implements OnInit {
