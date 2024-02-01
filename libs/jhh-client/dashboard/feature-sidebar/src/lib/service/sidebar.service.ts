@@ -5,6 +5,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ import {
 export class SidebarService {
   private readonly breakpointObserver: BreakpointObserver =
     inject(BreakpointObserver);
+  private readonly router: Router = inject(Router);
 
   private isBreakpointMobile: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -33,6 +35,7 @@ export class SidebarService {
       .pipe(distinctUntilChanged());
 
     this.handleBreakpoint();
+    this.handleRouteChange();
   }
 
   handleBreakpoint(): void {
@@ -45,6 +48,17 @@ export class SidebarService {
         this.isBreakpointMobile.next(false);
         this.isSidebarOpened.next(true);
         this.isSidebarExpanded.next(true);
+      }
+    });
+  }
+
+  handleRouteChange(): void {
+    this.router.events.subscribe((event) => {
+      if (
+        event instanceof NavigationEnd &&
+        this.isBreakpointMobile.getValue()
+      ) {
+        this.isSidebarOpened.next(false);
       }
     });
   }
