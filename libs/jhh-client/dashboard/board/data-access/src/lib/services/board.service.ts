@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 import {
   AddBoardColumnPayload,
   AddBoardColumnSuccessPayload,

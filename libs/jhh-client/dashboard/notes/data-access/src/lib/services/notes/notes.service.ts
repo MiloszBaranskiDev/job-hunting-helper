@@ -28,8 +28,8 @@ import {
   RemoveNotesGroupSuccessResponse,
   RemoveNoteSuccessPayload,
   RemoveNoteSuccessResponse,
-} from '@jhh/jhh-client/dashboard/notes/interfaces';
-import { ApiRoute } from '@jhh/shared/enums';
+} from '@jhh/jhh-client/dashboard/notes/domain';
+import { ApiRoute } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 

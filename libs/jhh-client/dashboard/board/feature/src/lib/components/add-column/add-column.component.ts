@@ -32,7 +32,7 @@ import {
   BoardColumnField,
   BoardColumnFormErrorKey,
 } from '@jhh/jhh-client/dashboard/board/domain';
-import { BoardColumnFieldsLength } from '@jhh/shared/enums';
+import { BoardColumnFieldsLength } from '@jhh/shared/domain';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';

@@ -20,7 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
 
-import { QuizResults } from '@jhh/shared/interfaces';
+import { QuizResults } from '@jhh/shared/domain';
 
 interface ExtendedResults extends QuizResults {
   percentageClass: string;

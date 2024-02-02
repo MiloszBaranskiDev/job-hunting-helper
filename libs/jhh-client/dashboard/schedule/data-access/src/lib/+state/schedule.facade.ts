@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 
 import * as ScheduleSelectors from './schedule.selectors';
 import * as ScheduleActions from './schedule.actions';

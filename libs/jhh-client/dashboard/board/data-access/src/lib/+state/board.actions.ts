@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn } from '@jhh/shared/domain';
 import {
   AddBoardColumnPayload,
   AddBoardColumnSuccessPayload,

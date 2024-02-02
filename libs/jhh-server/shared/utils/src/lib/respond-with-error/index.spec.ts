@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 // @ts-ignore
-import { HttpStatusCode } from '@jhh/shared/enums';
+import { HttpStatusCode } from '@jhh/shared/domain';
 
 import { respondWithError } from './index';
 

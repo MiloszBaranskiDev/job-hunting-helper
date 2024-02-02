@@ -39,7 +39,7 @@ import {
   EventField,
   EventFormErrorKey,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
-import { EventFieldsLength } from '@jhh/shared/enums';
+import { EventFieldsLength } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-schedule-add',

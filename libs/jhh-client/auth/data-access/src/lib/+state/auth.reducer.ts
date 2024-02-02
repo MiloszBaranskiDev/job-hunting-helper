@@ -2,7 +2,7 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 
 import * as AuthActions from './auth.actions';
 
-import { User } from '@jhh/shared/interfaces';
+import { User } from '@jhh/shared/domain';
 
 export const AUTH_STATE_KEY = 'auth';
 

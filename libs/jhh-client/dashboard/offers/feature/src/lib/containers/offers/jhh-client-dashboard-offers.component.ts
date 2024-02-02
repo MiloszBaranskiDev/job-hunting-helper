@@ -9,7 +9,7 @@ import { AddComponent } from '../../components/add/add.component';
 import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 import { JhhClientDashboardRemoveOffersComponent } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-offers',

@@ -5,14 +5,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import * as AuthActions from './auth.actions';
 import { authReducer, AuthState, initialAuthState } from './auth.reducer';
 
-import { User } from '@jhh/shared/interfaces';
+import { User } from '@jhh/shared/domain';
 import {
   LoginPayload,
   LoginSuccessPayload,
   RegisterPayload,
   RegisterSuccessPayload,
   SaveTokenPayload,
-} from '@jhh/jhh-client/auth/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 
 const dummyUser: User = {
   id: '1337',

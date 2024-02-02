@@ -3,7 +3,8 @@ import hashPassword from './utils/hash-password';
 import validateUserPassword from './utils/validate-user-password/index';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
-import { HttpStatusCode } from '@jhh/shared/enums';
+
+import { HttpStatusCode } from '@jhh/shared/domain';
 
 import { JhhServerControllerUser } from './jhh-server-controller-user';
 

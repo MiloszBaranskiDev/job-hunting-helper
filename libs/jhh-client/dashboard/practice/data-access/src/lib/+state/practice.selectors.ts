@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { adapter, PRACTICE_STATE_KEY, PracticeState } from './practice.reducer';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 export const selectPracticeState =
   createFeatureSelector<PracticeState>(PRACTICE_STATE_KEY);

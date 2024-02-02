@@ -41,11 +41,11 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
 
 import { JhhClientDashboardNoteContentEditorComponent } from '@jhh/jhh-client/dashboard/notes/feature-content-editor';
 
-import { Note } from '@jhh/shared/interfaces';
-
-import { NoteFieldsLength, NoteSize } from '@jhh/shared/enums';
-import { FormField } from '../../enums/form-field';
-import { FormErrorKey } from '../../enums/form-error-key';
+import { Note, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import {
+  NoteFormErrorKey,
+  NoteFormField,
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 @Component({
   selector: 'jhh-edit-note-dialog',
@@ -81,9 +81,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   editNoteInProgress$: Observable<boolean>;
   editNoteError$: Observable<string | null>;
 
-  readonly formField: typeof FormField = FormField;
+  readonly formField: typeof NoteFormField = NoteFormField;
   readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
-  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
+  readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
   private quillInstance: any;

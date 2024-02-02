@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
-import { Breadcrumb } from '../../interfaces/breadcrumb';
+import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 
 @Component({
   selector: 'jhh-breadcrumbs-nav',

@@ -30,8 +30,11 @@ import { Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
 
-import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
-import { BoardColumnFieldsLength } from '@jhh/shared/enums';
+import {
+  BoardColumn,
+  BoardColumnFieldsLength,
+  BoardColumnItem,
+} from '@jhh/shared/domain';
 import {
   BoardColumnDefaultColors,
   BoardColumnField,

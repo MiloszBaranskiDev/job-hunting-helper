@@ -8,7 +8,7 @@ import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
 import { JhhServerRouterApi } from '@jhh/jhh-server/router/api';
 import { JhhServerRouterUser } from '@jhh/jhh-server/router/user';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 export function JhhServerApp(): Express {
   const app: Express = express();

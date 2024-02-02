@@ -11,7 +11,7 @@ import {
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
+} from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 

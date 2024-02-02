@@ -17,11 +17,10 @@ import { first, Observable } from 'rxjs';
 
 import { JhhClientAuthUiTemplateComponent } from '@jhh/jhh-client/auth/ui-template';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { FormFields } from '../../enums/form-fields';
-import { FormErrorKey } from '../../enums/form-error-key';
+import { AuthFormErrorKey, AuthFormFields } from '@jhh/jhh-client/auth/domain';
 
 @Component({
   selector: 'jhh-login-feature',
@@ -46,8 +45,8 @@ export class JhhClientAuthFeatureLoginComponent implements OnInit {
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
   readonly clientRoutes: typeof ClientRoute = ClientRoute;
-  readonly formFields: typeof FormFields = FormFields;
-  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
+  readonly formFields: typeof AuthFormFields = AuthFormFields;
+  readonly formErrorKey: typeof AuthFormErrorKey = AuthFormErrorKey;
 
   formGroup: FormGroup;
   hidePassword: boolean = true;
@@ -69,8 +68,8 @@ export class JhhClientAuthFeatureLoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const username = this.formGroup.get(FormFields.Username)?.value;
-      const password = this.formGroup.get(FormFields.Password)?.value;
+      const username = this.formGroup.get(this.formFields.Username)?.value;
+      const password = this.formGroup.get(this.formFields.Password)?.value;
 
       this.authFacade.login(username, password).pipe(first());
     }

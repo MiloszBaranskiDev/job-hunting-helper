@@ -8,8 +8,7 @@ import validateUserPassword from './utils/validate-user-password';
 import assignDefaultData from './utils/assign-default-data';
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { User } from '@jhh/shared/interfaces';
-import { HttpStatusCode, RegisterFieldsLength } from '@jhh/shared/enums';
+import { HttpStatusCode, RegisterFieldsLength, User } from '@jhh/shared/domain';
 
 export function JhhServerControllerUser() {
   const prisma: PrismaClient = JhhServerDb();

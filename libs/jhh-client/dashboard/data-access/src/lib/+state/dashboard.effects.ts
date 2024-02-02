@@ -8,8 +8,8 @@ import * as DashboardActions from './dashboard.actions';
 import { DashboardFacade } from './dashboard.facade';
 import { DashboardService } from '../services/dashboard/dashboard.service';
 
-import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
-import { LocalStorageKeys } from '@jhh/shared/enums';
+import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
+import { LocalStorageKeys } from '@jhh/shared/domain';
 
 @Injectable()
 export class DashboardEffects {

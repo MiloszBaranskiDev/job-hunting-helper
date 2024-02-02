@@ -3,8 +3,11 @@ import slugify from 'slugify';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, QuizFieldsLength } from '@jhh/shared/enums';
-import { QuizItemAnswer } from '@jhh/shared/interfaces';
+import {
+  HttpStatusCode,
+  QuizFieldsLength,
+  QuizItemAnswer,
+} from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 

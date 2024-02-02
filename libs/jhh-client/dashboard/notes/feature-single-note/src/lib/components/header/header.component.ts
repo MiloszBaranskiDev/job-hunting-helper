@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-note-header',

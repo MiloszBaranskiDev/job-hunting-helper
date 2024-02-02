@@ -7,7 +7,7 @@ import {
 
 import { RelatedNotesComponent } from './related-notes.component';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 describe('RelatedNotesComponent', () => {
   let component: RelatedNotesComponent;

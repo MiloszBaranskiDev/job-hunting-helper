@@ -3,7 +3,7 @@ import createDOMPurify, { DOMPurifyI } from 'dompurify';
 import { Note, NotesGroup, PrismaClient } from '@prisma/client';
 import { JSDOM } from 'jsdom';
 
-import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/enums';
+import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 

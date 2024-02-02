@@ -27,7 +27,7 @@ import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/pract
 import { EditPracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-practice-quiz-controls',

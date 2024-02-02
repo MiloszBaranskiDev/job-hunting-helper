@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 import {
   LoginSuccessPayload,
   RegisterSuccessPayload,
-} from '@jhh/jhh-client/auth/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 
 @Injectable()
 export class AuthEffects {

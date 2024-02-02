@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, filter } from 'rxjs';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
-import { Breadcrumb } from '../interfaces/breadcrumb';
+import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 
 @Injectable({
   providedIn: 'root',

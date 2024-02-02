@@ -10,7 +10,7 @@ import { JhhClientAuthFeatureLoginComponent } from 'libs/jhh-client/auth/feature
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { FormFields } from '../../enums/form-fields';
+import { AuthFormFields } from '@jhh/jhh-client/auth/domain';
 
 describe('JhhClientAuthFeatureLoginComponent', () => {
   let component: JhhClientAuthFeatureLoginComponent;
@@ -75,8 +75,8 @@ describe('JhhClientAuthFeatureLoginComponent', () => {
 
   it('should call onSubmit and login when the form is valid', () => {
     const authFacade = TestBed.inject(AuthFacade);
-    component.formGroup.get(FormFields.Username)?.setValue('username');
-    component.formGroup.get(FormFields.Password)?.setValue('password');
+    component.formGroup.get(AuthFormFields.Username)?.setValue('username');
+    component.formGroup.get(AuthFormFields.Password)?.setValue('password');
 
     component.onSubmit();
 

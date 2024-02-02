@@ -11,7 +11,7 @@ import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/fea
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 describe('GroupsListComponent', () => {
   let component: GroupsListComponent;

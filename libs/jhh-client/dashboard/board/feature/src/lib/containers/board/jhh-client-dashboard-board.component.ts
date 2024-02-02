@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ColumnsComponent } from '../../components/columns/columns.component';
 import { AddColumnComponent } from '../../components/add-column/add-column.component';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn } from '@jhh/shared/domain';
 
 import {
   BoardFacade,

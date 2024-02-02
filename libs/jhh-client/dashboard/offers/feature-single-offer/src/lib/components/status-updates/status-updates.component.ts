@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-import { OfferStatusUpdate } from '@jhh/shared/interfaces';
+import { OfferStatusUpdate } from '@jhh/shared/domain';
 import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
 
 interface ExtendedOfferStatusUpdate extends OfferStatusUpdate {

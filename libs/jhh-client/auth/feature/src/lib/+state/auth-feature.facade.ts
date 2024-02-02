@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Injectable()
 export class AuthFeatureFacade {

@@ -5,7 +5,7 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { QuizItem } from '@jhh/shared/interfaces';
+import { QuizItem } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-practice-quiz-questions',

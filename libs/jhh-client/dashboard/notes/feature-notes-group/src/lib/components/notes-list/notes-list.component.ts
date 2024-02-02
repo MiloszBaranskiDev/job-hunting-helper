@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 

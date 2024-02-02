@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 type DefaultQuiz = Omit<Quiz, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
 const defaultPracticeQuizzes: DefaultQuiz[] = [

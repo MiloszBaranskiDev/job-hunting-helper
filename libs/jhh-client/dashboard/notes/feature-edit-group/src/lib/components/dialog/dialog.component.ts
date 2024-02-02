@@ -27,11 +27,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { Observable } from 'rxjs';
 
-import { NotesGroupFieldsLength } from '@jhh/shared/enums';
-import { FormField } from '../../enums/form-field';
-import { FormErrorKey } from '../../enums/form-error-key';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup, NotesGroupFieldsLength } from '@jhh/shared/domain';
+import {
+  NotesGroupFormErrorKey,
+  NotesGroupFormField,
+} from '@jhh/jhh-client/dashboard/notes/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNotesGroupDialogService } from '../../service/edit-notes-group-dialog.service';
@@ -68,9 +69,9 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   editNotesGroupInProgress$: Observable<boolean>;
   editNotesGroupError$: Observable<string | null>;
 
-  readonly formField: typeof FormField = FormField;
+  readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
   readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
-  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
+  readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;

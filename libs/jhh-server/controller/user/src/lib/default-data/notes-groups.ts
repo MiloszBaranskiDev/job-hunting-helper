@@ -1,4 +1,4 @@
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 interface DefaultNote extends Pick<Note, 'name' | 'slug' | 'content'> {}
 

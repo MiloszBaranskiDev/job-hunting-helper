@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
+import { HttpStatusCode } from '@jhh/shared/domain';
 
 export function respondWithError(
   res: Response,

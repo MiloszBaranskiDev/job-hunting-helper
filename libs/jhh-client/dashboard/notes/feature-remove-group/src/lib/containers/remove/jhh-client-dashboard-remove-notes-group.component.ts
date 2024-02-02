@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
 import { DialogComponent } from '../../components/dialog/dialog.component';

@@ -1,4 +1,4 @@
-import { QuizItem } from '@jhh/shared/interfaces';
+import { QuizItem } from '@jhh/shared/domain';
 
 export interface EditQuizPayload {
   quizId: string;

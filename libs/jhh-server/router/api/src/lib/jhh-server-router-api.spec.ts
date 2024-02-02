@@ -3,7 +3,7 @@ import express, { Express } from 'express';
 
 import { JhhServerRouterApi } from './jhh-server-router-api';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 describe('JhhServerRouterApi', () => {
   let app: Express;

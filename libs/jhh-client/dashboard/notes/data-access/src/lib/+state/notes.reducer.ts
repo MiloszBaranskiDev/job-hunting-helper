@@ -1,7 +1,7 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 import * as NotesActions from './notes.actions';
 

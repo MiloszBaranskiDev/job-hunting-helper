@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
+import { HttpStatusCode } from '@jhh/shared/domain';
 
 export function JhhServerMiddlewareAuth(req, res, next): void {
   const bearer = req.headers.authorization;

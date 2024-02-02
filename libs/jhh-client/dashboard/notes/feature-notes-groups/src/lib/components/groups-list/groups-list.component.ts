@@ -5,7 +5,8 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { NotesGroup } from '@jhh/shared/interfaces';
+
+import { NotesGroup } from '@jhh/shared/domain';
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';

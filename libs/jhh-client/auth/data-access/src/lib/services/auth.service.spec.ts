@@ -11,7 +11,7 @@ import {
 
 import { AuthService } from './auth.service';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute, User } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -20,9 +20,7 @@ import {
   LoginSuccessResponse,
   RegisterPayload,
   RegisterSuccessResponse,
-} from '@jhh/jhh-client/auth/interfaces';
-
-import { User } from '@jhh/shared/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 
 const dummyUser: User = {
   id: '1337',

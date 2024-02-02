@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 import {
   AddEventPayload,
   AddEventSuccessPayload,

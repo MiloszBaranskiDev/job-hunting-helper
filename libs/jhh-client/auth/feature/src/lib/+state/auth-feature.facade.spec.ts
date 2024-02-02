@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { AuthFeatureFacade } from './auth-feature.facade';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),

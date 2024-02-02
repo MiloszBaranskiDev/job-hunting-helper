@@ -19,8 +19,7 @@ import { EditPracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practic
 
 import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
 
-import { Quiz } from '@jhh/shared/interfaces';
-import { QuizResults } from '@prisma/client';
+import { Quiz, QuizResults } from '@jhh/shared/domain';
 
 interface ExtendedQuiz extends Quiz {
   passRate: number;

@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, NOTES_STATE_KEY, NotesState } from './notes.reducer';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 export const selectNotesState =
   createFeatureSelector<NotesState>(NOTES_STATE_KEY);

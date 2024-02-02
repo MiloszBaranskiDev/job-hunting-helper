@@ -10,7 +10,7 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;

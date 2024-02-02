@@ -20,7 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { RemoveNoteDialogService } from '../../service/remove-note-dialog.service';

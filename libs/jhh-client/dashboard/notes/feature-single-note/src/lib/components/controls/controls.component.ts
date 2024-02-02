@@ -7,8 +7,8 @@ import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';

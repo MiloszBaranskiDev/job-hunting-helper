@@ -6,7 +6,7 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 
 import { EditPracticeQuizDialogService } from '../../service/edit-practice-quiz-dialog.service';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-edit-practice-quiz',

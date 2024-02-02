@@ -44,8 +44,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { animate, style, transition, trigger } from '@angular/animations';
 
-import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
-import { BoardColumnFieldsLength, LocalStorageKeys } from '@jhh/shared/enums';
+import {
+  BoardColumn,
+  BoardColumnFieldsLength,
+  BoardColumnItem,
+  LocalStorageKeys,
+} from '@jhh/shared/domain';
 
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
 

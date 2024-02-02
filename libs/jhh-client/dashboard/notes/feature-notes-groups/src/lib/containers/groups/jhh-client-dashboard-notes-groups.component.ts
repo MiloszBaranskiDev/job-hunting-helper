@@ -26,8 +26,8 @@ import { JhhClientDashboardSortingComponent } from '@jhh/jhh-client/dashboard/fe
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
-import { NotesGroupsSort } from '../../enums/notes-groups-sort';
+import { NotesGroup } from '@jhh/shared/domain';
+import { NotesGroupsSort } from '@jhh/jhh-client/dashboard/notes/domain';
 
 @Component({
   selector: 'jhh-notes-group',

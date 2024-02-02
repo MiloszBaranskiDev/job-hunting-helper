@@ -37,13 +37,12 @@ import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 import { DateRangeValidator } from '@jhh/jhh-client/dashboard/schedule/util-date-range-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { EventFieldsLength, ScheduleEvent } from '@jhh/shared/domain';
 import {
   EventDefaultColor,
   EventField,
   EventFormErrorKey,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
-import { EventFieldsLength } from '@jhh/shared/enums';
 
 @Component({
   selector: 'jhh-schedule-event-dialog',

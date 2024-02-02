@@ -15,7 +15,7 @@ import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 import { QuestionsComponent } from '../../components/questions/questions.component';
 import { DetailsComponent } from '../../components/details/details.component';

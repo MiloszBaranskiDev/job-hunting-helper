@@ -49,9 +49,8 @@ import {
   QuizField,
   QuizFormErrorKey,
 } from '@jhh/jhh-client/dashboard/practice/domain';
-import { Quiz } from '@jhh/shared/interfaces';
-import { QuizFieldsLength } from '@jhh/shared/enums';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { Quiz, QuizFieldsLength } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-edit-practice-quiz-dialog',

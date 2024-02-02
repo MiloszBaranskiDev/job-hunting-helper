@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { User } from '@jhh/shared/interfaces';
+import { User } from '@jhh/shared/domain';
 
 const createJWT = (user: User) => {
   const token: string = jwt.sign(

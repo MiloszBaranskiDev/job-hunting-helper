@@ -7,7 +7,7 @@ import {
 
 import { RemoveNoteDialogService } from './remove-note-dialog.service';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 describe('RemoveNoteDialogService', () => {
   let service: RemoveNoteDialogService;

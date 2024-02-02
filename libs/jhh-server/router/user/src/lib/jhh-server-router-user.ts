@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 import { JhhServerControllerUser } from '@jhh/jhh-server/controller/user';
 

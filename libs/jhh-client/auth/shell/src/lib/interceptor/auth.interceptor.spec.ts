@@ -9,7 +9,7 @@ import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 import { AuthInterceptor } from './auth.interceptor';
 
-import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/domain';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),

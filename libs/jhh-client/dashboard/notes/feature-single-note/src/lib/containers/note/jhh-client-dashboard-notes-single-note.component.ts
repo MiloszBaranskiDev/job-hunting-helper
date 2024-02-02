@@ -11,7 +11,7 @@ import {
   tap,
 } from 'rxjs';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';

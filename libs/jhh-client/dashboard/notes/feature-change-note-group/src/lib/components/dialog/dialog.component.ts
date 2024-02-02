@@ -39,8 +39,8 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
-import { FormField } from '../../enums/form-field';
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { NoteFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { ChangeNoteGroupDialogService } from '../../service/change-note-group-dialog.service';
@@ -78,7 +78,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
-  readonly formField: typeof FormField = FormField;
+  readonly formField: typeof NoteFormField = NoteFormField;
 
   ngOnInit(): void {
     this.changeNoteGroupInProgress$ =

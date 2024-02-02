@@ -8,8 +8,8 @@ import { first, Observable, tap } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { NotesGroup } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';

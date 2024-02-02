@@ -1,4 +1,4 @@
-import { BoardColumnItem } from '@jhh/shared/interfaces';
+import { BoardColumnItem } from '@jhh/shared/domain';
 
 export interface DuplicateBoardColumnPayload {
   columnId: string;

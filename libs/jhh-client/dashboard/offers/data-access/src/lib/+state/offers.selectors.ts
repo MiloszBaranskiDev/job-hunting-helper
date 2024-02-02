@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, OFFERS_STATE_KEY, OffersState } from './offers.reducer';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 export const selectOffersState =
   createFeatureSelector<OffersState>(OFFERS_STATE_KEY);

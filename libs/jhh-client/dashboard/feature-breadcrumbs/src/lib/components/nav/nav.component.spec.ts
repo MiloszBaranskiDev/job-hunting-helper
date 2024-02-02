@@ -8,7 +8,7 @@ import {
 
 import { NavComponent } from './nav.component';
 
-import { Breadcrumb } from '../../interfaces/breadcrumb';
+import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 
 describe('NavComponent', () => {
   let component: NavComponent;

@@ -2,7 +2,7 @@ import { NotesGroup, PrismaClient } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
+import { HttpStatusCode } from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 

@@ -11,7 +11,7 @@ import { setScheduleEvents } from '@jhh/jhh-client/dashboard/schedule/data-acces
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
-import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
+import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
 import { setPracticeQuizzes } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 @Injectable()

@@ -11,7 +11,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { DialogComponent } from './dialog.component';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;

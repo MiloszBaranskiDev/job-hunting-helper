@@ -37,9 +37,11 @@ import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { NoteFieldsLength, NoteSize } from '@jhh/shared/enums';
-import { FormField } from '../../enums/form-field';
-import { FormErrorKey } from '../../enums/form-error-key';
+import { NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import {
+  NoteFormErrorKey,
+  NoteFormField,
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
@@ -79,9 +81,9 @@ export class AddNoteComponent implements OnInit {
   addNoteError$: Observable<string | null>;
   addNoteSuccess$: Observable<boolean>;
 
-  readonly formField: typeof FormField = FormField;
+  readonly formField: typeof NoteFormField = NoteFormField;
   readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
-  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
+  readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;

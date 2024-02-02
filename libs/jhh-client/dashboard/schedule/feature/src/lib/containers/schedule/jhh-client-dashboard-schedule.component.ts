@@ -14,7 +14,7 @@ import { ViewDateComponent } from '../../components/view-date/view-date.componen
 
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-schedule',

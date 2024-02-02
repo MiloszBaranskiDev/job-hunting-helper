@@ -8,9 +8,9 @@ import {
   RegisterPayload,
   RegisterSuccessPayload,
   RegisterSuccessResponse,
-} from '@jhh/jhh-client/auth/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 

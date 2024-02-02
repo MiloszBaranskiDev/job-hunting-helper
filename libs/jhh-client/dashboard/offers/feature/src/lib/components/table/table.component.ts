@@ -36,8 +36,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MenuComponent } from '../menu/menu.component';
 
-import { Offer } from '@jhh/shared/interfaces';
-import { OfferPriority, OfferStatus } from '@jhh/shared/enums';
+import { Offer, OfferPriority, OfferStatus } from '@jhh/shared/domain';
 import { OffersPerPage } from '@jhh/jhh-client/dashboard/offers/domain';
 
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';

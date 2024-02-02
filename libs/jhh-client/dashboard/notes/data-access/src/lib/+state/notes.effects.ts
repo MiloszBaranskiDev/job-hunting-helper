@@ -21,7 +21,7 @@ import {
   EditNoteSuccessPayload,
   RemoveNotesGroupSuccessPayload,
   RemoveNoteSuccessPayload,
-} from '@jhh/jhh-client/dashboard/notes/interfaces';
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 @Injectable()
 export class NotesEffects {

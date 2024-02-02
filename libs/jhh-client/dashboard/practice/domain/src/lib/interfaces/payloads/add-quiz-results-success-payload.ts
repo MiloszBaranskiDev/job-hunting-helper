@@ -1,4 +1,4 @@
-import { QuizResults } from '@jhh/shared/interfaces';
+import { QuizResults } from '@jhh/shared/domain';
 
 export interface AddQuizResultsSuccessPayload {
   quizId: string;

@@ -15,7 +15,7 @@ import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-of
 import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-offer-details',

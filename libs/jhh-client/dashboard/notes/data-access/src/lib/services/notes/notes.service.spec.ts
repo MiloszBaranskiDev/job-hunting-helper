@@ -12,7 +12,7 @@ import { environment } from '@jhh/jhh-client/shared/config';
 
 import { NotesService } from './notes.service';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 describe('NotesService', () => {
   let service: NotesService;

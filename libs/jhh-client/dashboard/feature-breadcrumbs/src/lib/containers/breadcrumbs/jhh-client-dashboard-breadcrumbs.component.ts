@@ -6,7 +6,7 @@ import { NavComponent } from '../../components/nav/nav.component';
 
 import { BreadcrumbsService } from '../../service/breadcrumbs.service';
 
-import { Breadcrumb } from '../../interfaces/breadcrumb';
+import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 
 @Component({
   selector: 'jhh-breadcrumbs',

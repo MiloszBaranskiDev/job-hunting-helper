@@ -6,7 +6,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { regex } from '@jhh/shared/regex';
 
-import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
+import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/domain';
 
 const editBoardColumn = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();

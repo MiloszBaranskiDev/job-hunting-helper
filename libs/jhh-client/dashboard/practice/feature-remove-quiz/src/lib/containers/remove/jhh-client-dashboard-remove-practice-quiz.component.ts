@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { RemovePracticeQuizDialogService } from '../../service/remove-practice-quiz-dialog.service';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 

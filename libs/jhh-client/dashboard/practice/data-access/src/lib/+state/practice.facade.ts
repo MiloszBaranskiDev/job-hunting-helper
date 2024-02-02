@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Quiz, QuizItem, QuizResult } from '@jhh/shared/interfaces';
+import { Quiz, QuizItem, QuizResult } from '@jhh/shared/domain';
 
 import * as PracticeSelectors from './practice.selectors';
 import * as PracticeActions from './practice.actions';

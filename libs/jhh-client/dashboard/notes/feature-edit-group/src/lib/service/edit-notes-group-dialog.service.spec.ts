@@ -6,7 +6,7 @@ import {
 
 import { EditNotesGroupDialogService } from './edit-notes-group-dialog.service';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 describe('EditNotesGroupDialogService', () => {
   let service: EditNotesGroupDialogService;

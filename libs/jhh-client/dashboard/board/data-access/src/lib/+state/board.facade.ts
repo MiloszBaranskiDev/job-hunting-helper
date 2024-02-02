@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
+import { BoardColumn, BoardColumnItem } from '@jhh/shared/domain';
 
 import * as BoardSelectors from './board.selectors';
 import * as BoardActions from './board.actions';

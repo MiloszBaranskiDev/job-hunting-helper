@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, BOARD_STATE_KEY, BoardState } from './board.reducer';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn } from '@jhh/shared/domain';
 
 export const selectBoardState =
   createFeatureSelector<BoardState>(BOARD_STATE_KEY);

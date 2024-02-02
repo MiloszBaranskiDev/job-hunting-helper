@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-notes-group-dialog',

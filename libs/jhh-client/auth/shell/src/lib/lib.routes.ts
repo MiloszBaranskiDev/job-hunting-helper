@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { JhhClientAuthShellComponent } from './containers/shell/jhh-client-auth-shell.component';
 

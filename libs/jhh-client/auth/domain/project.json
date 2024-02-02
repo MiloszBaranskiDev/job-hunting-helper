@@ -1,0 +1,25 @@
+{
+  "name": "jhh-client-auth-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/auth/domain/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/auth/domain",
+        "main": "libs/jhh-client/auth/domain/src/index.ts",
+        "tsConfig": "libs/jhh-client/auth/domain/tsconfig.lib.json",
+        "assets": []
+      }
+    }
+  },
+  "tags": [
+    "platform:client",
+    "scope:client-auth",
+    "type:domain"
+  ]
+}

@@ -1,4 +1,4 @@
-import { OfferStatus } from '@jhh/shared/enums';
+import { OfferStatus } from '@jhh/shared/domain';
 
 enum StatusIcon {
   Drafts = 'drafts',

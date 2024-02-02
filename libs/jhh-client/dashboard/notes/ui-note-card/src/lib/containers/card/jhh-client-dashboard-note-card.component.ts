@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 import { MenuComponent } from '../../components/menu/menu.component';
 import { HeaderComponent } from '../../components/header/header.component';

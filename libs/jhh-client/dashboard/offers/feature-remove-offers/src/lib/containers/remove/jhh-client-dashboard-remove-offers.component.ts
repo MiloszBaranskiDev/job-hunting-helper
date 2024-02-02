@@ -6,7 +6,7 @@ import { RemoveOffersDialogService } from '../../service/remove-offers-dialog.se
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-offers',

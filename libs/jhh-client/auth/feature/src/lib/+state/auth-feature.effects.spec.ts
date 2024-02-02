@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import * as AuthActions from '@jhh/jhh-client/auth/data-access';
 import { AuthFeatureEffects } from './auth-feature.effects';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 jest.mock('@angular/core', () => ({
   ...jest.requireActual('@angular/core'),

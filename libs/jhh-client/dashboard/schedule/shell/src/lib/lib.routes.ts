@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { JhhClientDashboardScheduleShellComponent } from './containers/shell/jhh-client-dashboard-schedule-shell.component';
 import { provideState } from '@ngrx/store';

@@ -38,20 +38,20 @@ import { regex } from '@jhh/shared/regex';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 
-import { Offer } from '@jhh/shared/interfaces';
 import {
-  OfferField,
-  OfferFormErrorKey,
-} from '@jhh/jhh-client/dashboard/offers/domain';
-import {
+  Offer,
   OfferCompanyType,
   OfferFieldsLength,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+} from '@jhh/shared/domain';
+import {
+  OfferField,
+  OfferFormErrorKey,
+} from '@jhh/jhh-client/dashboard/offers/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-edit-offer-dialog',

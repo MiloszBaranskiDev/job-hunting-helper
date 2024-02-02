@@ -1,4 +1,4 @@
-import { BoardColumn, BoardColumnItem } from '@jhh/shared/interfaces';
+import { BoardColumn, BoardColumnItem } from '@jhh/shared/domain';
 
 interface DefaultColumnItem
   extends Pick<BoardColumnItem, 'content' | 'order'> {}

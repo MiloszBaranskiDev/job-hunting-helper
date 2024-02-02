@@ -5,7 +5,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, NotesGroupFieldsLength } from '@jhh/shared/enums';
+import { HttpStatusCode, NotesGroupFieldsLength } from '@jhh/shared/domain';
 
 const editNotesGroup = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();

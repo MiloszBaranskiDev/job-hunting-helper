@@ -2,7 +2,7 @@ import request from 'supertest';
 
 import { JhhServerApp } from './jhh-server-app';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 describe('JhhServerApp', () => {
   let app;

@@ -2,8 +2,12 @@ import { Offer, PrismaClient, Quiz, ScheduleEvent } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode } from '@jhh/shared/enums';
-import { BoardColumn, NotesGroup, User } from '@jhh/shared/interfaces';
+import {
+  BoardColumn,
+  HttpStatusCode,
+  NotesGroup,
+  User,
+} from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 

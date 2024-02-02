@@ -1,4 +1,4 @@
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 export interface EditQuizSuccessPayload {
   editedQuiz: Quiz;

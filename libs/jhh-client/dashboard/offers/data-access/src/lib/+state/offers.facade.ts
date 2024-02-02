@@ -2,19 +2,19 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Offer } from '@jhh/shared/interfaces';
-
-import * as OffersSelectors from './offers.selectors';
-import * as OffersActions from './offers.actions';
-
-import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 import {
+  Offer,
   OfferCompanyType,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
+} from '@jhh/shared/domain';
+
+import * as OffersSelectors from './offers.selectors';
+import * as OffersActions from './offers.actions';
+
+import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
 @Injectable({
   providedIn: 'root',

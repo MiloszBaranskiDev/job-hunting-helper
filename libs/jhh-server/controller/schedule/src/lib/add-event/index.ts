@@ -6,7 +6,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { regex } from '@jhh/shared/regex';
 
-import { EventFieldsLength, HttpStatusCode } from '@jhh/shared/enums';
+import { EventFieldsLength, HttpStatusCode } from '@jhh/shared/domain';
 
 const addEvent = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();

@@ -7,7 +7,7 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 
 import { RemoveNoteDialogService } from '../../service/remove-note-dialog.service';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-note',

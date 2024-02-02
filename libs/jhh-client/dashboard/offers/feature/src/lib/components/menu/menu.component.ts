@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-offers-menu',

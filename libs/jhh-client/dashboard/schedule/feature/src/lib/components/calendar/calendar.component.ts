@@ -27,7 +27,7 @@ import {
 
 import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-schedule-calendar',

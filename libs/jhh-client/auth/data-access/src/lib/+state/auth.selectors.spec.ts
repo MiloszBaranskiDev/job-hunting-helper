@@ -3,7 +3,7 @@ import '@angular/compiler';
 import { AuthState } from './auth.reducer';
 import * as AuthSelectors from './auth.selectors';
 
-import { User } from '@jhh/shared/interfaces';
+import { User } from '@jhh/shared/domain';
 
 describe('Auth Selectors', () => {
   const ERROR_MSG = 'Dummy error';

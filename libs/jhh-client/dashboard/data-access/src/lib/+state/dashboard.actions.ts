@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/interfaces';
+import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
 
 export enum Type {
   LoadAssignedData = '[Dashboard] LoadAssignedData',

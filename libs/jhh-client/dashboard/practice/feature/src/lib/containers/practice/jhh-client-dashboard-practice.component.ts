@@ -20,7 +20,7 @@ import { JhhClientDashboardSortingComponent } from '@jhh/jhh-client/dashboard/fe
 import { JhhClientDashboardPaginationComponent } from '@jhh/jhh-client/dashboard/feature-pagination';
 import { JhhClientDashboardEditPracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 import { QuizzesSort } from '@jhh/jhh-client/dashboard/practice/domain';
 
 @Component({

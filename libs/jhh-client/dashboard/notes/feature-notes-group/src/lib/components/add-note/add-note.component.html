@@ -13,10 +13,10 @@
             <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
               Name is required
             </mat-error>
-            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinNameLength)">
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
               Minimum length of name is {{fieldsLength.MinNameLength}} characters
             </mat-error>
-            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxNameLength)">
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
               Maximum length of name is {{fieldsLength.MaxNameLength}} characters
             </mat-error>
           </mat-form-field>

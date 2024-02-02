@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import createJWT from './index';
 
-import { User } from '@jhh/shared/interfaces';
+import { User } from '@jhh/shared/domain';
 
 jest.mock('jsonwebtoken');
 

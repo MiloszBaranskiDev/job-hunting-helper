@@ -1,11 +1,11 @@
-import { Offer } from '@jhh/shared/interfaces';
 import {
+  Offer,
   OfferCompanyType,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
+} from '@jhh/shared/domain';
 
 type DefaultOffer = Omit<Offer, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
 

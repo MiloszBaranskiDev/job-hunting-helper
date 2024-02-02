@@ -37,15 +37,15 @@ import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 
-import { Offer } from '@jhh/shared/interfaces';
 import {
+  Offer,
   OfferCompanyType,
   OfferFieldsLength,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
+} from '@jhh/shared/domain';
 import {
   OfferField,
   OfferFormErrorKey,

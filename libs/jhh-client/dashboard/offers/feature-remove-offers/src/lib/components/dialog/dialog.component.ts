@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { RemoveOffersDialogService } from '../../service/remove-offers-dialog.service';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-offers-dialog',

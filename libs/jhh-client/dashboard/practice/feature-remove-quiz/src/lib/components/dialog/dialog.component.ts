@@ -19,7 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Quiz } from '@jhh/shared/interfaces';
+import { Quiz } from '@jhh/shared/domain';
 
 import { RemovePracticeQuizDialogService } from '../../service/remove-practice-quiz-dialog.service';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';

@@ -13,7 +13,7 @@ import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
 
-import { Quiz, QuizItem, QuizResult } from '@jhh/shared/interfaces';
+import { Quiz, QuizItem, QuizResult } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-practice-quiz-play',

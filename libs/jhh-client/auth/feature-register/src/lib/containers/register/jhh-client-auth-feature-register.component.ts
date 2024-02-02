@@ -24,15 +24,17 @@ import { WhitespaceValidator } from '@jhh/jhh-client/shared/util-whitespace-vali
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
-import { RegisterFieldsLength } from '@jhh/shared/enums';
-import { FormFields } from '../../enums/form-fields';
-import { StrengthClass } from '../../enums/strength-class';
-import { FormErrorKey } from '../../enums/form-error-key';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
+import { RegisterFieldsLength } from '@jhh/shared/domain';
+import {
+  AuthFormErrorKey,
+  AuthFormFields,
+  PasswordStrengthClass,
+} from '@jhh/jhh-client/auth/domain';
 
 function passwordsMatch(group: FormGroup): ValidationErrors | null {
-  const passwordControl = group.get(FormFields.Password);
-  const confirmPasswordControl = group.get(FormFields.ConfirmPassword);
+  const passwordControl = group.get(AuthFormFields.Password);
+  const confirmPasswordControl = group.get(AuthFormFields.ConfirmPassword);
 
   if (
     passwordControl &&
@@ -71,8 +73,8 @@ export class JhhClientAuthFeatureRegisterComponent implements OnInit {
   readonly clientRoutes: typeof ClientRoute = ClientRoute;
   readonly registerFieldsLength: typeof RegisterFieldsLength =
     RegisterFieldsLength;
-  readonly formFields: typeof FormFields = FormFields;
-  readonly formErrorKey: typeof FormErrorKey = FormErrorKey;
+  readonly formFields: typeof AuthFormFields = AuthFormFields;
+  readonly formErrorKey: typeof AuthFormErrorKey = AuthFormErrorKey;
 
   formGroup: FormGroup;
   hidePassword: boolean = true;
@@ -92,15 +94,15 @@ export class JhhClientAuthFeatureRegisterComponent implements OnInit {
     map((strength: number) => {
       switch (true) {
         case strength >= 100:
-          return StrengthClass.Strong;
+          return PasswordStrengthClass.Strong;
         case strength >= 75:
-          return StrengthClass.Good;
+          return PasswordStrengthClass.Good;
         case strength >= 50:
-          return StrengthClass.Medium;
+          return PasswordStrengthClass.Medium;
         case strength >= 25:
-          return StrengthClass.Weak;
+          return PasswordStrengthClass.Weak;
         default:
-          return StrengthClass.None;
+          return PasswordStrengthClass.None;
       }
     })
   );
@@ -140,7 +142,7 @@ export class JhhClientAuthFeatureRegisterComponent implements OnInit {
   validatePasswords(): void {
     this.formGroup.updateValueAndValidity();
 
-    const password = this.formGroup.get(FormFields.Password)?.value;
+    const password = this.formGroup.get(this.formFields.Password)?.value;
     const passwordStrength: zxcvbn.ZXCVBNResult = zxcvbn(password);
     const newStrength: number = password
       ? Math.max(25, passwordStrength.score * 25)
@@ -151,10 +153,10 @@ export class JhhClientAuthFeatureRegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const username = this.formGroup.get(FormFields.Username)?.value;
-      const password = this.formGroup.get(FormFields.Password)?.value;
+      const username = this.formGroup.get(this.formFields.Username)?.value;
+      const password = this.formGroup.get(this.formFields.Password)?.value;
       const confirmPassword = this.formGroup.get(
-        FormFields.ConfirmPassword
+        this.formFields.ConfirmPassword
       )?.value;
 
       this.authFacade

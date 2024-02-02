@@ -2,6 +2,7 @@ import slugify from 'slugify';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
+import { Offer, PrismaClient } from '@prisma/client';
 import {
   HttpStatusCode,
   OfferCompanyType,
@@ -10,13 +11,12 @@ import {
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
-import { Offer, PrismaClient } from '@prisma/client';
+  OfferStatusUpdate,
+} from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import { regex } from '@jhh/shared/regex';
-import { OfferStatusUpdate } from '@jhh/shared/interfaces';
 
 const editOffer = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();

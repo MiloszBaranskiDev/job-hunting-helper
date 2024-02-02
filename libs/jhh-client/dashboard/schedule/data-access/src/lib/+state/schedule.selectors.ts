@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, SCHEDULE_STATE_KEY, ScheduleState } from './schedule.reducer';
 
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 
 export const selectScheduleState =
   createFeatureSelector<ScheduleState>(SCHEDULE_STATE_KEY);

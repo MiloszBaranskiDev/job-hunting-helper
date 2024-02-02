@@ -14,7 +14,7 @@ import {
   LoginSuccessPayload,
   RegisterPayload,
   RegisterSuccessPayload,
-} from '@jhh/jhh-client/auth/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,

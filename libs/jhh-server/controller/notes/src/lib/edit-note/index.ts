@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/enums';
+import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
 
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 

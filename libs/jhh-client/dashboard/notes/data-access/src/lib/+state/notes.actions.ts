@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 import {
   AddNotePayload,
   AddNotesGroupPayload,
@@ -19,7 +19,7 @@ import {
   RemoveNotesGroupPayload,
   RemoveNotesGroupSuccessPayload,
   RemoveNoteSuccessPayload,
-} from '@jhh/jhh-client/dashboard/notes/interfaces';
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 export enum Type {
   SetNotes = '[Notes] Set Notes',

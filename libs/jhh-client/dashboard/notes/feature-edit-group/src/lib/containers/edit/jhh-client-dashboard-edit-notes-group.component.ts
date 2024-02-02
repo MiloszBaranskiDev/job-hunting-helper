@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 import { EditNotesGroupDialogService } from '../../service/edit-notes-group-dialog.service';
 
@@ -28,7 +28,6 @@ export class JhhClientDashboardEditNotesGroupComponent {
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         tap((val) => {
-          console.log(val, 'val');
           this.notesGroupToEdit$ = of(val);
         })
       )

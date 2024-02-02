@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Observable } from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
 import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
-import { Observable } from 'rxjs';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-note-card-menu',

@@ -1,4 +1,4 @@
-import { ScheduleEvent } from '@jhh/shared/interfaces';
+import { ScheduleEvent } from '@jhh/shared/domain';
 
 type DefaultScheduleEvent = Omit<
   ScheduleEvent,

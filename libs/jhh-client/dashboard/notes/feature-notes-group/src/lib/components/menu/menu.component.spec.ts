@@ -13,7 +13,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { MenuComponent } from './menu.component';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
+import { NotesGroup } from '@jhh/shared/domain';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

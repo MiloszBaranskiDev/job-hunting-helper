@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as BoardActions from './board.actions';
 
-import { BoardColumn } from '@jhh/shared/interfaces';
+import { BoardColumn } from '@jhh/shared/domain';
 
 export const BOARD_STATE_KEY = 'board';
 

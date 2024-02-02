@@ -9,7 +9,7 @@ import { MenuComponent } from './menu.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

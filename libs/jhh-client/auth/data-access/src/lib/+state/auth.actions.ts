@@ -7,7 +7,7 @@ import {
   RegisterPayload,
   RegisterSuccessPayload,
   SaveTokenPayload,
-} from '@jhh/jhh-client/auth/interfaces';
+} from '@jhh/jhh-client/auth/domain';
 
 export enum Type {
   Login = '[Auth] Login',

@@ -6,7 +6,7 @@ import {
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { authGuard } from './auth.guard';
 

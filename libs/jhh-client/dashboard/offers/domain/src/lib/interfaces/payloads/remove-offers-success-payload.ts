@@ -1,4 +1,4 @@
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 export interface RemoveOffersSuccessPayload {
   removedOffers: Offer[];

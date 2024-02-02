@@ -4,7 +4,7 @@ import {
   OfferPriority,
   OfferSalaryCurrency,
   OfferStatus,
-} from '@jhh/shared/enums';
+} from '@jhh/shared/domain';
 
 export interface AddOfferPayload {
   position: string;

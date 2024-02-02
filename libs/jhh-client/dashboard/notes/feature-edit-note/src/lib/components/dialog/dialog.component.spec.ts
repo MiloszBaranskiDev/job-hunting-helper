@@ -10,7 +10,7 @@ import { DialogComponent } from './dialog.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { FormField } from '../../enums/form-field';
+import { NoteFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;
@@ -56,9 +56,9 @@ describe('DialogComponent', () => {
   it('should initialize form group with noteToEdit values', () => {
     fixture.detectChanges();
 
-    const nameControl = component.formGroup.get(FormField.Name);
-    const slugControl = component.formGroup.get(FormField.Slug);
-    const contentControl = component.formGroup.get(FormField.Content);
+    const nameControl = component.formGroup.get(NoteFormField.Name);
+    const slugControl = component.formGroup.get(NoteFormField.Slug);
+    const contentControl = component.formGroup.get(NoteFormField.Content);
 
     expect(nameControl!.value).toBe('note');
     expect(slugControl!.value).toBe('note-slug');

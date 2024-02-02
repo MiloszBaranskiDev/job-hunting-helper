@@ -35,7 +35,7 @@ import {
   practiceReducer,
 } from '@jhh/jhh-client/dashboard/practice/data-access';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { JhhClientDashboardNotesShellRoutes } from '@jhh/jhh-client/dashboard/notes/shell';
 import { JhhClientDashboardBoardShellRoutes } from '@jhh/jhh-client/dashboard/board/shell';

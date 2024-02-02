@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express, { Express, Router } from 'express';
 
-import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/domain';
 
 import { JhhServerRouterUser } from './jhh-server-router-user';
 

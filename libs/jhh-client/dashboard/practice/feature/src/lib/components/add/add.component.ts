@@ -43,7 +43,7 @@ import {
   QuizField,
   QuizFormErrorKey,
 } from '@jhh/jhh-client/dashboard/practice/domain';
-import { QuizFieldsLength } from '@jhh/shared/enums';
+import { QuizFieldsLength } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-practice-add-quiz',

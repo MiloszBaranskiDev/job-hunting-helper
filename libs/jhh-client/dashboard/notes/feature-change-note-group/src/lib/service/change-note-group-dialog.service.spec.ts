@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ChangeNoteGroupDialogService } from './change-note-group-dialog.service';
 
-import { Note } from '@jhh/shared/interfaces';
+import { Note } from '@jhh/shared/domain';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,

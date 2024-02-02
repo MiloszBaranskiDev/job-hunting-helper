@@ -10,7 +10,7 @@ import { JhhClientAuthFeatureRegisterComponent } from 'libs/jhh-client/auth/feat
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { FormFields } from '../../enums/form-fields';
+import { AuthFormFields } from '@jhh/jhh-client/auth/domain';
 
 describe('JhhClientAuthFeatureRegisterComponent', () => {
   let component: JhhClientAuthFeatureRegisterComponent;
@@ -56,7 +56,7 @@ describe('JhhClientAuthFeatureRegisterComponent', () => {
   });
 
   it('should update password strength when the password changes', () => {
-    component.formGroup.get(FormFields.Password)?.setValue('simple');
+    component.formGroup.get(AuthFormFields.Password)?.setValue('simple');
     component.validatePasswords();
 
     expect(component.passwordStrengthSubject.value).not.toBe(0);
@@ -82,9 +82,11 @@ describe('JhhClientAuthFeatureRegisterComponent', () => {
 
   it('should call onSubmit and register when the form is valid', () => {
     const authFacade = TestBed.inject(AuthFacade);
-    component.formGroup.get(FormFields.Username)?.setValue('username');
-    component.formGroup.get(FormFields.Password)?.setValue('password');
-    component.formGroup.get(FormFields.ConfirmPassword)?.setValue('password');
+    component.formGroup.get(AuthFormFields.Username)?.setValue('username');
+    component.formGroup.get(AuthFormFields.Password)?.setValue('password');
+    component.formGroup
+      .get(AuthFormFields.ConfirmPassword)
+      ?.setValue('password');
 
     component.onSubmit();
 

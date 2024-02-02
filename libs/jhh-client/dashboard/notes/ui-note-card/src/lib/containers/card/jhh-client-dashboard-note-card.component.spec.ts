@@ -12,7 +12,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { UpdatedAtComponent } from '../../components/updated-at/updated-at.component';
 import { MenuComponent } from '../../components/menu/menu.component';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 

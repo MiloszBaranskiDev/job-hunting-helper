@@ -28,9 +28,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { NotesGroupFieldsLength } from '@jhh/shared/enums';
-import { AddNotesGroupFormField } from '../../enums/add-notes-group-form-field';
-import { AddNotesGroupFormErrorKey } from '../../enums/add-notes-group-form-error-key';
+import { NotesGroupFieldsLength } from '@jhh/shared/domain';
+import {
+  NotesGroupFormErrorKey,
+  NotesGroupFormField,
+} from '@jhh/jhh-client/dashboard/notes/domain';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
 @Component({
@@ -57,9 +59,8 @@ export class AddGroupComponent implements OnInit {
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
-  readonly formField: typeof AddNotesGroupFormField = AddNotesGroupFormField;
-  readonly formErrorKey: typeof AddNotesGroupFormErrorKey =
-    AddNotesGroupFormErrorKey;
+  readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
+  readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 

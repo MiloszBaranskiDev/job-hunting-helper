@@ -8,7 +8,7 @@ import {
 
 import { BreadcrumbsService } from './breadcrumbs.service';
 
-import { Breadcrumb } from '../interfaces/breadcrumb';
+import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 
 describe('BreadcrumbsService', () => {
   let service: BreadcrumbsService;

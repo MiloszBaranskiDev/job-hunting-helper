@@ -9,7 +9,7 @@ import { inject } from '@angular/core';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { ApiRoute, HttpStatusCode } from '@jhh/shared/enums';
+import { ApiRoute, HttpStatusCode } from '@jhh/shared/domain';
 
 export const AuthInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 import {
   AddQuizPayload,
   AddQuizResultsPayload,

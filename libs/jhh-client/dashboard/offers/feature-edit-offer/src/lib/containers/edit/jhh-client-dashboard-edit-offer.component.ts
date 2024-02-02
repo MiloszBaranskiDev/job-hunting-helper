@@ -6,7 +6,7 @@ import { EditOfferDialogService } from '../../service/edit-offer-dialog.service'
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-edit-offer',

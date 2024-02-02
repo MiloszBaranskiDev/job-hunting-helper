@@ -11,7 +11,7 @@ import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
-import { Offer } from '@jhh/shared/interfaces';
+import { Offer } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-offer-controls',

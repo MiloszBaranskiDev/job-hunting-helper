@@ -24,8 +24,8 @@ import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumb
 import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
-import { Note, NotesGroup } from '@jhh/shared/interfaces';
-import { NotesListSort } from '../../enums/notes-list-sort';
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { NotesSort } from '@jhh/jhh-client/dashboard/notes/domain';
 
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
@@ -78,7 +78,7 @@ export class JhhClientDashboardNotesGroupComponent
   currentPage$: BehaviorSubject<number>;
   currentSort$: BehaviorSubject<string>;
 
-  readonly sortOptionsValues: string[] = Object.values(NotesListSort);
+  readonly sortOptionsValues: string[] = Object.values(NotesSort);
   readonly notesPerPage: number = 16;
   defaultPage: number;
   defaultSort: string;
@@ -156,7 +156,7 @@ export class JhhClientDashboardNotesGroupComponent
         const currentSort: string = this.currentSort$.getValue();
         const sortedNotes: Note[] = this.sortNotes(
           notes,
-          currentSort as NotesListSort
+          currentSort as NotesSort
         );
         const start: number = (currentPage - 1) * this.notesPerPage;
         const end: number = start + this.notesPerPage;
@@ -165,25 +165,25 @@ export class JhhClientDashboardNotesGroupComponent
     );
   }
 
-  private sortNotes(notes: Note[], sort: NotesListSort): Note[] {
+  private sortNotes(notes: Note[], sort: NotesSort): Note[] {
     switch (sort) {
-      case NotesListSort.Latest:
+      case NotesSort.Latest:
         return notes
           .slice()
           .sort(
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
-      case NotesListSort.LastEdited:
+      case NotesSort.LastEdited:
         return notes
           .slice()
           .sort(
             (a, b) =>
               new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
           );
-      case NotesListSort.AlphabeticalAsc:
+      case NotesSort.AlphabeticalAsc:
         return notes.slice().sort((a, b) => a.name.localeCompare(b.name));
-      case NotesListSort.AlphabeticalDesc:
+      case NotesSort.AlphabeticalDesc:
         return notes
           .slice()
           .sort((a, b) => a.name.localeCompare(b.name))

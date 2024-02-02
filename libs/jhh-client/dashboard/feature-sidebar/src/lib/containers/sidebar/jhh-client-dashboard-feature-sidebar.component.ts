@@ -15,7 +15,7 @@ import {
 
 import { SidebarService } from '../../service/sidebar.service';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/enums';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 interface SidebarItem {
   icon: string;

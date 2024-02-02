@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-import { ApiRoute } from '@jhh/shared/enums';
+import { ApiRoute } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
 import {
   LoadAssignedDataSuccessPayload,
   LoadAssignedDataSuccessResponse,
-} from '@jhh/jhh-client/dashboard/interfaces';
+} from '@jhh/jhh-client/dashboard/domain';
 
 @Injectable({
   providedIn: 'root',

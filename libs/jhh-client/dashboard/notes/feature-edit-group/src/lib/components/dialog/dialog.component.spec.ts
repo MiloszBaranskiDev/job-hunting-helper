@@ -10,8 +10,8 @@ import { DialogComponent } from './dialog.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { NotesGroup } from '@jhh/shared/interfaces';
-import { FormField } from '../../enums/form-field';
+import { NotesGroup } from '@jhh/shared/domain';
+import { NotesGroupFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 describe('DialogComponent', () => {
   let component: DialogComponent;
@@ -53,8 +53,8 @@ describe('DialogComponent', () => {
   it('should initialize form group with groupToEdit values', () => {
     fixture.detectChanges();
 
-    const nameControl = component.formGroup.get(FormField.Name);
-    const slugControl = component.formGroup.get(FormField.Slug);
+    const nameControl = component.formGroup.get(NotesGroupFormField.Name);
+    const slugControl = component.formGroup.get(NotesGroupFormField.Slug);
 
     expect(nameControl!.value).toBe('mockGroupName');
     expect(slugControl!.value).toBe('mockGroupSlug');
