@@ -1,6 +1,10 @@
 .mat-mdc-dialog-container {
-  width: 80vw !important;
+  width: 90vw !important;
   max-width: 700px !important;
+
+  .mdc-dialog__surface {
+    background-color: var(--color__bg--darker) !important;
+  }
 
   .mdc-dialog__title {
     padding-top: 12px;

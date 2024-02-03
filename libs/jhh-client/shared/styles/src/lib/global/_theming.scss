@@ -95,7 +95,7 @@ $jhh-client-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$jhh-client-theme: mat.define-light-theme(
+$jhh-light-theme: mat.define-light-theme(
   (
     color: (
       primary: $jhh-client-primary,
@@ -106,9 +106,25 @@ $jhh-client-theme: mat.define-light-theme(
   )
 );
 
+$jhh-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $jhh-client-primary,
+      accent: $jhh-client-accent,
+      warn: $jhh-client-warn,
+    ),
+    typography: $jhh-typography,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($jhh-light-theme);
+
 :root {
   --color__bg: white;
-  --color__bg--darker: whitesmoke;
+  --color__bg--darker: #f9f9f9;
   --color__text: #000000de;
   --color__icon: #a0aec0;
   --color__scroll: #dfe3e8;
@@ -121,7 +137,12 @@ $jhh-client-theme: mat.define-light-theme(
   --radius__base: 14px;
 }
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($jhh-client-theme);
+.Dark {
+  --color__bg: #212121;
+  --color__bg--darker: #1a1a1a;
+  --color__text: whitesmoke;
+  --color__icon: #a6a6a6;
+  --color__scroll: #444;
+  --color__divider: #444;
+  @include mat.all-component-colors($jhh-dark-theme);
+}

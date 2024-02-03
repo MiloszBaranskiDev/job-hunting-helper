@@ -3,6 +3,10 @@
   $sidenavSize: 80px;
   $sidenavSize--expanded: 240px;
 
+  &.mat-drawer-container {
+    color: var(--color__text);
+  }
+
   mat-sidenav {
     background-color: var(--color__primary);
     width: 100%;
@@ -22,6 +26,7 @@
   mat-sidenav-content {
     min-height: 100vh;
     margin-left: 0 !important;
+    background-color: var(--color__bg--darker);
   }
 
   &__item {

@@ -1,4 +1,8 @@
 mat-accordion {
+  .mat-expansion-panel {
+    background-color: var(--color__bg) !important;
+  }
+
   mat-expansion-panel-header {
     height: auto !important;
     padding: 6px 20px !important;

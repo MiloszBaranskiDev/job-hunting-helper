@@ -43,7 +43,7 @@ $columnWidth: 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--color__bg--darker);
+    background: var(--color__bg);
     border-radius: var(--radius__base);
     border-top-style: solid;
     border-top-width: 4px;
@@ -118,8 +118,8 @@ $columnWidth: 320px;
 
     &__item {
       padding: 16px 45px 16px 16px;
-      border-bottom: 2px solid var(--color__bg--darker);
-      background-color: white;
+      border-bottom: 2px solid var(--color__bg);
+      background-color: var(--color__bg--darker);
       box-sizing: border-box;
       cursor: move;
       min-height: $itemHeight;
@@ -207,7 +207,7 @@ $columnWidth: 320px;
 }
 
 .cdk-drag-preview {
-  background-color: var(--color__bg--darker);
+  background-color: var(--color__bg);
   border-radius: var(--radius__base);
   padding: 12px;
   opacity: 0.7;
@@ -217,9 +217,14 @@ $columnWidth: 320px;
     display: none !important;
   }
 
+  p {
+    color: var(--color__text);
+  }
+
   .column {
     &__header {
       padding: 13px 8px;
+      color: var(--color__text);
 
       span {
         display: none;
@@ -229,11 +234,12 @@ $columnWidth: 320px;
     &__item {
       padding: 16px 45px 16px 16px;
       border-bottom: 2px solid var(--color__bg--darker);
-      background-color: white;
+      background-color: var(--color__bg);
       box-sizing: border-box;
       min-height: $itemHeight;
       font-size: 14px;
       white-space: pre-line;
+      color: var(--color__text);
 
       &:first-child {
         border-top-left-radius: var(--radius__base);

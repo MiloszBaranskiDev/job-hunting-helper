@@ -1,5 +1,5 @@
 .details {
-  background-color: white;
+  background-color: var(--color__bg--darker);
   border-radius: var(--radius__base);
   padding: 20px;
   margin-bottom: 25px;
@@ -30,6 +30,7 @@
         letter-spacing: 1px;
         font-size: 11px;
         color: var(--color__icon);
+        margin-bottom: 2px;
       }
 
       .email {
@@ -40,6 +41,7 @@
         display: flex;
         align-items: center;
         gap: 4px;
+        color: inherit;
 
         mat-icon {
           $size: 15px;

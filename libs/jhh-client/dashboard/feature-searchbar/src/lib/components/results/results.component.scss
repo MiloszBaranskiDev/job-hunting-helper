@@ -10,7 +10,7 @@
   max-height: 250px;
   overflow-y: auto;
   z-index: 1;
-  background-color: var(--color__bg--darker);
+  background-color: var(--color__bg);
 
   ::ng-deep {
     .mdc-list-item__content {

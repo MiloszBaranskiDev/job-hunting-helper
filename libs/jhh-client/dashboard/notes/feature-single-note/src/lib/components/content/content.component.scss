@@ -1,5 +1,9 @@
 ::ng-deep {
   .content {
+    background-color: var(--color__bg--darker);
+    padding: 20px;
+    border-radius: var(--radius__base);
+
     img {
       max-width: 100%;
     }

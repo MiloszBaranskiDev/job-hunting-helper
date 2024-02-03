@@ -13,7 +13,7 @@
     border-top-right-radius: var(--radius__base);
 
     * {
-      color: white;
+      color: white !important;
     }
 
     .mat-icon {
@@ -39,6 +39,7 @@
       position: relative;
       padding-bottom: 12px;
       margin-bottom: 30px;
+      color: var(--color__text);
 
       &::before {
         content: '';
@@ -70,7 +71,7 @@
 
   &__icons {
     margin: 0 20px;
-    padding: 0 20px 20px 20px;
+    padding: 0 20px 30px 20px;
 
     ul {
       display: flex;
@@ -86,6 +87,20 @@
             height: 28px;
           }
         }
+      }
+    }
+  }
+
+  &__themeToggle {
+    margin: 0 20px;
+    padding: 0 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ::ng-deep {
+      svg {
+        display: none !important;
       }
     }
   }

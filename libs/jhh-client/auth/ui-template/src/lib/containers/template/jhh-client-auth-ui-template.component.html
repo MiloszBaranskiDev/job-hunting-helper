@@ -17,4 +17,14 @@
       </li>
     </ul>
   </div>
+  <div class="authTemplate__themeToggle">
+    <mat-slide-toggle
+      color="primary"
+      matTooltip="Change theme"
+      [checked]="isDarkMode"
+      (change)="toggleTheme()"
+    >
+      {{ currentThemeMode$.getValue() }}
+    </mat-slide-toggle>
+  </div>
 </section>

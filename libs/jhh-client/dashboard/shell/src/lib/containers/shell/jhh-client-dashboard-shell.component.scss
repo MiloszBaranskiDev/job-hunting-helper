@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background-color: var(--color__bg--darker);
 
   .mat-mdc-progress-spinner {
     width: 80px !important;
@@ -16,6 +17,7 @@
     font-size: 22px;
     max-width: 600px;
     text-align: center;
+    color: var(--color__text);
 
     &.error {
       color: var(--color__warn);

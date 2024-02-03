@@ -5,22 +5,22 @@
       <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
       <ul>
         <li>
-        <span>
-          <strong>Name: </strong>
-        </span>
+          <span>
+            <strong>Name: </strong>
+          </span>
           <span>{{quiz.name}}</span>
         </li>
-        <li *ngIf="quiz.description">
-        <span>
-          <strong>Description: </strong>
-        </span>
-          <span>{{quiz.description}}</span>
-        </li>
         <li>
-        <span>
-          <strong>Amount of questions: </strong>
-        </span>
+          <span>
+            <strong>Amount of questions: </strong>
+          </span>
           <span>{{quiz.items.length}}</span>
+        </li>
+        <li *ngIf="quiz.description">
+          <span>
+            <strong>Description: </strong>
+          </span>
+          <span>{{quiz.description}}</span>
         </li>
       </ul>
       <mat-divider></mat-divider>

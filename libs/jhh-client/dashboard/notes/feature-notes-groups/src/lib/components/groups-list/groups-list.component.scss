@@ -16,7 +16,7 @@
       height: 100%;
       padding: 60px 40px;
       border-radius: var(--radius__base);
-      background-color: var(--color__bg--darker);
+      background-color: var(--color__bg);
       position: relative;
       display: flex;
       flex-direction: column;
@@ -28,7 +28,7 @@
         color: white;
 
         #{ $self }__itemCounter {
-          background-color: var(--color__bg--darker);
+          background-color: var(--color__bg);
           color: var(--color__text);
         }
 
