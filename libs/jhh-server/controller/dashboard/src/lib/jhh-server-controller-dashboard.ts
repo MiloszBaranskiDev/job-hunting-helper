@@ -1,6 +1,6 @@
 import { Offer, PrismaClient, Quiz, ScheduleEvent } from '@prisma/client';
 
-import { respondWithError } from '@jhh/jhh-server/shared/utils';
+import { createJWT, respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import {
   BoardColumn,
@@ -16,7 +16,6 @@ export function JhhServerControllerDashboard() {
   const loadAssignedData = async (req: any, res: any): Promise<void> => {
     try {
       const userId = req.user.id;
-      let unsavedBoardRequestId: string | null;
 
       const user: User | null = await prisma.user.findUnique({
         where: {
@@ -24,9 +23,7 @@ export function JhhServerControllerDashboard() {
         },
       });
 
-      if (user) {
-        unsavedBoardRequestId = user.unsavedBoardRequestId;
-      }
+      const unsavedBoardRequestId = user.unsavedBoardRequestId;
 
       const notesGroups: NotesGroup[] = await prisma.notesGroup.findMany({
         where: {
@@ -76,8 +73,11 @@ export function JhhServerControllerDashboard() {
         },
       });
 
+      const newToken: string = createJWT(user, process.env.JWT_SECRET);
+
       res.status(HttpStatusCode.OK).json({
         data: {
+          newToken,
           notesGroups,
           boardColumns,
           offers,

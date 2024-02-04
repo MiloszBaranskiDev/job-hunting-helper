@@ -2,11 +2,10 @@ import { PrismaClient } from '@prisma/client';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
-import createJWT from './utils/create-jwt';
 import hashPassword from './utils/hash-password';
 import validateUserPassword from './utils/validate-user-password';
 import assignDefaultData from './utils/assign-default-data';
-import { respondWithError } from '@jhh/jhh-server/shared/utils';
+import { createJWT, respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { HttpStatusCode, RegisterFieldsLength, User } from '@jhh/shared/domain';
 
@@ -95,7 +94,7 @@ export function JhhServerControllerUser() {
 
       await assignDefaultData(user.id);
 
-      const token: string = createJWT(user);
+      const token: string = createJWT(user, process.env.JWT_SECRET);
       delete user['password'];
       delete user['unsavedBoardRequestId'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });
@@ -164,7 +163,7 @@ export function JhhServerControllerUser() {
         );
       }
 
-      const token: string = createJWT(user);
+      const token: string = createJWT(user, process.env.JWT_SECRET);
       delete user['password'];
       delete user['unsavedBoardRequestId'];
       res.status(HttpStatusCode.OK).json({ data: { token, user } });

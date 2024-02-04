@@ -110,8 +110,7 @@
                 "sourceTag": "scope:dashboard-controller",
                 "onlyDependOnLibsWithTags": [
                   "platform:server",
-                  "type:interfaces",
-                  "type:enums"
+                  "type:domain"
                 ]
               },
               {
@@ -144,24 +143,15 @@
                 ]
               },
               {
-                "sourceTag": "type:interfaces",
+                "sourceTag": "type:domain",
                 "onlyDependOnLibsWithTags": [
-                  "type:interfaces",
-                  "type:enums"
-                ]
-              },
-              {
-                "sourceTag": "type:enums",
-                "onlyDependOnLibsWithTags": [
-                  "type:interfaces",
-                  "type:enums"
+                  "type:domain"
                 ]
               },
               {
                 "sourceTag": "type:ui",
                 "onlyDependOnLibsWithTags": [
-                  "type:interfaces",
-                  "type:enums",
+                  "type:domain",
                   "type:client-shared",
                   "scope:client-dashboard"
                 ]
@@ -181,8 +171,7 @@
                 "sourceTag": "type:util",
                 "onlyDependOnLibsWithTags": [
                   "type:util",
-                  "type:interfaces",
-                  "type:enums"
+                  "type:domain"
                 ]
               }
             ]

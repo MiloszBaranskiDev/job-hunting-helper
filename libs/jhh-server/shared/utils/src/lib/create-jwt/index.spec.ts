@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import createJWT from './index';
+import { createJWT } from './index';
 
 import { User } from '@jhh/shared/domain';
 
@@ -23,12 +23,12 @@ describe('createJWT', () => {
     const token = 'mockToken';
     (jwt.sign as jest.Mock).mockReturnValue(token);
 
-    const result = createJWT(mockUser);
+    const result = createJWT(mockUser, mockSecret);
     expect(result).toBe(token);
   });
 
   it('should call jwt.sign with correct parameters', () => {
-    createJWT(mockUser);
+    createJWT(mockUser, mockSecret);
 
     expect(jwt.sign as jest.Mock).toHaveBeenCalledWith(
       {

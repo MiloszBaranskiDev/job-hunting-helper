@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as DashboardSelectors from './dashboard.selectors';
 import * as DashboardActions from './dashboard.actions';
+import { saveToken } from '@jhh/jhh-client/auth/data-access';
 import { setNotes } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { setBoard } from '@jhh/jhh-client/dashboard/board/data-access';
 import { setOffers } from '@jhh/jhh-client/dashboard/offers/data-access';
@@ -42,6 +43,9 @@ export class DashboardFacade {
   }
 
   setData(data: { payload: LoadAssignedDataSuccessPayload }): void {
+    this.store.dispatch(
+      saveToken({ payload: { token: data.payload.newToken } })
+    );
     this.store.dispatch(setNotes({ notesGroups: data.payload.notesGroups }));
     this.store.dispatch(setBoard({ boardColumns: data.payload.boardColumns }));
     this.store.dispatch(setOffers({ offers: data.payload.offers }));

@@ -10,7 +10,7 @@ export class AuthFeatureFacade {
   private readonly router: Router = inject(Router);
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
-  loginOrRedirect() {
+  loginOrRedirect(): void {
     const token: string = this.authFacade.getToken();
 
     if (token) {

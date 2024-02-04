@@ -7,7 +7,7 @@ export class AuthPublicFacade {
   private readonly authFeatureFacade: AuthFeatureFacade =
     inject(AuthFeatureFacade);
 
-  loginOrRedirect() {
+  loginOrRedirect(): void {
     this.authFeatureFacade.loginOrRedirect();
   }
 }

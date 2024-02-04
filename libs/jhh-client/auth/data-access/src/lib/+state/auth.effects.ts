@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as AuthActions from './auth.actions';
@@ -53,12 +53,23 @@ export class AuthEffects {
     )
   );
 
+  saveToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.saveToken),
+      tap((val) => {
+        this.authService.saveToken(val.payload.token);
+      }),
+      distinctUntilChanged()
+    )
+  );
+
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
       tap(() => {
         this.authService.removeToken();
-      })
+      }),
+      distinctUntilChanged()
     )
   );
 }

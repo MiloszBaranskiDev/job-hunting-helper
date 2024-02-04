@@ -2,16 +2,15 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '@jhh/shared/domain';
 
-const createJWT = (user: User) => {
+export function createJWT(user: User, secret: string): string {
   const token: string = jwt.sign(
     {
       id: user.id,
       username: user.username,
     },
-    process.env.JWT_SECRET
+    secret,
+    { expiresIn: '3d' }
   );
 
   return token;
-};
-
-export default createJWT;
+}

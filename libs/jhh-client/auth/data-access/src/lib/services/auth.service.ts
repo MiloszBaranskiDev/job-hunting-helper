@@ -13,12 +13,15 @@ import {
 import { ApiRoute } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http: HttpClient = inject(HttpClient);
+  private readonly router: Router = inject(Router);
 
   readonly LOCALSTORAGE_KEY: string = 'token';
   private readonly API_USER_URL: string =
@@ -51,7 +54,8 @@ export class AuthService {
     return JSON.parse(localStorage.getItem(this.LOCALSTORAGE_KEY) as string);
   }
 
-  removeToken() {
+  removeToken(): void {
     localStorage.removeItem(this.LOCALSTORAGE_KEY);
+    this.router.navigate([ClientRoute.LoginLink]);
   }
 }
