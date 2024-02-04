@@ -22,7 +22,7 @@ import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-
 import { Quiz, QuizResults } from '@jhh/shared/domain';
 
 interface ExtendedQuiz extends Quiz {
-  passRate: number;
+  passRate: number | null;
   percentageClass: string;
 }
 
@@ -78,7 +78,7 @@ export class QuizzesListComponent implements OnInit, OnChanges {
   private extendQuizzes(): void {
     this.extendedQuizzes = this.quizzes.map((quiz) => {
       const passRate = this.calculatePassRate(quiz.results as QuizResults[]);
-      const percentageClass = GetPercentageClass(passRate);
+      const percentageClass = GetPercentageClass(passRate ?? 0);
 
       return {
         ...quiz,
@@ -88,8 +88,11 @@ export class QuizzesListComponent implements OnInit, OnChanges {
     });
   }
 
-  private calculatePassRate(results: QuizResults[]): number {
-    const total = results.reduce((sum, result) => sum + result.percentage, 0);
-    return results.length > 0 ? total / results.length : 0;
+  private calculatePassRate(results: QuizResults[]): number | null {
+    const total: number = results.reduce(
+      (sum, result) => sum + result.percentage,
+      0
+    );
+    return results.length > 0 ? total / results.length : null;
   }
 }

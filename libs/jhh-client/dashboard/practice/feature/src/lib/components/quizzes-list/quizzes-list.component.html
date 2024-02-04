@@ -6,7 +6,7 @@
       class="quizCard cornerDecoration"
     >
       <span
-        *ngIf="quiz.passRate > 0"
+        *ngIf="quiz.passRate! / 1 == quiz.passRate"
         [ngClass]="['resultsPercentage', quiz.percentageClass]"
       >
         {{quiz.passRate.toFixed()}}%
