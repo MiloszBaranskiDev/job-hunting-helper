@@ -99,6 +99,10 @@
     justify-content: center;
 
     ::ng-deep {
+      .mdc-label {
+        color: var(--color__icon);
+      }
+
       svg {
         display: none !important;
       }

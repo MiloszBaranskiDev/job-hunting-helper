@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ThemeSwitcherComponent } from '../../components/theme-switcher/theme-switcher.component';
 import { SidebarBurgerComponent } from '../../components/sidebar-burger/sidebar-burger.component';
+import { UserMenuComponent } from '../../components/user-menu/user-menu.component';
 
 @Component({
   selector: 'jhh-toolbar',
@@ -21,6 +22,7 @@ import { SidebarBurgerComponent } from '../../components/sidebar-burger/sidebar-
     MatSlideToggleModule,
     ThemeSwitcherComponent,
     SidebarBurgerComponent,
+    UserMenuComponent,
   ],
   templateUrl: './jhh-client-dashboard-feature-toolbar.component.html',
   styleUrls: ['./jhh-client-dashboard-feature-toolbar.component.scss'],

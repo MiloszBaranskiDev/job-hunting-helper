@@ -1,0 +1,15 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>settings</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="handleLogout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>delete_forever</mat-icon>
+    <span>Remove account</span>
+  </button>
+</mat-menu>
+
