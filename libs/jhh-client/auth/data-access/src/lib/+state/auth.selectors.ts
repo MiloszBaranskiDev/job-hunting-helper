@@ -11,22 +11,32 @@ export const selectAuthToken = createSelector(
 
 export const selectAuthLoginInProgress = createSelector(
   selectAuthState,
-  (state: AuthState) => state.loginInProgress
+  (state: AuthState) => state.login.inProgress
 );
 
 export const selectAuthLoginError = createSelector(
   selectAuthState,
-  (state: AuthState) => state.loginError
+  (state: AuthState) => state.login.error
 );
 
 export const selectAuthRegisterInProgress = createSelector(
   selectAuthState,
-  (state: AuthState) => state.registerInProgress
+  (state: AuthState) => state.register.inProgress
 );
 
 export const selectAuthRegisterError = createSelector(
   selectAuthState,
-  (state: AuthState) => state.registerError
+  (state: AuthState) => state.register.error
+);
+
+export const selectAuthRemoveAccountInProgress = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.removeAccount.inProgress
+);
+
+export const selectAuthRemoveAccountError = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.removeAccount.error
 );
 
 export const selectAuthUser = createSelector(

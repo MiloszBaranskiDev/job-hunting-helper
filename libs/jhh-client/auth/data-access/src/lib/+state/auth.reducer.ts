@@ -6,12 +6,17 @@ import { User } from '@jhh/shared/domain';
 
 export const AUTH_STATE_KEY = 'auth';
 
+export interface OperationState {
+  inProgress: boolean;
+  error: string | null;
+  success?: boolean;
+}
+
 export interface AuthState {
   token: string | null;
-  loginInProgress: boolean;
-  loginError: string | null;
-  registerInProgress: boolean;
-  registerError: string | null;
+  login: OperationState;
+  register: OperationState;
+  removeAccount: OperationState;
   user: User | null;
 }
 
@@ -21,10 +26,21 @@ export interface AuthPartialState {
 
 export const initialAuthState: AuthState = {
   token: null,
-  loginInProgress: false,
-  loginError: null,
-  registerInProgress: false,
-  registerError: null,
+  login: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  register: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  removeAccount: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
   user: null,
 };
 
@@ -32,37 +48,90 @@ const reducer: ActionReducer<AuthState> = createReducer(
   initialAuthState,
   on(AuthActions.login, (state) => ({
     ...state,
-    loginInProgress: true,
+    login: {
+      ...state.login,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
   })),
   on(AuthActions.loginFail, (state, { payload }) => ({
     ...state,
-    loginInProgress: false,
-    loginError: payload.error.message,
+    login: {
+      ...state.login,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(AuthActions.loginSuccess, (state, { payload }) => ({
     ...state,
-    loginInProgress: false,
+    login: {
+      ...state.login,
+      inProgress: false,
+      error: null,
+      success: true,
+    },
     token: payload.token,
     user: payload.user,
   })),
   on(AuthActions.register, (state) => ({
     ...state,
-    registerInProgress: true,
+    register: {
+      ...state.register,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
   })),
   on(AuthActions.registerFail, (state, { payload }) => ({
     ...state,
-    registerInProgress: false,
-    registerError: payload.error.message,
+    register: {
+      ...state.register,
+      inProgress: false,
+      error: payload.error.message,
+    },
   })),
   on(AuthActions.registerSuccess, (state, { payload }) => ({
     ...state,
-    registerInProgress: false,
+    register: {
+      ...state.register,
+      inProgress: false,
+      error: null,
+      success: true,
+    },
     token: payload.token,
     user: payload.user,
   })),
+  on(AuthActions.removeAccount, (state) => ({
+    ...state,
+    removeAccount: {
+      ...state.removeAccount,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(AuthActions.removeAccountFail, (state, { payload }) => ({
+    ...state,
+    removeAccount: {
+      ...state.removeAccount,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(AuthActions.removeAccountSuccess, (state) => ({
+    ...state,
+    removeAccount: {
+      ...state.removeAccount,
+      inProgress: false,
+      error: null,
+      success: true,
+    },
+    token: null,
+    user: null,
+  })),
   on(AuthActions.saveToken, (state, { payload }) => ({
     ...state,
-    loginInProgress: false,
     token: payload.token,
   })),
   on(AuthActions.logout, (state) => ({

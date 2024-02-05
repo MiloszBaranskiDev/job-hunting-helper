@@ -53,6 +53,23 @@ export class AuthEffects {
     )
   );
 
+  removeAccount$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.removeAccount),
+      fetch({
+        run: () =>
+          this.authService.removeAccount().pipe(
+            tap(() => {
+              this.authService.removeToken();
+            }),
+            map(() => AuthActions.removeAccountSuccess())
+          ),
+        onError: (action, error) =>
+          AuthActions.removeAccountFail({ payload: error }),
+      })
+    )
+  );
+
   saveToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.saveToken),

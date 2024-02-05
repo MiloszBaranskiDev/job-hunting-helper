@@ -5,6 +5,7 @@ export * from './lib/interfaces/payloads/register-success-payload';
 export * from './lib/interfaces/payloads/save-token-payload';
 export * from './lib/interfaces/responses/login-success-response';
 export * from './lib/interfaces/responses/register-success-response';
+export * from './lib/interfaces/responses/remove-account-success-response';
 
 export * from './lib/enums/auth-form-fields';
 export * from './lib/enums/auth-form-error-key';

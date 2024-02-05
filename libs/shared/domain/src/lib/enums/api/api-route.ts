@@ -2,8 +2,9 @@ export enum ApiRoute {
   Test = '/test',
   //
   BaseUser = '/user',
-  Register = '/register',
   Login = '/login',
+  Register = '/register',
+  RemoveAccount = '/remove-account',
   //
   BaseProtected = '/api',
   //

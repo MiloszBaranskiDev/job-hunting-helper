@@ -1,7 +1,6 @@
-import { respondWithError } from '@jhh/jhh-server/shared/utils';
+import { createJWT, respondWithError } from '@jhh/jhh-server/shared/utils';
 import hashPassword from './utils/hash-password';
 import validateUserPassword from './utils/validate-user-password/index';
-import createJWT from './utils/create-jwt/index';
 
 import { HttpStatusCode } from '@jhh/shared/domain';
 

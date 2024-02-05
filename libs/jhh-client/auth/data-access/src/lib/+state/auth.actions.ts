@@ -16,6 +16,9 @@ export enum Type {
   Register = '[Auth] Register',
   RegisterFail = '[Auth] Register Fail',
   RegisterSuccess = '[Auth] Register Success',
+  RemoveAccount = '[Auth] Remove Account',
+  RemoveAccountFail = '[Auth] Remove Account Fail',
+  RemoveAccountSuccess = '[Auth] Remove Account Success',
   SaveToken = '[Auth] Save Token',
   Logout = '[Auth] Logout',
 }
@@ -49,6 +52,15 @@ export const registerSuccess = createAction(
   Type.RegisterSuccess,
   props<{ payload: RegisterSuccessPayload }>()
 );
+
+export const removeAccount = createAction(Type.RemoveAccount);
+
+export const removeAccountFail = createAction(
+  Type.RemoveAccountFail,
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const removeAccountSuccess = createAction(Type.RemoveAccountSuccess);
 
 export const saveToken = createAction(
   Type.SaveToken,

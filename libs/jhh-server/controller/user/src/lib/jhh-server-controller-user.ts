@@ -178,8 +178,87 @@ export function JhhServerControllerUser() {
     }
   };
 
+  const removeAccount = async (req, res): Promise<void> => {
+    try {
+      const userId = req.user.id;
+
+      const existingUser = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!existingUser) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'User not found.'
+        );
+      }
+
+      await prisma.$transaction(async (prisma) => {
+        const notesGroups = await prisma.notesGroup.findMany({
+          where: { userId },
+          select: { id: true },
+        });
+        const notesGroupIds = notesGroups.map((group) => group.id);
+        if (notesGroupIds.length > 0) {
+          await prisma.note.deleteMany({
+            where: { groupId: { in: notesGroupIds } },
+          });
+        }
+
+        await prisma.notesGroup.deleteMany({
+          where: { userId },
+        });
+
+        const boardColumns = await prisma.boardColumn.findMany({
+          where: { userId },
+          select: { id: true },
+        });
+        const boardColumnIds = boardColumns.map((column) => column.id);
+        if (boardColumnIds.length > 0) {
+          await prisma.boardColumnItem.deleteMany({
+            where: { columnId: { in: boardColumnIds } },
+          });
+        }
+
+        await prisma.boardColumn.deleteMany({
+          where: { userId },
+        });
+
+        await prisma.offer.deleteMany({
+          where: { userId },
+        });
+
+        await prisma.scheduleEvent.deleteMany({
+          where: { userId },
+        });
+
+        await prisma.quiz.deleteMany({
+          where: { userId },
+        });
+
+        await prisma.user.delete({
+          where: { id: userId },
+        });
+      });
+
+      res
+        .status(HttpStatusCode.OK)
+        .json({ data: { removedAccountId: userId } });
+    } catch (error) {
+      console.error(error);
+
+      return respondWithError(
+        res,
+        HttpStatusCode.InternalServerError,
+        'Internal Server Error'
+      );
+    }
+  };
+
   return {
     register,
     login,
+    removeAccount,
   };
 }

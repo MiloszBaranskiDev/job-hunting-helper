@@ -36,6 +36,14 @@ export class AuthFacade {
     select(AuthSelectors.selectAuthRegisterError)
   );
 
+  removeAccountInProgress$: Observable<boolean> = this.store.pipe(
+    select(AuthSelectors.selectAuthRemoveAccountInProgress)
+  );
+
+  removeAccountError$: Observable<string | null> = this.store.pipe(
+    select(AuthSelectors.selectAuthRemoveAccountError)
+  );
+
   login(username: string, password: string) {
     return this.actionResolverService.executeAndWatch(
       AuthActions.login({
@@ -57,6 +65,14 @@ export class AuthFacade {
       }),
       AuthActions.Type.RegisterSuccess,
       AuthActions.Type.RegisterFail
+    );
+  }
+
+  removeAccount() {
+    return this.actionResolverService.executeAndWatch(
+      AuthActions.removeAccount(),
+      AuthActions.Type.RemoveAccountSuccess,
+      AuthActions.Type.RemoveAccountFail
     );
   }
 
