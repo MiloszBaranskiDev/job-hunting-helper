@@ -25,6 +25,7 @@ export const JhhClientAuthShellRoutes: Route = {
   children: [
     {
       path: ClientRoute.Register,
+      title: 'Register',
       loadComponent: () =>
         import('@jhh/jhh-client/auth/feature-register').then(
           (c) => c.JhhClientAuthFeatureRegisterComponent
@@ -32,6 +33,7 @@ export const JhhClientAuthShellRoutes: Route = {
     },
     {
       path: ClientRoute.Login,
+      title: 'Login',
       loadComponent: () =>
         import('@jhh/jhh-client/auth/feature-login').then(
           (c) => c.JhhClientAuthFeatureLoginComponent
