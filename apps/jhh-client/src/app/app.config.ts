@@ -17,6 +17,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import {
+  MAT_DIALOG_SCROLL_STRATEGY,
+  MatDialog,
+} from '@angular/material/dialog';
+import { Overlay } from '@angular/cdk/overlay';
+import { Dialog, DIALOG_SCROLL_STRATEGY } from '@angular/cdk/dialog';
 
 import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
 
@@ -47,5 +53,17 @@ export const appConfig: ApplicationConfig = {
       FlatpickrModule.forRoot()
     ),
     MatSnackBar,
+    MatDialog,
+    {
+      provide: MAT_DIALOG_SCROLL_STRATEGY,
+      useFactory: (overlay: Overlay) => () => overlay.scrollStrategies.block(),
+      deps: [Overlay],
+    },
+    Dialog,
+    {
+      provide: DIALOG_SCROLL_STRATEGY,
+      useFactory: (overlay: Overlay) => () => overlay.scrollStrategies.block(),
+      deps: [Overlay],
+    },
   ],
 };

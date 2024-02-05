@@ -12,11 +12,12 @@ import {
   RegisterPayload,
   RegisterSuccessPayload,
   RegisterSuccessResponse,
+  RemoveAccountSuccessPayload,
   RemoveAccountSuccessResponse,
 } from '@jhh/jhh-client/auth/domain';
 import { ApiRoute } from '@jhh/shared/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-import { RemoveAccountSuccessPayload } from 'libs/jhh-client/auth/domain/src/lib/interfaces/payloads/remove-account-success-payload';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ import { RemoveAccountSuccessPayload } from 'libs/jhh-client/auth/domain/src/lib
 export class AuthService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly router: Router = inject(Router);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   readonly LOCALSTORAGE_KEY: string = 'token';
   private readonly API_USER_URL: string =
@@ -66,6 +68,7 @@ export class AuthService {
 
   removeToken(): void {
     localStorage.removeItem(this.LOCALSTORAGE_KEY);
+    this.dialog.closeAll();
     this.router.navigate([ClientRoute.LoginLink]);
   }
 }
