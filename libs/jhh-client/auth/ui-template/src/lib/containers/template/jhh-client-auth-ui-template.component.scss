@@ -92,9 +92,15 @@
 
       li {
         a {
-          .mat-icon {
+          mat-icon {
             width: 28px;
             height: 28px;
+          }
+
+          &:hover {
+            mat-icon {
+              fill: var(--color__primary);
+            }
           }
         }
       }

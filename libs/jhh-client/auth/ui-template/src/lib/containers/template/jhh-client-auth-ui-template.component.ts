@@ -15,6 +15,7 @@ import { ThemeMode } from '@jhh/jhh-client/shared/domain';
 interface Icon {
   svgSrc: string;
   name: string;
+  tooltip: string;
   link: string;
 }
 
@@ -46,16 +47,19 @@ export class JhhClientAuthUiTemplateComponent implements OnInit {
     {
       svgSrc: 'assets/icons/github.svg',
       name: 'github',
+      tooltip: 'GitHub',
       link: 'https://github.com/MiloszBaranskiDev/job-hunting-helper',
     },
     {
       svgSrc: 'assets/icons/linkedin.svg',
       name: 'linkedin',
+      tooltip: 'Linkedin',
       link: 'https://www.linkedin.com/in/mi%C5%82osz-bara%C5%84ski-8617721b1/',
     },
     {
       svgSrc: 'assets/icons/email.svg',
       name: 'email',
+      tooltip: 'Contact',
       link: 'https://miloszbaranskidev.github.io/my-website/',
     },
   ];
