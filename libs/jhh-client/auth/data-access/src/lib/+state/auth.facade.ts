@@ -1,16 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import * as AuthSelectors from './auth.selectors';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Injectable()
 export class AuthFacade {
   private readonly store: Store = inject(Store);
+  private readonly router: Router = inject(Router);
   private readonly authService: AuthService = inject(AuthService);
   private readonly actionResolverService: ActionResolverService = inject(
     ActionResolverService
@@ -82,6 +85,16 @@ export class AuthFacade {
 
   getToken(): string {
     return this.authService.getToken();
+  }
+
+  loginOrRedirect(): void {
+    const token: string = this.getToken();
+
+    if (token) {
+      this.saveToken(token);
+    } else {
+      this.router.navigate([ClientRoute.LoginLink]);
+    }
   }
 
   logout(): void {

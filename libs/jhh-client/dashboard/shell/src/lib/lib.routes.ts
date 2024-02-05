@@ -5,7 +5,6 @@ import { provideEffects } from '@ngrx/effects';
 import { JhhClientDashboardShellComponent } from './containers/shell/jhh-client-dashboard-shell.component';
 
 import { AuthPublicFacade, authPublicGuard } from '@jhh/jhh-client/auth/public';
-import { AuthFeatureFacade } from '@jhh/jhh-client/auth/feature';
 
 import {
   DASHBOARD_STATE_KEY,
@@ -55,7 +54,6 @@ export const JhhClientDashboardShellRoutes: Route = {
     provideState(SCHEDULE_STATE_KEY, scheduleReducer),
     provideState(PRACTICE_STATE_KEY, practiceReducer),
     provideEffects(DashboardEffects),
-    AuthFeatureFacade,
     AuthPublicFacade,
     DashboardFacade,
     NotesFacade,

@@ -2,7 +2,11 @@
   <form auth-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput [formControlName]="formFields.Username" placeholder="Username">
+      <input
+        matInput
+        [formControlName]="formFields.Username"
+        placeholder="Username"
+      >
       <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError(formErrorKey.Required)">
         Username is required
       </mat-error>
@@ -10,9 +14,14 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput id="password-input" [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
-             [formControlName]="formFields.Password"
-             placeholder="Password">
+      <input
+        id="password-input"
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        autocomplete="true"
+        [formControlName]="formFields.Password"
+        placeholder="Password"
+      >
       <mat-icon matSuffix id="password-type-toggle" (click)="hidePassword = !hidePassword">
         {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
@@ -37,10 +46,20 @@
     </ng-container>
 
     <div class="authTemplate__buttons">
-      <button mat-flat-button color="primary" type="submit" [disabled]="!formGroup.valid || (loginInProgress$ | async)">
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="!formGroup.valid || (loginInProgress$ | async)"
+      >
         Submit
       </button>
-      <a [routerLink]="clientRoutes.RegisterLink" mat-stroked-button>Register</a>
+      <a
+        [routerLink]="clientRoutes.RegisterLink"
+        mat-button
+      >
+        Don't have an account? Register
+      </a>
     </div>
 
   </form>

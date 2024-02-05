@@ -11,7 +11,6 @@ import {
   AuthEffects,
   authReducer,
 } from '@jhh/jhh-client/auth/data-access';
-import { AuthFeatureEffects } from '@jhh/jhh-client/auth/feature';
 
 import { authGuard } from './guard/auth.guard';
 
@@ -20,7 +19,7 @@ export const JhhClientAuthShellRoutes: Route = {
   component: JhhClientAuthShellComponent,
   providers: [
     provideState(AUTH_STATE_KEY, authReducer),
-    provideEffects(AuthEffects, AuthFeatureEffects),
+    provideEffects(AuthEffects),
   ],
   canActivate: [authGuard],
   children: [

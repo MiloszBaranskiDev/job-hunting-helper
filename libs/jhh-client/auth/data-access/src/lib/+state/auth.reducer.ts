@@ -71,6 +71,10 @@ const reducer: ActionReducer<AuthState> = createReducer(
       error: null,
       success: true,
     },
+    register: {
+      ...state.register,
+      error: null,
+    },
     token: payload.token,
     user: payload.user,
   })),
@@ -98,6 +102,10 @@ const reducer: ActionReducer<AuthState> = createReducer(
       inProgress: false,
       error: null,
       success: true,
+    },
+    login: {
+      ...state.login,
+      error: null,
     },
     token: payload.token,
     user: payload.user,

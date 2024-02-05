@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -15,9 +16,8 @@ import {
   RemoveAccountSuccessPayload,
   RemoveAccountSuccessResponse,
 } from '@jhh/jhh-client/auth/domain';
-import { ApiRoute } from '@jhh/shared/domain';
+import { ApiRoute, LocalStorageKeys } from '@jhh/shared/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,6 @@ export class AuthService {
   private readonly router: Router = inject(Router);
   private readonly dialog: MatDialog = inject(MatDialog);
 
-  readonly LOCALSTORAGE_KEY: string = 'token';
   private readonly API_USER_URL: string =
     environment.apiUrl + ApiRoute.BaseUser;
 
@@ -59,16 +58,17 @@ export class AuthService {
   }
 
   saveToken(token: string): void {
-    localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(token));
+    localStorage.setItem(LocalStorageKeys.Token, JSON.stringify(token));
   }
 
   getToken(): string {
-    return JSON.parse(localStorage.getItem(this.LOCALSTORAGE_KEY) as string);
+    return JSON.parse(localStorage.getItem(LocalStorageKeys.Token) as string);
   }
 
   removeToken(): void {
-    localStorage.removeItem(this.LOCALSTORAGE_KEY);
+    localStorage.removeItem(LocalStorageKeys.Token);
     this.dialog.closeAll();
     this.router.navigate([ClientRoute.LoginLink]);
+    window.location.reload();
   }
 }

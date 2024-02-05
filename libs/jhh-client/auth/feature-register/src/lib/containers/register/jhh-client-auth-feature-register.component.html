@@ -2,7 +2,11 @@
   <form auth-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput [formControlName]="formFields.Username" placeholder="Username">
+      <input
+        matInput
+        [formControlName]="formFields.Username"
+        placeholder="Username"
+      >
       <mat-error *ngIf="formGroup.get('username')?.hasError(formErrorKey.Required)">
         Username is required
       </mat-error>
@@ -21,9 +25,14 @@
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input
-          matInput id="password-input" [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
+          id="password-input"
+          matInput
+          autocomplete="true"
+          [type]="hidePassword ? 'password' : 'text'"
           [formControlName]="formFields.Password"
-          placeholder="Password" (input)="validatePasswords()">
+          placeholder="Password"
+          (input)="validatePasswords()"
+        >
         <mat-icon id="password-type-toggle-first" matSuffix (click)="hidePassword = !hidePassword">
           {{hidePassword ? 'visibility_off' : 'visibility'}}
         </mat-icon>
@@ -49,9 +58,13 @@
       <mat-form-field appearance="fill">
         <mat-label>Confirm Password</mat-label>
         <input
-          matInput [type]="hidePassword ? 'password' : 'text'" autocomplete="true"
+          matInput
+          autocomplete="true"
+          [type]="hidePassword ? 'password' : 'text'"
           [formControlName]="formFields.ConfirmPassword"
-          placeholder="Confirm Password" (input)="validatePasswords()">
+          placeholder="Confirm Password"
+          (input)="validatePasswords()"
+        >
         <mat-icon matSuffix (click)="hidePassword = !hidePassword">
           {{hidePassword ? 'visibility_off' : 'visibility'}}
         </mat-icon>
@@ -79,11 +92,18 @@
 
     <div class="authTemplate__buttons">
       <button
-        mat-flat-button color="primary" type="submit"
+        mat-flat-button
+        color="primary"
+        type="submit"
         [disabled]="!formGroup.valid || (registerInProgress$ | async)">
         Submit
       </button>
-      <a [routerLink]="clientRoutes.LoginLink" mat-stroked-button>Log in</a>
+      <a
+        [routerLink]="clientRoutes.LoginLink"
+        mat-button
+      >
+        Already have an account? Login
+      </a>
     </div>
   </form>
 </jhh-auth-ui-template>

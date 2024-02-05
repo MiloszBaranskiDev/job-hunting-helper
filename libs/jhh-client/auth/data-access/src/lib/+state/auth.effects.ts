@@ -10,10 +10,13 @@ import {
   LoginSuccessPayload,
   RegisterSuccessPayload,
 } from '@jhh/jhh-client/auth/domain';
+import { Router } from '@angular/router';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Injectable()
 export class AuthEffects {
   private readonly actions$: Actions = inject(Actions);
+  private readonly router: Router = inject(Router);
   private readonly authService: AuthService = inject(AuthService);
 
   login$ = createEffect(() =>
@@ -22,9 +25,10 @@ export class AuthEffects {
       fetch({
         run: (action) =>
           this.authService.login(action.payload).pipe(
-            tap((res: LoginSuccessPayload) =>
-              this.authService.saveToken(res.token)
-            ),
+            tap((res: LoginSuccessPayload) => {
+              this.authService.saveToken(res.token);
+              this.router.navigate([ClientRoute.HomeLink]);
+            }),
             map((res: LoginSuccessPayload) =>
               AuthActions.loginSuccess({ payload: res })
             )
@@ -40,9 +44,10 @@ export class AuthEffects {
       fetch({
         run: (action) =>
           this.authService.register(action.payload).pipe(
-            tap((res: RegisterSuccessPayload) =>
-              this.authService.saveToken(res.token)
-            ),
+            tap((res: RegisterSuccessPayload) => {
+              this.router.navigate([ClientRoute.HomeLink]);
+              this.authService.saveToken(res.token);
+            }),
             map((res: RegisterSuccessPayload) =>
               AuthActions.registerSuccess({ payload: res })
             )

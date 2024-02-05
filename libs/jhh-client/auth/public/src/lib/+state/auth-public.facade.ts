@@ -1,13 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 
-import { AuthFeatureFacade } from '@jhh/jhh-client/auth/feature';
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 @Injectable()
 export class AuthPublicFacade {
-  private readonly authFeatureFacade: AuthFeatureFacade =
-    inject(AuthFeatureFacade);
+  private readonly authFacade: AuthFacade = inject(AuthFacade);
 
   loginOrRedirect(): void {
-    this.authFeatureFacade.loginOrRedirect();
+    this.authFacade.loginOrRedirect();
   }
 }

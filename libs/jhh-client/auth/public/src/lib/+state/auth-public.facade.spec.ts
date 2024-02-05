@@ -5,15 +5,15 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 
 import { AuthPublicFacade } from './auth-public.facade';
-import { AuthFeatureFacade } from '@jhh/jhh-client/auth/feature';
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-const mockAuthFeatureFacade = {
+const mockAuthFacade = {
   loginOrRedirect: jest.fn(),
 };
 
 describe('AuthPublicFacade', () => {
   let authPublicFacade: AuthPublicFacade;
-  let authFeatureFacade: AuthFeatureFacade;
+  let authFacade: AuthFacade;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -26,12 +26,12 @@ describe('AuthPublicFacade', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthPublicFacade,
-        { provide: AuthFeatureFacade, useValue: mockAuthFeatureFacade },
+        { provide: AuthFacade, useValue: mockAuthFacade },
       ],
     });
 
     authPublicFacade = TestBed.inject(AuthPublicFacade);
-    authFeatureFacade = TestBed.inject(AuthFeatureFacade);
+    authFacade = TestBed.inject(AuthFacade);
   });
 
   afterEach(() => {
@@ -39,14 +39,14 @@ describe('AuthPublicFacade', () => {
   });
 
   it('should be created', () => {
-    expect(authFeatureFacade).toBeTruthy();
+    expect(authPublicFacade).toBeTruthy();
   });
 
   describe('loginOrRedirect', () => {
-    it('should call loginOrRedirect on AuthFeatureFacade', () => {
+    it('should call loginOrRedirect in AuthFacade', () => {
       authPublicFacade.loginOrRedirect();
 
-      expect(authFeatureFacade.loginOrRedirect).toHaveBeenCalled();
+      expect(authFacade.loginOrRedirect).toHaveBeenCalled();
     });
   });
 });
