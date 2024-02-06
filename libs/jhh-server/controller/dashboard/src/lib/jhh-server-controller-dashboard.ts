@@ -75,8 +75,10 @@ export function JhhServerControllerDashboard() {
 
       const newToken: string = createJWT(user, process.env.JWT_SECRET);
 
+      delete user['password'];
       res.status(HttpStatusCode.OK).json({
         data: {
+          user,
           newToken,
           notesGroups,
           boardColumns,

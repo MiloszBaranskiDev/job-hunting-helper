@@ -8,8 +8,10 @@ import {
   RegisterSuccessPayload,
   SaveTokenPayload,
 } from '@jhh/jhh-client/auth/domain';
+import { User } from '@jhh/shared/domain';
 
 export enum Type {
+  SetUser = '[Auth] Set User',
   Login = '[Auth] Login',
   LoginFail = '[Auth] Login Fail',
   LoginSuccess = '[Auth] Login Success',
@@ -22,6 +24,8 @@ export enum Type {
   SaveToken = '[Auth] Save Token',
   Logout = '[Auth] Logout',
 }
+
+export const setUser = createAction(Type.SetUser, props<{ user: User }>());
 
 export const login = createAction(
   Type.Login,
