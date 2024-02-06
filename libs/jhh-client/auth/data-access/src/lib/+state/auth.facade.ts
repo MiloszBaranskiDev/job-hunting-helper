@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
+import { User } from '@jhh/shared/domain';
 
 @Injectable()
 export class AuthFacade {
@@ -21,6 +22,10 @@ export class AuthFacade {
 
   token$: Observable<string | null> = this.store.pipe(
     select(AuthSelectors.selectAuthToken)
+  );
+
+  user$: Observable<User | null> = this.store.pipe(
+    select(AuthSelectors.selectAuthUser)
   );
 
   loginInProgress$: Observable<boolean> = this.store.pipe(

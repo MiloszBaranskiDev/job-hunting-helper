@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ThemeSwitcherComponent } from '../../components/theme-switcher/theme-switcher.component';
 import { SidebarBurgerComponent } from '../../components/sidebar-burger/sidebar-burger.component';
 import { UserMenuComponent } from '../../components/user-menu/user-menu.component';
+import { BrandComponent } from '../../components/brand/brand.component';
+import { Observable } from 'rxjs';
+import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
 
 @Component({
   selector: 'jhh-toolbar',
@@ -23,8 +26,21 @@ import { UserMenuComponent } from '../../components/user-menu/user-menu.componen
     ThemeSwitcherComponent,
     SidebarBurgerComponent,
     UserMenuComponent,
+    BrandComponent,
   ],
   templateUrl: './jhh-client-dashboard-feature-toolbar.component.html',
   styleUrls: ['./jhh-client-dashboard-feature-toolbar.component.scss'],
 })
-export class JhhClientDashboardFeatureToolbarComponent {}
+export class JhhClientDashboardFeatureToolbarComponent implements OnInit {
+  private readonly sidebarService: SidebarService = inject(SidebarService);
+
+  isBreakpointMobile$: Observable<boolean>;
+
+  ngOnInit(): void {
+    this.isBreakpointMobile$ = this.sidebarService.isBreakpointMobile$;
+  }
+
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
+  }
+}

@@ -6,6 +6,7 @@ import {
   BreakpointState,
 } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
+import { LocalStorageKeys } from '@jhh/shared/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -15,21 +16,28 @@ export class SidebarService {
     inject(BreakpointObserver);
   private readonly router: Router = inject(Router);
 
-  private isBreakpointMobile: BehaviorSubject<boolean> =
+  private _isBreakpointMobile$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-  private isSidebarOpened: BehaviorSubject<boolean> =
+  private _isSidebarOpened$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-  private isSidebarExpanded: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
+  private _isSidebarExpanded$: BehaviorSubject<boolean>;
 
   breakpoint$: Observable<BreakpointState>;
   isBreakpointMobile$: Observable<boolean> =
-    this.isBreakpointMobile.asObservable();
-  isSidebarOpened$: Observable<boolean> = this.isSidebarOpened.asObservable();
-  isSidebarExpanded$: Observable<boolean> =
-    this.isSidebarExpanded.asObservable();
+    this._isBreakpointMobile$.asObservable();
+  isSidebarOpened$: Observable<boolean> = this._isSidebarOpened$.asObservable();
+  isSidebarExpanded$: Observable<boolean>;
 
   constructor() {
+    const expandedState: string | null = localStorage.getItem(
+      LocalStorageKeys.IsSidebarExpanded
+    );
+    this._isSidebarExpanded$ = new BehaviorSubject<boolean>(
+      expandedState !== null ? expandedState === 'true' : true
+    );
+
+    this.isSidebarExpanded$ = this._isSidebarExpanded$.asObservable();
+
     this.breakpoint$ = this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Small])
       .pipe(distinctUntilChanged());
@@ -41,13 +49,12 @@ export class SidebarService {
   handleBreakpoint(): void {
     this.breakpoint$.subscribe((val: BreakpointState) => {
       if (val.matches) {
-        this.isBreakpointMobile.next(true);
-        this.isSidebarOpened.next(false);
-        this.isSidebarExpanded.next(false);
+        this._isBreakpointMobile$.next(true);
+        this._isSidebarOpened$.next(false);
+        this.setSidebarExpandedState(false);
       } else {
-        this.isBreakpointMobile.next(false);
-        this.isSidebarOpened.next(true);
-        this.isSidebarExpanded.next(true);
+        this._isBreakpointMobile$.next(false);
+        this._isSidebarOpened$.next(true);
       }
     });
   }
@@ -56,9 +63,9 @@ export class SidebarService {
     this.router.events.subscribe((event) => {
       if (
         event instanceof NavigationEnd &&
-        this.isBreakpointMobile.getValue()
+        this._isBreakpointMobile$.getValue()
       ) {
-        this.isSidebarOpened.next(false);
+        this._isSidebarOpened$.next(false);
       }
     });
   }
@@ -67,11 +74,19 @@ export class SidebarService {
     this.breakpoint$
       .subscribe((val: BreakpointState) => {
         if (val.matches) {
-          this.isSidebarOpened.next(!this.isSidebarOpened.getValue());
+          this._isSidebarOpened$.next(!this._isSidebarOpened$.getValue());
         } else {
-          this.isSidebarExpanded.next(!this.isSidebarExpanded.getValue());
+          this.setSidebarExpandedState(!this._isSidebarExpanded$.getValue());
         }
       })
       .unsubscribe();
+  }
+
+  private setSidebarExpandedState(newState: boolean): void {
+    this._isSidebarExpanded$.next(newState);
+    localStorage.setItem(
+      LocalStorageKeys.IsSidebarExpanded,
+      newState.toString()
+    );
   }
 }

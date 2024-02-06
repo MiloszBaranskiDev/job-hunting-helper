@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DebugElement } from '@angular/core';
 
 import { JhhClientDashboardFeatureSidebarComponent } from './jhh-client-dashboard-feature-sidebar.component';
 
@@ -43,12 +41,5 @@ describe('JhhClientDashboardFeatureSidebarComponent', () => {
   it('should call toggleSidebar when handleClose is called', () => {
     component.handleClose();
     expect(mockSidebarService.toggleSidebar).toHaveBeenCalled();
-  });
-
-  it('should display sidebar items', () => {
-    const sidebarItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('.sidenav__item')
-    );
-    expect(sidebarItems.length).toBe(1);
   });
 });

@@ -2,23 +2,22 @@
   class="sidenav mat-drawer-transition"
   [ngClass]="{'sidenav--notMobile': ((isBreakpointMobile$ | async) !== true), 'sidenav--expanded': isSidebarExpanded$ | async}">
   <mat-sidenav
-    #sidenav
     mode="side"
-    [opened]="isSidebarOpened$ | async">
+    [opened]="(isSidebarOpened$ | async)!"
+  >
+    <jhh-sidebar-brand
+      *ngIf="!(isBreakpointMobile$ | async)"
+      [isSidebarExpanded]="isSidebarExpanded$ | async"
+    >
+    </jhh-sidebar-brand>
     <button mat-icon-button *ngIf="isBreakpointMobile$ | async" (click)="handleClose()">
       <mat-icon>close</mat-icon>
     </button>
-    <mat-nav-list>
-      <a *ngFor="let item of sidebarItems" [routerLink]="item.route">
-        <mat-list-item
-          class="sidenav__item"
-          [ngClass]="{'sidenav__item--active': (activeLink$ | async) === item.route}"
-        >
-          <mat-icon>{{item.icon}}</mat-icon>
-          <span *ngIf="((isSidebarExpanded$ | async) || (isBreakpointMobile$ | async))">{{item.text}}</span>
-        </mat-list-item>
-      </a>
-    </mat-nav-list>
+    <jhh-sidebar-nav-list
+      [isSidebarExpanded]="isSidebarExpanded$ | async"
+      [isBreakpointMobile]="isBreakpointMobile$ | async"
+    >
+    </jhh-sidebar-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <ng-content></ng-content>

@@ -13,9 +13,11 @@
     position: fixed;
     padding: 10px;
 
-    .mat-icon {
-      transform: scale(1.25);
-      color: white !important;
+    ::ng-deep {
+      mat-icon {
+        transform: scale(1.25);
+        color: white !important;
+      }
     }
 
     * {
@@ -29,22 +31,30 @@
     background-color: var(--color__bg--darker);
   }
 
-  &__item {
-    border: 1px solid transparent;
-    border-radius: var(--radius__base);
-    transition: border-color 0.2s;
+  ::ng-deep {
+    .sidenav__item {
+      display: block;
+      border: 1px solid transparent;
+      border-radius: var(--radius__base);
+      color: white !important;
+      transition: border-color 0.2s;
 
-    &--active {
-      border-color: white;
-    }
+      span {
+        color: white;
+      }
 
-    ::ng-deep {
-      .mdc-list-item__content {
-        .mat-mdc-list-item-unscoped-content {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
+      &--active {
+        border-color: white;
+      }
+
+      ::ng-deep {
+        .mdc-list-item__content {
+          .mat-mdc-list-item-unscoped-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+          }
         }
       }
     }
@@ -53,7 +63,7 @@
   &--notMobile {
     mat-sidenav {
       width: $sidenavSize;
-      padding: 60px 10px;
+      padding: 20px 10px 60px 10px;
     }
 
     mat-sidenav-content {
@@ -70,11 +80,13 @@
       margin-left: $sidenavSize--expanded !important;
     }
 
-    #{ $self }__item {
-      ::ng-deep {
-        .mdc-list-item__content {
-          .mat-mdc-list-item-unscoped-content {
-            justify-content: flex-start;
+    ::ng-deep {
+      #{ $self }__item {
+        ::ng-deep {
+          .mdc-list-item__content {
+            .mat-mdc-list-item-unscoped-content {
+              justify-content: flex-start;
+            }
           }
         }
       }

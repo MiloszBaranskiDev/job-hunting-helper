@@ -1,9 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
-import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
 
 @Component({
   selector: 'jhh-sidebar-burger',
@@ -13,9 +11,9 @@ import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
   styleUrls: ['./sidebar-burger.component.scss'],
 })
 export class SidebarBurgerComponent {
-  private readonly sidebarService: SidebarService = inject(SidebarService);
+  @Output() toggleSidebar: EventEmitter<void> = new EventEmitter<void>();
 
-  toggleSidebar(): void {
-    this.sidebarService.toggleSidebar();
+  handleClick(): void {
+    this.toggleSidebar.emit();
   }
 }

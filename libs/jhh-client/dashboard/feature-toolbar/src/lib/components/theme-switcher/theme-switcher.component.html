@@ -4,5 +4,7 @@
   [checked]="isDarkMode"
   (change)="toggleTheme()"
 >
-  {{ currentThemeMode$.getValue() }}
+  <span *ngIf="!isBreakpointMobile">
+    {{ currentThemeMode$.getValue() }}
+  </span>
 </mat-slide-toggle>

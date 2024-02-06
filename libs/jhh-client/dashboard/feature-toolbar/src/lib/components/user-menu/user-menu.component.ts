@@ -23,6 +23,8 @@ import { Observable } from 'rxjs';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
+import { User } from '@jhh/shared/domain';
+
 @Component({
   selector: 'jhh-user-menu',
   standalone: true,
@@ -50,6 +52,7 @@ export class UserMenuComponent implements OnInit {
 
   removeAccountInProgress$: Observable<boolean>;
   removeAccountError$: Observable<string | null>;
+  user$: Observable<User | null>;
 
   dialogRef: MatDialogRef<TemplateRef<any>>;
   removeAccountConfirmationText: string = '';
@@ -62,6 +65,7 @@ export class UserMenuComponent implements OnInit {
   ngOnInit(): void {
     this.removeAccountInProgress$ = this.authFacade.removeAccountInProgress$;
     this.removeAccountError$ = this.authFacade.removeAccountError$;
+    this.user$ = this.authFacade.user$;
   }
 
   handleLogout(): void {
