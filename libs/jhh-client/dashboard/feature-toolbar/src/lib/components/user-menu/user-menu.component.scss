@@ -5,20 +5,22 @@ button {
   }
 }
 
-mat-divider {
-  margin-bottom: 0 !important;
+::ng-deep {
+  .mat-mdc-menu-content {
+    padding: 0 !important;
+
+    mat-divider {
+      margin-bottom: 0 !important;
+    }
+  }
 }
 
 .username {
-  padding: 10px 10px 0 10px;
+  padding: 12px 10px 0 16px;
   display: flex;
   align-items: center;
   gap: 6px;
   word-break: break-all;
-
-  mat-divider {
-    margin-bottom: 0;
-  }
 
   mat-icon {
     flex-shrink: 0;
