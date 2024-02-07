@@ -210,11 +210,15 @@ export function JhhServerControllerUser() {
           where: { userId },
         });
 
-        const boardColumns = await prisma.boardColumn.findMany({
-          where: { userId },
-          select: { id: true },
-        });
-        const boardColumnIds = boardColumns.map((column) => column.id);
+        const boardColumns: { id: string }[] =
+          await prisma.boardColumn.findMany({
+            where: { userId },
+            select: { id: true },
+          });
+        const boardColumnIds: string[] = boardColumns.map(
+          (column) => column.id
+        );
+
         if (boardColumnIds.length > 0) {
           await prisma.boardColumnItem.deleteMany({
             where: { columnId: { in: boardColumnIds } },
@@ -232,6 +236,18 @@ export function JhhServerControllerUser() {
         await prisma.scheduleEvent.deleteMany({
           where: { userId },
         });
+
+        const quizzes: { id: string }[] = await prisma.quiz.findMany({
+          where: { userId },
+          select: { id: true },
+        });
+        const quizzesIds: string[] = quizzes.map((quiz) => quiz.id);
+
+        if (quizzesIds.length > 0) {
+          await prisma.quizResults.deleteMany({
+            where: { quizId: { in: quizzesIds } },
+          });
+        }
 
         await prisma.quiz.deleteMany({
           where: { userId },
