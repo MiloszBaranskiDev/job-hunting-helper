@@ -46,6 +46,14 @@ export class NotesFacade {
     select(NotesSelectors.selectEditNotesGroupSuccess)
   );
 
+  duplicateNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
+    select(NotesSelectors.selectDuplicateNotesGroupInProgress)
+  );
+
+  duplicateNotesGroupError$: Observable<string | null> = this.store.pipe(
+    select(NotesSelectors.selectDuplicateNotesGroupError)
+  );
+
   removeNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNotesGroupInProgress)
   );
@@ -123,6 +131,16 @@ export class NotesFacade {
       }),
       NotesActions.Type.EditNotesGroupSuccess,
       NotesActions.Type.EditNotesGroupFail
+    );
+  }
+
+  duplicateNotesGroup(groupId: string) {
+    return this.actionResolverService.executeAndWatch(
+      NotesActions.duplicateNotesGroup({
+        payload: { groupId: groupId },
+      }),
+      NotesActions.Type.DuplicateNotesGroupSuccess,
+      NotesActions.Type.DuplicateNotesGroupFail
     );
   }
 

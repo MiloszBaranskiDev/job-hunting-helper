@@ -48,6 +48,16 @@ export const selectEditNotesGroupSuccess = createSelector(
   (state: NotesState) => state.editNotesGroup.success!
 );
 
+export const selectDuplicateNotesGroupInProgress = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.duplicateNotesGroup.inProgress
+);
+
+export const selectDuplicateNotesGroupError = createSelector(
+  selectNotesState,
+  (state: NotesState) => state.duplicateNotesGroup.error
+);
+
 export const selectRemoveNotesGroupInProgress = createSelector(
   selectNotesState,
   (state: NotesState) => state.removeNotesGroup.inProgress

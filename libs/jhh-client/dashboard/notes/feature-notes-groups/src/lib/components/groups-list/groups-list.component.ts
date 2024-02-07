@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { NotesGroup } from '@jhh/shared/domain';
 
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
@@ -28,6 +29,7 @@ import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/fea
 export class GroupsListComponent implements OnInit {
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
+  private readonly notesFacade: NotesFacade = inject(NotesFacade);
   private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
     inject(EditNotesGroupDialogService);
   private readonly removeNotesGroupDialogService: RemoveNotesGroupDialogService =
@@ -43,6 +45,10 @@ export class GroupsListComponent implements OnInit {
 
   trackByFn(index: number, item: NotesGroup): string {
     return item.id;
+  }
+
+  handleDuplicate(groupId: string): void {
+    this.notesFacade.duplicateNotesGroup(groupId);
   }
 
   openEditNotesGroupDialog(group: NotesGroup): void {

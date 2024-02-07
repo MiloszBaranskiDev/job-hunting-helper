@@ -53,6 +53,10 @@ export class MenuComponent implements OnInit {
     this.navigateAfterRemove();
   }
 
+  handleDuplicate(): void {
+    this.notesFacade.duplicateNotesGroup(this.group.id);
+  }
+
   openEditNotesGroupDialog(): void {
     this.editNotesGroupDialogService.openDialog(this.group);
   }

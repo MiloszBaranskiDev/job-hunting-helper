@@ -16,6 +16,7 @@ import {
   AddNotesGroupSuccessPayload,
   AddNoteSuccessPayload,
   ChangeNoteGroupSuccessPayload,
+  DuplicateNotesGroupSuccessPayload,
   DuplicateNoteSuccessPayload,
   EditNotesGroupSuccessPayload,
   EditNoteSuccessPayload,
@@ -77,6 +78,29 @@ export class NotesEffects {
           ),
         onError: (action, error) =>
           NotesActions.editNotesGroupFail({ payload: error }),
+      })
+    )
+  );
+
+  duplicateNotesGroup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NotesActions.duplicateNotesGroup),
+      fetch({
+        run: (action) =>
+          this.notesService.duplicateNotesGroup(action.payload).pipe(
+            map((res: DuplicateNotesGroupSuccessPayload) =>
+              NotesActions.duplicateNotesGroupSuccess({ payload: res })
+            ),
+            tap(() => {
+              this.snackbarService.open('Group duplicated successfully!');
+            })
+          ),
+        onError: (action, error) => {
+          this.snackbarService.open(
+            'Something went wrong when duplicating an group. Try it again'
+          );
+          return NotesActions.duplicateNotesGroupFail({ payload: error });
+        },
       })
     )
   );

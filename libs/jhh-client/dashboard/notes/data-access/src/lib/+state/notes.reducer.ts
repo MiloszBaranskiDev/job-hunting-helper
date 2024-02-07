@@ -16,6 +16,7 @@ export interface OperationState {
 export interface NotesState extends EntityState<NotesGroup> {
   addNotesGroup: OperationState;
   editNotesGroup: OperationState;
+  duplicateNotesGroup: OperationState;
   removeNotesGroup: OperationState;
   addNote: OperationState;
   editNote: OperationState;
@@ -36,6 +37,10 @@ export const initialNotesState: NotesState = adapter.getInitialState({
     inProgress: false,
     error: null,
     success: false,
+  },
+  duplicateNotesGroup: {
+    inProgress: false,
+    error: null,
   },
   removeNotesGroup: {
     inProgress: false,
@@ -123,6 +128,36 @@ const reducer: ActionReducer<NotesState> = createReducer(
       success: true,
     },
   })),
+  on(NotesActions.duplicateNotesGroup, (state) => ({
+    ...state,
+    duplicateNotesGroup: {
+      ...state.duplicateNotesGroup,
+      inProgress: true,
+      error: null,
+    },
+  })),
+  on(NotesActions.duplicateNotesGroupFail, (state, { payload }) => ({
+    ...state,
+    duplicateNotesGroup: {
+      ...state.duplicateNotesGroup,
+      inProgress: false,
+      error: payload.error.message,
+    },
+  })),
+  on(NotesActions.duplicateNotesGroupSuccess, (state, { payload }) => {
+    const updatedState: NotesState = adapter.addOne(
+      payload.duplicatedNotesGroup,
+      state
+    );
+
+    return {
+      ...updatedState,
+      duplicateNotesGroup: {
+        inProgress: false,
+        error: null,
+      },
+    };
+  }),
   on(NotesActions.resetEditNotesGroupSuccess, (state) => ({
     ...state,
     editNotesGroup: {

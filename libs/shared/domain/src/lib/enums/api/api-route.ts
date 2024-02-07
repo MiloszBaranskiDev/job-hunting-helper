@@ -12,6 +12,7 @@ export enum ApiRoute {
   //
   AddNotesGroup = '/add-notes-group',
   EditNotesGroup = '/edit-notes-group',
+  DuplicateNotesGroup = '/duplicate-notes-group',
   RemoveNotesGroup = '/remove-notes-group',
   //
   AddNote = '/add-note',
