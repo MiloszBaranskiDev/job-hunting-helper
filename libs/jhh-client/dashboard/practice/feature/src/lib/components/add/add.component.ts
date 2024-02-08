@@ -38,6 +38,7 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
 import { MinArrayLengthValidator } from '@jhh/jhh-client/shared/util-min-array-length-validator';
 import { AnswersValidator } from '@jhh/jhh-client/dashboard/practice/util-answers-validator';
 import { ImageUrlValidator } from '@jhh/jhh-client/shared/util-image-url-validator';
+import { UniqueAnswerValidator } from '@jhh/jhh-client/dashboard/practice/util-unique-answer-validator';
 
 import {
   QuizField,
@@ -129,6 +130,7 @@ export class AddComponent implements OnInit {
           Validators.required,
           MinArrayLengthValidator(this.fieldsLength.MinAnswers),
           AnswersValidator(),
+          UniqueAnswerValidator(),
         ]
       ),
     });

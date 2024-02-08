@@ -139,6 +139,19 @@ const addQuiz = async (req: any, res: any): Promise<void> => {
         );
       }
 
+      const answerTexts = item.answers.map((a: QuizItemAnswer) =>
+        a.text.trim().toLowerCase()
+      );
+      const uniqueAnswers = new Set(answerTexts);
+
+      if (answerTexts.length !== uniqueAnswers.size) {
+        return respondWithError(
+          res,
+          HttpStatusCode.BadRequest,
+          'Each question must have unique answers'
+        );
+      }
+
       for (const answer of item.answers) {
         if (
           answer.text.length < QuizFieldsLength.MinAnswerLength ||

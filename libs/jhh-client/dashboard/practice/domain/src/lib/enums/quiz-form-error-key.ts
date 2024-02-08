@@ -5,4 +5,5 @@ export enum QuizFormErrorKey {
   InvalidMinArrayLength = 'invalidMinArrayLength',
   InvalidAnswersDistribution = 'invalidAnswersDistribution',
   InvalidImageUrl = 'invalidImageUrl',
+  DuplicatedAnswers = 'duplicatedAnswers',
 }

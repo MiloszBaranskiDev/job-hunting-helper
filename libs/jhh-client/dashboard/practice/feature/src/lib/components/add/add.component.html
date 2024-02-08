@@ -119,6 +119,11 @@
               Each question must have at least one correct and one incorrect answer.
             </mat-error>
 
+            <mat-error
+              *ngIf="!getAnswers(question).hasError(formErrorKey.InvalidMinArrayLength) && getAnswers(question).hasError(formErrorKey.DuplicatedAnswers)">
+              Answers must be unique.
+            </mat-error>
+
             <button
               mat-stroked-button
               type="button"
