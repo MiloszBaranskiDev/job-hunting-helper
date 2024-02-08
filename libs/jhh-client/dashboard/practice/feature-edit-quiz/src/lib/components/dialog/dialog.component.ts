@@ -38,6 +38,7 @@ import _ from 'lodash';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 import { EditPracticeQuizDialogService } from '../../service/edit-practice-quiz-dialog.service';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { MinArrayLengthValidator } from '@jhh/jhh-client/shared/util-min-array-length-validator';
 import { AnswersValidator } from '@jhh/jhh-client/dashboard/practice/util-answers-validator';
@@ -82,6 +83,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService =
     inject(EditPracticeQuizDialogService);
 
@@ -99,11 +102,13 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   editQuizInProgress$: Observable<boolean>;
   editQuizError$: Observable<string | null>;
   editQuizSuccess$: Observable<boolean>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.editQuizInProgress$ = this.practiceFacade.editQuizInProgress$;
     this.editQuizError$ = this.practiceFacade.editQuizError$;
     this.editQuizSuccess$ = this.practiceFacade.editQuizSuccess$;
+    this.breakpoint$ = this.breakpointService.breakpoint$;
 
     this.slugPrefix =
       window.location.href.split(ClientRoute.HomeLink)[0] +
