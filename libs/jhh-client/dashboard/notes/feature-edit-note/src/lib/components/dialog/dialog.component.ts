@@ -34,6 +34,7 @@ import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { maxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
 import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
@@ -70,6 +71,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly editNoteDialogService: EditNoteDialogService = inject(
     EditNoteDialogService
   );
@@ -80,6 +83,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editNoteInProgress$: Observable<boolean>;
   editNoteError$: Observable<string | null>;
+  breakpoint$: Observable<string>;
 
   readonly formField: typeof NoteFormField = NoteFormField;
   readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
@@ -94,6 +98,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.editNoteInProgress$ = this.notesFacade.editNoteInProgress$;
     this.editNoteError$ = this.notesFacade.editNoteError$;
+    this.breakpoint$ = this.breakpointService.breakpoint$;
 
     this.slugPrefix = window.location.href.replace(/(\/[^\/?]*$)|(\?.*$)/, '/');
 
