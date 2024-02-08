@@ -4,8 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { JhhClientDashboardFeatureToolbarComponent } from '@jhh/jhh-client/dashboard/feature-toolbar';
-import { JhhClientDashboardFeatureSidebarComponent } from '@jhh/jhh-client/dashboard/feature-sidebar';
+import { JhhClientDashboardToolbarComponent } from '@jhh/jhh-client/dashboard/feature-toolbar';
+import { JhhClientDashboardSidebarComponent } from '@jhh/jhh-client/dashboard/feature-sidebar';
 import { JhhClientDashboardBreadcrumbsComponent } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 import { JhhClientDashboardTitleComponent } from '@jhh/jhh-client/dashboard/feature-title';
 import { JhhClientDashboardFooterComponent } from '@jhh/jhh-client/dashboard/feature-footer';
@@ -19,8 +19,8 @@ import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
     CommonModule,
     RouterOutlet,
     MatProgressSpinnerModule,
-    JhhClientDashboardFeatureToolbarComponent,
-    JhhClientDashboardFeatureSidebarComponent,
+    JhhClientDashboardToolbarComponent,
+    JhhClientDashboardSidebarComponent,
     JhhClientDashboardBreadcrumbsComponent,
     JhhClientDashboardTitleComponent,
     JhhClientDashboardFooterComponent,

@@ -6,15 +6,15 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { JhhClientAuthFeatureLoginComponent } from 'libs/jhh-client/auth/feature-login/src/lib/containers/login/jhh-client-auth-feature-login.component';
+import { JhhClientAuthLoginComponent } from './jhh-client-auth-login.component';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 import { AuthFormFields } from '@jhh/jhh-client/auth/domain';
 
-describe('JhhClientAuthFeatureLoginComponent', () => {
-  let component: JhhClientAuthFeatureLoginComponent;
-  let fixture: ComponentFixture<JhhClientAuthFeatureLoginComponent>;
+describe('JhhClientAuthLoginComponent', () => {
+  let component: JhhClientAuthLoginComponent;
+  let fixture: ComponentFixture<JhhClientAuthLoginComponent>;
   let authFacade: AuthFacade;
   let loginInProgressSubject: BehaviorSubject<boolean>;
 
@@ -24,7 +24,7 @@ describe('JhhClientAuthFeatureLoginComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        JhhClientAuthFeatureLoginComponent,
+        JhhClientAuthLoginComponent,
         HttpClientModule,
         BrowserAnimationsModule,
       ],
@@ -44,7 +44,7 @@ describe('JhhClientAuthFeatureLoginComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JhhClientAuthFeatureLoginComponent);
+    fixture = TestBed.createComponent(JhhClientAuthLoginComponent);
     component = fixture.componentInstance;
     authFacade = TestBed.inject(AuthFacade);
     authFacade.login = jest.fn().mockReturnValue(of('some_value'));

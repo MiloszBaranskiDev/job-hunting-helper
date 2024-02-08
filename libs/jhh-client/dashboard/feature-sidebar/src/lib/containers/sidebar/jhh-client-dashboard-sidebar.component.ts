@@ -25,10 +25,10 @@ import { BrandComponent } from '../../components/brand/brand.component';
     NavListComponent,
     BrandComponent,
   ],
-  templateUrl: './jhh-client-dashboard-feature-sidebar.component.html',
-  styleUrls: ['./jhh-client-dashboard-feature-sidebar.component.scss'],
+  templateUrl: './jhh-client-dashboard-sidebar.component.html',
+  styleUrls: ['./jhh-client-dashboard-sidebar.component.scss'],
 })
-export class JhhClientDashboardFeatureSidebarComponent implements OnInit {
+export class JhhClientDashboardSidebarComponent implements OnInit {
   private readonly sidebarService: SidebarService = inject(SidebarService);
 
   isBreakpointMobile$: Observable<boolean>;

@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { JhhClientDashboardFeatureSidebarComponent } from './jhh-client-dashboard-feature-sidebar.component';
+import { JhhClientDashboardSidebarComponent } from './jhh-client-dashboard-sidebar.component';
 
 import { SidebarService } from '../../service/sidebar.service';
 
-describe('JhhClientDashboardFeatureSidebarComponent', () => {
-  let component: JhhClientDashboardFeatureSidebarComponent;
-  let fixture: ComponentFixture<JhhClientDashboardFeatureSidebarComponent>;
+describe('JhhClientDashboardSidebarComponent', () => {
+  let component: JhhClientDashboardSidebarComponent;
+  let fixture: ComponentFixture<JhhClientDashboardSidebarComponent>;
   let mockSidebarService: any;
 
   beforeEach(() => {
@@ -20,16 +20,11 @@ describe('JhhClientDashboardFeatureSidebarComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        JhhClientDashboardFeatureSidebarComponent,
-        NoopAnimationsModule,
-      ],
+      imports: [JhhClientDashboardSidebarComponent, NoopAnimationsModule],
       providers: [{ provide: SidebarService, useValue: mockSidebarService }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(
-      JhhClientDashboardFeatureSidebarComponent
-    );
+    fixture = TestBed.createComponent(JhhClientDashboardSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

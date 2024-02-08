@@ -8,7 +8,7 @@ import { FormComponent } from '../../components/form/form.component';
   selector: 'jhh-register',
   standalone: true,
   imports: [CommonModule, JhhClientAuthUiTemplateComponent, FormComponent],
-  templateUrl: './jhh-client-auth-feature-register.component.html',
-  styleUrls: ['./jhh-client-auth-feature-register.component.scss'],
+  templateUrl: './jhh-client-auth-register.component.html',
+  styleUrls: ['./jhh-client-auth-register.component.scss'],
 })
-export class JhhClientAuthFeatureRegisterComponent {}
+export class JhhClientAuthRegisterComponent {}

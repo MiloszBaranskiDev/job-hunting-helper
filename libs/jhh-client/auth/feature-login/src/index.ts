@@ -1,1 +1,1 @@
-export * from './lib/containers/login/jhh-client-auth-feature-login.component';
+export * from './lib/containers/login/jhh-client-auth-login.component';

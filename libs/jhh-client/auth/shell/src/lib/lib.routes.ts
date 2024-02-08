@@ -28,7 +28,7 @@ export const JhhClientAuthShellRoutes: Route = {
       title: 'Register',
       loadComponent: () =>
         import('@jhh/jhh-client/auth/feature-register').then(
-          (c) => c.JhhClientAuthFeatureRegisterComponent
+          (c) => c.JhhClientAuthRegisterComponent
         ),
     },
     {
@@ -36,7 +36,7 @@ export const JhhClientAuthShellRoutes: Route = {
       title: 'Login',
       loadComponent: () =>
         import('@jhh/jhh-client/auth/feature-login').then(
-          (c) => c.JhhClientAuthFeatureLoginComponent
+          (c) => c.JhhClientAuthLoginComponent
         ),
     },
   ],

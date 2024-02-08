@@ -5,13 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Observable } from 'rxjs';
+
+import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
 
 import { ThemeSwitcherComponent } from '../../components/theme-switcher/theme-switcher.component';
 import { SidebarBurgerComponent } from '../../components/sidebar-burger/sidebar-burger.component';
 import { UserMenuComponent } from '../../components/user-menu/user-menu.component';
 import { BrandComponent } from '../../components/brand/brand.component';
-import { Observable } from 'rxjs';
-import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
 
 @Component({
   selector: 'jhh-toolbar',
@@ -28,10 +29,10 @@ import { SidebarService } from '@jhh/jhh-client/dashboard/feature-sidebar';
     UserMenuComponent,
     BrandComponent,
   ],
-  templateUrl: './jhh-client-dashboard-feature-toolbar.component.html',
-  styleUrls: ['./jhh-client-dashboard-feature-toolbar.component.scss'],
+  templateUrl: './jhh-client-dashboard-toolbar.component.html',
+  styleUrls: ['./jhh-client-dashboard-toolbar.component.scss'],
 })
-export class JhhClientDashboardFeatureToolbarComponent implements OnInit {
+export class JhhClientDashboardToolbarComponent implements OnInit {
   private readonly sidebarService: SidebarService = inject(SidebarService);
 
   isBreakpointMobile$: Observable<boolean>;
