@@ -8,6 +8,7 @@ import { JhhClientDashboardFeatureToolbarComponent } from '@jhh/jhh-client/dashb
 import { JhhClientDashboardFeatureSidebarComponent } from '@jhh/jhh-client/dashboard/feature-sidebar';
 import { JhhClientDashboardBreadcrumbsComponent } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
 import { JhhClientDashboardTitleComponent } from '@jhh/jhh-client/dashboard/feature-title';
+import { JhhClientDashboardFooterComponent } from '@jhh/jhh-client/dashboard/feature-footer';
 
 import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
 
@@ -22,6 +23,7 @@ import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
     JhhClientDashboardFeatureSidebarComponent,
     JhhClientDashboardBreadcrumbsComponent,
     JhhClientDashboardTitleComponent,
+    JhhClientDashboardFooterComponent,
   ],
   templateUrl: './jhh-client-dashboard-shell.component.html',
   styleUrls: ['./jhh-client-dashboard-shell.component.scss'],
