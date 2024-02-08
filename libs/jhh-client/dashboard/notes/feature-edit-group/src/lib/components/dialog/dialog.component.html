@@ -3,39 +3,43 @@
     <h2 mat-dialog-title>Edit group</h2>
     <mat-dialog-content>
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="fill">
-          <mat-label>{{slugPrefix}}</mat-label>
-          <input
-            matInput
-            [formControlName]="formField.Slug"
-            placeholder="Enter slug here"
-            whitespaceSanitizer
-            required
-          >
-          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.Required)">
-            Slug is required
-          </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
-            Minimum length of slug is {{fieldsLength.MinNameLength}} characters
-          </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of slug is {{fieldsLength.MaxNameLength + fieldsLength.MaxNameAndSlugLengthDiff}}
-            characters
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput [formControlName]="formField.Name" placeholder="Name" whitespaceSanitizer required>
-          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
-            Name is required
-          </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
-            Minimum length of name is {{fieldsLength.MinNameLength}} characters
-          </mat-error>
-          <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
-            Maximum length of name is {{fieldsLength.MaxNameLength}} characters
-          </mat-error>
-        </mat-form-field>
+
+        <div [ngClass]="['formGrid', breakpoint$ | async]">
+          <mat-form-field appearance="fill">
+            <mat-label>{{slugPrefix}}</mat-label>
+            <input
+              matInput
+              [formControlName]="formField.Slug"
+              placeholder="Enter slug here"
+              whitespaceSanitizer
+              required
+            >
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.Required)">
+              Slug is required
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
+              Minimum length of slug is {{fieldsLength.MinNameLength}} characters
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
+              Maximum length of slug is {{fieldsLength.MaxNameLength + fieldsLength.MaxNameAndSlugLengthDiff}}
+              characters
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput [formControlName]="formField.Name" placeholder="Name" whitespaceSanitizer required>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
+              Name is required
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
+              Minimum length of name is {{fieldsLength.MinNameLength}} characters
+            </mat-error>
+            <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
+              Maximum length of name is {{fieldsLength.MaxNameLength}} characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+
         <mat-divider></mat-divider>
         <ng-container *ngIf="(editNotesGroupInProgress$ | async) || (editNotesGroupError$ | async)">
           <mat-progress-spinner *ngIf="editNotesGroupInProgress$ | async" mode="indeterminate"></mat-progress-spinner>

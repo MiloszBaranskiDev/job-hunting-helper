@@ -38,6 +38,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNotesGroupDialogService } from '../../service/edit-notes-group-dialog.service';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 @Component({
   selector: 'jhh-edit-notes-group-dialog',
@@ -60,6 +61,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
     inject(EditNotesGroupDialogService);
 
@@ -68,6 +71,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editNotesGroupInProgress$: Observable<boolean>;
   editNotesGroupError$: Observable<string | null>;
+  breakpoint$: Observable<string>;
 
   readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
   readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
@@ -80,6 +84,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.editNotesGroupInProgress$ = this.notesFacade.editNotesGroupInProgress$;
     this.editNotesGroupError$ = this.notesFacade.editNotesGroupError$;
+    this.breakpoint$ = this.breakpointService.breakpoint$;
 
     this.slugPrefix =
       window.location.href.split(ClientRoute.HomeLink)[0] +
