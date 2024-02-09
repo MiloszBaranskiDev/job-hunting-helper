@@ -43,6 +43,7 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { MinArrayLengthValidator } from '@jhh/jhh-client/shared/util-min-array-length-validator';
 import { AnswersValidator } from '@jhh/jhh-client/dashboard/practice/util-answers-validator';
 import { ImageUrlValidator } from '@jhh/jhh-client/shared/util-image-url-validator';
+import { UniqueAnswerValidator } from '@jhh/jhh-client/dashboard/practice/util-unique-answer-validator';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
@@ -152,6 +153,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
           Validators.required,
           MinArrayLengthValidator(this.fieldsLength.MinAnswers),
           AnswersValidator(),
+          UniqueAnswerValidator(),
         ]
       ),
     });
