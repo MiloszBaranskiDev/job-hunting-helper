@@ -1,8 +1,6 @@
 .topContainer {
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
-  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 10px;
@@ -14,6 +12,10 @@
   mat-form-field {
     max-width: 280px;
     margin-bottom: 0;
+  }
+
+  .currencySelect {
+    max-width: 140px;
   }
 }
 
@@ -31,7 +33,10 @@
 
     &:hover {
       background-color: var(--color__primary);
-      color: white;
+
+      * {
+        color: white !important;
+      }
 
       mat-icon {
         color: white !important;
@@ -61,6 +66,12 @@
       font-size: 16px;
       user-select: none;
     }
+  }
+
+  .convertedSalary {
+    display: block;
+    font-size: 11px;
+    color: var(--color__icon);
   }
 
   .status {

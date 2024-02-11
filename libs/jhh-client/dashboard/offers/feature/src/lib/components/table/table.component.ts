@@ -30,24 +30,36 @@ import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-
-import { MenuComponent } from '../menu/menu.component';
-
-import { Offer, OfferPriority, OfferStatus } from '@jhh/shared/domain';
-import { OffersPerPage } from '@jhh/jhh-client/dashboard/offers/domain';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
-import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
+import {
+  CurrencyService,
+  OffersFacade,
+} from '@jhh/jhh-client/dashboard/offers/data-access';
 import { QueryParamsService } from '../../services/query-params/query-params.service';
 import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
+import { GetOfferSalaryConversion } from '@jhh/jhh-client/dashboard/offers/util-get-offer-salary-conversion';
 
-interface OfferWithIcon extends Offer {
-  statusIcon: string;
-}
+import { MenuComponent } from '../menu/menu.component';
+
+import {
+  Offer,
+  OfferPriority,
+  OfferSalaryCurrency,
+  OfferStatus,
+} from '@jhh/shared/domain';
+import {
+  ExchangeRate,
+  ExtendedOffer,
+  OffersPerPage,
+} from '@jhh/jhh-client/dashboard/offers/domain';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -66,6 +78,9 @@ interface OfferWithIcon extends Offer {
     MatButtonModule,
     FormsModule,
     FormatOfferSalaryPipe,
+    MatOptionModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
   ],
   providers: [CurrencyPipe],
   templateUrl: './table.component.html',
@@ -74,6 +89,7 @@ interface OfferWithIcon extends Offer {
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
   private readonly removeOffersDialogService: RemoveOffersDialogService =
@@ -83,18 +99,23 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input({ required: true }) offers: Offer[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   removeOffersInProgress$: Observable<boolean>;
   removeOffersSuccess$: Observable<boolean>;
+  loadExchangeRatesSuccess$: Observable<boolean>;
+  currentCurrency$: BehaviorSubject<OfferSalaryCurrency | null>;
+  exchangeRates$: Observable<ExchangeRate[] | null>;
 
-  dataSource: MatTableDataSource<OfferWithIcon>;
+  dataSource: MatTableDataSource<ExtendedOffer>;
   selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
 
   filterValue: string;
   paginatorPage: number;
   paginatorSize: number;
 
+  private loadExchangeRatesSuccess: boolean = false;
+  readonly currencyValues: string[] = Object.values(OfferSalaryCurrency);
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
@@ -123,14 +144,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   ngOnInit(): void {
-    this.updateDataSource();
+    this.extendWithStatusIcon();
 
     this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
     this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
+    this.loadExchangeRatesSuccess$ =
+      this.offersFacade.loadExchangeRatesSuccess$;
+    this.currentCurrency$ = this.currencyService.currentCurrency$;
+    this.exchangeRates$ = this.offersFacade.exchangeRates$;
 
     this.queryParamsService.setFromCurrentRoute();
     this.queryParamsService.updateQueryParams();
 
+    this.watchCurrencyAndExchangeRateChanges();
     this.handleRemoveSuccess();
   }
 
@@ -142,7 +168,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['offers']) {
-      this.updateDataSource();
+      this.extendWithStatusIcon();
+      this.watchCurrencyAndExchangeRateChanges();
       this.updateTableSettings();
 
       if (this.paginator) {
@@ -194,7 +221,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     const startIndex: number = this.paginatorPage * this.paginatorSize;
     const endIndex: number = startIndex + this.paginatorSize;
 
-    const currentPageData: Offer[] = this.dataSource.data.slice(
+    const currentPageData: ExtendedOffer[] = this.dataSource.data.slice(
       startIndex,
       endIndex
     );
@@ -234,6 +261,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     if (selectedOffers.length > 0) {
       this.removeOffersDialogService.openDialog(selectedOffers);
     }
+  }
+
+  handleCurrencyChange(currency: string): void {
+    this.currencyService.updateCurrency(currency);
   }
 
   handleSort(sortState: Sort): void {
@@ -318,6 +349,32 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.setSortingDataAccessor();
   }
 
+  private watchCurrencyAndExchangeRateChanges(): void {
+    this.loadExchangeRatesSuccess$
+      ?.pipe(
+        filter(Boolean),
+        switchMap(() => this.currentCurrency$),
+        switchMap(() => this.convertSalaries()),
+        tap(() => {
+          this.loadExchangeRatesSuccess = true;
+          if (this.dataSource && this.sort) {
+            this.dataSource.sort = this.sort;
+            this.updateTableSettings();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private convertSalaries(): Observable<ExchangeRate[] | null> {
+    return this.exchangeRates$.pipe(
+      tap((exchangeRates) => {
+        this.extendWithConvertedSalary(exchangeRates);
+      })
+    );
+  }
+
   private handleRemoveSuccess(): void {
     this.removeOffersSuccess$
       .pipe(
@@ -339,7 +396,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         case 'status':
           return this.statusMapping[item.status];
         case 'salary':
-          return this.getSortableSalaryValue(item);
+          if (this.loadExchangeRatesSuccess && item.convertedSalary) {
+            return this.getSortableSalaryValue(item, true);
+          } else {
+            return this.getSortableSalaryValue(item);
+          }
         default:
           return (item as any)[property];
       }
@@ -347,19 +408,42 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private updateTableSettings(): void {
-    this.dataSource.sort = this.sort;
+    if (this.sort && this.dataSource) {
+      this.dataSource.sort = this.sort;
+      this.setSortingDataAccessor();
+      this.dataSource.sort.sortChange.emit(this.sort);
+    }
     this.dataSource.paginator = this.paginator;
-    this.setSortingDataAccessor();
   }
 
-  private updateDataSource(): void {
+  private extendWithStatusIcon(): void {
     this.dataSource = new MatTableDataSource(
       this.offers.map(
         (offer) =>
           ({
             ...offer,
             statusIcon: GetOfferStatusIcon(offer.status),
-          } as OfferWithIcon)
+          } as ExtendedOffer)
+      )
+    );
+  }
+
+  private extendWithConvertedSalary(
+    exchangeRates: ExchangeRate[] | null
+  ): void {
+    this.dataSource = new MatTableDataSource(
+      this.offers.map(
+        (offer) =>
+          ({
+            ...offer,
+            convertedSalary: GetOfferSalaryConversion(
+              offer.salaryCurrency,
+              offer.minSalary,
+              offer.maxSalary,
+              this.currentCurrency$.getValue() ?? undefined,
+              exchangeRates ?? undefined
+            ),
+          } as ExtendedOffer)
       )
     );
   }
@@ -367,16 +451,27 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private isValidSort(active: string, direction: string): boolean {
     const isValidColumn: boolean = this.displayedColumns.includes(active);
     const isValidDirection: boolean = ['asc', 'desc', ''].includes(direction);
+
     return isValidColumn && isValidDirection;
   }
 
-  private getSortableSalaryValue(item: Offer): number {
-    if (item.minSalary && item.maxSalary) {
-      return (item.minSalary + item.maxSalary) / 2;
-    } else if (item.minSalary) {
-      return item.minSalary;
-    } else if (item.maxSalary) {
-      return item.maxSalary;
+  private getSortableSalaryValue(
+    item: ExtendedOffer,
+    isConverted: boolean = false
+  ): number {
+    const min: number | undefined = isConverted
+      ? item.convertedSalary?.min
+      : item.minSalary;
+    const max: number | undefined = isConverted
+      ? item.convertedSalary?.max
+      : item.maxSalary;
+
+    if (min && max) {
+      return (min + max) / 2;
+    } else if (min) {
+      return min;
+    } else if (max) {
+      return max;
     } else {
       return 0;
     }

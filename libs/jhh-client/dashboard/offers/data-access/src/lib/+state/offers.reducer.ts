@@ -4,6 +4,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as OffersActions from './offers.actions';
 
 import { Offer } from '@jhh/shared/domain';
+import { ExchangeRate } from '@jhh/jhh-client/dashboard/offers/domain';
 
 export const OFFERS_STATE_KEY = 'offers';
 
@@ -17,6 +18,8 @@ export interface OffersState extends EntityState<Offer> {
   addOffer: OperationState;
   editOffer: OperationState;
   removeOffers: OperationState;
+  loadExchangeRates: OperationState;
+  exchangeRates: ExchangeRate[] | null;
 }
 
 export const adapter: EntityAdapter<Offer> = createEntityAdapter<Offer>();
@@ -37,6 +40,12 @@ export const initialOffersState: OffersState = adapter.getInitialState({
     error: null,
     success: false,
   },
+  loadExchangeRates: {
+    inProgress: false,
+    error: null,
+    success: false,
+  },
+  exchangeRates: null,
 });
 
 const reducer: ActionReducer<OffersState> = createReducer(
@@ -147,6 +156,32 @@ const reducer: ActionReducer<OffersState> = createReducer(
       ...state.removeOffers,
       success: false,
     },
+  })),
+  on(OffersActions.loadExchangeRates, (state) => ({
+    ...state,
+    loadExchangeRates: {
+      ...state.loadExchangeRates,
+      inProgress: true,
+      error: null,
+      success: false,
+    },
+  })),
+  on(OffersActions.loadExchangeRatesFail, (state, { payload }) => ({
+    ...state,
+    loadExchangeRates: {
+      ...state.loadExchangeRates,
+      inProgress: false,
+      error: payload as unknown as string,
+    },
+  })),
+  on(OffersActions.loadExchangeRatesSuccess, (state, { payload }) => ({
+    ...state,
+    loadExchangeRates: {
+      ...state.loadExchangeRates,
+      inProgress: false,
+      success: true,
+    },
+    exchangeRates: payload.exchangeRates,
   }))
 );
 

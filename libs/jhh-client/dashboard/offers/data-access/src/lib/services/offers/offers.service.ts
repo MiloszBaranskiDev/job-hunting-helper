@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
-import { ApiRoute } from '@jhh/shared/domain';
+import { ApiRoute, OfferSalaryCurrency } from '@jhh/shared/domain';
 import {
   AddOfferPayload,
   AddOfferSuccessPayload,
@@ -13,6 +13,7 @@ import {
   EditOfferPayload,
   EditOfferSuccessPayload,
   EditOfferSuccessResponse,
+  LoadExchangeRatesSuccessPayload,
   RemoveOffersPayload,
   RemoveOffersSuccessPayload,
   RemoveOffersSuccessResponse,
@@ -26,6 +27,9 @@ export class OffersService {
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
+  private readonly currencySymbols: OfferSalaryCurrency[] = Object.values(
+    OfferSalaryCurrency
+  ).filter((symbol) => symbol !== OfferSalaryCurrency.PLN);
 
   addOffer(payload: AddOfferPayload): Observable<AddOfferSuccessPayload> {
     return this.http
@@ -84,5 +88,19 @@ export class OffersService {
         }
       )
       .pipe(map((res: RemoveOffersSuccessResponse) => res.data));
+  }
+
+  loadExchangeRates(): Observable<LoadExchangeRatesSuccessPayload> {
+    const requests = this.currencySymbols.map((symbol) =>
+      this.http.get(
+        `${this.API_DASHBOARD_URL + ApiRoute.ExchangeRates}/${symbol}/`
+      )
+    );
+
+    return forkJoin(requests).pipe(
+      map((res) => {
+        return { exchangeRates: res };
+      })
+    ) as unknown as Observable<LoadExchangeRatesSuccessPayload>;
   }
 }

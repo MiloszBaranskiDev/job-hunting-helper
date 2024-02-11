@@ -3,4 +3,5 @@ export enum LocalStorageKeys {
   ThemeMode = 'themeMode',
   Token = 'token',
   IsSidebarExpanded = 'isSidebarExpanded',
+  Currency = 'currency',
 }

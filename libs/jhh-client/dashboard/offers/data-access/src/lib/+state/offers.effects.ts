@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { mergeMap, tap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 
 import * as OffersActions from './offers.actions';
 import { OffersService } from '../services/offers/offers.service';
@@ -13,6 +13,7 @@ import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feat
 import {
   AddOfferSuccessPayload,
   EditOfferSuccessPayload,
+  LoadExchangeRatesSuccessPayload,
   RemoveOffersSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
 
@@ -68,7 +69,7 @@ export class OffersEffects {
     )
   );
 
-  removeOffer$ = createEffect(() =>
+  removeOffers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OffersActions.removeOffers),
       fetch({
@@ -85,6 +86,24 @@ export class OffersEffects {
           ),
         onError: (action, error) =>
           OffersActions.removeOffersFail({ payload: error }),
+      })
+    )
+  );
+
+  loadExchangeRates$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OffersActions.loadExchangeRates),
+      fetch({
+        run: () =>
+          this.offersService
+            .loadExchangeRates()
+            .pipe(
+              map((res: LoadExchangeRatesSuccessPayload) =>
+                OffersActions.loadExchangeRatesSuccess({ payload: res })
+              )
+            ),
+        onError: (action, error) =>
+          OffersActions.loadExchangeRatesFail({ payload: error }),
       })
     )
   );

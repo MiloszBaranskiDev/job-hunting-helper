@@ -7,7 +7,10 @@ import * as DashboardActions from './dashboard.actions';
 import { saveToken, setUser } from '@jhh/jhh-client/auth/data-access';
 import { setNotes } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { setBoard } from '@jhh/jhh-client/dashboard/board/data-access';
-import { setOffers } from '@jhh/jhh-client/dashboard/offers/data-access';
+import {
+  loadExchangeRates,
+  setOffers,
+} from '@jhh/jhh-client/dashboard/offers/data-access';
 import { setScheduleEvents } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
@@ -43,6 +46,7 @@ export class DashboardFacade {
   }
 
   setData(data: { payload: LoadAssignedDataSuccessPayload }): void {
+    this.store.dispatch(loadExchangeRates());
     this.store.dispatch(setUser({ user: data.payload.user }));
     this.store.dispatch(
       saveToken({ payload: { token: data.payload.newToken } })

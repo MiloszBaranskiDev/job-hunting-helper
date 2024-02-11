@@ -17,7 +17,7 @@ export function JhhServerRouterApi(): Router {
   const boardController = JhhServerControllerBoard();
   const offersController = JhhServerControllerOffers();
   const scheduleController = JhhServerControllerSchedule();
-  const practiceControler = JhhServerControllerPractice();
+  const practiceController = JhhServerControllerPractice();
 
   router.get(ApiRoute.Test, (req, res) => {
     res.send('Hello World!');
@@ -51,17 +51,18 @@ export function JhhServerRouterApi(): Router {
   router.post(ApiRoute.AddOffer, offersController.addOffer);
   router.put(ApiRoute.EditOffer, offersController.editOffer);
   router.delete(ApiRoute.RemoveOffers, offersController.removeOffers);
+  router.get(ApiRoute.ExchangeRatesParam, offersController.exchangeRates);
 
   router.post(ApiRoute.AddScheduleEvent, scheduleController.addEvent);
   router.put(ApiRoute.EditScheduleEvent, scheduleController.editEvent);
   router.delete(ApiRoute.RemoveScheduleEvent, scheduleController.removeEvent);
 
-  router.post(ApiRoute.AddPracticeQuiz, practiceControler.addQuiz);
-  router.put(ApiRoute.EditPracticeQuiz, practiceControler.editQuiz);
-  router.delete(ApiRoute.RemovePracticeQuiz, practiceControler.removeQuiz);
+  router.post(ApiRoute.AddPracticeQuiz, practiceController.addQuiz);
+  router.put(ApiRoute.EditPracticeQuiz, practiceController.editQuiz);
+  router.delete(ApiRoute.RemovePracticeQuiz, practiceController.removeQuiz);
   router.post(
     ApiRoute.AddPracticeQuizResults,
-    practiceControler.addQuizResults
+    practiceController.addQuizResults
   );
 
   return router;

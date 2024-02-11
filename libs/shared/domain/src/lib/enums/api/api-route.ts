@@ -30,6 +30,8 @@ export enum ApiRoute {
   AddOffer = '/add-offer',
   EditOffer = '/edit-offer',
   RemoveOffers = '/remove-offers',
+  ExchangeRates = '/exchange-rates',
+  ExchangeRatesParam = '/exchange-rates/:symbol',
   //
   AddScheduleEvent = '/add-schedule-event',
   EditScheduleEvent = '/edit-schedule-event',

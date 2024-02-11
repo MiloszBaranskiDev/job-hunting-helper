@@ -141,6 +141,9 @@
       "@jhh/jhh-client/dashboard/offers/util-format-offer-salary": [
         "libs/jhh-client/dashboard/offers/util-format-offer-salary/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/offers/util-get-offer-salary-conversion": [
+        "libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon": [
         "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src/index.ts"
       ],

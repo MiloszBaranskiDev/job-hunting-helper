@@ -1,0 +1,44 @@
+{
+  "name": "jhh-client-dashboard-offers-util-get-offer-salary-conversion",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion",
+        "main": "libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion/src/index.ts",
+        "tsConfig": "libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion/tsconfig.lib.json",
+        "assets": []
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/jhh-client/dashboard/offers/util-get-offer-salary-conversion/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": [
+    "platform:client",
+    "type:util",
+    "scope:client-dashboard",
+    "scope:client-dashboard-offers",
+    "type:client-util",
+    "scope:client-dashboard-offers-util"
+  ]
+}

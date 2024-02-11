@@ -15,6 +15,7 @@ import * as OffersSelectors from './offers.selectors';
 import * as OffersActions from './offers.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+import { ExchangeRate } from '@jhh/jhh-client/dashboard/offers/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,14 @@ export class OffersFacade {
 
   removeOffersSuccess$: Observable<boolean> = this.store.pipe(
     select(OffersSelectors.selectRemoveOffersSuccess)
+  );
+
+  exchangeRates$: Observable<ExchangeRate[] | null> = this.store.pipe(
+    select(OffersSelectors.selectExchangeRates)
+  );
+
+  loadExchangeRatesSuccess$: Observable<boolean> = this.store.pipe(
+    select(OffersSelectors.selectLoadExchangeRatesSuccess)
   );
 
   addOffer(
