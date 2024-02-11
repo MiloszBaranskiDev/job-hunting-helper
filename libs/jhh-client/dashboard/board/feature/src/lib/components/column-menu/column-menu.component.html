@@ -68,12 +68,13 @@
         <span>{{column.items.length}}</span>
       </li>
     </ul>
+
     <mat-divider></mat-divider>
     <ng-container *ngIf="(removeBoardColumnInProgress$ | async) || (removeBoardColumnError$ | async)">
       <mat-progress-spinner *ngIf="removeBoardColumnInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
       <mat-error *ngIf="removeBoardColumnError$ | async as error">{{ error }}</mat-error>
-      <mat-divider></mat-divider>
     </ng-container>
+
     <mat-dialog-actions>
       <button
         mat-stroked-button

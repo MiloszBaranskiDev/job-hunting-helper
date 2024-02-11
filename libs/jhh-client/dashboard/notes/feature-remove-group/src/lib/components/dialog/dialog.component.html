@@ -44,12 +44,13 @@
           <span>{{group.notes.length}}</span>
         </li>
       </ul>
+
       <mat-divider></mat-divider>
       <ng-container *ngIf="(removeNotesGroupInProgress$ | async) || (removeNotesGroupError$ | async)">
         <mat-progress-spinner *ngIf="removeNotesGroupInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
         <mat-error *ngIf="removeNotesGroupError$ | async as error">{{ error }}</mat-error>
-        <mat-divider></mat-divider>
       </ng-container>
+
       <mat-dialog-actions>
         <button
           mat-stroked-button

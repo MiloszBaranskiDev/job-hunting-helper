@@ -25,6 +25,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
@@ -48,6 +49,7 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
     ReactiveFormsModule,
     MatInputModule,
     WhitespaceSanitizerDirective,
+    MatDividerModule,
   ],
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.scss'],

@@ -42,12 +42,13 @@
           placeholder="Type 'remove account' here to enable button"
         />
       </mat-form-field>
+
       <mat-divider></mat-divider>
       <ng-container *ngIf="(removeAccountInProgress$ | async) || (removeAccountError$ | async)">
         <mat-progress-spinner *ngIf="removeAccountInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
         <mat-error *ngIf="removeAccountError$ | async as error">{{ error }}</mat-error>
-        <mat-divider></mat-divider>
       </ng-container>
+
       <mat-dialog-actions>
         <button
           mat-stroked-button

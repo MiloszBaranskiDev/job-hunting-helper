@@ -28,12 +28,13 @@
           <span>{{note.updatedAt | date: 'dd.MM.yyyy HH:mm'}}</span>
         </li>
       </ul>
+
       <mat-divider></mat-divider>
       <ng-container *ngIf="(removeNoteInProgress$ | async) || (removeNoteError$ | async)">
         <mat-progress-spinner *ngIf="removeNoteInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
         <mat-error *ngIf="removeNoteError$ | async as error">{{ error }}</mat-error>
-        <mat-divider></mat-divider>
       </ng-container>
+
       <mat-dialog-actions>
         <button
           mat-stroked-button

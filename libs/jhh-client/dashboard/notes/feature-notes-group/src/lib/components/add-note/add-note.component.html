@@ -33,12 +33,13 @@
               Try to compress images before uploading if you need them.
             </mat-error>
           </ng-container>
+
           <mat-divider></mat-divider>
           <ng-container *ngIf="(addNoteInProgress$ | async) || (addNoteError$ | async)">
             <mat-progress-spinner *ngIf="addNoteInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
             <mat-error *ngIf="addNoteError$ | async as error">{{ error }}</mat-error>
-            <mat-divider></mat-divider>
           </ng-container>
+
           <mat-dialog-actions>
             <button mat-stroked-button mat-dialog-close>
               Cancel

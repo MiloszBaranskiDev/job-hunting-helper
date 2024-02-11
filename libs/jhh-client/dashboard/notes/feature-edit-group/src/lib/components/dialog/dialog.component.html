@@ -44,8 +44,8 @@
         <ng-container *ngIf="(editNotesGroupInProgress$ | async) || (editNotesGroupError$ | async)">
           <mat-progress-spinner *ngIf="editNotesGroupInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
           <mat-error *ngIf="editNotesGroupError$ | async as error">{{ error }}</mat-error>
-          <mat-divider></mat-divider>
         </ng-container>
+
         <mat-dialog-actions>
           <button mat-stroked-button mat-dialog-close>Cancel</button>
           <button

@@ -62,12 +62,13 @@
           <span class="offerPriority" [class]="'offerPriority--' + offers[0].priority">{{ offers[0].priority }}</span>
         </li>
       </ul>
+
       <mat-divider></mat-divider>
       <ng-container *ngIf="(removeOffersInProgress$ | async) || (removeOffersError$ | async)">
         <mat-progress-spinner *ngIf="removeOffersInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
         <mat-error *ngIf="removeOffersError$ | async as error">{{ error }}</mat-error>
-        <mat-divider></mat-divider>
       </ng-container>
+
       <mat-dialog-actions>
         <button
           mat-stroked-button
