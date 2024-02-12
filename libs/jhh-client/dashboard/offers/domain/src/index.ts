@@ -17,3 +17,4 @@ export * from './lib/interfaces/converted-salary';
 export * from './lib/enums/offer-field';
 export * from './lib/enums/offer-form-error-key';
 export * from './lib/enums/offers-per-page';
+export * from 'libs/jhh-client/dashboard/offers/domain/src/lib/enums/offers-table-column';

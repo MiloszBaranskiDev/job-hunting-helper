@@ -40,6 +40,7 @@ import { GetOfferSalaryConversion } from '@jhh/jhh-client/dashboard/offers/util-
 import { MenuComponent } from '../menu/menu.component';
 import { CurrencyComponent } from '../currency/currency.component';
 import { PaginatorComponent } from '../paginator/paginator.component';
+import { FilterComponent } from '../filter/filter.component';
 
 import {
   Offer,
@@ -51,8 +52,8 @@ import {
   ExchangeRate,
   ExtendedOffer,
   OffersPerPage,
+  OffersTableColumn,
 } from '@jhh/jhh-client/dashboard/offers/domain';
-import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -103,20 +104,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   paginatorPage: number;
   paginatorSize: number;
 
-  private loadExchangeRatesSuccess: boolean = false;
+  readonly offersTableColumn: typeof OffersTableColumn = OffersTableColumn;
+  readonly offersTableColumnValues: OffersTableColumn[] =
+    Object.values(OffersTableColumn);
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
-  readonly displayedColumns: string[] = [
-    'select',
-    'position',
-    'company',
-    'location',
-    'salary',
-    'status',
-    'priority',
-    'actions',
-  ];
+
   readonly priorityMapping: { [key: string]: number } = {
     [OfferPriority.High]: 3,
     [OfferPriority.Medium]: 2,
@@ -132,7 +126,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   ngOnInit(): void {
-    this.extendWithStatusIcon();
+    this.extendOffer();
+    this.queryParamsService.setFromCurrentRoute();
+    this.queryParamsService.updateQueryParams();
 
     this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;
     this.removeOffersSuccess$ = this.offersFacade.removeOffersSuccess$;
@@ -141,16 +137,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.currentCurrency$ = this.currencyService.currentCurrency$;
     this.exchangeRates$ = this.offersFacade.exchangeRates$;
 
-    this.queryParamsService.setFromCurrentRoute();
-    this.queryParamsService.updateQueryParams();
-
     this.watchCurrencyAndExchangeRateChanges();
     this.handleRemoveSuccess();
   }
 
   ngAfterViewInit(): void {
     this.paginator = this.paginatorComponent.getPaginator();
-    this.dataSource.paginator = this.paginator;
     this.useQueryParams();
     this.updateTableSettings();
     this.cdr.detectChanges();
@@ -158,22 +150,18 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['offers']) {
-      this.extendWithStatusIcon();
+      this.extendOffer();
       this.watchCurrencyAndExchangeRateChanges();
       this.updateTableSettings();
 
-      if (this.paginator) {
-        const totalItems: number = this.dataSource.data.length;
-        if (
-          this.paginatorPage * this.paginatorSize >= totalItems &&
-          this.paginatorPage > 0
-        ) {
-          this.paginator.previousPage();
-          this.paginatorPage =
-            this.paginatorPage > 1
-              ? this.paginatorPage - 1
-              : this.paginatorPage;
-        }
+      if (
+        this.paginator &&
+        this.paginatorPage * this.paginatorSize >=
+          this.dataSource.data.length &&
+        this.paginatorPage > 0
+      ) {
+        this.paginator.previousPage();
+        this.paginatorPage = Math.max(this.paginatorPage - 1, 0);
       }
     }
   }
@@ -183,150 +171,79 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   applyFilter(event: Event | string): void {
-    const filterValue: string =
+    this.dataSource.filter = (
       typeof event === 'string'
         ? event
-        : (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.queryParamsService.updateCurrentFilter(filterValue);
+        : (event?.target as HTMLInputElement)?.value || ''
+    )
+      .trim()
+      .toLowerCase();
+    this.queryParamsService.updateCurrentFilter(this.dataSource.filter);
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  areAllSelected(): boolean {
-    const startIndex: number = this.paginatorPage * this.paginatorSize;
-    const endIndex: number = startIndex + this.paginatorSize;
-    const currentPageData: Offer[] = this.dataSource.data.slice(
-      startIndex,
-      endIndex
-    );
-
-    const numSelected: number = currentPageData.filter((row) =>
-      this.selection.isSelected(row)
-    ).length;
-    const numRows: number = currentPageData.length;
-
-    return numSelected === numRows;
+  isSomeSelected(): boolean {
+    return this.selection.selected.length > 0;
   }
 
   areAllSelectedOnCurrentPage(): boolean {
     const startIndex: number = this.paginatorPage * this.paginatorSize;
     const endIndex: number = startIndex + this.paginatorSize;
 
-    const currentPageData: ExtendedOffer[] = this.dataSource.data.slice(
-      startIndex,
-      endIndex
-    );
-
-    const numSelected: number = currentPageData.filter((row) =>
-      this.selection.isSelected(row)
-    ).length;
-
-    return currentPageData.length > 0 && numSelected === currentPageData.length;
-  }
-
-  isSomeSelected(): boolean {
-    return this.selection.selected.length > 0 && !this.areAllSelected();
+    return this.dataSource.data
+      .slice(startIndex, endIndex)
+      .every((row) => this.selection.isSelected(row));
   }
 
   toggleAllOnCurrentPage(): void {
-    const startIndex: number = this.paginatorPage * this.paginatorSize;
-    const endIndex: number = startIndex + this.paginatorSize;
-    const currentPageData: Offer[] = this.dataSource.data.slice(
-      startIndex,
-      endIndex
-    );
+    const areAllSelectedOnCurrentPage: boolean =
+      this.areAllSelectedOnCurrentPage();
 
-    if (this.areAllSelectedOnCurrentPage()) {
-      currentPageData.forEach((row) => this.selection.deselect(row));
-    } else {
-      currentPageData.forEach((row) => this.selection.select(row));
-    }
-  }
-
-  toggleCheckbox(row: Offer): void {
-    this.selection.toggle(row);
+    this.dataSource.data
+      .slice(
+        this.paginatorPage * this.paginatorSize,
+        (this.paginatorPage + 1) * this.paginatorSize
+      )
+      .forEach((row) =>
+        areAllSelectedOnCurrentPage
+          ? this.selection.deselect(row)
+          : this.selection.select(row)
+      );
   }
 
   removeSelectedOffers(): void {
-    const selectedOffers: Offer[] = this.selection.selected;
-    if (selectedOffers.length > 0) {
-      this.removeOffersDialogService.openDialog(selectedOffers);
+    if (this.selection.selected.length) {
+      this.removeOffersDialogService.openDialog(this.selection.selected);
     }
   }
 
-  handleSort(sortState: Sort): void {
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-
-    const { active, direction } = sortState;
+  handleSort({ active, direction }: Sort): void {
+    this.dataSource.paginator?.firstPage();
     this.queryParamsService.updateCurrentSort(
-      `${active && direction !== '' ? active : ''},${direction || ''}`
+      `${active && direction ? `${active},${direction}` : ','}`
     );
   }
 
-  stopPropagation(event: Event): void {
-    event.stopPropagation();
-  }
-
-  private useQueryParams(): void {
-    this.queryParamsService
-      .getAllQueryParams$()
-      .pipe(
-        tap((val) => {
-          this.filterValue = val.filter === 'null' ? '' : val.filter;
-
-          if (this.offersPerPageValues.includes(val.perPage)) {
-            this.paginatorSize = val.perPage;
-          } else {
-            this.paginatorSize = OffersPerPage.Fifteen;
-            this.queryParamsService.updateCurrentPerPage(OffersPerPage.Fifteen);
-          }
-
-          const totalItems: number = this.dataSource.data.length;
-          const totalPages: number = Math.ceil(totalItems / this.paginatorSize);
-
-          if (
-            !Number.isInteger(val.page) ||
-            val.page < 1 ||
-            val.page > totalPages
-          ) {
-            this.paginatorPage = 1;
-            this.queryParamsService.updateCurrentPage(1);
-          } else {
-            this.paginatorPage = val.page - 1;
-          }
-
-          const [active, direction] = val.sort.split(',');
-          if (this.isValidSort(active, direction)) {
-            if (
-              this.sort.active !== active ||
-              this.sort.direction !== direction
-            ) {
-              this.sort.active = active;
-              this.sort.direction = direction as 'asc' | 'desc' | '';
-              this.sort.sortChange.emit({
-                active,
-                direction: direction as SortDirection,
-              });
-            }
-          } else {
-            this.queryParamsService.updateCurrentSort(',');
-            this.sort.active = '';
-            this.sort.direction = '';
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
+  private extendOffer(exchangeRates: ExchangeRate[] | null = null): void {
+    this.dataSource = new MatTableDataSource(
+      this.offers.map(
+        (offer) =>
+          ({
+            ...offer,
+            statusIcon: GetOfferStatusIcon(offer.status),
+            convertedSalary: GetOfferSalaryConversion(
+              offer.salaryCurrency,
+              offer.minSalary,
+              offer.maxSalary,
+              this.currentCurrency$?.getValue() ?? undefined,
+              exchangeRates ?? undefined
+            ),
+          } as ExtendedOffer)
       )
-      .subscribe();
-
-    this.applyFilter(this.filterValue);
-    this.paginator.pageIndex = this.paginatorPage;
-    this.paginator.pageSize = this.paginatorSize;
-    this.setSortingDataAccessor();
+    );
   }
 
   private watchCurrencyAndExchangeRateChanges(): void {
@@ -334,9 +251,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       ?.pipe(
         filter(Boolean),
         switchMap(() => this.currentCurrency$),
-        switchMap(() => this.convertSalaries()),
+        switchMap(() =>
+          this.exchangeRates$.pipe(
+            tap((exchangeRates) => {
+              this.extendOffer(exchangeRates);
+            })
+          )
+        ),
         tap(() => {
-          this.loadExchangeRatesSuccess = true;
           this.applyFilter(this.filterValue);
           if (this.dataSource && this.sort) {
             this.dataSource.sort = this.sort;
@@ -348,36 +270,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       .subscribe();
   }
 
-  private convertSalaries(): Observable<ExchangeRate[] | null> {
-    return this.exchangeRates$.pipe(
-      tap((exchangeRates) => {
-        this.extendWithConvertedSalary(exchangeRates);
-      })
-    );
-  }
-
-  private handleRemoveSuccess(): void {
-    this.removeOffersSuccess$
-      .pipe(
-        tap((val) => {
-          if (val) {
-            this.selection.clear();
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
-
   private setSortingDataAccessor(): void {
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'priority':
+        case OffersTableColumn.Priority:
           return this.priorityMapping[item.priority];
-        case 'status':
+        case OffersTableColumn.Status:
           return this.statusMapping[item.status];
-        case 'salary':
-          if (this.loadExchangeRatesSuccess && item.convertedSalary) {
+        case OffersTableColumn.Salary:
+          if (item.convertedSalary) {
             return this.getSortableSalaryValue(item, true);
           } else {
             return this.getSortableSalaryValue(item);
@@ -397,64 +298,89 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.dataSource.paginator = this.paginator;
   }
 
-  private extendWithStatusIcon(): void {
-    this.dataSource = new MatTableDataSource(
-      this.offers.map(
-        (offer) =>
-          ({
-            ...offer,
-            statusIcon: GetOfferStatusIcon(offer.status),
-          } as ExtendedOffer)
-      )
-    );
-  }
-
-  private extendWithConvertedSalary(
-    exchangeRates: ExchangeRate[] | null
-  ): void {
-    this.dataSource = new MatTableDataSource(
-      this.offers.map(
-        (offer) =>
-          ({
-            ...offer,
-            convertedSalary: GetOfferSalaryConversion(
-              offer.salaryCurrency,
-              offer.minSalary,
-              offer.maxSalary,
-              this.currentCurrency$.getValue() ?? undefined,
-              exchangeRates ?? undefined
-            ),
-          } as ExtendedOffer)
-      )
-    );
-  }
-
   private isValidSort(active: string, direction: string): boolean {
-    const isValidColumn: boolean = this.displayedColumns.includes(active);
     const isValidDirection: boolean = ['asc', 'desc', ''].includes(direction);
+    const isValidColumn: boolean = this.offersTableColumnValues.includes(
+      active as OffersTableColumn
+    );
 
-    return isValidColumn && isValidDirection;
+    return isValidDirection && isValidColumn;
   }
 
   private getSortableSalaryValue(
     item: ExtendedOffer,
     isConverted: boolean = false
   ): number {
-    const min: number | undefined = isConverted
-      ? item.convertedSalary?.min
-      : item.minSalary;
-    const max: number | undefined = isConverted
-      ? item.convertedSalary?.max
-      : item.maxSalary;
+    const salaryRange = isConverted
+      ? item.convertedSalary
+      : { min: item.minSalary, max: item.maxSalary };
+    const min: number = salaryRange?.min || 0;
+    const max: number = salaryRange?.max || 0;
 
-    if (min && max) {
-      return (min + max) / 2;
-    } else if (min) {
-      return min;
-    } else if (max) {
-      return max;
-    } else {
-      return 0;
-    }
+    return min && max ? (min + max) / 2 : min || max;
+  }
+
+  private handleRemoveSuccess(): void {
+    this.removeOffersSuccess$
+      .pipe(
+        filter((val) => val),
+        tap(() => {
+          this.selection.clear();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private useQueryParams(): void {
+    this.queryParamsService
+      .getAllQueryParams$()
+      .pipe(
+        tap(({ filter, perPage, page, sort }) => {
+          this.filterValue = filter === 'null' ? '' : filter;
+
+          this.paginatorSize = this.offersPerPageValues.includes(perPage)
+            ? perPage
+            : OffersPerPage.Ten;
+          if (!this.offersPerPageValues.includes(perPage)) {
+            this.queryParamsService.updateCurrentPerPage(OffersPerPage.Ten);
+          }
+
+          const totalPages: number = Math.ceil(
+            this.dataSource.data.length / this.paginatorSize
+          );
+          this.paginatorPage =
+            !Number.isInteger(page) || page < 1 || page > totalPages
+              ? 1
+              : page - 1;
+          if (this.paginatorPage + 1 !== page) {
+            this.queryParamsService.updateCurrentPage(1);
+          }
+
+          const [active, direction] = sort.split(',');
+          if (
+            this.isValidSort(active, direction) &&
+            (this.sort.active !== active || this.sort.direction !== direction)
+          ) {
+            this.sort.active = active;
+            this.sort.direction = direction as 'asc' | 'desc' | '';
+            this.sort.sortChange.emit({
+              active,
+              direction: direction as SortDirection,
+            });
+          } else if (!this.isValidSort(active, direction)) {
+            this.queryParamsService.updateCurrentSort(',');
+            this.sort.active = '';
+            this.sort.direction = '';
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.applyFilter(this.filterValue);
+    this.paginator.pageIndex = this.paginatorPage;
+    this.paginator.pageSize = this.paginatorSize;
+    this.setSortingDataAccessor();
   }
 }
