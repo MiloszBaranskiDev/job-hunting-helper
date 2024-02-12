@@ -19,23 +19,13 @@ import {
 } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import {
-  MatPaginator,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject, filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 import {
@@ -48,6 +38,8 @@ import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-of
 import { GetOfferSalaryConversion } from '@jhh/jhh-client/dashboard/offers/util-get-offer-salary-conversion';
 
 import { MenuComponent } from '../menu/menu.component';
+import { CurrencyComponent } from '../currency/currency.component';
+import { PaginatorComponent } from '../paginator/paginator.component';
 
 import {
   Offer,
@@ -60,6 +52,7 @@ import {
   ExtendedOffer,
   OffersPerPage,
 } from '@jhh/jhh-client/dashboard/offers/domain';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'jhh-offers-table',
@@ -70,17 +63,13 @@ import {
     MatTableModule,
     MatIconModule,
     MenuComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatPaginatorModule,
     RouterLink,
     MatCheckboxModule,
     MatButtonModule,
-    FormsModule,
     FormatOfferSalaryPipe,
-    MatOptionModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
+    CurrencyComponent,
+    PaginatorComponent,
+    FilterComponent,
   ],
   providers: [CurrencyPipe],
   templateUrl: './table.component.html',
@@ -98,7 +87,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input({ required: true }) offers: Offer[];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(PaginatorComponent) paginatorComponent: PaginatorComponent;
   @ViewChild(MatSort) sort: MatSort;
 
   removeOffersInProgress$: Observable<boolean>;
@@ -107,15 +96,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   currentCurrency$: BehaviorSubject<OfferSalaryCurrency | null>;
   exchangeRates$: Observable<ExchangeRate[] | null>;
 
+  paginator: MatPaginator;
   dataSource: MatTableDataSource<ExtendedOffer>;
   selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
-
   filterValue: string;
   paginatorPage: number;
   paginatorSize: number;
 
   private loadExchangeRatesSuccess: boolean = false;
-  readonly currencyValues: string[] = Object.values(OfferSalaryCurrency);
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
@@ -161,6 +149,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
+    this.paginator = this.paginatorComponent.getPaginator();
+    this.dataSource.paginator = this.paginator;
     this.useQueryParams();
     this.updateTableSettings();
     this.cdr.detectChanges();
@@ -186,6 +176,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }
+  }
+
+  onPaginatorReady(paginator: MatPaginator): void {
+    this.dataSource.paginator = paginator;
   }
 
   applyFilter(event: Event | string): void {
@@ -263,10 +257,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  handleCurrencyChange(currency: string): void {
-    this.currencyService.updateCurrency(currency);
-  }
-
   handleSort(sortState: Sort): void {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -276,16 +266,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.queryParamsService.updateCurrentSort(
       `${active && direction !== '' ? active : ''},${direction || ''}`
     );
-  }
-
-  handlePaginator(event: PageEvent): void {
-    if (event.pageIndex !== event.previousPageIndex) {
-      this.queryParamsService.updateCurrentPage(event.pageIndex + 1);
-    }
-
-    if (event.pageSize !== this.paginatorSize) {
-      this.queryParamsService.updateCurrentPerPage(event.pageSize);
-    }
   }
 
   stopPropagation(event: Event): void {
@@ -357,6 +337,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         switchMap(() => this.convertSalaries()),
         tap(() => {
           this.loadExchangeRatesSuccess = true;
+          this.applyFilter(this.filterValue);
           if (this.dataSource && this.sort) {
             this.dataSource.sort = this.sort;
             this.updateTableSettings();

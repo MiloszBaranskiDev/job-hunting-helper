@@ -69,13 +69,6 @@ export class QueryParamsService {
     this.updateQueryParams();
   }
 
-  clearQueryParams(): void {
-    this.currentFilter$.next(this.defaultFilter);
-    this.currentSort$.next(this.defaultSort);
-    this.currentPage$.next(this.defaultPage);
-    this.currentPerPage$.next(this.defaultPerPage);
-  }
-
   updateQueryParams(): void {
     const urlWithoutParams: string = this.router.url.split('?')[0];
     const newUrl: string = `${urlWithoutParams}?${

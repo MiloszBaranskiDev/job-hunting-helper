@@ -9,13 +9,11 @@
     flex-shrink: 0;
   }
 
-  mat-form-field {
-    max-width: 280px;
-    margin-bottom: 0;
-  }
-
-  .currencySelect {
-    max-width: 140px;
+  ::ng-deep {
+    mat-form-field {
+      max-width: 280px;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -96,15 +94,5 @@
       padding: 16px;
       word-break: break-all;
     }
-  }
-}
-
-.paginatorContainer {
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-end;
-
-  mat-paginator {
-    display: inline-block;
   }
 }

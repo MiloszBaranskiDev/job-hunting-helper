@@ -8,31 +8,16 @@
     Remove selected
   </button>
 
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input
-      #input
-      matInput
-      placeholder="Ex. Frontend Developer"
-      [(ngModel)]="filterValue"
-      (keyup)="applyFilter($event)"
-    >
-  </mat-form-field>
-
-  <mat-form-field class="currencySelect" *ngIf="loadExchangeRatesSuccess$ | async">
-    <mat-label>Convert to</mat-label>
-    <mat-select [value]="currentCurrency$.getValue()" (selectionChange)="handleCurrencyChange($event.value)">
-      <mat-option [value]="null">---</mat-option>
-      <mat-option *ngFor="let value of currencyValues" [value]="value">
-        {{value}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <jhh-offers-filter
+    [filterValue]="filterValue"
+    (filterChanged)="applyFilter($event)"
+  >
+  </jhh-offers-filter>
+  <jhh-offers-currency></jhh-offers-currency>
 </div>
 
 <div class="tableContainer">
   <table mat-table matSort [dataSource]="dataSource" (matSortChange)="handleSort($event)">
-
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox
@@ -159,18 +144,16 @@
 
     <tr class="mat-row noFound" *matNoDataRow>
       <td class="mat-cell" colspan="8">
-        <span>No data matching the filter <strong>"{{input.value}}"</strong></span>
+        <span>No data matching the filter <strong>"{{filterValue}}"</strong></span>
       </td>
     </tr>
-
   </table>
 </div>
 
-<div class="paginatorContainer">
-  <mat-paginator
-    [pageIndex]="paginatorPage"
-    [pageSizeOptions]="offersPerPageValues"
-    (page)="handlePaginator($event)"
-    aria-label="Select page of offers">
-  </mat-paginator>
-</div>
+<jhh-offers-paginator
+  [paginatorPage]="paginatorPage"
+  [paginatorSize]="paginatorSize"
+  [offersPerPageValues]="offersPerPageValues"
+  (paginatorReady)="onPaginatorReady($event)"
+>
+</jhh-offers-paginator>
