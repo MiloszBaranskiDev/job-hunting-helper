@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@jhh/jhh-client/shared/config';
@@ -13,7 +13,6 @@ import {
   EditOfferPayload,
   EditOfferSuccessPayload,
   EditOfferSuccessResponse,
-  LoadExchangeRatesSuccessPayload,
   RemoveOffersPayload,
   RemoveOffersSuccessPayload,
   RemoveOffersSuccessResponse,
@@ -88,19 +87,5 @@ export class OffersService {
         }
       )
       .pipe(map((res: RemoveOffersSuccessResponse) => res.data));
-  }
-
-  loadExchangeRates(): Observable<LoadExchangeRatesSuccessPayload> {
-    const requests = this.currencySymbols.map((symbol) =>
-      this.http.get(
-        `${this.API_DASHBOARD_URL + ApiRoute.ExchangeRates}/${symbol}/`
-      )
-    );
-
-    return forkJoin(requests).pipe(
-      map((res) => {
-        return { exchangeRates: res };
-      })
-    ) as unknown as Observable<LoadExchangeRatesSuccessPayload>;
   }
 }

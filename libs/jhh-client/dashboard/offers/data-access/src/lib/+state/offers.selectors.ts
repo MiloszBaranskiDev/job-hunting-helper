@@ -63,16 +63,6 @@ export const selectRemoveOffersSuccess = createSelector(
   (state: OffersState) => state.removeOffers.success!
 );
 
-export const selectExchangeRates = createSelector(
-  selectOffersState,
-  (state: OffersState) => state.exchangeRates
-);
-
-export const selectLoadExchangeRatesSuccess = createSelector(
-  selectOffersState,
-  (state: OffersState) => state.loadExchangeRates.success!
-);
-
 export const selectOfferBySlug = createSelector(
   selectAllOffers,
   (offers: Offer[], slug: string) => offers.find((offer) => offer.slug === slug)

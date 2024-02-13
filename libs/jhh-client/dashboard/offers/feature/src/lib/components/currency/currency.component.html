@@ -1,9 +1,0 @@
-<mat-form-field class="currencySelect" *ngIf="loadExchangeRatesSuccess$ | async">
-  <mat-label>Convert to</mat-label>
-  <mat-select [value]="currentCurrency$.getValue()" (selectionChange)="handleCurrencyChange($event.value)">
-    <mat-option [value]="null">---</mat-option>
-    <mat-option *ngFor="let value of currencyValues" [value]="value">
-      {{value}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>

@@ -8,7 +8,6 @@ import {
   AddOfferSuccessPayload,
   EditOfferPayload,
   EditOfferSuccessPayload,
-  LoadExchangeRatesSuccessPayload,
   RemoveOffersPayload,
   RemoveOffersSuccessPayload,
 } from '@jhh/jhh-client/dashboard/offers/domain';
@@ -27,9 +26,6 @@ export enum Type {
   RemoveOffersFail = '[Offers] Remove Offers Fail',
   RemoveOffersSuccess = '[Offers] Remove Offers Success',
   ResetRemoveOffersSuccess = '[Offers] Reset Remove Offers Success',
-  LoadExchangeRates = '[Offers] Load Exchange Rates',
-  LoadExchangeRatesFail = '[Offers] Load Exchange Rates Fail',
-  LoadExchangeRatesSuccess = '[Offers] Load Exchange Rates Success',
 }
 
 export const setOffers = createAction(
@@ -88,16 +84,4 @@ export const removeOffersSuccess = createAction(
 
 export const resetRemoveOffersSuccess = createAction(
   Type.ResetRemoveOffersSuccess
-);
-
-export const loadExchangeRates = createAction(Type.LoadExchangeRates);
-
-export const loadExchangeRatesFail = createAction(
-  Type.LoadExchangeRatesFail,
-  props<{ payload: HttpErrorResponse }>()
-);
-
-export const loadExchangeRatesSuccess = createAction(
-  Type.LoadExchangeRatesSuccess,
-  props<{ payload: LoadExchangeRatesSuccessPayload }>()
 );
