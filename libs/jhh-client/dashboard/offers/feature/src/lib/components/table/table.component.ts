@@ -183,43 +183,31 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   areAllSelected(): boolean {
-    const startIndex: number = this.paginatorPage * this.paginatorSize;
-    const currentPageData: OfferWithIcon[] = this.dataSource.data.slice(
-      startIndex,
-      startIndex + this.paginatorSize
-    );
-
     return (
-      currentPageData.length > 0 &&
-      currentPageData.every((row) => this.selection.isSelected(row))
+      this.dataSource.data.length > 0 &&
+      this.dataSource.data.every((row) => this.selection.isSelected(row))
     );
   }
 
   areAllSelectedOnCurrentPage(): boolean {
-    const startIndex: number = this.paginatorPage * this.paginatorSize;
-    const currentPageData: OfferWithIcon[] = this.dataSource.filteredData.slice(
-      startIndex,
-      startIndex + this.paginatorSize
-    );
-
     return (
-      currentPageData.length > 0 &&
-      currentPageData.every((row) => this.selection.isSelected(row))
+      // @ts-ignore
+      this.dataSource._renderData._value.length > 0 &&
+      // @ts-ignore
+      this.dataSource._renderData._value.every((row) =>
+        this.selection.isSelected(row)
+      )
     );
   }
 
   toggleAllOnCurrentPage(): void {
-    const startIndex: number = this.paginatorPage * this.paginatorSize;
-    const currentPageData: OfferWithIcon[] = this.dataSource.filteredData.slice(
-      startIndex,
-      startIndex + this.paginatorSize
-    );
     const areAllSelected: boolean = this.areAllSelectedOnCurrentPage();
     const action = areAllSelected
       ? this.selection.deselect.bind(this.selection)
       : this.selection.select.bind(this.selection);
 
-    currentPageData.forEach((row) => action(row));
+    // @ts-ignore
+    this.dataSource._renderData._value.forEach((row) => action(row));
   }
 
   handleSort({ active, direction }: Sort): void {
