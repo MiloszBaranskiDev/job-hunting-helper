@@ -1,35 +1,10 @@
-<section class="authTemplate">
-  <header class="authTemplate__header">
-    <mat-icon>archive</mat-icon>
-    <h1>Job Hunting Helper</h1>
-  </header>
-  <div class="authTemplate__content">
-    <h2>{{heading}}</h2>
-    <ng-content select="[auth-form]"></ng-content>
-  </div>
-  <div class="authTemplate__icons" *ngIf="icons.length > 0">
-    <mat-divider></mat-divider>
-    <ul>
-      <li *ngFor="let icon of icons">
-        <a
-          [href]="icon.link"
-          [matTooltip]="icon.tooltip"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <mat-icon [svgIcon]="icon.name"></mat-icon>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="authTemplate__themeToggle">
-    <mat-slide-toggle
-      color="primary"
-      matTooltip="Change theme"
-      [checked]="isDarkMode"
-      (change)="toggleTheme()"
-    >
-      {{ currentThemeMode$.getValue() }}
-    </mat-slide-toggle>
-  </div>
-</section>
+<div class="authTemplate">
+  <jhh-auth-header></jhh-auth-header>
+  <jhh-auth-content [heading]="heading" [template]="authFormTemplate"></jhh-auth-content>
+  <jhh-auth-icons></jhh-auth-icons>
+  <jhh-auth-theme-switcher></jhh-auth-theme-switcher>
+</div>
+
+<ng-template #authFormTemplate>
+  <ng-content select="[auth-form]"></ng-content>
+</ng-template>
