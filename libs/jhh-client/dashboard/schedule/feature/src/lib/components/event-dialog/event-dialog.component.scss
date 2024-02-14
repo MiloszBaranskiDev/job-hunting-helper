@@ -10,6 +10,7 @@ h2 {
     border-radius: 100%;
     display: block;
     margin-right: 8px;
+    flex-shrink: 0;
   }
 }
 
@@ -29,7 +30,7 @@ mat-tab-group {
     .dates {
       display: flex;
       align-items: center;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       margin-bottom: 6px;
 
