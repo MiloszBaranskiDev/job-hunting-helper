@@ -1,9 +1,4 @@
 <div class="topContainer">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
-  </mat-form-field>
-
   <button
     mat-flat-button
     color="primary"
@@ -12,12 +7,16 @@
   >
     Remove selected
   </button>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
+  </mat-form-field>
 </div>
 
 <div class="tableContainer">
   <table mat-table matSort [dataSource]="dataSource" (matSortChange)="handleSort($event)">
 
-    <ng-container matColumnDef="select">
+    <ng-container [matColumnDef]="offersTableColumn.Select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox
           color="primary"
@@ -30,13 +29,13 @@
         <mat-checkbox
           color="primary"
           (click)="$event.stopPropagation()"
-          (change)="toggleCheckbox(element)"
+          (change)="selection.toggle(element)"
           [checked]="selection.isSelected(element)">
         </mat-checkbox>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="position">
+    <ng-container [matColumnDef]="offersTableColumn.Position">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>assignment_ind</mat-icon>
@@ -48,7 +47,7 @@
       <td mat-cell *matCellDef="let element">{{ element.position }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="company">
+    <ng-container [matColumnDef]="offersTableColumn.Company">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>business</mat-icon>
@@ -60,7 +59,7 @@
       <td mat-cell *matCellDef="let element">{{ element.company }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="location">
+    <ng-container [matColumnDef]="offersTableColumn.Location">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>place</mat-icon>
@@ -72,7 +71,7 @@
       <td mat-cell *matCellDef="let element">{{ element.location }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="salary">
+    <ng-container [matColumnDef]="offersTableColumn.Salary">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>monetization_on</mat-icon>
@@ -86,7 +85,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="status">
+    <ng-container [matColumnDef]="offersTableColumn.Status">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>info</mat-icon>
@@ -105,7 +104,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="priority">
+    <ng-container [matColumnDef]="offersTableColumn.Priority">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         <div>
           <mat-icon>priority_high</mat-icon>
@@ -121,17 +120,17 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="actions">
+    <ng-container [matColumnDef]="offersTableColumn.Actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <jhh-offers-menu [offer]="element" (click)="stopPropagation($event)"></jhh-offers-menu>
+        <jhh-offers-menu [offer]="element" (click)="$event.stopPropagation()"></jhh-offers-menu>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="offersTableColumnValues"></tr>
     <tr
       mat-row class="clickableRow"
-      *matRowDef="let row; columns: displayedColumns; "
+      *matRowDef="let row; columns: offersTableColumnValues; "
       [routerLink]="['./', row.slug]"
     >
     </tr>
