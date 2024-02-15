@@ -2,6 +2,9 @@ export enum ClientRoute {
   Home = 'dashboard',
   HomeLink = '/dashboard',
   //
+  NotFound = '404',
+  NotFoundLink = '/404',
+  //
   Login = 'login',
   LoginLink = '/login',
   Register = 'register',

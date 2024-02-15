@@ -17,6 +17,7 @@ import { JhhClientDashboardEditOfferComponent } from '@jhh/jhh-client/dashboard/
 import { JhhClientDashboardRemoveOffersComponent } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 
 import { Offer } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-offer',
@@ -53,14 +54,19 @@ export class JhhClientDashboardOffersSingleOfferComponent implements OnInit {
     this.offer$ = this.route.params.pipe(
       pluck('offerSlug'),
       switchMap((slug: string) => this.offersFacade.getOffer$BySlug(slug)),
-      filter((offer): offer is Offer => !!offer),
       tap((offer) => {
+        if (!offer) {
+          this.router.navigate([ClientRoute.NotFoundLink]);
+          return;
+        }
+
         this.breadcrumbsService.updateBreadcrumbLabelByUrl(
           this.router.url.split('?')[0],
           offer.position
         );
         this.titleService.setTitle(`Offer - ${offer.position}`);
-      })
+      }),
+      filter((offer): offer is Offer => !!offer)
     );
 
     this.offer$.pipe(first()).subscribe();

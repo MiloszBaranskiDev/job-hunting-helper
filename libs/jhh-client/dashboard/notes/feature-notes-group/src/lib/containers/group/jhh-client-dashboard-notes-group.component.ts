@@ -26,6 +26,7 @@ import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
 import { Note, NotesGroup } from '@jhh/shared/domain';
 import { NotesSort } from '@jhh/jhh-client/dashboard/notes/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { AddNoteComponent } from '../../components/add-note/add-note.component';
 import { NotesListComponent } from '../../components/notes-list/notes-list.component';
@@ -97,14 +98,19 @@ export class JhhClientDashboardNotesGroupComponent
 
     this.group$ = this.groupSlug$.pipe(
       switchMap((slug: string) => this.notesFacade.getNotesGroup$BySlug(slug)),
-      filter((group): group is NotesGroup => !!group),
       tap((group) => {
+        if (!group) {
+          this.router.navigate([ClientRoute.NotFoundLink]);
+          return;
+        }
+
         this.breadcrumbsService.updateBreadcrumbLabelByUrl(
           this.router.url.split('?')[0],
           group.name
         );
         this.titleService.setTitle(`Notes - ${group.name}`);
-      })
+      }),
+      filter((group): group is NotesGroup => !!group)
     ) as Observable<NotesGroup>;
 
     this.queryParamsService.updateQueryParams();

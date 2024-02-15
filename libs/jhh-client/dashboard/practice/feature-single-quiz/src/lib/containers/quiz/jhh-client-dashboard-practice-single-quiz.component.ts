@@ -16,6 +16,7 @@ import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { Quiz } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { QuestionsComponent } from '../../components/questions/questions.component';
 import { DetailsComponent } from '../../components/details/details.component';
@@ -65,14 +66,19 @@ export class JhhClientDashboardPracticeSingleQuizComponent implements OnInit {
     this.quiz$ = this.route.params.pipe(
       pluck('quizSlug'),
       switchMap((slug: string) => this.practiceFacade.getQuiz$BySlug(slug)),
-      filter((quiz): quiz is Quiz => !!quiz),
       tap((quiz) => {
+        if (!quiz) {
+          this.router.navigate([ClientRoute.NotFoundLink]);
+          return;
+        }
+
         this.breadcrumbsService.updateBreadcrumbLabelByUrl(
           this.router.url.split('?')[0],
           quiz.name
         );
         this.titleService.setTitle(`Quiz - ${quiz.name}`);
-      })
+      }),
+      filter((quiz): quiz is Quiz => !!quiz)
     );
   }
 }

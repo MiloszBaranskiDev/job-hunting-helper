@@ -1,15 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  combineLatest,
-  filter,
-  first,
-  map,
-  Observable,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { combineLatest, first, map, Observable, switchMap, tap } from 'rxjs';
 
 import { Note } from '@jhh/shared/domain';
 
@@ -24,6 +16,7 @@ import { ControlsComponent } from '../../components/controls/controls.component'
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-note',
@@ -75,9 +68,14 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
           })
         )
       ),
-      filter((data) => !!data.note),
       tap((data) => {
         const { groupSlug, note } = data;
+
+        if (!note) {
+          this.router.navigate([ClientRoute.NotFoundLink]);
+          return;
+        }
+
         this.relatedNotes = data.relatedNotes;
         this.titleService.setTitle(`Note - ${note!.name}`);
         this.notesFacade
