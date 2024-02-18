@@ -125,6 +125,13 @@ export class JhhClientDashboardPracticeComponent implements OnInit, OnDestroy {
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
+      case QuizzesSort.Oldest:
+        return quizzes
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
       case QuizzesSort.LastEdited:
         return quizzes
           .slice()
