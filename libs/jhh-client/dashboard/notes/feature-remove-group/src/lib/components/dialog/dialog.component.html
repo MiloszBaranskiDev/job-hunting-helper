@@ -2,7 +2,7 @@
   <ng-template #dialogContent>
     <h2 mat-dialog-title>Are you sure you want to remove a group?</h2>
     <mat-dialog-content>
-      <div class="alert">
+      <div class="alert" *ngIf="group.notes.length">
         <mat-icon>error</mat-icon>
         <p>
           All notes in this group will be gone.

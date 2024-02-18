@@ -26,7 +26,7 @@
 <ng-template #removeDialogContent>
   <h2 mat-dialog-title>Are you sure you want to remove a board column?</h2>
   <mat-dialog-content>
-    <div class="alert">
+    <div class="alert" *ngIf="column.items.length">
       <mat-icon>error</mat-icon>
       <p>
         All items in this column will be gone.
