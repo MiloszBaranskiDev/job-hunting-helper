@@ -180,6 +180,13 @@ export class JhhClientDashboardNotesGroupComponent
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
+      case NotesSort.Oldest:
+        return notes
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
       case NotesSort.LastEdited:
         return notes
           .slice()

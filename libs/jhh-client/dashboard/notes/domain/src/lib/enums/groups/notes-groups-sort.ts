@@ -1,5 +1,6 @@
 export enum NotesGroupsSort {
   Latest = 'Latest',
+  Oldest = 'Oldest',
   LastEdited = 'Last edited',
   AlphabeticalAsc = 'Alphabetical (A-Z)',
   AlphabeticalDesc = 'Alphabetical (Z-A)',
