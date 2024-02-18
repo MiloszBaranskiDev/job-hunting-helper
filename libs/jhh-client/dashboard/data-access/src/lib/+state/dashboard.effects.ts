@@ -31,8 +31,7 @@ export class DashboardEffects {
           return this.dashboardService.loadAssignedData().pipe(
             map((res: LoadAssignedDataSuccessPayload) => {
               if (
-                unsavedBoardRequestId &&
-                unsavedBoardRequestId.length > 0 &&
+                unsavedBoardRequestId?.length &&
                 res.unsavedBoardRequestId !== unsavedBoardRequestId
               ) {
                 throw new Error(ERROR_MESSAGE);

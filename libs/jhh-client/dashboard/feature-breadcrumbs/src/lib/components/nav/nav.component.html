@@ -1,4 +1,4 @@
-<nav *ngIf="breadcrumbs && breadcrumbs.length > 0">
+<nav *ngIf="breadcrumbs?.length">
   <ul>
     <li *ngFor="let breadcrumb of breadcrumbs; let last = last; let first = first; trackBy: trackByFn">
       <mat-icon *ngIf="first">home</mat-icon>

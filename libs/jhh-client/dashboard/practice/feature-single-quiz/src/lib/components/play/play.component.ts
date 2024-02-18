@@ -62,7 +62,7 @@ export class PlayComponent implements OnInit {
     const totalQuestions: number = this.shuffledAndLimitedQuestions.length;
     const answeredQuestions: number = Array.from(
       this.selectedAnswers.entries()
-    ).filter(([index, answers]) => answers.length > 0).length;
+    ).filter(([index, answers]) => answers.length).length;
 
     return (answeredQuestions / totalQuestions) * 100;
   }
@@ -176,7 +176,7 @@ export class PlayComponent implements OnInit {
       ).toFixed()
     );
 
-    if (this.quizResults.length > 0) {
+    if (this.quizResults.length) {
       this.practiceFacade.addQuizResults(
         this.quiz.id,
         this.quizResults,

@@ -110,7 +110,7 @@ export const selectSearchQuizzes = createSelector(
     if (!props.query) {
       return null;
     }
-    if (quizzes.length > 0) {
+    if (quizzes.length) {
       return quizzes.filter((quiz) =>
         quiz.name.toLowerCase().includes(props.query.toLowerCase())
       );

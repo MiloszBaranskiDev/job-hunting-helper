@@ -1,5 +1,5 @@
 <div
-  *ngIf="_columns && _columns.length > 0"
+  *ngIf="_columns && _columns.length"
   [ngClass]="['columns', breakpoint$ | async]"
   #horizontalScrollContainer
   cdkDropList
@@ -20,7 +20,7 @@
 
     <header cdkDragHandle class="column__header">
       <span
-        *ngIf="column.items.length > 0"
+        *ngIf="column.items.length"
         [style.background-color]="column.color"
       >
         {{column.items.length <= 99 ? column.items.length : '99+'}}

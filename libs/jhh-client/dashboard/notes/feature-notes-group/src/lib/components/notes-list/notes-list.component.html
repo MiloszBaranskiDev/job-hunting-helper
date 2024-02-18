@@ -1,5 +1,5 @@
 <ng-container *ngIf="sortedNotes as notes; else emptyList">
-  <ul [ngClass]="['notesList', breakpoint$ | async]" *ngIf="notes.length > 0; else emptyList">
+  <ul [ngClass]="['notesList', breakpoint$ | async]" *ngIf="notes.length; else emptyList">
     <li *ngFor="let note of notes; trackBy: trackByFn">
       <jhh-note-card [slug]="'./' + note.slug" [note]="note"></jhh-note-card>
     </li>

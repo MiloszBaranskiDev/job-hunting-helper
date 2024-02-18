@@ -1,4 +1,4 @@
-<ng-container *ngIf="questions.length > 0; else emptyList">
+<ng-container *ngIf="questions.length; else emptyList">
   <div class="top">
     <h3>Questions ({{questions.length}})</h3>
     <button mat-flat-button color="primary" (click)="toggleAccordion()">

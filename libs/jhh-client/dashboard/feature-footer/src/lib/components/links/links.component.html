@@ -1,4 +1,4 @@
-<ul *ngIf="links.length > 0">
+<ul *ngIf="links.length">
   <li *ngFor="let item of links">
     <a [href]="item.url" target="_blank" rel="noopener noreferrer">
       <mat-icon>{{item.icon}}</mat-icon>

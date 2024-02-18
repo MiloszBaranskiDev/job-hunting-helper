@@ -1,9 +1,9 @@
 <ng-container *ngIf="sortedNotesGroups as groups; else emptyList">
-  <ul [ngClass]="['groupsList', breakpoint$ | async]" *ngIf="groups.length > 0; else emptyList">
+  <ul [ngClass]="['groupsList', breakpoint$ | async]" *ngIf="groups.length; else emptyList">
     <li class="groupsList__item" *ngFor="let group of groups; trackBy: trackByFn">
       <a [routerLink]="'./' + group.slug">
         <span
-          *ngIf="group.notes.length > 0"
+          *ngIf="group.notes.length"
           class="groupsList__itemCounter">
           {{group.notes.length <= 99 ? group.notes.length : '99+'}}
         </span>

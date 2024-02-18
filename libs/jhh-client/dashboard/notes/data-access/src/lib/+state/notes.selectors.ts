@@ -249,7 +249,7 @@ export const selectSearchNotesGroups = createSelector(
     if (!props.query) {
       return null;
     }
-    if (notesGroups.length > 0) {
+    if (notesGroups.length) {
       return notesGroups.filter((group) =>
         group.name.toLowerCase().includes(props.query.toLowerCase())
       );

@@ -12,7 +12,7 @@
         {{quiz.passRate.toFixed()}}%
       </span>
       <span
-        *ngIf="quiz.items.length > 0"
+        *ngIf="quiz.items.length"
         class="circleCounter"
       >
         {{quiz.items.length <= 99 ? quiz.items.length : '99+'}}

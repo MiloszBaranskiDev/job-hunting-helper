@@ -73,7 +73,7 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
         },
       });
 
-      if (column.items.length > 0) {
+      if (column.items.length) {
         for (const item of column.items) {
           if (
             item.content.length > BoardColumnFieldsLength.MaxColumnItemLength
@@ -118,7 +118,7 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
       },
     });
 
-    if (tempColumns?.length > 0) {
+    if (tempColumns?.length) {
       for (const tempColumn of tempColumns) {
         await prisma.boardColumnItem.deleteMany({
           where: {

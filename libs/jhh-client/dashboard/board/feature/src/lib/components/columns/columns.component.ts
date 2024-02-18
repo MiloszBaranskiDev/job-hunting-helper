@@ -321,7 +321,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   private saveChanges(): void {
     const updatedColumns: BoardColumn[] = this.getOnlyUpdatedColumns();
 
-    if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
+    if (updatedColumns.length || this.removedItemIds.length) {
       this.isSaving$.next(true);
 
       const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> =
@@ -364,10 +364,10 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleAppClose = (event: BeforeUnloadEvent): string | void => {
+  private handleAppClose = (): string | void => {
     const updatedColumns: BoardColumn[] = this.getOnlyUpdatedColumns();
 
-    if (updatedColumns.length > 0 || this.removedItemIds.length > 0) {
+    if (updatedColumns.length || this.removedItemIds.length) {
       const unsavedBoardRequestId: string = String(Date.now());
       localStorage.setItem(
         LocalStorageKeys.UnsavedBoardRequestId,

@@ -70,7 +70,7 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
         } as BoardColumn,
       });
 
-    if (items.length > 0) {
+    if (items.length) {
       for (const item of items) {
         if (item.content.length > BoardColumnFieldsLength.MaxColumnItemLength) {
           return respondWithError(

@@ -1,6 +1,6 @@
 <div class="statusUpdates cornerDecoration cornerDecoration--leftRight">
   <h3>Status updates</h3>
-  <ul *ngIf="updates.length > 0; else noUpdates">
+  <ul *ngIf="updates.length; else noUpdates">
     <li *ngFor="let update of extendedUpdates">
       <mat-icon>{{update.icon}}</mat-icon>
       <span>{{update.date | date: 'dd.MM.yyyy'}}</span>

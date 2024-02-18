@@ -26,7 +26,7 @@
           >
           </jhh-practice-quiz-controls>
         </div>
-        <div class="box" *ngIf="quiz.results && quiz.results.length > 0">
+        <div class="box" *ngIf="quiz.results?.length">
           <jhh-practice-quiz-results [results]="quiz.results"></jhh-practice-quiz-results>
         </div>
       </div>

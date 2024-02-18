@@ -58,11 +58,7 @@ export class RelatedNotesComponent implements OnChanges {
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['relatedNotes'] &&
-      this.relatedNotes &&
-      this.relatedNotes.length > 0
-    ) {
+    if (changes['relatedNotes'] && this.relatedNotes?.length) {
       if (this.swiper) {
         this.swiper.destroy(true, true);
       }

@@ -110,7 +110,7 @@
   </ng-container>
 
   <ng-template #results>
-    <div *ngIf="quizResults && quizResults.length > 0" class="results">
+    <div *ngIf="quizResults?.length" class="results">
       <h3>
         Quiz results
         <span class="resultsScore">{{totalScore}}/{{shuffledAndLimitedQuestions.length}}</span>

@@ -22,7 +22,7 @@ export class StatusUpdatesComponent implements OnChanges {
   extendedUpdates: ExtendedOfferStatusUpdate[];
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['updates'] && this.updates.length > 0) {
+    if (changes['updates'] && this.updates.length) {
       this.extendedUpdates = this.updates.map((update) => ({
         ...update,
         icon: GetOfferStatusIcon(update.status),
