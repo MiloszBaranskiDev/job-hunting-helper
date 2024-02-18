@@ -21,6 +21,7 @@
     <header cdkDragHandle class="column__header">
       <span
         *ngIf="column.items.length"
+        class="circleCounter circleCounter--static"
         [style.background-color]="column.color"
       >
         {{column.items.length <= 99 ? column.items.length : '99+'}}
