@@ -27,7 +27,7 @@
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput [formControlName]="formField.Name" placeholder="Name" whitespaceSanitizer required>
+            <input matInput [formControlName]="formField.Name" whitespaceSanitizer required>
             <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.Required)">
               Name is required
             </mat-error>
@@ -59,7 +59,7 @@
           <mat-progress-spinner *ngIf="editNoteInProgress$ | async" mode="indeterminate"></mat-progress-spinner>
           <mat-error *ngIf="editNoteError$ | async as error">{{ error }}</mat-error>
         </ng-container>
-        
+
         <mat-dialog-actions>
           <button mat-stroked-button mat-dialog-close>Cancel</button>
           <button
