@@ -80,7 +80,7 @@ export class JhhClientDashboardNotesGroupComponent
   currentSort$: BehaviorSubject<string>;
 
   readonly sortOptionsValues: string[] = Object.values(NotesSort);
-  readonly notesPerPage: number = 16;
+  readonly notesPerPage: number = 20;
   defaultPage: number;
   defaultSort: string;
   totalPages: number;

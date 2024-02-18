@@ -4,7 +4,7 @@
       <a [routerLink]="'./' + group.slug">
         <span
           *ngIf="group.notes.length"
-          class="groupsList__itemCounter">
+          class="circleCounter">
           {{group.notes.length <= 99 ? group.notes.length : '99+'}}
         </span>
         <span class="groupsList__itemName">
