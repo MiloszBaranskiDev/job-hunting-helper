@@ -32,7 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import DOMPurify from 'dompurify';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
-import { maxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
+import { MaxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
 import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
@@ -172,7 +172,7 @@ export class AddNoteComponent implements OnInit {
       ],
       [this.formField.Content]: [
         '',
-        [maxSizeValidator(this.noteSize.MaxNoteSize)],
+        [MaxSizeValidator(this.noteSize.MaxNoteSize)],
       ],
     });
   }

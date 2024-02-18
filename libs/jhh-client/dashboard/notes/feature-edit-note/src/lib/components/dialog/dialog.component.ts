@@ -36,7 +36,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
-import { maxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
+import { MaxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';
 import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
@@ -204,7 +204,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       [this.formField.Content]: [
         this.noteToEdit.content,
-        [maxSizeValidator(this.noteSize.MaxNoteSize)],
+        [MaxSizeValidator(this.noteSize.MaxNoteSize)],
       ],
     });
   }

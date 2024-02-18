@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-export function maxSizeValidator(maxSizeInBytes: number): ValidatorFn {
+export function MaxSizeValidator(maxSizeInBytes: number): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const contentSizeInBytes: number = new Blob([control.value]).size;
     const sizeExceeded: boolean = contentSizeInBytes > maxSizeInBytes;
