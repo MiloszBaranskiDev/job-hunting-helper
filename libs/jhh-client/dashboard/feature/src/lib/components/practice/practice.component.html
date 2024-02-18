@@ -1,0 +1,36 @@
+<div class="box">
+  <h2>Practice</h2>
+  <ng-container *ngIf="quizzes.length; else emptyList">
+    <ul>
+      <li *ngFor="let quiz of quizzes">
+        <a [routerLink]="clientRoute.Practice + '/' + quiz.slug">
+          <div>
+            <span
+              *ngIf="quiz.items.length"
+              class="circleCounter circleCounter--static"
+            >
+              {{quiz.items.length <= 99 ? quiz.items.length : '99+'}}
+            </span>
+            <span class="name">
+              <strong>
+                {{quiz.name}}
+              </strong>
+            </span>
+          </div>
+          <p *ngIf="quiz.description">
+            {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
+          </p>
+        </a>
+        <mat-divider></mat-divider>
+      </li>
+    </ul>
+  </ng-container>
+  <ng-template #emptyList>
+    No quizzes found.
+  </ng-template>
+  <div class="seeMore">
+    <a mat-stroked-button [routerLink]="clientRoute.PracticeLink">
+      {{quizzes.length ? 'See more' : 'Add quiz'}}
+    </a>
+  </div>
+</div>

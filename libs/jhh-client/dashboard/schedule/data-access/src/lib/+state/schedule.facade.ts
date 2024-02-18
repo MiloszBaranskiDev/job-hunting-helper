@@ -117,4 +117,10 @@ export class ScheduleFacade {
   getEvent$ById(eventId: string): Observable<ScheduleEvent | undefined> {
     return this.store.pipe(select(ScheduleSelectors.selectEventById, eventId));
   }
+
+  getLimitedEvents$(length: number = 5): Observable<ScheduleEvent[]> {
+    return this.store.pipe(
+      select(ScheduleSelectors.selectLimitedEvents, { length })
+    );
+  }
 }

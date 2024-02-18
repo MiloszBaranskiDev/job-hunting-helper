@@ -54,6 +54,9 @@
       "@jhh/jhh-client/dashboard/domain": [
         "libs/jhh-client/dashboard/domain/src/index.ts"
       ],
+      "@jhh/jhh-client/dashboard/feature": [
+        "libs/jhh-client/dashboard/feature/src/index.ts"
+      ],
       "@jhh/jhh-client/dashboard/feature-breadcrumbs": [
         "libs/jhh-client/dashboard/feature-breadcrumbs/src/index.ts"
       ],

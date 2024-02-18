@@ -68,3 +68,14 @@ export const selectEventById = createSelector(
   (events: ScheduleEvent[], id: string) =>
     events.find((event) => event.id === id)
 );
+
+export const selectLimitedEvents = createSelector(
+  selectAllEvents,
+  (events: ScheduleEvent[], props: { length: number }) => {
+    const sortedEvents: ScheduleEvent[] = events.sort(
+      (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+    );
+
+    return sortedEvents.slice(0, props.length);
+  }
+);

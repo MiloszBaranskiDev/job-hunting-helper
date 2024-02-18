@@ -82,3 +82,8 @@ export const selectOfferSlugById = createSelector(
     return offer ? offer.slug : null;
   }
 );
+
+export const selectLimitedOffers = createSelector(
+  selectAllOffers,
+  (offers: Offer[], props: { length: number }) => offers.slice(0, props.length)
+);

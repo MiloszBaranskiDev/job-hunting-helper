@@ -160,4 +160,10 @@ export class OffersFacade {
       select(OffersSelectors.selectOfferSlugById, { offerId })
     );
   }
+
+  getLimitedOffers$(length: number = 15): Observable<Offer[]> {
+    return this.store.pipe(
+      select(OffersSelectors.selectLimitedOffers, { length })
+    );
+  }
 }

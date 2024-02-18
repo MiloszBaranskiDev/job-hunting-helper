@@ -82,3 +82,9 @@ export const selectUpdateBoardColumnsSuccess = createSelector(
   selectBoardState,
   (state: BoardState) => state.updateBoardColumns.success!
 );
+
+export const selectLimitedColumns = createSelector(
+  selectAllColumns,
+  (columns: BoardColumn[], props: { length: number }) =>
+    columns.slice(0, props.length)
+);

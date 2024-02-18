@@ -19,7 +19,7 @@ export class NotesFacade {
   );
 
   notesGroups$: Observable<NotesGroup[]> = this.store.pipe(
-    select(NotesSelectors.selectAllNotes)
+    select(NotesSelectors.selectAllNotesGroups)
   );
 
   addNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
@@ -270,6 +270,12 @@ export class NotesFacade {
   getGroups$(excludeId?: string): Observable<NotesGroup[] | null> {
     return this.store.pipe(
       select(NotesSelectors.selectAllGroups, { excludeId })
+    );
+  }
+
+  getLimitedGroups$(length: number = 5): Observable<NotesGroup[]> {
+    return this.store.pipe(
+      select(NotesSelectors.selectLimitedGroups, { length })
     );
   }
 

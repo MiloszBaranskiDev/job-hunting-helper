@@ -7,14 +7,14 @@ export const selectNotesState =
   createFeatureSelector<NotesState>(NOTES_STATE_KEY);
 
 export const {
-  selectIds: selectNoteIds,
-  selectEntities: selectNoteEntities,
-  selectAll: selectAllNotes,
-  selectTotal: selectTotalNotes,
+  selectIds: selectNotesGroupsIds,
+  selectEntities: selectNotesGroupsEntities,
+  selectAll: selectAllNotesGroups,
+  selectTotal: selectTotalNotesGroups,
 } = adapter.getSelectors(selectNotesState);
 
 export const selectNotesGroups = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[]) => notesGroups
 );
 
@@ -134,13 +134,13 @@ export const selectRemoveNoteSuccess = createSelector(
 );
 
 export const selectNotesGroupBySlug = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], slug: string) =>
     notesGroups.find((group) => group.slug === slug)
 );
 
 export const selectNoteBySlugs = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (
     notesGroups: NotesGroup[],
     props: { groupSlug: string; noteSlug: string }
@@ -160,7 +160,7 @@ export const selectNoteBySlugs = createSelector(
 );
 
 export const selectNoteByIds = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], props: { noteId: string; groupId: string }) => {
     if (!props.noteId || !props.groupId) {
       return null;
@@ -177,7 +177,7 @@ export const selectNoteByIds = createSelector(
 );
 
 export const selectGroupSlugByGroupId = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], props: { groupId: string }) => {
     if (!props.groupId) {
       return null;
@@ -188,7 +188,7 @@ export const selectGroupSlugByGroupId = createSelector(
 );
 
 export const selectGroupSlugByNoteId = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], props: { noteId: string }) => {
     if (!props.noteId) {
       return null;
@@ -207,7 +207,7 @@ export const selectGroupSlugByNoteId = createSelector(
 );
 
 export const selectRelatedNotes = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], props: { exclude: Note; limit: number }) => {
     if (!props.exclude || !props.limit) {
       return null;
@@ -230,11 +230,17 @@ export const selectRelatedNotes = createSelector(
 );
 
 export const selectAllGroups = createSelector(
-  selectAllNotes,
+  selectAllNotesGroups,
   (notesGroups: NotesGroup[], { excludeId }: { excludeId?: string }) =>
     excludeId
       ? notesGroups.filter((group) => group.id !== excludeId)
       : notesGroups
+);
+
+export const selectLimitedGroups = createSelector(
+  selectAllNotesGroups,
+  (notesGroups: NotesGroup[], props: { length: number }) =>
+    notesGroups.slice(0, props.length)
 );
 
 export const selectSearchNotesGroups = createSelector(

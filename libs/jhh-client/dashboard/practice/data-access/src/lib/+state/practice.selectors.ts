@@ -99,6 +99,11 @@ export const selectQuizSlugById = createSelector(
   }
 );
 
+export const selectLimitedQuizzes = createSelector(
+  selectAllQuizzes,
+  (quizzes: Quiz[], props: { length: number }) => quizzes.slice(0, props.length)
+);
+
 export const selectSearchQuizzes = createSelector(
   selectAllQuizzes,
   (quizzes: Quiz[], props: { query: string }) => {

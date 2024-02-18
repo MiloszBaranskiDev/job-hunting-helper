@@ -1,19 +1,37 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable, zip } from 'rxjs';
 
 import * as DashboardSelectors from './dashboard.selectors';
 import * as DashboardActions from './dashboard.actions';
 import { saveToken, setUser } from '@jhh/jhh-client/auth/data-access';
-import { setNotes } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { setBoard } from '@jhh/jhh-client/dashboard/board/data-access';
-import { setOffers } from '@jhh/jhh-client/dashboard/offers/data-access';
-import { setScheduleEvents } from '@jhh/jhh-client/dashboard/schedule/data-access';
+import {
+  NotesFacade,
+  setNotes,
+} from '@jhh/jhh-client/dashboard/notes/data-access';
+import {
+  BoardFacade,
+  setBoard,
+} from '@jhh/jhh-client/dashboard/board/data-access';
+import {
+  OffersFacade,
+  setOffers,
+} from '@jhh/jhh-client/dashboard/offers/data-access';
+import {
+  ScheduleFacade,
+  setScheduleEvents,
+} from '@jhh/jhh-client/dashboard/schedule/data-access';
+import {
+  PracticeFacade,
+  setPracticeQuizzes,
+} from '@jhh/jhh-client/dashboard/practice/data-access';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 
-import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
-import { setPracticeQuizzes } from '@jhh/jhh-client/dashboard/practice/data-access';
+import {
+  HomeData,
+  LoadAssignedDataSuccessPayload,
+} from '@jhh/jhh-client/dashboard/domain';
 
 @Injectable()
 export class DashboardFacade {
@@ -21,6 +39,11 @@ export class DashboardFacade {
   private readonly actionResolverService: ActionResolverService = inject(
     ActionResolverService
   );
+  private readonly offersFacade: OffersFacade = inject(OffersFacade);
+  private readonly scheduleEvent: ScheduleFacade = inject(ScheduleFacade);
+  private readonly boardFacade: BoardFacade = inject(BoardFacade);
+  private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
+  private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
   loadAssignedDataInProgress$: Observable<boolean> = this.store.pipe(
     select(DashboardSelectors.selectDashboardLoadAssignedDataInProgress)
@@ -55,6 +78,20 @@ export class DashboardFacade {
     );
     this.store.dispatch(
       setPracticeQuizzes({ quizzes: data.payload.practiceQuizzes })
+    );
+  }
+
+  getHomeData(): Observable<HomeData> {
+    return zip(
+      this.offersFacade.getLimitedOffers$(),
+      this.scheduleEvent.getLimitedEvents$(),
+      this.boardFacade.getLimitedColumns$(),
+      this.practiceFacade.getLimitedQuizzes$(),
+      this.notesFacade.getLimitedGroups$()
+    ).pipe(
+      map(([offers, scheduleEvents, boardColumns, quizzes, notesGroups]) => {
+        return { offers, scheduleEvents, boardColumns, quizzes, notesGroups };
+      })
     );
   }
 }

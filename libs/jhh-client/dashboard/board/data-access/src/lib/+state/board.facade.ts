@@ -132,4 +132,10 @@ export class BoardFacade {
       BoardActions.Type.UpdateBoardColumnsFail
     );
   }
+
+  getLimitedColumns$(length: number = 5): Observable<BoardColumn[]> {
+    return this.store.pipe(
+      select(BoardSelectors.selectLimitedColumns, { length })
+    );
+  }
 }

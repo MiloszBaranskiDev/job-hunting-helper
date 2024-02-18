@@ -154,6 +154,12 @@ export class PracticeFacade {
     );
   }
 
+  getLimitedQuizzes$(length: number = 5): Observable<Quiz[]> {
+    return this.store.pipe(
+      select(PracticeSelectors.selectLimitedQuizzes, { length })
+    );
+  }
+
   searchQuizzes$ByName(query: string): Observable<Quiz[] | null> {
     return this.store.pipe(
       select(PracticeSelectors.selectSearchQuizzes, { query })
