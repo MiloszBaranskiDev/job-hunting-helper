@@ -40,13 +40,12 @@
                 <span>Edit</span>
               </button>
               <button mat-menu-item (click)="openRemoveQuizDialog(quiz)">
-                <mat-icon>close</mat-icon>
+                <mat-icon>delete_forever</mat-icon>
                 <span>Remove</span>
               </button>
             </mat-menu>
           </ng-container>
         </div>
-
       </header>
       <p *ngIf="quiz.description">
         {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
