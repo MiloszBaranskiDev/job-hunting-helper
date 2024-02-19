@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  OnInit,
   Output,
 } from '@angular/core';
 
@@ -10,7 +11,7 @@ import {
   selector: '[clickOutside]',
   standalone: true,
 })
-export class ClickOutsideDirective {
+export class ClickOutsideDirective implements OnInit {
   @Output() clickOutside: EventEmitter<void> = new EventEmitter<void>();
 
   private isListening: boolean = false;

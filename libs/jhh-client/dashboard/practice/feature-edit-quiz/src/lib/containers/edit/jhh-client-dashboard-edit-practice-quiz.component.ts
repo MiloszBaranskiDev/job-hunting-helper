@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { Quiz } from '@jhh/shared/domain';
   templateUrl: './jhh-client-dashboard-edit-practice-quiz.component.html',
   styleUrls: ['./jhh-client-dashboard-edit-practice-quiz.component.scss'],
 })
-export class JhhClientDashboardEditPracticeQuizComponent {
+export class JhhClientDashboardEditPracticeQuizComponent implements OnInit {
   private readonly editPracticeQuizDialogService: EditPracticeQuizDialogService =
     inject(EditPracticeQuizDialogService);
 

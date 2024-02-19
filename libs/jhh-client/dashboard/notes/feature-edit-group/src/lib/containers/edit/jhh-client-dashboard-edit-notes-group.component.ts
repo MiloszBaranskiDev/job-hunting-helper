@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,7 +16,7 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
   templateUrl: './jhh-client-dashboard-edit-notes-group.component.html',
   styleUrls: ['./jhh-client-dashboard-edit-notes-group.component.scss'],
 })
-export class JhhClientDashboardEditNotesGroupComponent {
+export class JhhClientDashboardEditNotesGroupComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
     inject(EditNotesGroupDialogService);

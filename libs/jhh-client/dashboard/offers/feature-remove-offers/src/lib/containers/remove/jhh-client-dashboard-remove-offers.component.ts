@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { Offer } from '@jhh/shared/domain';
   templateUrl: './jhh-client-dashboard-remove-offers.component.html',
   styleUrls: ['./jhh-client-dashboard-remove-offers.component.scss'],
 })
-export class JhhClientDashboardRemoveOffersComponent {
+export class JhhClientDashboardRemoveOffersComponent implements OnInit {
   private readonly removeOffersDialogService: RemoveOffersDialogService =
     inject(RemoveOffersDialogService);
 
