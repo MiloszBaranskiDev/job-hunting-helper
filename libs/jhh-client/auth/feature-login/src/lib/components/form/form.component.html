@@ -3,9 +3,9 @@
     <mat-label>Username</mat-label>
     <input
       matInput
-      [formControlName]="formFields.Username"
+      [formControlName]="formField.Username"
     >
-    <mat-error *ngIf="formGroup.get(formFields.Username)?.hasError(formErrorKey.Required)">
+    <mat-error *ngIf="formGroup.get(formField.Username)?.hasError(formErrorKey.Required)">
       Username is required
     </mat-error>
   </mat-form-field>
@@ -17,12 +17,12 @@
       matInput
       [type]="hidePassword ? 'password' : 'text'"
       autocomplete="true"
-      [formControlName]="formFields.Password"
+      [formControlName]="formField.Password"
     >
     <mat-icon matSuffix id="password-type-toggle" (click)="hidePassword = !hidePassword">
       {{hidePassword ? 'visibility_off' : 'visibility'}}
     </mat-icon>
-    <mat-error *ngIf="formGroup.get(formFields.Password)?.hasError(formErrorKey.Required)">
+    <mat-error *ngIf="formGroup.get(formField.Password)?.hasError(formErrorKey.Required)">
       Password is required
     </mat-error>
   </mat-form-field>
@@ -52,7 +52,7 @@
       Submit
     </button>
     <a
-      [routerLink]="clientRoutes.RegisterLink"
+      [routerLink]="clientRoute.RegisterLink"
       mat-button
     >
       Don't have an account? Register

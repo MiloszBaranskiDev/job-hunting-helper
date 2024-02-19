@@ -103,10 +103,10 @@
           Title is required
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Title)?.hasError(formErrorKey.MinLength)">
-          Minimum length of title is {{fieldsLength.MinTitleLength}} characters
+          Minimum length of title is {{fieldLength.MinTitleLength}} characters
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Title)?.hasError(formErrorKey.MaxLength)">
-          Maximum length of title is {{fieldsLength.MaxTitleLength}} characters
+          Maximum length of title is {{fieldLength.MaxTitleLength}} characters
         </mat-error>
       </mat-form-field>
 
@@ -122,7 +122,7 @@
         <div class="defaultColors">
           <button
             type="button"
-            *ngFor="let color of defaultColorsValue"
+            *ngFor="let color of defaultColorValues"
             [style.background]="color"
             (click)="selectDefaultColor($any(color))">
           </button>
@@ -134,11 +134,11 @@
         <textarea
           matInput
           [formControlName]="formField.Description"
-          [maxlength]="fieldsLength.MaxDescriptionLength"
+          [maxlength]="fieldLength.MaxDescriptionLength"
         >
         </textarea>
         <mat-error *ngIf="formGroup.get(formField.Description)?.hasError(formErrorKey.MaxLength)">
-          Maximum length of description is {{fieldsLength.MaxDescriptionLength}} characters
+          Maximum length of description is {{fieldLength.MaxDescriptionLength}} characters
         </mat-error>
       </mat-form-field>
 

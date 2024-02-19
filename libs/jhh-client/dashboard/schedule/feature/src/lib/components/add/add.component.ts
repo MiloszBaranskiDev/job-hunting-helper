@@ -39,7 +39,7 @@ import {
   EventField,
   EventFormErrorKey,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
-import { EventFieldsLength } from '@jhh/shared/domain';
+import { EventFieldLength } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-schedule-add',
@@ -75,10 +75,10 @@ export class AddComponent implements OnInit {
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof EventField = EventField;
-  readonly fieldsLength: typeof EventFieldsLength = EventFieldsLength;
+  readonly fieldLength: typeof EventFieldLength = EventFieldLength;
   readonly formErrorKey: typeof EventFormErrorKey = EventFormErrorKey;
   readonly defaultColor: typeof EventDefaultColor = EventDefaultColor;
-  readonly defaultColorsValue: string[] = Object.values(this.defaultColor);
+  readonly defaultColorValues: string[] = Object.values(this.defaultColor);
 
   ngOnInit(): void {
     this.addEventInProgress$ = this.scheduleFacade.addEventInProgress$;
@@ -97,7 +97,7 @@ export class AddComponent implements OnInit {
   }
 
   selectDefaultColor(color: EventDefaultColor): void {
-    if (this.defaultColorsValue.includes(color)) {
+    if (this.defaultColorValues.includes(color)) {
       this.formGroup.get(this.formField.Color)?.setValue(color);
     } else {
       this.formGroup
@@ -154,8 +154,8 @@ export class AddComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(this.fieldsLength.MinTitleLength),
-            Validators.maxLength(this.fieldsLength.MaxTitleLength),
+            Validators.minLength(this.fieldLength.MinTitleLength),
+            Validators.maxLength(this.fieldLength.MaxTitleLength),
           ],
         ],
         [this.formField.Color]: [
@@ -164,7 +164,7 @@ export class AddComponent implements OnInit {
         ],
         [this.formField.Description]: [
           '',
-          [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
+          [Validators.maxLength(this.fieldLength.MaxDescriptionLength)],
         ],
       },
       {

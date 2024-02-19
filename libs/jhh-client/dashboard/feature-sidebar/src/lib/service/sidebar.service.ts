@@ -6,7 +6,7 @@ import {
   BreakpointState,
 } from '@angular/cdk/layout';
 import { NavigationEnd, Router } from '@angular/router';
-import { LocalStorageKeys } from '@jhh/shared/domain';
+import { LocalStorageKey } from '@jhh/shared/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,7 @@ export class SidebarService {
 
   constructor() {
     const expandedState: string | null = localStorage.getItem(
-      LocalStorageKeys.IsSidebarExpanded
+      LocalStorageKey.IsSidebarExpanded
     );
     this._isSidebarExpanded$ = new BehaviorSubject<boolean>(
       expandedState !== null ? expandedState === 'true' : true
@@ -85,7 +85,7 @@ export class SidebarService {
   private setSidebarExpandedState(newState: boolean): void {
     this._isSidebarExpanded$.next(newState);
     localStorage.setItem(
-      LocalStorageKeys.IsSidebarExpanded,
+      LocalStorageKey.IsSidebarExpanded,
       newState.toString()
     );
   }

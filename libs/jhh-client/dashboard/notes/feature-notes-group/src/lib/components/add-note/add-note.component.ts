@@ -37,7 +37,7 @@ import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import { NoteFieldLength, NoteSize } from '@jhh/shared/domain';
 import {
   NoteFormErrorKey,
   NoteFormField,
@@ -82,7 +82,7 @@ export class AddNoteComponent implements OnInit {
   addNoteSuccess$: Observable<boolean>;
 
   readonly formField: typeof NoteFormField = NoteFormField;
-  readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
+  readonly fieldLength: typeof NoteFieldLength = NoteFieldLength;
   readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
@@ -166,8 +166,8 @@ export class AddNoteComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
       [this.formField.Content]: [

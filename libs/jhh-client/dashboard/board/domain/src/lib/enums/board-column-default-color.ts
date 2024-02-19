@@ -1,4 +1,4 @@
-export enum BoardColumnDefaultColors {
+export enum BoardColumnDefaultColor {
   SkyBlue = '#3498db',
   SoftGreen = '#2ecc71',
   VibrantYellow = '#f1c40f',

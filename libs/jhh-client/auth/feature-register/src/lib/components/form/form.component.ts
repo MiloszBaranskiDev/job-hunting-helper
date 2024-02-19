@@ -19,10 +19,10 @@ import { RouterLink } from '@angular/router';
 import zxcvbn from 'zxcvbn';
 
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-import { RegisterFieldsLength } from '@jhh/shared/domain';
+import { RegisterFieldLength } from '@jhh/shared/domain';
 import {
   AuthFormErrorKey,
-  AuthFormFields,
+  AuthFormField,
   PasswordStrengthClass,
 } from '@jhh/jhh-client/auth/domain';
 
@@ -31,8 +31,8 @@ import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { WhitespaceValidator } from '@jhh/jhh-client/shared/util-whitespace-validator';
 
 function passwordsMatch(group: FormGroup): ValidationErrors | null {
-  const passwordControl = group.get(AuthFormFields.Password);
-  const confirmPasswordControl = group.get(AuthFormFields.ConfirmPassword);
+  const passwordControl = group.get(AuthFormField.Password);
+  const confirmPasswordControl = group.get(AuthFormField.ConfirmPassword);
 
   if (
     passwordControl &&
@@ -67,10 +67,10 @@ export class FormComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
-  readonly clientRoutes: typeof ClientRoute = ClientRoute;
-  readonly registerFieldsLength: typeof RegisterFieldsLength =
-    RegisterFieldsLength;
-  readonly formFields: typeof AuthFormFields = AuthFormFields;
+  readonly clientRoute: typeof ClientRoute = ClientRoute;
+  readonly registerFieldLength: typeof RegisterFieldLength =
+    RegisterFieldLength;
+  readonly formField: typeof AuthFormField = AuthFormField;
   readonly formErrorKey: typeof AuthFormErrorKey = AuthFormErrorKey;
   formGroup: FormGroup;
   hidePassword: boolean = true;
@@ -108,7 +108,7 @@ export class FormComponent implements OnInit {
   validatePasswords(): void {
     this.formGroup.updateValueAndValidity();
 
-    const password = this.formGroup.get(this.formFields.Password)?.value;
+    const password = this.formGroup.get(this.formField.Password)?.value;
     const passwordStrength: zxcvbn.ZXCVBNResult = zxcvbn(password);
     const newStrength: number = password
       ? Math.max(25, passwordStrength.score * 25)
@@ -119,10 +119,10 @@ export class FormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const username = this.formGroup.get(this.formFields.Username)?.value;
-      const password = this.formGroup.get(this.formFields.Password)?.value;
+      const username = this.formGroup.get(this.formField.Username)?.value;
+      const password = this.formGroup.get(this.formField.Password)?.value;
       const confirmPassword = this.formGroup.get(
-        this.formFields.ConfirmPassword
+        this.formField.ConfirmPassword
       )?.value;
 
       this.authFacade
@@ -134,25 +134,25 @@ export class FormComponent implements OnInit {
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group(
       {
-        [this.formFields.Username]: [
+        [this.formField.Username]: [
           '',
           [
             Validators.required,
-            Validators.minLength(RegisterFieldsLength.MinUsernameLength),
-            Validators.maxLength(RegisterFieldsLength.MaxUsernameLength),
+            Validators.minLength(RegisterFieldLength.MinUsernameLength),
+            Validators.maxLength(RegisterFieldLength.MaxUsernameLength),
             WhitespaceValidator,
           ],
         ],
-        [this.formFields.Password]: [
+        [this.formField.Password]: [
           '',
           [
             Validators.required,
-            Validators.minLength(RegisterFieldsLength.MinPasswordLength),
-            Validators.maxLength(RegisterFieldsLength.MaxPasswordLength),
+            Validators.minLength(RegisterFieldLength.MinPasswordLength),
+            Validators.maxLength(RegisterFieldLength.MaxPasswordLength),
             WhitespaceValidator,
           ],
         ],
-        [this.formFields.ConfirmPassword]: [''],
+        [this.formField.ConfirmPassword]: [''],
       },
       { validators: [passwordsMatch] }
     );

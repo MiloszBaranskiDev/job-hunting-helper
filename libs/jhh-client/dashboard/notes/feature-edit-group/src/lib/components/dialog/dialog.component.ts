@@ -27,7 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { Observable } from 'rxjs';
 
-import { NotesGroup, NotesGroupFieldsLength } from '@jhh/shared/domain';
+import { NotesGroup, NotesGroupFieldLength } from '@jhh/shared/domain';
 import {
   NotesGroupFormErrorKey,
   NotesGroupFormField,
@@ -74,7 +74,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   breakpoint$: Observable<string>;
 
   readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
-  readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
+  readonly fieldLength: typeof NotesGroupFieldLength = NotesGroupFieldLength;
   readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;
@@ -130,18 +130,18 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.groupToEdit.name,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
       [this.formField.Slug]: [
         this.groupToEdit.slug,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
           Validators.maxLength(
-            this.fieldsLength.MaxNameLength +
-              this.fieldsLength.MaxNameAndSlugLengthDiff
+            this.fieldLength.MaxNameLength +
+              this.fieldLength.MaxNameAndSlugLengthDiff
           ),
         ],
       ],

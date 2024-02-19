@@ -9,7 +9,7 @@ import { DashboardFacade } from './dashboard.facade';
 import { DashboardService } from '../services/dashboard/dashboard.service';
 
 import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
-import { LocalStorageKeys } from '@jhh/shared/domain';
+import { LocalStorageKey } from '@jhh/shared/domain';
 
 @Injectable()
 export class DashboardEffects {
@@ -24,7 +24,7 @@ export class DashboardEffects {
       fetch({
         run: () => {
           const unsavedBoardRequestId: string | null = localStorage.getItem(
-            LocalStorageKeys.UnsavedBoardRequestId
+            LocalStorageKey.UnsavedBoardRequestId
           );
           const ERROR_MESSAGE: string = 'Board update still pending';
 
@@ -52,7 +52,7 @@ export class DashboardEffects {
             ),
             tap((val) => {
               this.dashboardFacade.setData(val);
-              localStorage.removeItem(LocalStorageKeys.UnsavedBoardRequestId);
+              localStorage.removeItem(LocalStorageKey.UnsavedBoardRequestId);
             })
           );
         },

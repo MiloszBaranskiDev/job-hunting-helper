@@ -42,7 +42,7 @@ import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whites
 
 import { JhhClientDashboardNoteContentEditorComponent } from '@jhh/jhh-client/dashboard/notes/feature-content-editor';
 
-import { Note, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import { Note, NoteFieldLength, NoteSize } from '@jhh/shared/domain';
 import {
   NoteFormErrorKey,
   NoteFormField,
@@ -86,7 +86,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   breakpoint$: Observable<string>;
 
   readonly formField: typeof NoteFormField = NoteFormField;
-  readonly fieldsLength: typeof NoteFieldsLength = NoteFieldsLength;
+  readonly fieldLength: typeof NoteFieldLength = NoteFieldLength;
   readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
@@ -187,18 +187,18 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.noteToEdit.name,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
-          Validators.maxLength(this.fieldsLength.MaxNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
       [this.formField.Slug]: [
         this.noteToEdit.slug,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
           Validators.maxLength(
-            this.fieldsLength.MaxNameLength +
-              this.fieldsLength.MaxNameAndSlugLengthDiff
+            this.fieldLength.MaxNameLength +
+              this.fieldLength.MaxNameAndSlugLengthDiff
           ),
         ],
       ],

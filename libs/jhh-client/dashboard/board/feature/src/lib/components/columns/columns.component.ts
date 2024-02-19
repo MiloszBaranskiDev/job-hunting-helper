@@ -46,9 +46,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
 import {
   BoardColumn,
-  BoardColumnFieldsLength,
+  BoardColumnFieldLength,
   BoardColumnItem,
-  LocalStorageKeys,
+  LocalStorageKey,
 } from '@jhh/shared/domain';
 
 import { ColumnMenuComponent } from '../column-menu/column-menu.component';
@@ -112,8 +112,8 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   updateBoardColumnsSuccess$: Observable<boolean>;
   breakpoint$: Observable<string>;
 
-  readonly boardColumnFieldsLength: typeof BoardColumnFieldsLength =
-    BoardColumnFieldsLength;
+  readonly boardColumnFieldLength: typeof BoardColumnFieldLength =
+    BoardColumnFieldLength;
   private updateSubject: Subject<void> = new Subject<void>();
   private originalColumns: BoardColumn[];
   private removedItemIds: string[] = [];
@@ -370,7 +370,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     if (updatedColumns.length || this.removedItemIds.length) {
       const unsavedBoardRequestId: string = String(Date.now());
       localStorage.setItem(
-        LocalStorageKeys.UnsavedBoardRequestId,
+        LocalStorageKey.UnsavedBoardRequestId,
         unsavedBoardRequestId
       );
       this.boardFacade.updateBoardColumns(

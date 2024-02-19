@@ -6,7 +6,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { regex } from '@jhh/shared/regex';
 
-import { EventFieldsLength, HttpStatusCode } from '@jhh/shared/domain';
+import { EventFieldLength, HttpStatusCode } from '@jhh/shared/domain';
 
 const editEvent = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -40,24 +40,24 @@ const editEvent = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      title.length < EventFieldsLength.MinTitleLength ||
-      title.length > EventFieldsLength.MaxTitleLength
+      title.length < EventFieldLength.MinTitleLength ||
+      title.length > EventFieldLength.MaxTitleLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Title must be between ${EventFieldsLength.MinTitleLength} and ${EventFieldsLength.MaxTitleLength} characters`
+        `Title must be between ${EventFieldLength.MinTitleLength} and ${EventFieldLength.MaxTitleLength} characters`
       );
     }
 
     if (
       description &&
-      description.length > EventFieldsLength.MaxDescriptionLength
+      description.length > EventFieldLength.MaxDescriptionLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Description can have max ${EventFieldsLength.MaxDescriptionLength} characters`
+        `Description can have max ${EventFieldLength.MaxDescriptionLength} characters`
       );
     }
 

@@ -29,7 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { NotesGroupFieldsLength } from '@jhh/shared/domain';
+import { NotesGroupFieldLength } from '@jhh/shared/domain';
 import {
   NotesGroupFormErrorKey,
   NotesGroupFormField,
@@ -60,7 +60,7 @@ export class AddGroupComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  readonly fieldsLength: typeof NotesGroupFieldsLength = NotesGroupFieldsLength;
+  readonly fieldLength: typeof NotesGroupFieldLength = NotesGroupFieldLength;
   readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
   readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
@@ -116,8 +116,8 @@ export class AddGroupComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(NotesGroupFieldsLength.MinNameLength),
-          Validators.maxLength(NotesGroupFieldsLength.MaxNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
     });

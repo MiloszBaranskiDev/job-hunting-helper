@@ -40,7 +40,7 @@ import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import {
   Offer,
   OfferCompanyType,
-  OfferFieldsLength,
+  OfferFieldLength,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
@@ -87,7 +87,7 @@ export class AddComponent implements OnInit {
   breakpoint$: Observable<string>;
 
   readonly formField: typeof OfferField = OfferField;
-  readonly fieldsLength: typeof OfferFieldsLength = OfferFieldsLength;
+  readonly fieldLength: typeof OfferFieldLength = OfferFieldLength;
   readonly formErrorKey: typeof OfferFormErrorKey = OfferFormErrorKey;
   readonly offerLocation: OfferLocation[] = Object.values(OfferLocation);
   readonly offerCompanyType: OfferCompanyType[] =
@@ -121,8 +121,8 @@ export class AddComponent implements OnInit {
         ),
         tap(({ minSalary, maxSalary }) => {
           if (
-            minSalary >= this.fieldsLength.MinSalaryValue ||
-            maxSalary >= this.fieldsLength.MinSalaryValue
+            minSalary >= this.fieldLength.MinSalaryValue ||
+            maxSalary >= this.fieldLength.MinSalaryValue
           ) {
             this.formGroup.get(this.formField.SalaryCurrency)!.enable();
           } else {
@@ -208,8 +208,8 @@ export class AddComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinPositionLength),
-          Validators.maxLength(this.fieldsLength.MaxPositionLength),
+          Validators.minLength(this.fieldLength.MinPositionLength),
+          Validators.maxLength(this.fieldLength.MaxPositionLength),
         ],
       ],
       [this.formField.Link]: [
@@ -217,15 +217,15 @@ export class AddComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(regex.link),
-          Validators.maxLength(this.fieldsLength.MaxLinkLength),
+          Validators.maxLength(this.fieldLength.MaxLinkLength),
         ],
       ],
       [this.formField.Company]: [
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinCompanyLength),
-          Validators.maxLength(this.fieldsLength.MaxCompanyLength),
+          Validators.minLength(this.fieldLength.MinCompanyLength),
+          Validators.maxLength(this.fieldLength.MaxCompanyLength),
         ],
       ],
       [this.formField.CompanyType]: [
@@ -247,15 +247,15 @@ export class AddComponent implements OnInit {
       [this.formField.MinSalary]: [
         undefined,
         [
-          Validators.min(this.fieldsLength.MinSalaryValue),
-          Validators.max(this.fieldsLength.MaxSalaryValue),
+          Validators.min(this.fieldLength.MinSalaryValue),
+          Validators.max(this.fieldLength.MaxSalaryValue),
         ],
       ],
       [this.formField.MaxSalary]: [
         undefined,
         [
-          Validators.min(this.fieldsLength.MinSalaryValue),
-          Validators.max(this.fieldsLength.MaxSalaryValue),
+          Validators.min(this.fieldLength.MinSalaryValue),
+          Validators.max(this.fieldLength.MaxSalaryValue),
         ],
       ],
       [this.formField.SalaryCurrency]: [
@@ -265,7 +265,7 @@ export class AddComponent implements OnInit {
       [this.formField.Email]: [
         '',
         [
-          Validators.maxLength(this.fieldsLength.MaxEmailLength),
+          Validators.maxLength(this.fieldLength.MaxEmailLength),
           (control: any) => {
             if (control.value) {
               return Validators.compose([Validators.pattern(regex.email)])!(
@@ -278,7 +278,7 @@ export class AddComponent implements OnInit {
       ],
       [this.formField.Description]: [
         '',
-        [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
+        [Validators.maxLength(this.fieldLength.MaxDescriptionLength)],
       ],
     });
   }

@@ -127,10 +127,10 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="offersTableColumnValues"></tr>
+    <tr mat-header-row *matHeaderRowDef="offersTableColumnValue"></tr>
     <tr
       mat-row class="clickableRow"
-      *matRowDef="let row; columns: offersTableColumnValues; "
+      *matRowDef="let row; columns: offersTableColumnValue; "
       [routerLink]="['./', row.slug]"
     >
     </tr>

@@ -6,7 +6,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 import {
   HttpStatusCode,
   OfferCompanyType,
-  OfferFieldsLength,
+  OfferFieldLength,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
@@ -93,83 +93,83 @@ const addOffer = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      position.length < OfferFieldsLength.MinPositionLength ||
-      position.length > OfferFieldsLength.MaxPositionLength
+      position.length < OfferFieldLength.MinPositionLength ||
+      position.length > OfferFieldLength.MaxPositionLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Position must be between ${OfferFieldsLength.MinPositionLength} and ${OfferFieldsLength.MaxPositionLength} characters`
+        `Position must be between ${OfferFieldLength.MinPositionLength} and ${OfferFieldLength.MaxPositionLength} characters`
       );
     }
 
     if (
-      company.length < OfferFieldsLength.MinCompanyLength ||
-      company.length > OfferFieldsLength.MaxCompanyLength
+      company.length < OfferFieldLength.MinCompanyLength ||
+      company.length > OfferFieldLength.MaxCompanyLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Company must be between ${OfferFieldsLength.MinCompanyLength} and ${OfferFieldsLength.MaxCompanyLength} characters`
+        `Company must be between ${OfferFieldLength.MinCompanyLength} and ${OfferFieldLength.MaxCompanyLength} characters`
       );
     }
 
-    if (link.length > OfferFieldsLength.MaxLinkLength) {
+    if (link.length > OfferFieldLength.MaxLinkLength) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Link can have max ${OfferFieldsLength.MaxLinkLength} characters`
+        `Link can have max ${OfferFieldLength.MaxLinkLength} characters`
       );
     }
 
-    if (email && email.length > OfferFieldsLength.MaxEmailLength) {
+    if (email && email.length > OfferFieldLength.MaxEmailLength) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `E-mail can have max ${OfferFieldsLength.MaxEmailLength} characters`
+        `E-mail can have max ${OfferFieldLength.MaxEmailLength} characters`
       );
     }
 
     if (
       description &&
-      description.length > OfferFieldsLength.MaxDescriptionLength
+      description.length > OfferFieldLength.MaxDescriptionLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Description can have max ${OfferFieldsLength.MaxDescriptionLength} characters`
+        `Description can have max ${OfferFieldLength.MaxDescriptionLength} characters`
       );
     }
 
-    if (minSalary && minSalary < OfferFieldsLength.MinSalaryValue) {
+    if (minSalary && minSalary < OfferFieldLength.MinSalaryValue) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Minimum value of salary is ${OfferFieldsLength.MinSalaryValue}`
+        `Minimum value of salary is ${OfferFieldLength.MinSalaryValue}`
       );
     }
 
-    if (maxSalary && maxSalary < OfferFieldsLength.MinSalaryValue) {
+    if (maxSalary && maxSalary < OfferFieldLength.MinSalaryValue) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Minimum value of salary is ${OfferFieldsLength.MinSalaryValue}`
+        `Minimum value of salary is ${OfferFieldLength.MinSalaryValue}`
       );
     }
 
-    if (minSalary && minSalary > OfferFieldsLength.MaxSalaryValue) {
+    if (minSalary && minSalary > OfferFieldLength.MaxSalaryValue) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Maximum value of salary is ${OfferFieldsLength.MaxSalaryValue}`
+        `Maximum value of salary is ${OfferFieldLength.MaxSalaryValue}`
       );
     }
 
-    if (maxSalary && maxSalary > OfferFieldsLength.MaxSalaryValue) {
+    if (maxSalary && maxSalary > OfferFieldLength.MaxSalaryValue) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Maximum value of salary is ${OfferFieldsLength.MaxSalaryValue}`
+        `Maximum value of salary is ${OfferFieldLength.MaxSalaryValue}`
       );
     }
 

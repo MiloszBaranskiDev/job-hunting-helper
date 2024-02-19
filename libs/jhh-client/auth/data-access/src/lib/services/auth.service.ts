@@ -16,7 +16,7 @@ import {
   RemoveAccountSuccessPayload,
   RemoveAccountSuccessResponse,
 } from '@jhh/jhh-client/auth/domain';
-import { ApiRoute, LocalStorageKeys } from '@jhh/shared/domain';
+import { ApiRoute, LocalStorageKey } from '@jhh/shared/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Injectable({
@@ -58,15 +58,15 @@ export class AuthService {
   }
 
   saveToken(token: string): void {
-    localStorage.setItem(LocalStorageKeys.Token, JSON.stringify(token));
+    localStorage.setItem(LocalStorageKey.Token, JSON.stringify(token));
   }
 
   getToken(): string {
-    return JSON.parse(localStorage.getItem(LocalStorageKeys.Token) as string);
+    return JSON.parse(localStorage.getItem(LocalStorageKey.Token) as string);
   }
 
   removeToken(): void {
-    localStorage.removeItem(LocalStorageKeys.Token);
+    localStorage.removeItem(LocalStorageKey.Token);
     this.dialog.closeAll();
     this.router.navigate([ClientRoute.LoginLink]);
     window.location.reload();

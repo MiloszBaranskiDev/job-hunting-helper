@@ -44,7 +44,7 @@ import {
   QuizField,
   QuizFormErrorKey,
 } from '@jhh/jhh-client/dashboard/practice/domain';
-import { QuizFieldsLength } from '@jhh/shared/domain';
+import { QuizFieldLength } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-practice-add-quiz',
@@ -83,7 +83,7 @@ export class AddComponent implements OnInit {
   dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof QuizField = QuizField;
   readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;
-  readonly fieldsLength: typeof QuizFieldsLength = QuizFieldsLength;
+  readonly fieldLength: typeof QuizFieldLength = QuizFieldLength;
 
   addQuizInProgress$: Observable<boolean>;
   addQuizError$: Observable<string | null>;
@@ -120,15 +120,15 @@ export class AddComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinQuestionLength),
-          Validators.maxLength(this.fieldsLength.MaxQuestionLength),
+          Validators.minLength(this.fieldLength.MinQuestionLength),
+          Validators.maxLength(this.fieldLength.MaxQuestionLength),
         ],
       ],
       [this.formField.Answers]: this.formBuilder.array(
         [],
         [
           Validators.required,
-          MinArrayLengthValidator(this.fieldsLength.MinAnswers),
+          MinArrayLengthValidator(this.fieldLength.MinAnswers),
           AnswersValidator(),
           UniqueAnswerValidator(),
         ]
@@ -144,8 +144,8 @@ export class AddComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinAnswerLength),
-          Validators.maxLength(this.fieldsLength.MaxAnswerLength),
+          Validators.minLength(this.fieldLength.MinAnswerLength),
+          Validators.maxLength(this.fieldLength.MaxAnswerLength),
         ],
       ],
       [this.formField.IsCorrect]: [false],
@@ -207,17 +207,17 @@ export class AddComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.maxLength(this.fieldsLength.MaxNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
       [this.formField.Description]: [
         '',
-        Validators.maxLength(this.fieldsLength.MaxImageUrlLength),
+        Validators.maxLength(this.fieldLength.MaxImageUrlLength),
       ],
       [this.formField.ImageUrl]: [
         '',
         [
-          Validators.maxLength(this.fieldsLength.MaxImageUrlLength),
+          Validators.maxLength(this.fieldLength.MaxImageUrlLength),
           ImageUrlValidator(),
         ],
       ],

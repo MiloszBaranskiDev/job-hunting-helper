@@ -16,7 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
-import { AuthFormErrorKey, AuthFormFields } from '@jhh/jhh-client/auth/domain';
+import { AuthFormErrorKey, AuthFormField } from '@jhh/jhh-client/auth/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 import { RouterLink } from '@angular/router';
 
@@ -41,8 +41,8 @@ export class FormComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly authFacade: AuthFacade = inject(AuthFacade);
 
-  readonly clientRoutes: typeof ClientRoute = ClientRoute;
-  readonly formFields: typeof AuthFormFields = AuthFormFields;
+  readonly clientRoute: typeof ClientRoute = ClientRoute;
+  readonly formField: typeof AuthFormField = AuthFormField;
   readonly formErrorKey: typeof AuthFormErrorKey = AuthFormErrorKey;
 
   formGroup: FormGroup;
@@ -57,8 +57,8 @@ export class FormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      const username = this.formGroup.get(this.formFields.Username)?.value;
-      const password = this.formGroup.get(this.formFields.Password)?.value;
+      const username = this.formGroup.get(this.formField.Username)?.value;
+      const password = this.formGroup.get(this.formField.Password)?.value;
 
       this.authFacade.login(username, password).pipe(first());
     }
@@ -66,8 +66,8 @@ export class FormComponent implements OnInit {
 
   private initFormGroup(): void {
     this.formGroup = this.formBuilder.group({
-      [this.formFields.Username]: ['', [Validators.required]],
-      [this.formFields.Password]: ['', [Validators.required]],
+      [this.formField.Username]: ['', [Validators.required]],
+      [this.formField.Password]: ['', [Validators.required]],
     });
   }
 }

@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 import { ThemeMode } from '@jhh/jhh-client/shared/domain';
-import { LocalStorageKeys } from '@jhh/shared/domain';
+import { LocalStorageKey } from '@jhh/shared/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -40,12 +40,12 @@ export class ThemeService {
     this.renderer.addClass(document.body, themeMode);
 
     this.currentThemeMode$.next(themeMode);
-    localStorage.setItem(LocalStorageKeys.ThemeMode, themeMode);
+    localStorage.setItem(LocalStorageKey.ThemeMode, themeMode);
   }
 
   private getStoredThemeMode(): ThemeMode {
     return (
-      (localStorage.getItem(LocalStorageKeys.ThemeMode) as ThemeMode) ||
+      (localStorage.getItem(LocalStorageKey.ThemeMode) as ThemeMode) ||
       ThemeMode.Dark
     );
   }

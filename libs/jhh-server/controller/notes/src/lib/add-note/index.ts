@@ -3,7 +3,7 @@ import createDOMPurify, { DOMPurifyI } from 'dompurify';
 import { Note, NotesGroup, PrismaClient } from '@prisma/client';
 import { JSDOM } from 'jsdom';
 
-import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import { HttpStatusCode, NoteFieldLength, NoteSize } from '@jhh/shared/domain';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -54,13 +54,13 @@ const addNote = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      name.length < NoteFieldsLength.MinNameLength ||
-      name.length > NoteFieldsLength.MaxNameLength
+      name.length < NoteFieldLength.MinNameLength ||
+      name.length > NoteFieldLength.MaxNameLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Note name must be between ${NoteFieldsLength.MinNameLength} and ${NoteFieldsLength.MaxNameLength} characters`
+        `Note name must be between ${NoteFieldLength.MinNameLength} and ${NoteFieldLength.MaxNameLength} characters`
       );
     }
 

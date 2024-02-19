@@ -106,10 +106,10 @@
           Column name is required
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MinLength)">
-          Minimum length of column name is {{fieldsLength.MinColumnNameLength}} characters
+          Minimum length of column name is {{fieldLength.MinColumnNameLength}} characters
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
-          Maximum length of column name is {{fieldsLength.MaxColumnNameLength}} characters
+          Maximum length of column name is {{fieldLength.MaxColumnNameLength}} characters
         </mat-error>
       </mat-form-field>
 
@@ -125,7 +125,7 @@
         <div class="defaultColors">
           <button
             type="button"
-            *ngFor="let color of defaultColorsValue"
+            *ngFor="let color of defaultColorValues"
             [style.background]="color"
             (click)="selectDefaultColor($any(color))">
           </button>

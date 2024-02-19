@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
-import { ApiRoute, OfferSalaryCurrency } from '@jhh/shared/domain';
+import { ApiRoute } from '@jhh/shared/domain';
 import {
   AddOfferPayload,
   AddOfferSuccessPayload,
@@ -26,9 +26,6 @@ export class OffersService {
 
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
-  private readonly currencySymbols: OfferSalaryCurrency[] = Object.values(
-    OfferSalaryCurrency
-  ).filter((symbol) => symbol !== OfferSalaryCurrency.PLN);
 
   addOffer(payload: AddOfferPayload): Observable<AddOfferSuccessPayload> {
     return this.http

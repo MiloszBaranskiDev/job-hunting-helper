@@ -32,11 +32,11 @@ import { MatInputModule } from '@angular/material/input';
 
 import {
   BoardColumn,
-  BoardColumnFieldsLength,
+  BoardColumnFieldLength,
   BoardColumnItem,
 } from '@jhh/shared/domain';
 import {
-  BoardColumnDefaultColors,
+  BoardColumnDefaultColor,
   BoardColumnField,
   BoardColumnFormErrorKey,
 } from '@jhh/jhh-client/dashboard/board/domain';
@@ -89,13 +89,12 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof BoardColumnField = BoardColumnField;
-  readonly fieldsLength: typeof BoardColumnFieldsLength =
-    BoardColumnFieldsLength;
+  readonly fieldLength: typeof BoardColumnFieldLength = BoardColumnFieldLength;
   readonly formErrorKey: typeof BoardColumnFormErrorKey =
     BoardColumnFormErrorKey;
-  readonly defaultColors: typeof BoardColumnDefaultColors =
-    BoardColumnDefaultColors;
-  readonly defaultColorsValue: string[] = Object.values(this.defaultColors);
+  readonly defaultColor: typeof BoardColumnDefaultColor =
+    BoardColumnDefaultColor;
+  readonly defaultColorValues: string[] = Object.values(this.defaultColor);
 
   ngOnInit(): void {
     this.editBoardColumnInProgress$ =
@@ -140,13 +139,13 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
     this.boardFacade.removeBoardColumn(this.column.id);
   }
 
-  selectDefaultColor(color: BoardColumnDefaultColors): void {
-    if (this.defaultColorsValue.includes(color)) {
+  selectDefaultColor(color: BoardColumnDefaultColor): void {
+    if (this.defaultColorValues.includes(color)) {
       this.formGroup.get(this.formField.Color)?.setValue(color);
     } else {
       this.formGroup
         .get(this.formField.Color)
-        ?.setValue(this.defaultColors.SkyBlue);
+        ?.setValue(this.defaultColor.SkyBlue);
     }
   }
 
@@ -190,8 +189,8 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
         this.column.name,
         [
           Validators.required,
-          Validators.minLength(BoardColumnFieldsLength.MinColumnNameLength),
-          Validators.maxLength(BoardColumnFieldsLength.MaxColumnNameLength),
+          Validators.minLength(BoardColumnFieldLength.MinColumnNameLength),
+          Validators.maxLength(BoardColumnFieldLength.MaxColumnNameLength),
         ],
       ],
       [this.formField.Color]: [

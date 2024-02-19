@@ -1,4 +1,4 @@
-export enum OfferFieldsLength {
+export enum OfferFieldLength {
   MinPositionLength = 2,
   MaxPositionLength = 60,
   MaxPositionAndSlugLengthDiff = 25,

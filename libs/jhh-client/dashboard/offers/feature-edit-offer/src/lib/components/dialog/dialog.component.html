@@ -18,10 +18,10 @@
               Slug is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
-              Minimum length of slug is {{fieldsLength.MinPositionLength}} characters
+              Minimum length of slug is {{fieldLength.MinPositionLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of slug is {{fieldsLength.MaxPositionLength + fieldsLength.MaxPositionAndSlugLengthDiff}}
+              Maximum length of slug is {{fieldLength.MaxPositionLength + fieldLength.MaxPositionAndSlugLengthDiff}}
               characters
             </mat-error>
           </mat-form-field>
@@ -30,7 +30,7 @@
             <mat-label>Position</mat-label>
             <input
               matInput [formControlName]="formField.Position"
-              [maxlength]="fieldsLength.MaxPositionLength"
+              [maxlength]="fieldLength.MaxPositionLength"
               whitespaceSanitizer
               required
             />
@@ -38,10 +38,10 @@
               Position is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Position)?.hasError(formErrorKey.MinLength)">
-              Minimum length of position is {{fieldsLength.MinPositionLength}} characters
+              Minimum length of position is {{fieldLength.MinPositionLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Position)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of position is {{fieldsLength.MaxPositionLength}} characters
+              Maximum length of position is {{fieldLength.MaxPositionLength}} characters
             </mat-error>
           </mat-form-field>
 
@@ -52,7 +52,7 @@
               Link is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Link)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of link is {{fieldsLength.MaxLinkLength}} characters
+              Maximum length of link is {{fieldLength.MaxLinkLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Link)?.hasError(formErrorKey.Pattern)">
               Invalid link
@@ -64,7 +64,7 @@
             <input
               matInput
               [formControlName]="formField.Company"
-              [maxlength]="fieldsLength.MaxCompanyLength"
+              [maxlength]="fieldLength.MaxCompanyLength"
               whitespaceSanitizer
               required
             />
@@ -72,10 +72,10 @@
               Company is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Company)?.hasError(formErrorKey.MinLength)">
-              Minimum length of company is {{fieldsLength.MinCompanyLength}} characters
+              Minimum length of company is {{fieldLength.MinCompanyLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Company)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of company is {{fieldsLength.MaxCompanyLength}} characters
+              Maximum length of company is {{fieldLength.MaxCompanyLength}} characters
             </mat-error>
           </mat-form-field>
 
@@ -107,7 +107,7 @@
             <mat-label>E-mail</mat-label>
             <input matInput [formControlName]="formField.Email" whitespaceSanitizer/>
             <mat-error *ngIf="formGroup.get(formField.Email)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of e-mail is {{fieldsLength.MaxEmailLength}} characters
+              Maximum length of e-mail is {{fieldLength.MaxEmailLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Email)?.hasError(formErrorKey.Pattern)">
               Invalid e-mail
@@ -118,15 +118,15 @@
             <mat-label>Min Salary</mat-label>
             <input
               matInput type="number"
-              [min]="fieldsLength.MinSalaryValue"
-              [max]="fieldsLength.MaxSalaryValue"
+              [min]="fieldLength.MinSalaryValue"
+              [max]="fieldLength.MaxSalaryValue"
               [formControlName]="formField.MinSalary"
             />
             <mat-error *ngIf="formGroup.get(formField.MinSalary)?.hasError(formErrorKey.MinValue)">
-              Minimum value is {{fieldsLength.MinSalaryValue}}
+              Minimum value is {{fieldLength.MinSalaryValue}}
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.MinSalary)?.hasError(formErrorKey.MaxValue)">
-              Maximum value is {{fieldsLength.MaxSalaryValue}}
+              Maximum value is {{fieldLength.MaxSalaryValue}}
             </mat-error>
           </mat-form-field>
 
@@ -134,15 +134,15 @@
             <mat-label>Max Salary</mat-label>
             <input
               matInput type="number"
-              [min]="fieldsLength.MinSalaryValue"
-              [max]="fieldsLength.MaxSalaryValue"
+              [min]="fieldLength.MinSalaryValue"
+              [max]="fieldLength.MaxSalaryValue"
               [formControlName]="formField.MaxSalary"
             />
             <mat-error *ngIf="formGroup.get(formField.MaxSalary)?.hasError(formErrorKey.MinValue)">
-              Minimum value is {{fieldsLength.MinSalaryValue}}
+              Minimum value is {{fieldLength.MinSalaryValue}}
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.MaxSalary)?.hasError(formErrorKey.MaxValue)">
-              Maximum value is {{fieldsLength.MaxSalaryValue}}
+              Maximum value is {{fieldLength.MaxSalaryValue}}
             </mat-error>
           </mat-form-field>
 
@@ -163,11 +163,11 @@
             <textarea
               matInput
               [formControlName]="formField.Description"
-              [maxlength]="fieldsLength.MaxDescriptionLength"
+              [maxlength]="fieldLength.MaxDescriptionLength"
             >
             </textarea>
             <mat-error *ngIf="formGroup.get(formField.Description)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of description is {{fieldsLength.MaxDescriptionLength}} characters
+              Maximum length of description is {{fieldLength.MaxDescriptionLength}} characters
             </mat-error>
           </mat-form-field>
 

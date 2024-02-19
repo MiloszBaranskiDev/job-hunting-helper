@@ -61,13 +61,13 @@
               matInput
               [(ngModel)]="editableContent[item.id]"
               (blur)="handleBlur(item)"
-              [maxlength]="boardColumnFieldsLength.MaxColumnItemLength"
+              [maxlength]="boardColumnFieldLength.MaxColumnItemLength"
               clickOutside
               (clickOutside)="handleBlur(item)"
             >
             </textarea>
             <mat-hint align="end">{{editableContent[item.id]!.length || 0}}
-              / {{boardColumnFieldsLength.MaxColumnItemLength}}</mat-hint>
+              / {{boardColumnFieldLength.MaxColumnItemLength}}</mat-hint>
           </mat-form-field>
         </ng-container>
         <ng-template #viewMode>
@@ -85,6 +85,5 @@
         Add item
       </button>
     </div>
-
   </div>
 </div>

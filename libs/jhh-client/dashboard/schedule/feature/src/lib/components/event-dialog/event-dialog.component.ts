@@ -37,7 +37,7 @@ import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 import { DateRangeValidator } from '@jhh/jhh-client/dashboard/schedule/util-date-range-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
-import { EventFieldsLength, ScheduleEvent } from '@jhh/shared/domain';
+import { EventFieldLength, ScheduleEvent } from '@jhh/shared/domain';
 import {
   EventDefaultColor,
   EventField,
@@ -86,10 +86,10 @@ export class EventDialogComponent implements OnInit {
   event: ScheduleEvent;
   removeConfirmationText: string = '';
   readonly formField: typeof EventField = EventField;
-  readonly fieldsLength: typeof EventFieldsLength = EventFieldsLength;
+  readonly fieldLength: typeof EventFieldLength = EventFieldLength;
   readonly formErrorKey: typeof EventFormErrorKey = EventFormErrorKey;
   readonly defaultColor: typeof EventDefaultColor = EventDefaultColor;
-  readonly defaultColorsValue: string[] = Object.values(this.defaultColor);
+  readonly defaultColorValues: string[] = Object.values(this.defaultColor);
   readonly expectedRemoveConfirmationTexts: string[] = [
     'remove',
     '"remove"',
@@ -131,7 +131,7 @@ export class EventDialogComponent implements OnInit {
   }
 
   selectDefaultColor(color: EventDefaultColor): void {
-    if (this.defaultColorsValue.includes(color)) {
+    if (this.defaultColorValues.includes(color)) {
       this.formGroup.get(this.formField.Color)?.setValue(color);
     } else {
       this.formGroup
@@ -241,8 +241,8 @@ export class EventDialogComponent implements OnInit {
           this.event.title,
           [
             Validators.required,
-            Validators.minLength(this.fieldsLength.MinTitleLength),
-            Validators.maxLength(this.fieldsLength.MaxTitleLength),
+            Validators.minLength(this.fieldLength.MinTitleLength),
+            Validators.maxLength(this.fieldLength.MaxTitleLength),
           ],
         ],
         [this.formField.Color]: [
@@ -251,7 +251,7 @@ export class EventDialogComponent implements OnInit {
         ],
         [this.formField.Description]: [
           this.event.description,
-          [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
+          [Validators.maxLength(this.fieldLength.MaxDescriptionLength)],
         ],
       },
       {

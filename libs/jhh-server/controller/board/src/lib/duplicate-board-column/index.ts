@@ -2,7 +2,7 @@ import { BoardColumn, PrismaClient } from '@prisma/client';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/domain';
+import { BoardColumnFieldLength, HttpStatusCode } from '@jhh/shared/domain';
 
 import { JhhServerDb } from '@jhh/jhh-server/db';
 
@@ -72,11 +72,11 @@ const duplicateBoardColumn = async (req: any, res: any): Promise<void> => {
 
     if (items.length) {
       for (const item of items) {
-        if (item.content.length > BoardColumnFieldsLength.MaxColumnItemLength) {
+        if (item.content.length > BoardColumnFieldLength.MaxColumnItemLength) {
           return respondWithError(
             res,
             HttpStatusCode.BadRequest,
-            `Content too long for item with ID ${item.id}. Maximum length is ${BoardColumnFieldsLength.MaxColumnItemLength} characters.`
+            `Content too long for item with ID ${item.id}. Maximum length is ${BoardColumnFieldLength.MaxColumnItemLength} characters.`
           );
         }
 

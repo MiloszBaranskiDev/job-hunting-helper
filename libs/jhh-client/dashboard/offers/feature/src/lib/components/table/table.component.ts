@@ -99,7 +99,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   paginatorSize: number;
 
   readonly offersTableColumn: typeof OffersTableColumn = OffersTableColumn;
-  readonly offersTableColumnValues: OffersTableColumn[] =
+  readonly offersTableColumnValue: OffersTableColumn[] =
     Object.values(OffersTableColumn);
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
@@ -260,7 +260,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   private isValidSort(active: string, direction: string): boolean {
     return (
-      this.offersTableColumnValues.includes(active as OffersTableColumn) &&
+      this.offersTableColumnValue.includes(active as OffersTableColumn) &&
       ['asc', 'desc', ''].includes(direction)
     );
   }

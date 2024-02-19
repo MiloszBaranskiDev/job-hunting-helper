@@ -1,4 +1,4 @@
-export enum QuizFieldsLength {
+export enum QuizFieldLength {
   MinNameLength = 1,
   MaxNameLength = 60,
   MaxDescriptionLength = 450,

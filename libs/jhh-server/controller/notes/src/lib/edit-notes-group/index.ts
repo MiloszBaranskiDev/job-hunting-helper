@@ -5,7 +5,7 @@ import { JhhServerDb } from '@jhh/jhh-server/db';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, NotesGroupFieldsLength } from '@jhh/shared/domain';
+import { HttpStatusCode, NotesGroupFieldLength } from '@jhh/shared/domain';
 
 const editNotesGroup = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -47,21 +47,21 @@ const editNotesGroup = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      name.length < NotesGroupFieldsLength.MinNameLength ||
-      name.length > NotesGroupFieldsLength.MaxNameLength
+      name.length < NotesGroupFieldLength.MinNameLength ||
+      name.length > NotesGroupFieldLength.MaxNameLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Group name must be between ${NotesGroupFieldsLength.MinNameLength} and ${NotesGroupFieldsLength.MaxNameLength} characters`
+        `Group name must be between ${NotesGroupFieldLength.MinNameLength} and ${NotesGroupFieldLength.MaxNameLength} characters`
       );
     }
 
-    const minSlugLength: NotesGroupFieldsLength =
-      NotesGroupFieldsLength.MinNameLength;
+    const minSlugLength: NotesGroupFieldLength =
+      NotesGroupFieldLength.MinNameLength;
     const maxSlugLength: number =
-      NotesGroupFieldsLength.MaxNameLength +
-      NotesGroupFieldsLength.MaxNameAndSlugLengthDiff;
+      NotesGroupFieldLength.MaxNameLength +
+      NotesGroupFieldLength.MaxNameAndSlugLengthDiff;
 
     if (slug.length < minSlugLength || slug.length > maxSlugLength) {
       return respondWithError(
@@ -72,7 +72,7 @@ const editNotesGroup = async (req: any, res: any): Promise<void> => {
     }
 
     const slugLengthDifference: number =
-      NotesGroupFieldsLength.MaxNameAndSlugLengthDiff;
+      NotesGroupFieldLength.MaxNameAndSlugLengthDiff;
     if (Math.abs(name.length - slug.length) > slugLengthDifference) {
       return respondWithError(
         res,

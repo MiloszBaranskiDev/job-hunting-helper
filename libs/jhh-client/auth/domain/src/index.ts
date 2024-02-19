@@ -8,6 +8,6 @@ export * from './lib/interfaces/responses/login-success-response';
 export * from './lib/interfaces/responses/register-success-response';
 export * from './lib/interfaces/responses/remove-account-success-response';
 
-export * from './lib/enums/auth-form-fields';
+export * from './lib/enums/auth-form-field';
 export * from './lib/enums/auth-form-error-key';
 export * from './lib/enums/password-strength-class';

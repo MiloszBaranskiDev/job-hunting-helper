@@ -51,7 +51,7 @@ import {
   QuizField,
   QuizFormErrorKey,
 } from '@jhh/jhh-client/dashboard/practice/domain';
-import { Quiz, QuizFieldsLength } from '@jhh/shared/domain';
+import { Quiz, QuizFieldLength } from '@jhh/shared/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
@@ -98,7 +98,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   slugPrefix: string;
   readonly formField: typeof QuizField = QuizField;
   readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;
-  readonly fieldsLength: typeof QuizFieldsLength = QuizFieldsLength;
+  readonly fieldLength: typeof QuizFieldLength = QuizFieldLength;
 
   editQuizInProgress$: Observable<boolean>;
   editQuizError$: Observable<string | null>;
@@ -143,15 +143,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinQuestionLength),
-          Validators.maxLength(this.fieldsLength.MaxQuestionLength),
+          Validators.minLength(this.fieldLength.MinQuestionLength),
+          Validators.maxLength(this.fieldLength.MaxQuestionLength),
         ],
       ],
       [this.formField.Answers]: this.formBuilder.array(
         [],
         [
           Validators.required,
-          MinArrayLengthValidator(this.fieldsLength.MinAnswers),
+          MinArrayLengthValidator(this.fieldLength.MinAnswers),
           AnswersValidator(),
           UniqueAnswerValidator(),
         ]
@@ -167,8 +167,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinAnswerLength),
-          Validators.maxLength(this.fieldsLength.MaxAnswerLength),
+          Validators.minLength(this.fieldLength.MinAnswerLength),
+          Validators.maxLength(this.fieldLength.MaxAnswerLength),
         ],
       ],
       [this.formField.IsCorrect]: [false],
@@ -263,10 +263,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.quiz.slug,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinNameLength),
+          Validators.minLength(this.fieldLength.MinNameLength),
           Validators.maxLength(
-            this.fieldsLength.MaxNameLength +
-              this.fieldsLength.MaxNameAndSlugLengthDiff
+            this.fieldLength.MaxNameLength +
+              this.fieldLength.MaxNameAndSlugLengthDiff
           ),
         ],
       ],
@@ -274,17 +274,17 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.quiz.name,
         [
           Validators.required,
-          Validators.maxLength(this.fieldsLength.MaxNameLength),
+          Validators.maxLength(this.fieldLength.MaxNameLength),
         ],
       ],
       [this.formField.Description]: [
         this.quiz.description,
-        Validators.maxLength(this.fieldsLength.MaxImageUrlLength),
+        Validators.maxLength(this.fieldLength.MaxImageUrlLength),
       ],
       [this.formField.ImageUrl]: [
         this.quiz.imageUrl,
         [
-          Validators.maxLength(this.fieldsLength.MaxImageUrlLength),
+          Validators.maxLength(this.fieldLength.MaxImageUrlLength),
           ImageUrlValidator(),
         ],
       ],
@@ -303,8 +303,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
               answer.text,
               [
                 Validators.required,
-                Validators.minLength(this.fieldsLength.MinAnswerLength),
-                Validators.maxLength(this.fieldsLength.MaxAnswerLength),
+                Validators.minLength(this.fieldLength.MinAnswerLength),
+                Validators.maxLength(this.fieldLength.MaxAnswerLength),
               ],
             ],
             [this.formField.IsCorrect]: [answer.isCorrect],
@@ -312,7 +312,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         ),
         [
           Validators.required,
-          MinArrayLengthValidator(this.fieldsLength.MinAnswers),
+          MinArrayLengthValidator(this.fieldLength.MinAnswers),
           AnswersValidator(),
         ]
       );
@@ -322,8 +322,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
           item.question,
           [
             Validators.required,
-            Validators.minLength(this.fieldsLength.MinQuestionLength),
-            Validators.maxLength(this.fieldsLength.MaxQuestionLength),
+            Validators.minLength(this.fieldLength.MinQuestionLength),
+            Validators.maxLength(this.fieldLength.MaxQuestionLength),
           ],
         ],
         [this.formField.Answers]: answersFormArray,

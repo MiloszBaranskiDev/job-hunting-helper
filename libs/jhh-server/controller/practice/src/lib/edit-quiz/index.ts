@@ -5,7 +5,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import {
   HttpStatusCode,
-  QuizFieldsLength,
+  QuizFieldLength,
   QuizItemAnswer,
 } from '@jhh/shared/domain';
 
@@ -45,18 +45,18 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      name.length < QuizFieldsLength.MinNameLength ||
-      name.length > QuizFieldsLength.MaxNameLength
+      name.length < QuizFieldLength.MinNameLength ||
+      name.length > QuizFieldLength.MaxNameLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Name must be between ${QuizFieldsLength.MinNameLength} and ${QuizFieldsLength.MaxNameLength} characters`
+        `Name must be between ${QuizFieldLength.MinNameLength} and ${QuizFieldLength.MaxNameLength} characters`
       );
     }
 
     const slugLengthDifference: number =
-      QuizFieldsLength.MaxNameAndSlugLengthDiff;
+      QuizFieldLength.MaxNameAndSlugLengthDiff;
     if (Math.abs(name.length - slug.length) > slugLengthDifference) {
       return respondWithError(
         res,
@@ -100,20 +100,20 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
 
     if (
       description &&
-      description.length > QuizFieldsLength.MaxDescriptionLength
+      description.length > QuizFieldLength.MaxDescriptionLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Description can have max ${QuizFieldsLength.MaxDescriptionLength} characters`
+        `Description can have max ${QuizFieldLength.MaxDescriptionLength} characters`
       );
     }
 
-    if (imageUrl && imageUrl.length > QuizFieldsLength.MaxImageUrlLength) {
+    if (imageUrl && imageUrl.length > QuizFieldLength.MaxImageUrlLength) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Image URL can have max ${QuizFieldsLength.MaxImageUrlLength} characters`
+        `Image URL can have max ${QuizFieldLength.MaxImageUrlLength} characters`
       );
     }
 
@@ -125,34 +125,34 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    if (items.length < 1 || items.length > QuizFieldsLength.MaxQuestions) {
+    if (items.length < 1 || items.length > QuizFieldLength.MaxQuestions) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Number of questions must be between 1 and ${QuizFieldsLength.MaxQuestions}`
+        `Number of questions must be between 1 and ${QuizFieldLength.MaxQuestions}`
       );
     }
 
     for (const item of items) {
       if (
-        item.question.length < QuizFieldsLength.MinQuestionLength ||
-        item.question.length > QuizFieldsLength.MaxQuestionLength
+        item.question.length < QuizFieldLength.MinQuestionLength ||
+        item.question.length > QuizFieldLength.MaxQuestionLength
       ) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          `Each question name must be between ${QuizFieldsLength.MinQuestionLength} and ${QuizFieldsLength.MaxQuestionLength} characters`
+          `Each question name must be between ${QuizFieldLength.MinQuestionLength} and ${QuizFieldLength.MaxQuestionLength} characters`
         );
       }
 
       if (
-        item.answers.length < QuizFieldsLength.MinAnswers ||
-        item.answers.length > QuizFieldsLength.MaxAnswers
+        item.answers.length < QuizFieldLength.MinAnswers ||
+        item.answers.length > QuizFieldLength.MaxAnswers
       ) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          `Each question must have between ${QuizFieldsLength.MinAnswers} and ${QuizFieldsLength.MaxAnswers} answers`
+          `Each question must have between ${QuizFieldLength.MinAnswers} and ${QuizFieldLength.MaxAnswers} answers`
         );
       }
 
@@ -182,13 +182,13 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
 
       for (const answer of item.answers) {
         if (
-          answer.text.length < QuizFieldsLength.MinAnswerLength ||
-          answer.text.length > QuizFieldsLength.MaxAnswerLength
+          answer.text.length < QuizFieldLength.MinAnswerLength ||
+          answer.text.length > QuizFieldLength.MaxAnswerLength
         ) {
           return respondWithError(
             res,
             HttpStatusCode.BadRequest,
-            `Each answer must be between ${QuizFieldsLength.MinAnswerLength} and ${QuizFieldsLength.MaxAnswerLength} characters`
+            `Each answer must be between ${QuizFieldLength.MinAnswerLength} and ${QuizFieldLength.MaxAnswerLength} characters`
           );
         }
       }

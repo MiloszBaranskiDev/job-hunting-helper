@@ -7,7 +7,7 @@ import validateUserPassword from './utils/validate-user-password';
 import assignDefaultData from './utils/assign-default-data';
 import { createJWT, respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, RegisterFieldsLength, User } from '@jhh/shared/domain';
+import { HttpStatusCode, RegisterFieldLength, User } from '@jhh/shared/domain';
 
 export function JhhServerControllerUser() {
   const prisma: PrismaClient = JhhServerDb();
@@ -41,24 +41,24 @@ export function JhhServerControllerUser() {
       }
 
       if (
-        username.length < RegisterFieldsLength.MinUsernameLength ||
-        username.length > RegisterFieldsLength.MaxUsernameLength
+        username.length < RegisterFieldLength.MinUsernameLength ||
+        username.length > RegisterFieldLength.MaxUsernameLength
       ) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          `Username must be between ${RegisterFieldsLength.MinUsernameLength} and ${RegisterFieldsLength.MaxUsernameLength} characters`
+          `Username must be between ${RegisterFieldLength.MinUsernameLength} and ${RegisterFieldLength.MaxUsernameLength} characters`
         );
       }
 
       if (
-        password.length < RegisterFieldsLength.MinPasswordLength ||
-        password.length > RegisterFieldsLength.MaxPasswordLength
+        password.length < RegisterFieldLength.MinPasswordLength ||
+        password.length > RegisterFieldLength.MaxPasswordLength
       ) {
         return respondWithError(
           res,
           HttpStatusCode.BadRequest,
-          `Password must be between ${RegisterFieldsLength.MinPasswordLength} and ${RegisterFieldsLength.MaxPasswordLength} characters`
+          `Password must be between ${RegisterFieldLength.MinPasswordLength} and ${RegisterFieldLength.MaxPasswordLength} characters`
         );
       }
 

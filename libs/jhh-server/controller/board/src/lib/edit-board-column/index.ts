@@ -6,7 +6,7 @@ import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
 import { regex } from '@jhh/shared/regex';
 
-import { BoardColumnFieldsLength, HttpStatusCode } from '@jhh/shared/domain';
+import { BoardColumnFieldLength, HttpStatusCode } from '@jhh/shared/domain';
 
 const editBoardColumn = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
@@ -48,13 +48,13 @@ const editBoardColumn = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      name.length < BoardColumnFieldsLength.MinColumnNameLength ||
-      name.length > BoardColumnFieldsLength.MaxColumnNameLength
+      name.length < BoardColumnFieldLength.MinColumnNameLength ||
+      name.length > BoardColumnFieldLength.MaxColumnNameLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Board column name must be between ${BoardColumnFieldsLength.MinColumnNameLength} and ${BoardColumnFieldsLength.MaxColumnNameLength} characters`
+        `Board column name must be between ${BoardColumnFieldLength.MinColumnNameLength} and ${BoardColumnFieldLength.MaxColumnNameLength} characters`
       );
     }
 

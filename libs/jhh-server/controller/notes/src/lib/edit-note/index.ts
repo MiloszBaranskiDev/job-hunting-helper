@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
-import { HttpStatusCode, NoteFieldsLength, NoteSize } from '@jhh/shared/domain';
+import { HttpStatusCode, NoteFieldLength, NoteSize } from '@jhh/shared/domain';
 
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
@@ -71,20 +71,19 @@ const editNote = async (req: any, res: any): Promise<void> => {
     }
 
     if (
-      name.length < NoteFieldsLength.MinNameLength ||
-      name.length > NoteFieldsLength.MaxNameLength
+      name.length < NoteFieldLength.MinNameLength ||
+      name.length > NoteFieldLength.MaxNameLength
     ) {
       return respondWithError(
         res,
         HttpStatusCode.BadRequest,
-        `Note name must be between ${NoteFieldsLength.MinNameLength} and ${NoteFieldsLength.MaxNameLength} characters`
+        `Note name must be between ${NoteFieldLength.MinNameLength} and ${NoteFieldLength.MaxNameLength} characters`
       );
     }
 
-    const minSlugLength: NoteFieldsLength = NoteFieldsLength.MinNameLength;
+    const minSlugLength: NoteFieldLength = NoteFieldLength.MinNameLength;
     const maxSlugLength: number =
-      NoteFieldsLength.MaxNameLength +
-      NoteFieldsLength.MaxNameAndSlugLengthDiff;
+      NoteFieldLength.MaxNameLength + NoteFieldLength.MaxNameAndSlugLengthDiff;
 
     if (slug.length < minSlugLength || slug.length > maxSlugLength) {
       return respondWithError(
@@ -95,7 +94,7 @@ const editNote = async (req: any, res: any): Promise<void> => {
     }
 
     const slugLengthDifference: number =
-      NoteFieldsLength.MaxNameAndSlugLengthDiff;
+      NoteFieldLength.MaxNameAndSlugLengthDiff;
     if (Math.abs(name.length - slug.length) > slugLengthDifference) {
       return respondWithError(
         res,

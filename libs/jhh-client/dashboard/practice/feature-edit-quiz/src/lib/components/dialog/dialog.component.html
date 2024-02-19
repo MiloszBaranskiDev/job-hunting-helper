@@ -18,10 +18,10 @@
               Slug is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MinLength)">
-              Minimum length of slug is {{fieldsLength.MinNameLength}} characters
+              Minimum length of slug is {{fieldLength.MinNameLength}} characters
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Slug)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of slug is {{fieldsLength.MaxNameLength + fieldsLength.MaxNameAndSlugLengthDiff}}
+              Maximum length of slug is {{fieldLength.MaxNameLength + fieldLength.MaxNameAndSlugLengthDiff}}
               characters
             </mat-error>
           </mat-form-field>
@@ -33,7 +33,7 @@
               Quiz name is required
             </mat-error>
             <mat-error *ngIf="formGroup.get(formField.Name)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of quiz name is {{fieldsLength.MaxNameLength}} characters
+              Maximum length of quiz name is {{fieldLength.MaxNameLength}} characters
             </mat-error>
           </mat-form-field>
 
@@ -41,7 +41,7 @@
             <mat-label>Description</mat-label>
             <textarea matInput [formControlName]="formField.Description"></textarea>
             <mat-error *ngIf="formGroup.get(formField.Description)?.hasError(formErrorKey.MaxLength)">
-              Maximum length of description is {{fieldsLength.MaxDescriptionLength}} characters
+              Maximum length of description is {{fieldLength.MaxDescriptionLength}} characters
             </mat-error>
           </mat-form-field>
 
@@ -50,7 +50,7 @@
               <mat-label>Image URL</mat-label>
               <input matInput [formControlName]="formField.ImageUrl">
               <mat-error *ngIf="formGroup.get(formField.ImageUrl)?.hasError(formErrorKey.MaxLength)">
-                Maximum length of image URL is {{fieldsLength.MaxImageUrlLength}} characters
+                Maximum length of image URL is {{fieldLength.MaxImageUrlLength}} characters
               </mat-error>
               <mat-error *ngIf="formGroup.get(formField.ImageUrl)?.hasError(formErrorKey.InvalidImageUrl)">
                 Please enter a valid image URL (e.g., http://example.com/image.jpg).
@@ -94,10 +94,10 @@
                     Question is required
                   </mat-error>
                   <mat-error *ngIf="question.get(formField.Question)?.hasError(formErrorKey.MinLength)">
-                    Minimum length of question is {{fieldsLength.MinQuestionLength}} characters
+                    Minimum length of question is {{fieldLength.MinQuestionLength}} characters
                   </mat-error>
                   <mat-error *ngIf="question.get(formField.Question)?.hasError(formErrorKey.MaxLength)">
-                    Maximum length of question is {{fieldsLength.MaxQuestionLength}} characters
+                    Maximum length of question is {{fieldLength.MaxQuestionLength}} characters
                   </mat-error>
                 </mat-form-field>
 
@@ -115,10 +115,10 @@
                         Answer is required
                       </mat-error>
                       <mat-error *ngIf="answer.get(formField.AnswerText)?.hasError(formErrorKey.MinLength)">
-                        Minimum length of answer is {{fieldsLength.MinAnswerLength}} characters
+                        Minimum length of answer is {{fieldLength.MinAnswerLength}} characters
                       </mat-error>
                       <mat-error *ngIf="answer.get(formField.AnswerText)?.hasError(formErrorKey.MaxLength)">
-                        Maximum length of answer is {{fieldsLength.MaxAnswerLength}} characters
+                        Maximum length of answer is {{fieldLength.MaxAnswerLength}} characters
                       </mat-error>
                     </mat-form-field>
                     <button mat-icon-button type="button" (click)="removeAnswer(i, idx)">
@@ -129,7 +129,7 @@
 
                 <mat-error
                   *ngIf="!question.get(formField.Question)?.hasError(formErrorKey.Required) && getAnswers(question).hasError(formErrorKey.InvalidMinArrayLength)">
-                  Minimum amount of answers is {{fieldsLength.MinAnswers}}
+                  Minimum amount of answers is {{fieldLength.MinAnswers}}
                 </mat-error>
 
                 <mat-error
@@ -168,7 +168,7 @@
           type="button"
           style="margin-top: 12px"
           (click)="addQuestion()"
-          [disabled]="questions.length >= fieldsLength.MaxQuestions">
+          [disabled]="questions.length >= fieldLength.MaxQuestions">
           <mat-icon>question_answer</mat-icon>
           <span>
             Add Question

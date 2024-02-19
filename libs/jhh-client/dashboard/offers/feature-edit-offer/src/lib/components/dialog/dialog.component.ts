@@ -41,7 +41,7 @@ import { EnumValidator } from '@jhh/jhh-client/shared/util-enum-validator';
 import {
   Offer,
   OfferCompanyType,
-  OfferFieldsLength,
+  OfferFieldLength,
   OfferLocation,
   OfferPriority,
   OfferSalaryCurrency,
@@ -90,7 +90,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   breakpoint$: Observable<string>;
 
   readonly formField: typeof OfferField = OfferField;
-  readonly fieldsLength: typeof OfferFieldsLength = OfferFieldsLength;
+  readonly fieldLength: typeof OfferFieldLength = OfferFieldLength;
   readonly formErrorKey: typeof OfferFormErrorKey = OfferFormErrorKey;
   readonly offerLocation: OfferLocation[] = Object.values(OfferLocation);
   readonly offerCompanyType: OfferCompanyType[] =
@@ -128,8 +128,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         ),
         tap(({ minSalary, maxSalary }) => {
           if (
-            minSalary >= this.fieldsLength.MinSalaryValue ||
-            maxSalary >= this.fieldsLength.MinSalaryValue
+            minSalary >= this.fieldLength.MinSalaryValue ||
+            maxSalary >= this.fieldLength.MinSalaryValue
           ) {
             this.formGroup.get(this.formField.SalaryCurrency)!.enable();
           } else {
@@ -228,10 +228,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.offer.slug,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinPositionLength),
+          Validators.minLength(this.fieldLength.MinPositionLength),
           Validators.maxLength(
-            this.fieldsLength.MaxPositionLength +
-              this.fieldsLength.MaxPositionAndSlugLengthDiff
+            this.fieldLength.MaxPositionLength +
+              this.fieldLength.MaxPositionAndSlugLengthDiff
           ),
         ],
       ],
@@ -239,8 +239,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         this.offer.position,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinPositionLength),
-          Validators.maxLength(this.fieldsLength.MaxPositionLength),
+          Validators.minLength(this.fieldLength.MinPositionLength),
+          Validators.maxLength(this.fieldLength.MaxPositionLength),
         ],
       ],
       [this.formField.Link]: [
@@ -248,15 +248,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         [
           Validators.required,
           Validators.pattern(regex.link),
-          Validators.maxLength(this.fieldsLength.MaxLinkLength),
+          Validators.maxLength(this.fieldLength.MaxLinkLength),
         ],
       ],
       [this.formField.Company]: [
         this.offer.company,
         [
           Validators.required,
-          Validators.minLength(this.fieldsLength.MinCompanyLength),
-          Validators.maxLength(this.fieldsLength.MaxCompanyLength),
+          Validators.minLength(this.fieldLength.MinCompanyLength),
+          Validators.maxLength(this.fieldLength.MaxCompanyLength),
         ],
       ],
       [this.formField.CompanyType]: [
@@ -278,15 +278,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       [this.formField.MinSalary]: [
         this.offer.minSalary,
         [
-          Validators.min(this.fieldsLength.MinSalaryValue),
-          Validators.max(this.fieldsLength.MaxSalaryValue),
+          Validators.min(this.fieldLength.MinSalaryValue),
+          Validators.max(this.fieldLength.MaxSalaryValue),
         ],
       ],
       [this.formField.MaxSalary]: [
         this.offer.maxSalary,
         [
-          Validators.min(this.fieldsLength.MinSalaryValue),
-          Validators.max(this.fieldsLength.MaxSalaryValue),
+          Validators.min(this.fieldLength.MinSalaryValue),
+          Validators.max(this.fieldLength.MaxSalaryValue),
         ],
       ],
       [this.formField.SalaryCurrency]: [
@@ -299,7 +299,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       [this.formField.Email]: [
         this.offer.email,
         [
-          Validators.maxLength(this.fieldsLength.MaxEmailLength),
+          Validators.maxLength(this.fieldLength.MaxEmailLength),
           (control: any) => {
             if (control.value) {
               return Validators.compose([Validators.pattern(regex.email)])!(
@@ -312,7 +312,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       [this.formField.Description]: [
         this.offer.description,
-        [Validators.maxLength(this.fieldsLength.MaxDescriptionLength)],
+        [Validators.maxLength(this.fieldLength.MaxDescriptionLength)],
       ],
     });
   }
