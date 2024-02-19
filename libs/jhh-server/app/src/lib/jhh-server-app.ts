@@ -2,6 +2,10 @@ import express, { Express, Router } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
 
 import { JhhServerMiddlewareAuth } from '@jhh/jhh-server/middleware/auth';
 
@@ -13,6 +17,18 @@ import { ApiRoute } from '@jhh/shared/domain';
 export function JhhServerApp(): Express {
   const app: Express = express();
 
+  app.use(helmet());
+
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  });
+
+  app.use(limiter);
+
+  app.use(mongoSanitize());
+  app.use(xss());
+
   const apiRouter: Router = JhhServerRouterApi();
   const userRouter: Router = JhhServerRouterUser();
 
@@ -23,13 +39,11 @@ export function JhhServerApp(): Express {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   app.use(ApiRoute.BaseProtected, JhhServerMiddlewareAuth, apiRouter);
-
   app.use(ApiRoute.BaseUser, userRouter);
 
-  // handle uncaught errors
   app.use((err, req, res, next) => {
-    console.log(err);
-    res.json({ message: `had an error: ${err.message}` });
+    console.error(err);
+    res.status(500).json({ message: `An error occurred: ${err.message}` });
   });
 
   return app;
