@@ -109,7 +109,7 @@ $columnWidth: 320px;
       box-sizing: border-box;
       cursor: move;
       min-height: $itemHeight;
-      font-size: 14px;
+      font-size: 1.4rem;
       position: relative;
       white-space: pre-line;
 
@@ -128,7 +128,7 @@ $columnWidth: 320px;
       }
 
       textarea {
-        font-size: 14px;
+        font-size: 1.4rem;
         line-height: 18px;
         resize: none;
         padding: 12px;
@@ -144,7 +144,7 @@ $columnWidth: 320px;
       }
 
       mat-hint {
-        font-size: 12px;
+        font-size: 1.2rem;
       }
 
       button {
@@ -223,7 +223,7 @@ $columnWidth: 320px;
       background-color: var(--color__bg);
       box-sizing: border-box;
       min-height: $itemHeight;
-      font-size: 14px;
+      font-size: 1.4rem;
       white-space: pre-line;
       color: var(--color__text);
 
