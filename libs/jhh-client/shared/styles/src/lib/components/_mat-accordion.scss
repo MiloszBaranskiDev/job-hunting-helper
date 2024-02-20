@@ -1,6 +1,7 @@
 mat-accordion {
   .mat-expansion-panel {
     background-color: var(--color__bg) !important;
+    box-shadow: none !important;
   }
 
   mat-expansion-panel-header {
