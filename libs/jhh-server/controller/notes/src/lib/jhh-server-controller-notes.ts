@@ -1,12 +1,12 @@
-import addNote from './add-note/index';
-import addNotesGroup from './add-notes-group/index';
-import duplicateNotesGroup from './duplicate-notes-group/index';
-import editNotesGroup from './edit-notes-group/index';
-import removeNotesGroup from './remove-notes-group/index';
-import editNote from './edit-note/index';
-import duplicateNote from './duplicate-note/index';
-import changeNoteGroup from './change-note-group/index';
-import removeNote from './remove-note/index';
+import addNote from './add-note';
+import addNotesGroup from './add-notes-group';
+import duplicateNotesGroup from './duplicate-notes-group';
+import editNotesGroup from './edit-notes-group';
+import removeNotesGroup from './remove-notes-group';
+import editNote from './edit-note';
+import duplicateNote from './duplicate-note';
+import changeNoteGroup from './change-note-group';
+import removeNote from './remove-note';
 
 export function JhhServerControllerNotes() {
   return {

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import comparePasswords from './index';
+import comparePasswords from '.';
 
 describe('comparePasswords function', () => {
   let password: string;

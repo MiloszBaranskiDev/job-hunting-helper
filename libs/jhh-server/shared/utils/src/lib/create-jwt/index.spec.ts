@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { createJWT } from './index';
+import { createJWT } from '.';
 
 import { User } from '@jhh/shared/domain';
 

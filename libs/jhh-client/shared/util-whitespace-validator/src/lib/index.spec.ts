@@ -1,7 +1,7 @@
 import '@angular/compiler';
 import { FormControl } from '@angular/forms';
 
-import { WhitespaceValidator } from './index';
+import { WhitespaceValidator } from '.';
 
 describe('WhitespaceValidator', () => {
   let control: FormControl;

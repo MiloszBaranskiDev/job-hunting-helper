@@ -3,7 +3,7 @@ import { Response } from 'express';
 // @ts-ignore
 import { HttpStatusCode } from '@jhh/shared/domain';
 
-import { respondWithError } from './index';
+import { respondWithError } from '.';
 
 const mockResponse = () => {
   const res: Partial<Response> = {};

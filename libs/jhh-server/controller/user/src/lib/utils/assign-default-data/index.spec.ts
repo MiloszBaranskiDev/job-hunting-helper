@@ -1,4 +1,4 @@
-import assignDefaultData from '../assign-default-data/index';
+import assignDefaultData from '../assign-default-data';
 
 import defaultNotesGroups from '../../default-data/notes-groups';
 

@@ -1,6 +1,6 @@
 import { createJWT, respondWithError } from '@jhh/jhh-server/shared/utils';
 import hashPassword from './utils/hash-password';
-import validateUserPassword from './utils/validate-user-password/index';
+import validateUserPassword from './utils/validate-user-password';
 
 import { HttpStatusCode } from '@jhh/shared/domain';
 
@@ -27,7 +27,7 @@ jest.mock('@jhh/jhh-server/db', () => {
 
 jest.mock('./utils/create-jwt');
 jest.mock('./utils/hash-password');
-jest.mock('./utils/validate-user-password/index');
+jest.mock('./utils/validate-user-password');
 jest.mock('@jhh/jhh-server/shared/utils');
 
 describe('JhhServerControllerUser', () => {

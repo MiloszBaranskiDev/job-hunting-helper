@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import hashPassword from './index';
+import hashPassword from '.';
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn(() => Promise.resolve('hashed_password')),
