@@ -17,7 +17,9 @@ import { ApiRoute } from '@jhh/shared/domain';
 export function JhhServerApp(): Express {
   const app: Express = express();
 
-  app.use(helmet());
+  if (process.env.NODE_ENV !== 'development') {
+    app.use(helmet());
+  }
 
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
