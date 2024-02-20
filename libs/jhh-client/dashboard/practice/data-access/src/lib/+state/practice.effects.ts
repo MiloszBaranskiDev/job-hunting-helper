@@ -4,7 +4,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as PracticeActions from './practice.actions';
-import { PracticeService } from '../services/practice/practice.service';
+import { PracticeService } from '../services/practice.service';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 
 import {

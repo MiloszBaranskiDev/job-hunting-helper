@@ -33,7 +33,7 @@ import DOMPurify from 'dompurify';
 import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
+import { EditNoteDialogService } from '../../services/edit-note-dialog.service';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { MaxSizeValidator } from '@jhh/jhh-client/shared/util-max-size-validator';

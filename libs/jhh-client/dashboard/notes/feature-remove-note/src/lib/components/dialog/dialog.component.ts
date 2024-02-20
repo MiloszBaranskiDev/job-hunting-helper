@@ -23,7 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Note } from '@jhh/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { RemoveNoteDialogService } from '../../service/remove-note-dialog.service';
+import { RemoveNoteDialogService } from '../../services/remove-note-dialog.service';
 
 @Component({
   selector: 'jhh-remove-note-dialog',

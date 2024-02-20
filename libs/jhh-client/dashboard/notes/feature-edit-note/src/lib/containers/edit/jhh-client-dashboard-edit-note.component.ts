@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
-import { EditNoteDialogService } from '../../service/edit-note-dialog.service';
+import { EditNoteDialogService } from '../../services/edit-note-dialog.service';
 
 import { Note } from '@jhh/shared/domain';
 

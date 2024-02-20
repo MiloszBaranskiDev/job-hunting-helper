@@ -4,7 +4,7 @@ import { fetch } from '@nrwl/angular';
 import { mergeMap, tap } from 'rxjs/operators';
 
 import * as OffersActions from './offers.actions';
-import { OffersService } from '../services/offers/offers.service';
+import { OffersService } from '../services/offers.service';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import { EditOfferDialogService } from '@jhh/jhh-client/dashboard/offers/feature-edit-offer';

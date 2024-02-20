@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { NavComponent } from '../../components/nav/nav.component';
 
-import { BreadcrumbsService } from '../../service/breadcrumbs.service';
+import { BreadcrumbsService } from '../../services/breadcrumbs.service';
 
 import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
 

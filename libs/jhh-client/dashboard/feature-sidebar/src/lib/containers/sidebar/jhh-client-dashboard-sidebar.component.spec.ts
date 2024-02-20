@@ -4,7 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { JhhClientDashboardSidebarComponent } from './jhh-client-dashboard-sidebar.component';
 
-import { SidebarService } from '../../service/sidebar.service';
+import { SidebarService } from '../../services/sidebar.service';
 
 describe('JhhClientDashboardSidebarComponent', () => {
   let component: JhhClientDashboardSidebarComponent;

@@ -31,7 +31,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
-import { EditOfferDialogService } from '../../service/edit-offer-dialog.service';
+import { EditOfferDialogService } from '../../services/edit-offer-dialog.service';
 
 import { regex } from '@jhh/shared/regex';
 

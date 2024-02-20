@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-import { TitleService } from '../../services/title/title.service';
+import { TitleService } from '../../services/title.service';
 
 import { HeadingComponent } from '../../components/heading/heading.component';
 

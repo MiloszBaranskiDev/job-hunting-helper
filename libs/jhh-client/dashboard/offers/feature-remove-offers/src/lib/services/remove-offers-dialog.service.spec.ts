@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RemoveOffersDialogService } from 'libs/jhh-client/dashboard/offers/feature-remove-offer/src/lib/service/remove-offers-dialog.service';
+import { RemoveOffersDialogService } from '../services/remove-offers-dialog.service';
 
 describe('RemoveOfferDialogService', () => {
   let service: RemoveOffersDialogService;

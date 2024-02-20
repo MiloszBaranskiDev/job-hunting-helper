@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { RemoveOffersDialogService } from '../../service/remove-offers-dialog.service';
+import { RemoveOffersDialogService } from '../../services/remove-offers-dialog.service';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 

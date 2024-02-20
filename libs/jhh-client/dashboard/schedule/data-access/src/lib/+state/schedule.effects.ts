@@ -7,7 +7,7 @@ import { mergeMap, tap } from 'rxjs/operators';
 import * as ScheduleActions from './schedule.actions';
 
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
-import { ScheduleService } from '../services/schedule/schedule.service';
+import { ScheduleService } from '../services/schedule.service';
 
 import {
   AddEventSuccessPayload,

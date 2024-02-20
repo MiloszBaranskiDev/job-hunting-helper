@@ -35,7 +35,7 @@ import {
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNotesGroupDialogService } from '../../service/edit-notes-group-dialog.service';
+import { EditNotesGroupDialogService } from '../../services/edit-notes-group-dialog.service';
 
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';

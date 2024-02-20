@@ -6,7 +6,7 @@ import { Observable, of, tap } from 'rxjs';
 import { Note } from '@jhh/shared/domain';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
-import { ChangeNoteGroupDialogService } from '../../service/change-note-group-dialog.service';
+import { ChangeNoteGroupDialogService } from '../../services/change-note-group-dialog.service';
 
 @Component({
   selector: 'jhh-change-note-group',

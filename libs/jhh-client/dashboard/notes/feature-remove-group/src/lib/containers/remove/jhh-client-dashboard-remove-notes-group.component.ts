@@ -5,7 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { NotesGroup } from '@jhh/shared/domain';
 
-import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
+import { RemoveNotesGroupDialogService } from '../../services/remove-notes-group-dialog.service';
+
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
 @Component({

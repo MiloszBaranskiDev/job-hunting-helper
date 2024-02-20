@@ -21,7 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
-import { RemoveOffersDialogService } from '../../service/remove-offers-dialog.service';
+import { RemoveOffersDialogService } from '../../services/remove-offers-dialog.service';
 
 import { Offer } from '@jhh/shared/domain';
 

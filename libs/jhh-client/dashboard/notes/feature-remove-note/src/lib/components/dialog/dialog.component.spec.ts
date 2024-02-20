@@ -6,7 +6,7 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-import { RemoveNoteDialogService } from '../../service/remove-note-dialog.service';
+import { RemoveNoteDialogService } from '../../services/remove-note-dialog.service';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { DialogComponent } from './dialog.component';

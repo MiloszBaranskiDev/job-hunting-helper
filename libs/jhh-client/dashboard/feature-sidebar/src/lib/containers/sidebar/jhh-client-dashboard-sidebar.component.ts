@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 
-import { SidebarService } from '../../service/sidebar.service';
+import { SidebarService } from '../../services/sidebar.service';
 
 import { NavListComponent } from '../../components/nav-list/nav-list.component';
 import { BrandComponent } from '../../components/brand/brand.component';

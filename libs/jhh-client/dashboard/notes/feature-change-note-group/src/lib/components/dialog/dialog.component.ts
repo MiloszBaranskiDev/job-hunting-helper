@@ -43,7 +43,7 @@ import { Note, NotesGroup } from '@jhh/shared/domain';
 import { NoteFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { ChangeNoteGroupDialogService } from '../../service/change-note-group-dialog.service';
+import { ChangeNoteGroupDialogService } from '../../services/change-note-group-dialog.service';
 
 @Component({
   selector: 'jhh-change-note-group-dialog',

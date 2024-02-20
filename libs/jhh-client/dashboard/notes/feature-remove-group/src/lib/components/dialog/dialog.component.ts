@@ -22,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
+import { RemoveNotesGroupDialogService } from '../../services/remove-notes-group-dialog.service';
 
 import { NotesGroup } from '@jhh/shared/domain';
 

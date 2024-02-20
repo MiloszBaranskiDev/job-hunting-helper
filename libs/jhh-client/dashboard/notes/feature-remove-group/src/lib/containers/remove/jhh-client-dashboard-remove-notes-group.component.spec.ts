@@ -7,7 +7,7 @@ import {
 
 import { JhhClientDashboardRemoveNotesGroupComponent } from './jhh-client-dashboard-remove-notes-group.component';
 
-import { RemoveNotesGroupDialogService } from '../../service/remove-notes-group-dialog.service';
+import { RemoveNotesGroupDialogService } from '../../services/remove-notes-group-dialog.service';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { NotesGroup } from '@prisma/client';

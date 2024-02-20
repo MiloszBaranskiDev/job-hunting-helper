@@ -38,7 +38,7 @@ import { MenuComponent } from '../menu/menu.component';
 
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
-import { QueryParamsService } from '../../services/query-params/query-params.service';
+import { QueryParamsService } from '../../services/query-params.service';
 import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
 

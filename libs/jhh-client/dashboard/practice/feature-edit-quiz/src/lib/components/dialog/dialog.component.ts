@@ -37,7 +37,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import _ from 'lodash';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
-import { EditPracticeQuizDialogService } from '../../service/edit-practice-quiz-dialog.service';
+import { EditPracticeQuizDialogService } from '../../services/edit-practice-quiz-dialog.service';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { MinArrayLengthValidator } from '@jhh/jhh-client/shared/util-min-array-length-validator';

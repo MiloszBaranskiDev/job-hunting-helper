@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { RemovePracticeQuizDialogService } from '../../service/remove-practice-quiz-dialog.service';
+import { RemovePracticeQuizDialogService } from '../../services/remove-practice-quiz-dialog.service';
 
 import { Quiz } from '@jhh/shared/domain';
 
