@@ -121,13 +121,23 @@ export class EventDialogComponent implements OnInit {
   }
 
   handleRemove(): void {
-    this.scheduleFacade.removeEvent(this.event.id);
+    if (this.isRemoveConfirmationValid()) {
+      this.scheduleFacade.removeEvent(this.event.id);
+    }
   }
 
   isRemoveConfirmationValid(): boolean {
     return this.expectedRemoveConfirmationTexts.includes(
       this.removeConfirmationText.toLowerCase()
     );
+  }
+
+  trySubmitRemove(inProgress: string): void {
+    if (inProgress !== 'false') {
+      return;
+    }
+
+    this.handleRemove();
   }
 
   selectDefaultColor(color: EventDefaultColor): void {

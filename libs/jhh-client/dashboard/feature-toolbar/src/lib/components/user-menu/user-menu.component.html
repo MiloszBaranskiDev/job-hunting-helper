@@ -35,11 +35,13 @@
         </p>
       </div>
       <mat-form-field appearance="fill">
+        <input type="hidden" #inProgress [value]="(removeAccountInProgress$ | async)">
         <input
           type="text"
           matInput
           [(ngModel)]="removeAccountConfirmationText"
           placeholder="Type 'remove account' here to enable button"
+          (keyup.enter)="trySubmitRemoveAccount(inProgress.value)"
         />
       </mat-form-field>
 

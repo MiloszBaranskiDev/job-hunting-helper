@@ -79,8 +79,18 @@ export class UserMenuComponent implements OnInit {
     });
   }
 
+  trySubmitRemoveAccount(inProgress: string): void {
+    if (inProgress !== 'false') {
+      return;
+    }
+
+    this.handleRemoveAccount();
+  }
+
   handleRemoveAccount(): void {
-    this.authFacade.removeAccount();
+    if (this.isRemoveConfirmationValid()) {
+      this.authFacade.removeAccount();
+    }
   }
 
   isRemoveConfirmationValid(): boolean {

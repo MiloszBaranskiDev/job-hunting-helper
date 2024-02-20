@@ -181,11 +181,13 @@
     </div>
     <div class="remove">
       <mat-form-field appearance="fill">
+        <input type="hidden" #inProgress [value]="(removeEventInProgress$ | async)">
         <input
           type="text"
           matInput
           [(ngModel)]="removeConfirmationText"
           placeholder="Type 'remove' here to enable button"
+          (keyup.enter)="trySubmitRemove(inProgress.value)"
         />
       </mat-form-field>
       <button
