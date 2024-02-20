@@ -1,4 +1,5 @@
 import { Note, NotesGroup, PrismaClient } from '@prisma/client';
+import slugify from 'slugify';
 
 import { respondWithError } from '@jhh/jhh-server/shared/utils';
 
@@ -100,9 +101,56 @@ const changeNoteGroup = async (req: any, res: any): Promise<void> => {
       },
     });
 
-    const movedNote: Note | null = await prisma.note.findUnique({
+    let movedNote: Note | null = await prisma.note.findUnique({
       where: { id: noteId },
     });
+
+    if (movedNote) {
+      const isSlugUnique: boolean =
+        (await prisma.note.findFirst({
+          where: {
+            slug: movedNote.slug,
+            groupId: newGroupId,
+            NOT: {
+              id: noteId,
+            },
+          },
+        })) === null;
+
+      if (!isSlugUnique) {
+        let newSlug: string = slugify(movedNote.name, {
+          lower: true,
+          strict: true,
+        });
+        let suffix: number = 1;
+        let uniqueSlugFound: boolean = false;
+
+        while (!uniqueSlugFound) {
+          const existingNoteWithSlug = await prisma.note.findFirst({
+            where: {
+              slug: newSlug,
+              groupId: newGroupId,
+            },
+          });
+
+          if (existingNoteWithSlug) {
+            suffix++;
+            newSlug = `${newSlug}-${suffix}`;
+          } else {
+            uniqueSlugFound = true;
+          }
+        }
+
+        await prisma.note.update({
+          where: { id: noteId },
+          data: { slug: newSlug },
+        });
+
+        movedNote = await prisma.note.findUnique({
+          where: { id: noteId },
+        });
+      }
+    }
 
     const updatedPreviousGroup: NotesGroup | null =
       await prisma.notesGroup.findUnique({
