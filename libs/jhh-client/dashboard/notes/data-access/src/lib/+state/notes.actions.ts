@@ -28,13 +28,15 @@ export enum Type {
   AddNotesGroup = '[Notes] Add Notes Group',
   AddNotesGroupFail = '[Notes] Add Notes Group Fail',
   AddNotesGroupSuccess = '[Notes] Add Notes Group Success',
+  ResetAddNotesGroupSuccess = '[Notes] Reset Add Notes Group Success',
   EditNotesGroup = '[Notes] Edit Notes Group',
   EditNotesGroupFail = '[Notes] Edit Notes Group Fail',
   EditNotesGroupSuccess = '[Notes] Edit Notes Group Success',
+  ResetEditNotesGroupSuccess = '[Notes] Reset Edit Notes Group Success',
   DuplicateNotesGroup = '[Notes] Duplicate Notes Group',
   DuplicateNotesGroupFail = '[Notes] Duplicate Notes Group Fail',
   DuplicateNotesGroupSuccess = '[Notes] Duplicate Notes Group Success',
-  ResetEditNotesGroupSuccess = '[Notes] Reset Edit Notes Group Success',
+  ResetDuplicateNotesGroupSuccess = '[Notes] Reset Duplicate Notes Group Success',
   RemoveNotesGroup = '[Notes] Remove Notes Group',
   RemoveNotesGroupFail = '[Notes] Remove Notes Group Fail',
   RemoveNotesGroupSuccess = '[Notes] Remove Notes Group Success',
@@ -42,6 +44,7 @@ export enum Type {
   AddNote = '[Notes] Add Note',
   AddNoteFail = '[Notes] Add Note Fail',
   AddNoteSuccess = '[Notes] Add Note Success',
+  ResetAddNoteSuccess = '[Notes] Reset Add Note Success',
   EditNote = '[Notes] Edit Note',
   EditNoteFail = '[Notes] Edit Note Fail',
   EditNoteSuccess = '[Notes] Edit Note Success',
@@ -49,6 +52,7 @@ export enum Type {
   DuplicateNote = '[Notes] Duplicate Note',
   DuplicateNoteFail = '[Notes] Duplicate Note Fail',
   DuplicateNoteSuccess = '[Notes] Duplicate Note Success',
+  ResetDuplicateNoteSuccess = '[Notes] Reset Duplicate Note Success',
   ChangeNoteGroup = '[Notes] Change Note Group',
   ChangeNoteGroupFail = '[Notes] Change Note Group Fail',
   ChangeNoteGroupSuccess = '[Notes] Change Note Group Success',
@@ -77,6 +81,10 @@ export const addNotesGroupFail = createAction(
 export const addNotesGroupSuccess = createAction(
   Type.AddNotesGroupSuccess,
   props<{ payload: AddNotesGroupSuccessPayload }>()
+);
+
+export const resetAddNotesGroupSuccess = createAction(
+  Type.ResetAddNotesGroupSuccess
 );
 
 export const editNotesGroup = createAction(
@@ -113,6 +121,10 @@ export const duplicateNotesGroupSuccess = createAction(
   props<{ payload: DuplicateNotesGroupSuccessPayload }>()
 );
 
+export const resetDuplicateNotesGroupSuccess = createAction(
+  Type.ResetDuplicateNotesGroupSuccess
+);
+
 export const removeNotesGroup = createAction(
   Type.RemoveNotesGroup,
   props<{ payload: RemoveNotesGroupPayload }>()
@@ -147,6 +159,8 @@ export const addNoteSuccess = createAction(
   props<{ payload: AddNoteSuccessPayload }>()
 );
 
+export const resetAddNoteSuccess = createAction(Type.ResetAddNoteSuccess);
+
 export const editNote = createAction(
   Type.EditNote,
   props<{ payload: EditNotePayload }>()
@@ -177,6 +191,10 @@ export const duplicateNoteFail = createAction(
 export const duplicateNoteSuccess = createAction(
   Type.DuplicateNoteSuccess,
   props<{ payload: DuplicateNoteSuccessPayload }>()
+);
+
+export const resetDuplicateNoteSuccess = createAction(
+  Type.ResetDuplicateNoteSuccess
 );
 
 export const changeNoteGroup = createAction(

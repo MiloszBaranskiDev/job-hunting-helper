@@ -103,6 +103,13 @@ const reducer: ActionReducer<NotesState> = createReducer(
       success: true,
     },
   })),
+  on(NotesActions.resetAddNotesGroupSuccess, (state) => ({
+    ...state,
+    addNotesGroup: {
+      ...state.addNotesGroup,
+      success: false,
+    },
+  })),
   on(NotesActions.editNotesGroup, (state) => ({
     ...state,
     editNotesGroup: {
@@ -126,6 +133,13 @@ const reducer: ActionReducer<NotesState> = createReducer(
       ...state.editNotesGroup,
       inProgress: false,
       success: true,
+    },
+  })),
+  on(NotesActions.resetEditNotesGroupSuccess, (state) => ({
+    ...state,
+    editNotesGroup: {
+      ...state.editNotesGroup,
+      success: false,
     },
   })),
   on(NotesActions.duplicateNotesGroup, (state) => ({
@@ -158,10 +172,10 @@ const reducer: ActionReducer<NotesState> = createReducer(
       },
     };
   }),
-  on(NotesActions.resetEditNotesGroupSuccess, (state) => ({
+  on(NotesActions.resetDuplicateNotesGroupSuccess, (state) => ({
     ...state,
-    editNotesGroup: {
-      ...state.editNotesGroup,
+    duplicateNotesGroup: {
+      ...state.duplicateNotesGroup,
       success: false,
     },
   })),
@@ -252,6 +266,13 @@ const reducer: ActionReducer<NotesState> = createReducer(
 
     return state;
   }),
+  on(NotesActions.resetAddNoteSuccess, (state) => ({
+    ...state,
+    addNote: {
+      ...state.addNote,
+      success: false,
+    },
+  })),
   on(NotesActions.editNote, (state) => ({
     ...state,
     editNote: {
@@ -355,6 +376,13 @@ const reducer: ActionReducer<NotesState> = createReducer(
 
     return state;
   }),
+  on(NotesActions.resetDuplicateNoteSuccess, (state) => ({
+    ...state,
+    duplicateNote: {
+      ...state.duplicateNote,
+      success: false,
+    },
+  })),
   on(NotesActions.changeNoteGroup, (state) => ({
     ...state,
     changeNoteGroup: {

@@ -73,6 +73,13 @@ const reducer: ActionReducer<ScheduleState> = createReducer(
       },
     });
   }),
+  on(ScheduleActions.resetAddEventSuccess, (state) => ({
+    ...state,
+    addEvent: {
+      ...state.addEvent,
+      success: false,
+    },
+  })),
   on(ScheduleActions.editEvent, (state) => ({
     ...state,
     editEvent: {

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 
 import * as AuthActions from './auth.actions';
@@ -29,9 +29,10 @@ export class AuthEffects {
               this.authService.saveToken(res.token);
               this.router.navigate([ClientRoute.HomeLink]);
             }),
-            map((res: LoginSuccessPayload) =>
-              AuthActions.loginSuccess({ payload: res })
-            )
+            mergeMap((res: LoginSuccessPayload) => [
+              AuthActions.loginSuccess({ payload: res }),
+              AuthActions.resetLoginSuccess(),
+            ])
           ),
         onError: (action, error) => AuthActions.loginFail({ payload: error }),
       })
@@ -48,9 +49,10 @@ export class AuthEffects {
               this.router.navigate([ClientRoute.HomeLink]);
               this.authService.saveToken(res.token);
             }),
-            map((res: RegisterSuccessPayload) =>
-              AuthActions.registerSuccess({ payload: res })
-            )
+            mergeMap((res: RegisterSuccessPayload) => [
+              AuthActions.registerSuccess({ payload: res }),
+              AuthActions.resetRegisterSuccess(),
+            ])
           ),
         onError: (action, error) =>
           AuthActions.registerFail({ payload: error }),

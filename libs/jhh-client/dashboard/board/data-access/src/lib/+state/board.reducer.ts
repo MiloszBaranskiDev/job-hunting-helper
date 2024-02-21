@@ -86,6 +86,13 @@ const reducer: ActionReducer<BoardState> = createReducer(
       },
     };
   }),
+  on(BoardActions.resetAddBoardColumnSuccess, (state) => ({
+    ...state,
+    addBoardColumn: {
+      ...state.addBoardColumn,
+      success: false,
+    },
+  })),
   on(BoardActions.editBoardColumn, (state) => ({
     ...state,
     editBoardColumn: {
@@ -125,6 +132,13 @@ const reducer: ActionReducer<BoardState> = createReducer(
       },
     };
   }),
+  on(BoardActions.resetEditBoardColumnSuccess, (state) => ({
+    ...state,
+    editBoardColumn: {
+      ...state.editBoardColumn,
+      success: false,
+    },
+  })),
   on(BoardActions.duplicateBoardColumn, (state) => ({
     ...state,
     duplicateBoardColumn: {
@@ -155,6 +169,13 @@ const reducer: ActionReducer<BoardState> = createReducer(
       },
     };
   }),
+  on(BoardActions.resetDuplicateBoardColumnSuccess, (state) => ({
+    ...state,
+    duplicateBoardColumn: {
+      ...state.duplicateBoardColumn,
+      success: false,
+    },
+  })),
   on(BoardActions.removeBoardColumn, (state) => ({
     ...state,
     removeBoardColumn: {
@@ -186,6 +207,13 @@ const reducer: ActionReducer<BoardState> = createReducer(
       },
     });
   }),
+  on(BoardActions.resetRemoveBoardColumnSuccess, (state) => ({
+    ...state,
+    removeBoardColumn: {
+      ...state.removeBoardColumn,
+      success: false,
+    },
+  })),
   on(BoardActions.updateBoardColumns, (state) => ({
     ...state,
     updateBoardColumns: {
@@ -230,7 +258,14 @@ const reducer: ActionReducer<BoardState> = createReducer(
     };
 
     return updatedState;
-  })
+  }),
+  on(BoardActions.resetUpdateBoardColumnsSuccess, (state) => ({
+    ...state,
+    updateBoardColumns: {
+      ...state.updateBoardColumns,
+      success: false,
+    },
+  }))
 );
 
 export function boardReducer(state: BoardState | undefined, action: Action) {

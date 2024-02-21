@@ -15,9 +15,11 @@ export enum Type {
   Login = '[Auth] Login',
   LoginFail = '[Auth] Login Fail',
   LoginSuccess = '[Auth] Login Success',
+  ResetLoginSuccess = '[Auth] Reset Login Success',
   Register = '[Auth] Register',
   RegisterFail = '[Auth] Register Fail',
   RegisterSuccess = '[Auth] Register Success',
+  ResetRegisterSuccess = '[Auth] Reset Register Success',
   RemoveAccount = '[Auth] Remove Account',
   RemoveAccountFail = '[Auth] Remove Account Fail',
   RemoveAccountSuccess = '[Auth] Remove Account Success',
@@ -42,6 +44,8 @@ export const loginSuccess = createAction(
   props<{ payload: LoginSuccessPayload }>()
 );
 
+export const resetLoginSuccess = createAction(Type.ResetLoginSuccess);
+
 export const register = createAction(
   Type.Register,
   props<{ payload: RegisterPayload }>()
@@ -56,6 +60,8 @@ export const registerSuccess = createAction(
   Type.RegisterSuccess,
   props<{ payload: RegisterSuccessPayload }>()
 );
+
+export const resetRegisterSuccess = createAction(Type.ResetRegisterSuccess);
 
 export const removeAccount = createAction(Type.RemoveAccount);
 

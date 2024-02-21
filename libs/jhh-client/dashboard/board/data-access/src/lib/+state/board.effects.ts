@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 
 import * as BoardActions from './board.actions';
 
@@ -29,9 +29,10 @@ export class BoardEffects {
       fetch({
         run: (action) =>
           this.boardService.addBoardColumn(action.payload).pipe(
-            map((res: AddBoardColumnSuccessPayload) =>
-              BoardActions.addBoardColumnSuccess({ payload: res })
-            ),
+            mergeMap((res: AddBoardColumnSuccessPayload) => [
+              BoardActions.addBoardColumnSuccess({ payload: res }),
+              BoardActions.resetAddBoardColumnSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('New column added successfully!');
             })
@@ -68,9 +69,10 @@ export class BoardEffects {
       fetch({
         run: (action) =>
           this.boardService.duplicateBoardColumn(action.payload).pipe(
-            map((res: DuplicateBoardColumnSuccessPayload) =>
-              BoardActions.duplicateBoardColumnSuccess({ payload: res })
-            ),
+            mergeMap((res: DuplicateBoardColumnSuccessPayload) => [
+              BoardActions.duplicateBoardColumnSuccess({ payload: res }),
+              BoardActions.resetDuplicateBoardColumnSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Column duplicated successfully!');
             })
@@ -91,9 +93,10 @@ export class BoardEffects {
       fetch({
         run: (action) =>
           this.boardService.removeBoardColumn(action.payload).pipe(
-            map((res: RemoveBoardColumnSuccessPayload) =>
-              BoardActions.removeBoardColumnSuccess({ payload: res })
-            ),
+            mergeMap((res: RemoveBoardColumnSuccessPayload) => [
+              BoardActions.removeBoardColumnSuccess({ payload: res }),
+              BoardActions.resetRemoveBoardColumnSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Column removed successfully!');
             })

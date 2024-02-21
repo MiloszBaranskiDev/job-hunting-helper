@@ -1,8 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { delay, map, retryWhen, switchMap, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  delay,
+  map,
+  mergeMap,
+  retryWhen,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
-import { of, timer } from 'rxjs';
+import { from, of, timer } from 'rxjs';
 
 import * as DashboardActions from './dashboard.actions';
 import { DashboardFacade } from './dashboard.facade';
@@ -23,36 +31,43 @@ export class DashboardEffects {
       ofType(DashboardActions.loadAssignedData),
       fetch({
         run: () => {
-          const unsavedBoardRequestId: string | null = localStorage.getItem(
-            LocalStorageKey.UnsavedBoardRequestId
-          );
-          const ERROR_MESSAGE: string = 'Board update still pending';
-
           return this.dashboardService.loadAssignedData().pipe(
             map((res: LoadAssignedDataSuccessPayload) => {
+              const unsavedBoardRequestId: string | null = localStorage.getItem(
+                LocalStorageKey.UnsavedBoardRequestId
+              );
               if (
                 unsavedBoardRequestId?.length &&
                 res.unsavedBoardRequestId !== unsavedBoardRequestId
               ) {
-                throw new Error(ERROR_MESSAGE);
+                throw new Error('Board update still pending');
               }
-              return DashboardActions.loadAssignedDataSuccess({ payload: res });
+              return res;
             }),
             retryWhen((errors) =>
               errors.pipe(
                 delay(1500),
                 take(10),
                 switchMap((error) => {
-                  if (error.message === ERROR_MESSAGE) {
+                  if (error.message === 'Board update still pending') {
                     return timer(1500);
                   }
                   return of(error);
                 })
               )
             ),
-            tap((val) => {
-              this.dashboardFacade.setData(val);
+            mergeMap((res) => {
+              this.dashboardFacade.setData({ payload: res });
               localStorage.removeItem(LocalStorageKey.UnsavedBoardRequestId);
+              return from([
+                DashboardActions.loadAssignedDataSuccess({ payload: res }),
+                DashboardActions.resetLoadAssignedDataSuccess(),
+              ]);
+            }),
+            catchError((error) => {
+              return of(
+                DashboardActions.loadAssignedDataFail({ payload: error })
+              );
             })
           );
         },

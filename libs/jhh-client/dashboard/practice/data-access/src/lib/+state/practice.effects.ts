@@ -63,6 +63,27 @@ export class PracticeEffects {
     )
   );
 
+  removeQuiz$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PracticeActions.removeQuiz),
+      fetch({
+        run: (action) =>
+          this.practiceService.removeQuiz(action.payload).pipe(
+            mergeMap((res: RemoveQuizSuccessPayload) => [
+              PracticeActions.removeQuizSuccess({ payload: res }),
+              PracticeActions.resetRemoveQuizSuccess(),
+            ]),
+            tap(() => {
+              this.removePracticeQuizDialogService.clearQuizToRemove();
+              this.snackbarService.open('Practice quiz removed successfully!');
+            })
+          ),
+        onError: (action, error) =>
+          PracticeActions.removeQuizFail({ payload: error }),
+      })
+    )
+  );
+
   addQuizResults$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PracticeActions.addQuizResults),
@@ -83,27 +104,6 @@ export class PracticeEffects {
           );
           return PracticeActions.addQuizResultsFail({ payload: error });
         },
-      })
-    )
-  );
-
-  removeQuiz$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(PracticeActions.removeQuiz),
-      fetch({
-        run: (action) =>
-          this.practiceService.removeQuiz(action.payload).pipe(
-            mergeMap((res: RemoveQuizSuccessPayload) => [
-              PracticeActions.removeQuizSuccess({ payload: res }),
-              PracticeActions.resetRemoveQuizSuccess(),
-            ]),
-            tap(() => {
-              this.removePracticeQuizDialogService.clearQuizToRemove();
-              this.snackbarService.open('Practice quiz removed successfully!');
-            })
-          ),
-        onError: (action, error) =>
-          PracticeActions.removeQuizFail({ payload: error }),
       })
     )
   );

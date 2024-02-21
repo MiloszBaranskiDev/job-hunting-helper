@@ -20,6 +20,7 @@ export enum Type {
   AddBoardColumn = '[Board] Add Board Column',
   AddBoardColumnFail = '[Board] Add Board Column Fail',
   AddBoardColumnSuccess = '[Board] Add Board Column Success',
+  ResetAddBoardColumnSuccess = '[Board] Reset Add Board Column Success',
   EditBoardColumn = '[Board] Edit Board Column',
   EditBoardColumnFail = '[Board] Edit Board Column Fail',
   EditBoardColumnSuccess = '[Board] Edit Board Column Success',
@@ -27,9 +28,11 @@ export enum Type {
   DuplicateBoardColumn = '[Board] Duplicate Board Column',
   DuplicateBoardColumnFail = '[Board] Duplicate Board Column Fail',
   DuplicateBoardColumnSuccess = '[Board] Duplicate Board Column Success',
+  ResetDuplicateBoardColumnSuccess = '[Board] Reset Duplicate Board Column Success',
   RemoveBoardColumn = '[Board] Remove Board Column',
   RemoveBoardColumnFail = '[Board] Remove Board Column Fail',
   RemoveBoardColumnSuccess = '[Board] Remove Board Column Success',
+  ResetRemoveBoardColumnSuccess = '[Board] Reset Remove Board Column Success',
   UpdateBoardColumns = '[Board] Update Board Columns',
   UpdateBoardColumnsFail = '[Board] Update Board Columns Fail',
   UpdateBoardColumnsSuccess = '[Board] Update Board Columns Success',
@@ -54,6 +57,10 @@ export const addBoardColumnFail = createAction(
 export const addBoardColumnSuccess = createAction(
   Type.AddBoardColumnSuccess,
   props<{ payload: AddBoardColumnSuccessPayload }>()
+);
+
+export const resetAddBoardColumnSuccess = createAction(
+  Type.ResetAddBoardColumnSuccess
 );
 
 export const editBoardColumn = createAction(
@@ -90,6 +97,10 @@ export const duplicateBoardColumnSuccess = createAction(
   props<{ payload: DuplicateBoardColumnSuccessPayload }>()
 );
 
+export const resetDuplicateBoardColumnSuccess = createAction(
+  Type.ResetDuplicateBoardColumnSuccess
+);
+
 export const removeBoardColumn = createAction(
   Type.RemoveBoardColumn,
   props<{ payload: RemoveBoardColumnPayload }>()
@@ -103,6 +114,10 @@ export const removeBoardColumnFail = createAction(
 export const removeBoardColumnSuccess = createAction(
   Type.RemoveBoardColumnSuccess,
   props<{ payload: RemoveBoardColumnSuccessPayload }>()
+);
+
+export const resetRemoveBoardColumnSuccess = createAction(
+  Type.ResetRemoveBoardColumnSuccess
 );
 
 export const updateBoardColumns = createAction(

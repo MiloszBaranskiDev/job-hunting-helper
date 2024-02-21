@@ -82,6 +82,13 @@ const reducer: ActionReducer<AuthState> = createReducer(
     token: payload.token,
     user: payload.user,
   })),
+  on(AuthActions.resetLoginSuccess, (state) => ({
+    ...state,
+    login: {
+      ...state.login,
+      success: false,
+    },
+  })),
   on(AuthActions.register, (state) => ({
     ...state,
     register: {
@@ -113,6 +120,13 @@ const reducer: ActionReducer<AuthState> = createReducer(
     },
     token: payload.token,
     user: payload.user,
+  })),
+  on(AuthActions.resetRegisterSuccess, (state) => ({
+    ...state,
+    register: {
+      ...state.register,
+      success: false,
+    },
   })),
   on(AuthActions.removeAccount, (state) => ({
     ...state,

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes.service';
@@ -48,9 +48,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.addNotesGroup(action.payload).pipe(
-            map((res: AddNotesGroupSuccessPayload) =>
-              NotesActions.addNotesGroupSuccess({ payload: res })
-            ),
+            mergeMap((res: AddNotesGroupSuccessPayload) => [
+              NotesActions.addNotesGroupSuccess({ payload: res }),
+              NotesActions.resetAddNotesGroupSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Group added successfully!');
             })
@@ -88,9 +89,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.duplicateNotesGroup(action.payload).pipe(
-            map((res: DuplicateNotesGroupSuccessPayload) =>
-              NotesActions.duplicateNotesGroupSuccess({ payload: res })
-            ),
+            mergeMap((res: DuplicateNotesGroupSuccessPayload) => [
+              NotesActions.duplicateNotesGroupSuccess({ payload: res }),
+              NotesActions.resetDuplicateNotesGroupSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Group duplicated successfully!');
             })
@@ -132,9 +134,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.addNote(action.payload).pipe(
-            map((res: AddNoteSuccessPayload) =>
-              NotesActions.addNoteSuccess({ payload: res })
-            ),
+            mergeMap((res: AddNoteSuccessPayload) => [
+              NotesActions.addNoteSuccess({ payload: res }),
+              NotesActions.resetAddNoteSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Note added successfully!');
             })
@@ -172,9 +175,10 @@ export class NotesEffects {
       fetch({
         run: (action) =>
           this.notesService.duplicateNote(action.payload).pipe(
-            map((res: DuplicateNoteSuccessPayload) =>
-              NotesActions.duplicateNoteSuccess({ payload: res })
-            ),
+            mergeMap((res: DuplicateNoteSuccessPayload) => [
+              NotesActions.duplicateNoteSuccess({ payload: res }),
+              NotesActions.resetDuplicateNoteSuccess(),
+            ]),
             tap(() => {
               this.snackbarService.open('Note duplicated successfully!');
             })

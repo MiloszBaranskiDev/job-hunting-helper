@@ -35,6 +35,10 @@ const reducer: ActionReducer<DashboardState> = createReducer(
     ...state,
     loadAssignedDataInProgress: false,
     loadAssignedDataSuccess: true,
+  })),
+  on(DashboardActions.resetLoadAssignedDataSuccess, (state) => ({
+    ...state,
+    loadAssignedDataSuccess: false,
   }))
 );
 
