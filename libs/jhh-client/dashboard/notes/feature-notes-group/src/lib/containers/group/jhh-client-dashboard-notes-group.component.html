@@ -7,6 +7,8 @@
     <jhh-remove-note></jhh-remove-note>
   </ng-container>
   <div class="notesGroup__top">
+    <jhh-add-note [groupId]="group.id"></jhh-add-note>
+    <jhh-notes-menu [group]="group"></jhh-notes-menu>
     <ng-container *ngIf="totalPages">
       <jhh-searchbar [searchFunction]="searchNotes" [placeholder]="'Enter note name...'"></jhh-searchbar>
       <jhh-sorting
@@ -17,8 +19,6 @@
       >
       </jhh-sorting>
     </ng-container>
-    <jhh-notes-menu [group]="group"></jhh-notes-menu>
-    <jhh-add-note [groupId]="group.id"></jhh-add-note>
   </div>
   <jhh-notes-list [sortedNotes]="sortedNotes$ | async" [groupSlug]="group.slug"></jhh-notes-list>
   <ng-container *ngIf="totalPages">
