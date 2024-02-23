@@ -7,18 +7,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { first, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterLink } from '@angular/router';
 
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 
 import { AuthFormErrorKey, AuthFormField } from '@jhh/jhh-client/auth/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'jhh-login-form',
@@ -48,10 +48,13 @@ export class FormComponent implements OnInit {
   formGroup: FormGroup;
   hidePassword: boolean = true;
 
-  loginInProgress$: Observable<boolean> = this.authFacade.loginInProgress$;
-  loginError$: Observable<string | null> = this.authFacade.loginError$;
+  loginInProgress$: Observable<boolean>;
+  loginError$: Observable<string | null>;
 
   ngOnInit(): void {
+    this.loginInProgress$ = this.authFacade.loginInProgress$;
+    this.loginError$ = this.authFacade.loginError$;
+
     this.initFormGroup();
   }
 
@@ -60,7 +63,7 @@ export class FormComponent implements OnInit {
       const username = this.formGroup.get(this.formField.Username)?.value;
       const password = this.formGroup.get(this.formField.Password)?.value;
 
-      this.authFacade.login(username, password).pipe(first());
+      this.authFacade.login(username, password);
     }
   }
 

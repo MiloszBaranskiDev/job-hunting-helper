@@ -46,8 +46,8 @@ export class AuthEffects {
         run: (action) =>
           this.authService.register(action.payload).pipe(
             tap((res: RegisterSuccessPayload) => {
-              this.router.navigate([ClientRoute.HomeLink]);
               this.authService.saveToken(res.token);
+              this.router.navigate([ClientRoute.HomeLink]);
             }),
             mergeMap((res: RegisterSuccessPayload) => [
               AuthActions.registerSuccess({ payload: res }),

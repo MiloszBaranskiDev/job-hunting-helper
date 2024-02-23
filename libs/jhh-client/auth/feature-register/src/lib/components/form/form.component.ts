@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BehaviorSubject, first, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import zxcvbn from 'zxcvbn';
 
@@ -72,12 +72,12 @@ export class FormComponent implements OnInit {
     RegisterFieldLength;
   readonly formField: typeof AuthFormField = AuthFormField;
   readonly formErrorKey: typeof AuthFormErrorKey = AuthFormErrorKey;
+
   formGroup: FormGroup;
   hidePassword: boolean = true;
 
-  registerInProgress$: Observable<boolean> =
-    this.authFacade.registerInProgress$;
-  registerError$: Observable<string | null> = this.authFacade.registerError$;
+  registerInProgress$: Observable<boolean>;
+  registerError$: Observable<string | null>;
 
   private _passwordStrength$: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
@@ -102,6 +102,9 @@ export class FormComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    this.registerInProgress$ = this.authFacade.registerInProgress$;
+    this.registerError$ = this.authFacade.registerError$;
+
     this.initFormGroup();
   }
 
@@ -125,9 +128,7 @@ export class FormComponent implements OnInit {
         this.formField.ConfirmPassword
       )?.value;
 
-      this.authFacade
-        .register(username, password, confirmPassword)
-        .pipe(first());
+      this.authFacade.register(username, password, confirmPassword);
     }
   }
 

@@ -66,7 +66,10 @@
       </mat-icon>
     </mat-form-field>
 
-    <mat-error class="password-match-error" *ngIf="formGroup.hasError(formErrorKey.PasswordMatch)">
+    <mat-error
+      class="password-match-error"
+      *ngIf="formGroup.get(formField.Password)?.valid && formGroup.hasError(formErrorKey.PasswordMatch)"
+    >
       Passwords do not match.
     </mat-error>
   </ng-container>

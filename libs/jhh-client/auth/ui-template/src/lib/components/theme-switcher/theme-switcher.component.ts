@@ -20,16 +20,20 @@ export class ThemeSwitcherComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly themeService: ThemeService = inject(ThemeService);
 
-  currentThemeMode$: BehaviorSubject<ThemeMode>;
-
   isDarkMode: boolean;
+
+  currentThemeMode$: BehaviorSubject<ThemeMode>;
 
   ngOnInit(): void {
     this.currentThemeMode$ = this.themeService.currentThemeMode$;
+    this.setTheme();
+  }
+
+  setTheme(): void {
     this.currentThemeMode$
       .pipe(
-        tap((val) => {
-          this.isDarkMode = val === ThemeMode.Dark;
+        tap((mode) => {
+          this.isDarkMode = mode === ThemeMode.Dark;
         }),
         takeUntilDestroyed(this.destroyRef)
       )

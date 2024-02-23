@@ -20,10 +20,6 @@ export interface AuthState {
   user: User | null;
 }
 
-export interface AuthPartialState {
-  readonly [AUTH_STATE_KEY]: AuthState;
-}
-
 export const initialAuthState: AuthState = {
   token: null,
   login: {
