@@ -1,7 +1,7 @@
 <ng-container>
   <jhh-edit-practice-quiz></jhh-edit-practice-quiz>
   <jhh-remove-practice-quiz></jhh-remove-practice-quiz>
-  <div class="topContainer">
+  <div class="controls">
     <jhh-practice-add-quiz></jhh-practice-add-quiz>
     <ng-container *ngIf="(sortedQuizzes$ | async)?.length">
       <jhh-searchbar [searchFunction]="searchQuizzes" [placeholder]="'Enter quiz name...'"></jhh-searchbar>
