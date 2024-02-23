@@ -1,7 +1,9 @@
+// @ts-ignore
 import jwt from 'jsonwebtoken';
 
 import { createJWT } from '.';
 
+// @ts-ignore
 import { User } from '@jhh/shared/domain';
 
 jest.mock('jsonwebtoken');

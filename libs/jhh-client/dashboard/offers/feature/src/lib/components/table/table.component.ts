@@ -191,10 +191,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   areAllSelectedOnCurrentPage(): boolean {
     return (
-      // @ts-ignore
-      this.dataSource._renderData._value.length > 0 &&
-      // @ts-ignore
-      this.dataSource._renderData._value.every((row) =>
+      this.dataSource['_renderData']._value.length > 0 &&
+      this.dataSource['_renderData']._value.every((row: any) =>
         this.selection.isSelected(row)
       )
     );
@@ -206,8 +204,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
       ? this.selection.deselect.bind(this.selection)
       : this.selection.select.bind(this.selection);
 
-    // @ts-ignore
-    this.dataSource._renderData._value.forEach((row) => action(row));
+    this.dataSource['_renderData']._value.forEach((row: any) => action(row));
   }
 
   handleSort({ active, direction }: Sort): void {
