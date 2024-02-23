@@ -27,10 +27,10 @@ describe('TitleService', () => {
       events: of(new NavigationEnd(0, '/test', '/test')),
     };
 
-    const routeSnapshot: any = {
+    const routeSnapshot: ActivatedRoute = {
       firstChild: null,
       snapshot: { title: 'Test Title' },
-    };
+    } as unknown as ActivatedRoute;
     mockActivatedRoute = { root: routeSnapshot };
 
     mockTitle = { setTitle: jest.fn() } as any;

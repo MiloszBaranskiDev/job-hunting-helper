@@ -19,7 +19,7 @@ export class TitleService {
   constructor() {
     this.router.events
       .pipe(
-        filter((event: any) => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         tap(() => {
           let route: ActivatedRoute = this.activatedRoute;
           while (route.firstChild) {

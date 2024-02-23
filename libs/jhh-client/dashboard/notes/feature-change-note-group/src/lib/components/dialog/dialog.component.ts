@@ -162,13 +162,13 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         return null;
       }
       let exists: boolean = false;
-      let groupArray: any[] = [];
+      let groupsNameArray: string[] = [];
 
       groups.subscribe((gs) => {
-        groupArray = gs!.map((g) => g.name);
+        groupsNameArray = gs!.map((g) => g.name);
       });
 
-      if (groupArray.includes(control.value)) {
+      if (groupsNameArray.includes(control.value)) {
         exists = true;
       }
 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
-import { TitleService } from '../../services/title/title.service';
+import { TitleService } from '../../services/title.service';
 import { JhhClientDashboardTitleComponent } from './jhh-client-dashboard-title.component';
 import {
   BrowserDynamicTestingModule,
@@ -27,10 +27,10 @@ describe('JhhClientDashboardTitleComponent', () => {
     titleSubject = new BehaviorSubject<string | null>('Test Title');
     mockTitleService = { title$: titleSubject.asObservable() };
 
-    const routeSnapshot: any = {
+    const routeSnapshot: ActivatedRoute = {
       firstChild: null,
       title: 'Default Title',
-    };
+    } as unknown as ActivatedRoute;
     mockActivatedRoute = { root: routeSnapshot };
 
     await TestBed.configureTestingModule({
