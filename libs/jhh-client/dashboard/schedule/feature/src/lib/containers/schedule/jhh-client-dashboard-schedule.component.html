@@ -1,4 +1,4 @@
-<div [ngClass]="['topContainer', breakpoint$ | async]">
+<div [ngClass]="['controls', breakpoint$ | async]">
   <jhh-schedule-add></jhh-schedule-add>
   <ng-container *ngIf="(events$ | async)?.length">
     <jhh-schedule-view-date-toggle
