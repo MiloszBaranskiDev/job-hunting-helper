@@ -1,19 +1,26 @@
 .topContainer {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 10px;
+  gap: 12px 25px;
+  margin-bottom: 35px;
 
   button {
     flex-shrink: 0;
+    margin-left: 81px;
+
+    span {
+      position: relative;
+      top: 1px;
+    }
+
+    mat-icon {
+      color: white !important;
+    }
   }
 
-  ::ng-deep {
-    mat-form-field {
-      max-width: 280px;
-      margin-bottom: 0;
-    }
+  mat-form-field {
+    max-width: 280px;
+    margin-bottom: 0;
   }
 }
 

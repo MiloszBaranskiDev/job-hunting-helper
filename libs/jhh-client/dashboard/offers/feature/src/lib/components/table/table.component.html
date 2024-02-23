@@ -5,11 +5,19 @@
     (click)="removeSelectedOffers()"
     [disabled]="selection.selected.length === 0 || ((removeOffersInProgress$ | async))"
   >
-    Remove selected
+    <mat-icon>delete_forever</mat-icon>
+    <span>
+      {{selection.selected.length}}
+    </span>
   </button>
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event)" placeholder="Ex. Frontend Developer" #input>
+    <input
+      matInput
+      placeholder="Ex. Frontend Developer"
+      [(ngModel)]="filterValue"
+      (keyup)="applyFilter($event)"
+    >
   </mat-form-field>
 </div>
 
@@ -137,7 +145,7 @@
 
     <tr class="mat-row noFound" *matNoDataRow>
       <td class="mat-cell" colspan="8">
-        <span>No data matching the filter <strong>"{{input.value}}"</strong></span>
+        <span>No data matching the filter <strong>"{{filterValue}}"</strong></span>
       </td>
     </tr>
 

@@ -1,4 +1,5 @@
 <jhh-offers-add></jhh-offers-add>
+
 <ng-container *ngIf="offers$ | async as offers">
   <ng-container *ngIf="offers.length; else emptyList">
     <jhh-edit-offer></jhh-edit-offer>
