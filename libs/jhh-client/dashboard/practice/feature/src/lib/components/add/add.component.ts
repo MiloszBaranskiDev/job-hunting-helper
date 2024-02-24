@@ -29,7 +29,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
@@ -79,11 +79,12 @@ export class AddComponent implements OnInit {
 
   @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
 
-  formGroup: FormGroup;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof QuizField = QuizField;
   readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;
   readonly fieldLength: typeof QuizFieldLength = QuizFieldLength;
+
+  formGroup: FormGroup;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   addQuizInProgress$: Observable<boolean>;
   addQuizError$: Observable<string | null>;
@@ -189,12 +190,11 @@ export class AddComponent implements OnInit {
   private handleReset(): void {
     this.addQuizSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.formGroup?.reset();
-            this.questions?.clear();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.formGroup?.reset();
+          this.questions?.clear();
+          this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
       )

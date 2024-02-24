@@ -44,16 +44,17 @@ export class JhhClientDashboardPracticeComponent implements OnInit, OnDestroy {
     inject(QueryParamsService);
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
+  readonly sortOptionsValues: string[] = Object.values(QuizzesSort);
+  readonly quizzesPerPage: number = 12;
+
+  defaultPage: number;
+  defaultSort: string;
+  totalPages: number;
+
   quizzes$: Observable<Quiz[]>;
   sortedQuizzes$: Observable<Quiz[]>;
   currentPage$: BehaviorSubject<number>;
   currentSort$: BehaviorSubject<string>;
-
-  readonly sortOptionsValues: string[] = Object.values(QuizzesSort);
-  readonly quizzesPerPage: number = 12;
-  defaultPage: number;
-  defaultSort: string;
-  totalPages: number;
 
   ngOnInit(): void {
     this.queryParamsService.setFromCurrentRoute();

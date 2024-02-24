@@ -1,10 +1,11 @@
 import { AbstractControl, FormArray, ValidatorFn } from '@angular/forms';
+
 import { QuizField } from '@jhh/jhh-client/dashboard/practice/domain';
 
 export function AnswersValidator(): ValidatorFn {
   return (answers: AbstractControl): { [key: string]: any } | null => {
     const answersArray = answers as FormArray;
-    const correctAnswersCount = answersArray.controls.filter(
+    const correctAnswersCount: number = answersArray.controls.filter(
       (answer) => answer.get(QuizField.IsCorrect)?.value
     ).length;
     const incorrectAnswersCount: number =

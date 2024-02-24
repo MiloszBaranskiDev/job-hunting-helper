@@ -15,7 +15,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
@@ -44,7 +44,6 @@ import { MinArrayLengthValidator } from '@jhh/jhh-client/shared/util-min-array-l
 import { AnswersValidator } from '@jhh/jhh-client/dashboard/practice/util-answers-validator';
 import { ImageUrlValidator } from '@jhh/jhh-client/shared/util-image-url-validator';
 import { UniqueAnswerValidator } from '@jhh/jhh-client/dashboard/practice/util-unique-answer-validator';
-
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
 import {
@@ -90,15 +89,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(EditPracticeQuizDialogService);
 
   @Input({ required: true }) quiz: Quiz;
-  @ViewChild('dialogContent')
-  private readonly dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+
+  readonly formField: typeof QuizField = QuizField;
+  readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;
+  readonly fieldLength: typeof QuizFieldLength = QuizFieldLength;
 
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
   slugPrefix: string;
-  readonly formField: typeof QuizField = QuizField;
-  readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;
-  readonly fieldLength: typeof QuizFieldLength = QuizFieldLength;
 
   editQuizInProgress$: Observable<boolean>;
   editQuizError$: Observable<string | null>;
@@ -245,12 +244,11 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private handleReset(): void {
     this.editQuizSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.formGroup?.reset();
-            this.questions?.clear();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.formGroup?.reset();
+          this.questions?.clear();
+          this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
       )

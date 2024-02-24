@@ -59,12 +59,13 @@ export class PlayComponent implements OnInit {
   }
 
   get progressPercentage(): number {
-    const totalQuestions: number = this.shuffledAndLimitedQuestions.length;
-    const answeredQuestions: number = Array.from(
-      this.selectedAnswers.entries()
-    ).filter(([index, answers]) => answers.length).length;
-
-    return (answeredQuestions / totalQuestions) * 100;
+    return (
+      (Array.from(this.selectedAnswers.entries()).filter(
+        ([_, answers]) => answers.length
+      ).length /
+        this.shuffledAndLimitedQuestions.length) *
+      100
+    );
   }
 
   get allQuestionsAnswered(): boolean {
@@ -80,8 +81,9 @@ export class PlayComponent implements OnInit {
   }
 
   getMaxSelectableAnswers(questionIndex: number): number {
-    const question: QuizItem = this.shuffledAndLimitedQuestions[questionIndex];
-    return question.answers.filter((answer) => answer.isCorrect).length;
+    return this.shuffledAndLimitedQuestions[questionIndex].answers.filter(
+      (answer) => answer.isCorrect
+    ).length;
   }
 
   onSelectAnswer(questionIndex: number, answerText: string): void {

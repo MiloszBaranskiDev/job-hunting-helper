@@ -15,9 +15,6 @@ import { TitleService } from '@jhh/jhh-client/dashboard/feature-title';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
 
-import { Quiz } from '@jhh/shared/domain';
-import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-
 import { QuestionsComponent } from '../../components/questions/questions.component';
 import { DetailsComponent } from '../../components/details/details.component';
 import { ControlsComponent } from '../../components/controls/controls.component';
@@ -25,6 +22,9 @@ import { PlayComponent } from '../../components/play/play.component';
 import { ResultsComponent } from '../../components/results/results.component';
 import { JhhClientDashboardRemovePracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 import { JhhClientDashboardEditPracticeQuizComponent } from '@jhh/jhh-client/dashboard/practice/feature-edit-quiz';
+
+import { Quiz } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-practice-quiz',

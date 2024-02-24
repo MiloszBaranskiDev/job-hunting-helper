@@ -123,7 +123,7 @@ export class ControlsComponent implements OnInit {
   private navigateAfterSlugChange(): void {
     this.editQuizSuccess$
       .pipe(
-        filter((val) => val === true),
+        filter((success) => success),
         switchMap(() => this.practiceFacade.getQuizSlug$ById(this.quiz.id)),
         filter((newSlug) => newSlug !== null && newSlug !== this.quiz.slug),
         tap((newSlug) => {
@@ -151,10 +151,9 @@ export class ControlsComponent implements OnInit {
   private navigateAfterRemove(): void {
     this.removeQuizSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.router.navigate([this.router.url.replace(this.quiz.slug, '')]);
-          }
+        filter((success) => success),
+        tap(() => {
+          this.router.navigate([this.router.url.replace(this.quiz.slug, '')]);
         }),
         takeUntilDestroyed(this.destroyRef)
       )

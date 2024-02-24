@@ -27,12 +27,7 @@ export class QuestionsComponent {
   isAccordionOpen: boolean = false;
 
   toggleAccordion(): void {
-    if (this.isAccordionOpen) {
-      this.accordion.closeAll();
-    } else {
-      this.accordion.openAll();
-    }
-
+    this.isAccordionOpen ? this.accordion.closeAll() : this.accordion.openAll();
     this.isAccordionOpen = !this.isAccordionOpen;
   }
 }

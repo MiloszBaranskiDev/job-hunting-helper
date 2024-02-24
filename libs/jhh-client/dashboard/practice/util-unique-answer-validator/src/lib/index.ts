@@ -13,7 +13,7 @@ export function UniqueAnswerValidator(): ValidatorFn {
       .map((control) => control.value[QuizField.AnswerText])
       .map((text) => (text ? text.trim().toLowerCase() : ''));
 
-    const hasDuplicate = texts.some(
+    const hasDuplicate: boolean = texts.some(
       (text, index) => texts.indexOf(text) !== index
     );
 

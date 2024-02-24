@@ -44,9 +44,10 @@ export class ResultsComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
 
   @Input({ required: true }) results: QuizResults[];
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   readonly defaultDisplayedItems: number = 5;
+
   dialogRef: MatDialogRef<TemplateRef<any>>;
   displayedItems: number = this.defaultDisplayedItems;
   extendedResults: ExtendedResults[];
@@ -68,11 +69,10 @@ export class ResultsComponent implements OnInit {
   }
 
   toggleList(): void {
-    if (this.displayedItems === this.results.length) {
-      this.displayedItems = this.defaultDisplayedItems;
-    } else {
-      this.displayedItems = this.results.length;
-    }
+    this.displayedItems =
+      this.displayedItems === this.results.length
+        ? this.defaultDisplayedItems
+        : this.results.length;
   }
 
   openDialog(result: ExtendedResults): void {

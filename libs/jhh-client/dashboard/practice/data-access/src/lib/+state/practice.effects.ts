@@ -6,6 +6,7 @@ import { fetch } from '@nrwl/angular';
 import * as PracticeActions from './practice.actions';
 import { PracticeService } from '../services/practice.service';
 import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
+import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 import {
   AddQuizResultsSuccessPayload,
@@ -13,7 +14,6 @@ import {
   EditQuizSuccessPayload,
   RemoveQuizSuccessPayload,
 } from '@jhh/jhh-client/dashboard/practice/domain';
-import { RemovePracticeQuizDialogService } from '@jhh/jhh-client/dashboard/practice/feature-remove-quiz';
 
 @Injectable()
 export class PracticeEffects {

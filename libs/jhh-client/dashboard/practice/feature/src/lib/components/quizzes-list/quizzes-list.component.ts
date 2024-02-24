@@ -93,6 +93,7 @@ export class QuizzesListComponent implements OnInit, OnChanges {
       (sum, result) => sum + result.percentage,
       0
     );
+    
     return results.length ? total / results.length : null;
   }
 }

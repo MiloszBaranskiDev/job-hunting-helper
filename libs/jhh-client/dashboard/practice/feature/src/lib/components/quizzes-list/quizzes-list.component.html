@@ -17,9 +17,11 @@
       >
         {{quiz.items.length <= 99 ? quiz.items.length : '99+'}}
       </span>
+
       <figure [ngClass]="!quiz.imageUrl ? 'emptyFigure' : ''">
         <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
       </figure>
+
       <header>
         <div class="row">
           <h2>
@@ -47,6 +49,7 @@
           </ng-container>
         </div>
       </header>
+
       <p *ngIf="quiz.description">
         {{ quiz.description.length > 115 ? (quiz.description | slice:0:115) + '...' : quiz.description }}
       </p>

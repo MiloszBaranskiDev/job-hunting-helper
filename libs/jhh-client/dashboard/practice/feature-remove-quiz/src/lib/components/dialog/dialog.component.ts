@@ -19,10 +19,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Quiz } from '@jhh/shared/domain';
-
 import { RemovePracticeQuizDialogService } from '../../services/remove-practice-quiz-dialog.service';
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
+
+import { Quiz } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-practice-quiz-dialog',
@@ -45,14 +45,13 @@ export class DialogComponent implements OnInit, AfterViewInit {
     inject(RemovePracticeQuizDialogService);
 
   @Input({ required: true }) quiz: Quiz;
-  @ViewChild('dialogContent')
-  private readonly dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+
+  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   removeQuizInProgress$: Observable<boolean>;
   removeQuizError$: Observable<string | null>;
   removeQuizSuccess$: Observable<boolean>;
-
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.removeQuizInProgress$ = this.practiceFacade.removeQuizInProgress$;
