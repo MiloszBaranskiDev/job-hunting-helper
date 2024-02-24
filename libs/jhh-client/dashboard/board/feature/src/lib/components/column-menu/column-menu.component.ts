@@ -26,9 +26,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
+
+import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
+
+import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 
 import {
   BoardColumn,
@@ -40,11 +45,6 @@ import {
   BoardColumnField,
   BoardColumnFormErrorKey,
 } from '@jhh/jhh-client/dashboard/board/domain';
-
-import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
-
-import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
-import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 
 @Component({
   selector: 'jhh-board-column-menu',
@@ -74,19 +74,11 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) column: BoardColumn;
   @Input() fetchItems: (columnId: string) => BoardColumnItem[];
-
   @ViewChild('editDialogContent')
   private readonly editDialogContent: TemplateRef<any>;
   @ViewChild('removeDialogContent')
   private readonly removeDialogContent: TemplateRef<any>;
 
-  editBoardColumnInProgress$: Observable<boolean>;
-  editBoardColumnError$: Observable<string | null>;
-  editBoardColumnSuccess$: Observable<boolean>;
-  removeBoardColumnInProgress$: Observable<boolean>;
-  removeBoardColumnError$: Observable<string | null>;
-
-  formGroup: FormGroup;
   private dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof BoardColumnField = BoardColumnField;
   readonly fieldLength: typeof BoardColumnFieldLength = BoardColumnFieldLength;
@@ -95,6 +87,14 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   readonly defaultColor: typeof BoardColumnDefaultColor =
     BoardColumnDefaultColor;
   readonly defaultColorValues: string[] = Object.values(this.defaultColor);
+
+  formGroup: FormGroup;
+
+  editBoardColumnInProgress$: Observable<boolean>;
+  editBoardColumnError$: Observable<string | null>;
+  editBoardColumnSuccess$: Observable<boolean>;
+  removeBoardColumnInProgress$: Observable<boolean>;
+  removeBoardColumnError$: Observable<string | null>;
 
   ngOnInit(): void {
     this.editBoardColumnInProgress$ =
@@ -170,14 +170,13 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
     this.editBoardColumnSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          if (val) {
-            this.formGroup?.reset({
-              [this.formField.Name]: this.column.name,
-              [this.formField.Color]: this.column.color,
-            });
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.formGroup?.reset({
+            [this.formField.Name]: this.column.name,
+            [this.formField.Color]: this.column.color,
+          });
+          this.dialogRef?.close();
         })
       )
       .subscribe();

@@ -13,12 +13,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ColumnsComponent } from '../../components/columns/columns.component';
 import { AddColumnComponent } from '../../components/add-column/add-column.component';
 
-import { BoardColumn } from '@jhh/shared/domain';
-
 import {
   BoardFacade,
   updateBoardColumnsSuccess,
 } from '@jhh/jhh-client/dashboard/board/data-access';
+
+import { BoardColumn } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-board',
@@ -32,15 +32,14 @@ export class JhhClientDashboardBoardComponent implements OnInit {
   private readonly actions$: Actions<any> = inject(Actions);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
-  boardColumns$: Observable<BoardColumn[]>;
-  isSaving$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-
   @HostBinding('class.isSaving') get isSavingClass() {
     return this.isSaving$.getValue();
   }
+
+  boardColumns$: Observable<BoardColumn[]>;
+  isSaving$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   ngOnInit(): void {
     this.boardColumns$ = this.boardFacade.boardColumns$;

@@ -8,7 +8,7 @@ export const selectBoardState =
 
 export const {
   selectIds: selectColumnIds,
-  selectEntities: selectColumnEntities,
+  selectEntities: selectColumnsEntities,
   selectAll: selectAllColumns,
   selectTotal: selectTotalColumns,
 } = adapter.getSelectors(selectBoardState);

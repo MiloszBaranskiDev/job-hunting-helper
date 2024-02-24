@@ -44,18 +44,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { animate, style, transition, trigger } from '@angular/animations';
 
+import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+
+import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside';
+
+import { ColumnMenuComponent } from '../column-menu/column-menu.component';
+
 import {
   BoardColumn,
   BoardColumnFieldLength,
   BoardColumnItem,
   LocalStorageKey,
 } from '@jhh/shared/domain';
-
-import { ColumnMenuComponent } from '../column-menu/column-menu.component';
-
-import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
-import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
-import { ClickOutsideDirective } from '@jhh/jhh-client/shared/util-click-outside';
 
 @Component({
   selector: 'jhh-board-columns',
@@ -95,10 +96,10 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     inject(BreakpointService);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
-  @ViewChild('horizontalScrollContainer') horizontalScrollContainer: ElementRef;
+  @ViewChild('horizontalScrollContainer')
+  private readonly horizontalScrollContainer: ElementRef;
   @ViewChildren('columnItemsContainer')
-  columnItemsContainers: QueryList<ElementRef>;
-
+  private readonly columnItemsContainers: QueryList<ElementRef>;
   @Input() isSaving$: BehaviorSubject<boolean>;
   @Input() wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
 
@@ -107,20 +108,21 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     this.mergeWithWorkingData(value);
   }
 
-  updateBoardColumnsInProgress$: Observable<boolean>;
-  updateBoardColumnsError$: Observable<string | null>;
-  updateBoardColumnsSuccess$: Observable<boolean>;
-  breakpoint$: Observable<string>;
-
-  readonly boardColumnFieldLength: typeof BoardColumnFieldLength =
-    BoardColumnFieldLength;
   private updateSubject: Subject<void> = new Subject<void>();
   private originalColumns: BoardColumn[];
   private removedItemIds: string[] = [];
   private isItemBeingDragged: boolean = false;
+  readonly boardColumnFieldLength: typeof BoardColumnFieldLength =
+    BoardColumnFieldLength;
+
   _columns: BoardColumn[] = [];
   editingItem: { [key: string]: boolean } = {};
   editableContent: { [key: string]: string } = {};
+
+  updateBoardColumnsInProgress$: Observable<boolean>;
+  updateBoardColumnsError$: Observable<string | null>;
+  updateBoardColumnsSuccess$: Observable<boolean>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.updateBoardColumnsInProgress$ =
@@ -311,11 +313,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   }
 
   fetchItemsForColumn(columnId: string): BoardColumnItem[] {
-    const items: BoardColumnItem[] = this._columns.find(
-      (column) => column.id === columnId
-    )!.items;
-
-    return items;
+    return this._columns.find((column) => column.id === columnId)?.items || [];
   }
 
   private saveChanges(): void {
@@ -331,12 +329,11 @@ export class ColumnsComponent implements OnInit, OnDestroy {
 
       this.updateBoardColumnsSuccess$
         .pipe(
-          tap((val) => {
-            if (val) {
-              this.removedItemIds = [];
-              this.isSaving$.next(false);
-              savingSnackBar.dismiss();
-            }
+          filter((success) => success),
+          tap(() => {
+            this.removedItemIds = [];
+            this.isSaving$.next(false);
+            savingSnackBar.dismiss();
           }),
           takeUntilDestroyed(this.destroyRef)
         )
@@ -344,19 +341,18 @@ export class ColumnsComponent implements OnInit, OnDestroy {
 
       this.updateBoardColumnsError$
         .pipe(
-          tap((val) => {
-            if (val) {
-              this.isSaving$.next(false);
-              savingSnackBar.dismiss();
-              this.snackBar.open(
-                'Something went wrong with saving data.',
-                'Close',
-                {
-                  duration: 7000,
-                }
-              );
-              this._columns = JSON.parse(JSON.stringify(this.originalColumns));
-            }
+          filter((error) => error !== null),
+          tap(() => {
+            this.isSaving$.next(false);
+            savingSnackBar.dismiss();
+            this.snackBar.open(
+              'Something went wrong with saving data.',
+              'Close',
+              {
+                duration: 7000,
+              }
+            );
+            this._columns = JSON.parse(JSON.stringify(this.originalColumns));
           }),
           takeUntilDestroyed(this.destroyRef)
         )
@@ -511,54 +507,48 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   }
 
   private scrollItemsToBottom(columnId: string): void {
-    const columnElement = this.columnItemsContainers.find(
-      (elRef) => elRef.nativeElement.id === 'drop-list-' + columnId
-    );
+    setTimeout(() => {
+      const lastItem = this.columnItemsContainers
+        .find((elRef) => elRef.nativeElement.id === `drop-list-${columnId}`)
+        ?.nativeElement.querySelectorAll('.column__item')
+        .item(-1);
 
-    if (columnElement) {
-      setTimeout(() => {
-        const items =
-          columnElement.nativeElement.querySelectorAll('.column__item');
-        const lastItem = items[items.length - 1];
-        if (lastItem) {
-          lastItem.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    }
+      lastItem?.scrollIntoView({ behavior: 'smooth' });
+    });
   }
 
   private scrollHorizontal(event: CdkDragMove): void {
     const point: { x: number; y: number } = event.pointerPosition;
     const bounds =
       this.horizontalScrollContainer.nativeElement.getBoundingClientRect();
+    const edgeThreshold: number = 50;
     const leftDistance: number = point.x - bounds.left;
     const rightDistance: number = bounds.right - point.x;
-    const edgeThreshold: number = 50;
-    let scrollSpeed: number = 0;
 
     if (leftDistance < edgeThreshold) {
-      scrollSpeed = Math.max(1, (leftDistance / edgeThreshold) * 20);
-      this.horizontalScrollContainer.nativeElement.scrollLeft -= scrollSpeed;
+      this.horizontalScrollContainer.nativeElement.scrollLeft -= Math.max(
+        1,
+        (leftDistance / edgeThreshold) * 20
+      );
     } else if (rightDistance < edgeThreshold) {
-      scrollSpeed = Math.max(1, (rightDistance / edgeThreshold) * 20);
-      this.horizontalScrollContainer.nativeElement.scrollLeft += scrollSpeed;
+      this.horizontalScrollContainer.nativeElement.scrollLeft += Math.max(
+        1,
+        (rightDistance / edgeThreshold) * 20
+      );
     }
   }
 
   private scrollVertical(event: CdkDragMove, columnEl: HTMLDivElement): void {
     const point: { x: number; y: number } = event.pointerPosition;
-    const bounds = columnEl.getBoundingClientRect();
+    const bounds: DOMRect = columnEl.getBoundingClientRect();
+    const edgeThreshold: number = 50;
     const topDistance: number = point.y - bounds.top;
     const bottomDistance: number = bounds.bottom - point.y;
-    const edgeThreshold: number = 50;
-    let scrollSpeed: number = 0;
 
     if (topDistance < edgeThreshold) {
-      scrollSpeed = Math.max(1, (topDistance / edgeThreshold) * 20);
-      columnEl.scrollTop -= scrollSpeed;
+      columnEl.scrollTop -= Math.max(1, (topDistance / edgeThreshold) * 20);
     } else if (bottomDistance < edgeThreshold) {
-      scrollSpeed = Math.max(1, (bottomDistance / edgeThreshold) * 20);
-      columnEl.scrollTop += scrollSpeed;
+      columnEl.scrollTop += Math.max(1, (bottomDistance / edgeThreshold) * 20);
     }
   }
 }
