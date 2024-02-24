@@ -8,7 +8,7 @@ export const selectScheduleState =
 
 export const {
   selectIds: selectEventsIds,
-  selectEntities: selectColumnEntities,
+  selectEntities: selectEventsEntities,
   selectAll: selectAllEvents,
   selectTotal: selectTotalEvents,
 } = adapter.getSelectors(selectScheduleState);

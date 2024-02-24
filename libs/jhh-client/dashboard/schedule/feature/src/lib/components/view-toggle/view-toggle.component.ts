@@ -15,7 +15,7 @@ export class ViewToggleComponent {
   @Output() viewChange: EventEmitter<CalendarView> =
     new EventEmitter<CalendarView>();
 
-  protected readonly CalendarView = CalendarView;
+  readonly CalendarView: typeof CalendarView = CalendarView;
 
   handleViewChange(newView: CalendarView): void {
     this.viewChange.emit(newView);

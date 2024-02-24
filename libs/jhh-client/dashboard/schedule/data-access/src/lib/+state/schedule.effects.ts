@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
-
 import { mergeMap, tap } from 'rxjs/operators';
 
 import * as ScheduleActions from './schedule.actions';

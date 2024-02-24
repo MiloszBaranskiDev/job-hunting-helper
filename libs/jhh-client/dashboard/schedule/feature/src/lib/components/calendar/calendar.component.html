@@ -6,8 +6,8 @@
       [events]="calendarEvents"
       [refresh]="refresh"
       [activeDayIsOpen]="isActiveDayOpen"
-      (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleClick('click', $event.event)"
+      (dayClicked)="handleDayClick($event.day)"
+      (eventClicked)="handleEventClick('click', $event.event)"
       (eventTimesChanged)="handleTimesChange($event)"
     >
     </mwl-calendar-month-view>
@@ -16,7 +16,7 @@
       [viewDate]="viewDate"
       [events]="calendarEvents"
       [refresh]="refresh"
-      (eventClicked)="handleClick('click', $event.event)"
+      (eventClicked)="handleEventClick('click', $event.event)"
       (eventTimesChanged)="handleTimesChange($event)"
     >
     </mwl-calendar-week-view>
@@ -25,7 +25,7 @@
       [viewDate]="viewDate"
       [events]="calendarEvents"
       [refresh]="refresh"
-      (eventClicked)="handleClick('click', $event.event)"
+      (eventClicked)="handleEventClick('click', $event.event)"
       (eventTimesChanged)="handleTimesChange($event)"
     >
     </mwl-calendar-day-view>

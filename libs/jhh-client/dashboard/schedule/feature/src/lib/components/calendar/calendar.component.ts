@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, tap } from 'rxjs';
+import { filter, Observable, Subject, tap } from 'rxjs';
 import {
   CalendarEvent,
   CalendarEventTimesChangedEvent,
@@ -57,15 +57,15 @@ export class CalendarComponent implements OnInit {
     new EventEmitter<boolean>();
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
+  private _events: ScheduleEvent[];
+  readonly CalendarView: typeof CalendarView = CalendarView;
+
+  calendarEvents: CalendarEvent[];
+  refresh: Subject<void> = new Subject<void>();
+
   editEventInProgress$: Observable<boolean>;
   editEventError$: Observable<string | null>;
   editEventSuccess$: Observable<boolean>;
-
-  readonly CalendarView = CalendarView;
-
-  private _events: ScheduleEvent[];
-  calendarEvents: CalendarEvent[];
-  refresh: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {
     this.editEventInProgress$ = this.scheduleFacade.editEventInProgress$;
@@ -77,7 +77,13 @@ export class CalendarComponent implements OnInit {
     return this._events;
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  handleDayClick({
+    date,
+    events,
+  }: {
+    date: Date;
+    events: CalendarEvent[];
+  }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.isActiveDayOpen === true) ||
@@ -89,6 +95,10 @@ export class CalendarComponent implements OnInit {
       }
       this.viewDate = date;
     }
+  }
+
+  handleEventClick(action: string, event: CalendarEvent): void {
+    this.clickedEventId$.next(String(event.id));
   }
 
   handleTimesChange({
@@ -124,10 +134,9 @@ export class CalendarComponent implements OnInit {
 
     this.editEventSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            savingSnackBar.dismiss();
-          }
+        filter((success) => success),
+        tap(() => {
+          savingSnackBar.dismiss();
         }),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -135,25 +144,20 @@ export class CalendarComponent implements OnInit {
 
     this.editEventError$
       .pipe(
-        tap((val) => {
-          if (val) {
-            savingSnackBar.dismiss();
-            this.snackBar.open(
-              'Something went wrong with saving data.',
-              'Close',
-              {
-                duration: 7000,
-              }
-            );
-          }
+        filter((error) => error !== null),
+        tap(() => {
+          savingSnackBar.dismiss();
+          this.snackBar.open(
+            'Something went wrong with saving data.',
+            'Close',
+            {
+              duration: 7000,
+            }
+          );
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-  }
-
-  handleClick(action: string, event: CalendarEvent): void {
-    this.clickedEventId$.next(String(event.id));
   }
 
   private convertToCalendarEvent(event: ScheduleEvent): CalendarEvent {

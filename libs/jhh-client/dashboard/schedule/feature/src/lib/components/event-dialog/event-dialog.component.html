@@ -8,6 +8,7 @@
     </h2>
     <mat-dialog-content>
       <mat-tab-group>
+
         <mat-tab class="tab">
           <ng-template mat-tab-label>
             <mat-icon class="button-icon">info</mat-icon>
@@ -31,6 +32,7 @@
           </ng-template>
           <ng-container *ngTemplateOutlet="removeTabContent"></ng-container>
         </mat-tab>
+
       </mat-tab-group>
     </mat-dialog-content>
   </ng-template>
@@ -52,7 +54,7 @@
 
 <ng-template #editTabContent>
   <div class="tab__content">
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <form [formGroup]="formGroup" (ngSubmit)="onEditSubmit()">
       <div class="formDates">
         <div class="date">
           <mat-label>Start Date</mat-label>
@@ -169,6 +171,7 @@
 
 <ng-template #removeTabContent>
   <div class="tab__content">
+
     <div class="alert">
       <mat-icon>error</mat-icon>
       <p>
@@ -179,6 +182,7 @@
         </strong>
       </p>
     </div>
+
     <div class="remove">
       <mat-form-field appearance="fill">
         <input type="hidden" #inProgress [value]="(removeEventInProgress$ | async)">
@@ -199,6 +203,7 @@
         Remove
       </button>
     </div>
+
     <div class="status" *ngIf="(removeEventInProgress$ | async) || (removeEventError$ | async)">
       <mat-progress-spinner
         *ngIf="removeEventInProgress$ | async"
@@ -207,5 +212,6 @@
       </mat-progress-spinner>
       <mat-error *ngIf="removeEventError$ | async as error">{{ error }}</mat-error>
     </div>
+
   </div>
 </ng-template>

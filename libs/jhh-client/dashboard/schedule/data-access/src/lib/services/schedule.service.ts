@@ -27,6 +27,21 @@ export class ScheduleService {
   private readonly API_DASHBOARD_URL: string =
     environment.apiUrl + ApiRoute.BaseProtected;
 
+  addEvent(payload: AddEventPayload): Observable<AddEventSuccessPayload> {
+    return this.http
+      .post<AddEventSuccessResponse>(
+        this.API_DASHBOARD_URL + ApiRoute.AddScheduleEvent,
+        {
+          start: payload.start,
+          end: payload.end,
+          title: payload.title,
+          color: payload.color,
+          description: payload.description,
+        }
+      )
+      .pipe(map((res: AddEventSuccessResponse) => res.data));
+  }
+
   editEvent(payload: EditEventPayload): Observable<EditEventSuccessPayload> {
     return this.http
       .put<EditEventSuccessResponse>(
@@ -41,21 +56,6 @@ export class ScheduleService {
         }
       )
       .pipe(map((res: EditEventSuccessResponse) => res.data));
-  }
-
-  addEvent(payload: AddEventPayload): Observable<AddEventSuccessPayload> {
-    return this.http
-      .post<AddEventSuccessResponse>(
-        this.API_DASHBOARD_URL + ApiRoute.AddScheduleEvent,
-        {
-          start: payload.start,
-          end: payload.end,
-          title: payload.title,
-          color: payload.color,
-          description: payload.description,
-        }
-      )
-      .pipe(map((res: AddEventSuccessResponse) => res.data));
   }
 
   removeEvent(

@@ -8,7 +8,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { distinctUntilChanged, merge, Observable, Subject, tap } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  merge,
+  Observable,
+  Subject,
+  tap,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   MatDialog,
@@ -74,17 +81,6 @@ export class EventDialogComponent implements OnInit {
   @Input({ required: true }) clickedEventId$: Subject<string | null>;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  editEventInProgress$: Observable<boolean>;
-  editEventError$: Observable<string | null>;
-  editEventSuccess$: Observable<boolean>;
-  removeEventInProgress$: Observable<boolean>;
-  removeEventError$: Observable<string | null>;
-  removeEventSuccess$: Observable<boolean>;
-
-  formGroup: FormGroup;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
-  event: ScheduleEvent;
-  removeConfirmationText: string = '';
   readonly formField: typeof EventField = EventField;
   readonly fieldLength: typeof EventFieldLength = EventFieldLength;
   readonly formErrorKey: typeof EventFormErrorKey = EventFormErrorKey;
@@ -96,6 +92,18 @@ export class EventDialogComponent implements OnInit {
     `'remove'`,
   ];
 
+  formGroup: FormGroup;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
+  event: ScheduleEvent;
+  removeConfirmationText: string = '';
+
+  editEventInProgress$: Observable<boolean>;
+  editEventError$: Observable<string | null>;
+  editEventSuccess$: Observable<boolean>;
+  removeEventInProgress$: Observable<boolean>;
+  removeEventError$: Observable<string | null>;
+  removeEventSuccess$: Observable<boolean>;
+
   ngOnInit(): void {
     this.editEventInProgress$ = this.scheduleFacade.editEventInProgress$;
     this.editEventError$ = this.scheduleFacade.editEventError$;
@@ -106,24 +114,12 @@ export class EventDialogComponent implements OnInit {
 
     this.clickedEventId$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.openDialog(val);
-          } else {
-            this.closeDialog();
-          }
-        }),
+        tap((id) => (id ? this.openDialog(id) : this.closeDialog())),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
 
     this.handleReset();
-  }
-
-  handleRemove(): void {
-    if (this.isRemoveConfirmationValid()) {
-      this.scheduleFacade.removeEvent(this.event.id);
-    }
   }
 
   isRemoveConfirmationValid(): boolean {
@@ -140,6 +136,12 @@ export class EventDialogComponent implements OnInit {
     this.handleRemove();
   }
 
+  handleRemove(): void {
+    if (this.isRemoveConfirmationValid()) {
+      this.scheduleFacade.removeEvent(this.event.id);
+    }
+  }
+
   selectDefaultColor(color: EventDefaultColor): void {
     if (this.defaultColorValues.includes(color)) {
       this.formGroup.get(this.formField.Color)?.setValue(color);
@@ -150,7 +152,7 @@ export class EventDialogComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  onEditSubmit(): void {
     if (this.formGroup.valid) {
       const { Start, End, Title, Color, Description } = this.formField;
       const [start, end, title, color, description] = [
@@ -184,11 +186,10 @@ export class EventDialogComponent implements OnInit {
     this.scheduleFacade
       .getEvent$ById(id)
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.event = val;
-            this.initFormGroup();
-          }
+        filter((event) => event !== undefined),
+        tap((event) => {
+          this.event = event!;
+          this.initFormGroup();
         }),
         distinctUntilChanged()
       )

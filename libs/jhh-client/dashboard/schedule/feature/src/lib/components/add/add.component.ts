@@ -23,13 +23,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { endOfDay, startOfDay } from 'date-fns';
 import { MatInputModule } from '@angular/material/input';
 import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
+
 import { ColorValidator } from '@jhh/jhh-client/shared/util-color-validator';
 import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 import { DateRangeValidator } from '@jhh/jhh-client/dashboard/schedule/util-date-range-validator';
@@ -66,19 +67,20 @@ export class AddComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly scheduleFacade: ScheduleFacade = inject(ScheduleFacade);
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  addEventInProgress$: Observable<boolean>;
-  addEventError$: Observable<string | null>;
-  addEventSuccess$: Observable<boolean>;
-
-  formGroup: FormGroup;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof EventField = EventField;
   readonly fieldLength: typeof EventFieldLength = EventFieldLength;
   readonly formErrorKey: typeof EventFormErrorKey = EventFormErrorKey;
   readonly defaultColor: typeof EventDefaultColor = EventDefaultColor;
   readonly defaultColorValues: string[] = Object.values(this.defaultColor);
+
+  formGroup: FormGroup;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
+
+  addEventInProgress$: Observable<boolean>;
+  addEventError$: Observable<string | null>;
+  addEventSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
     this.addEventInProgress$ = this.scheduleFacade.addEventInProgress$;
@@ -126,11 +128,10 @@ export class AddComponent implements OnInit {
   private handleReset(): void {
     this.addEventSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.clearForm();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.clearForm();
+          this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
       )

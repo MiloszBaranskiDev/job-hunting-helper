@@ -4,6 +4,7 @@ import { CalendarView } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 
 import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { CalendarComponent } from '../../components/calendar/calendar.component';
 import { ViewToggleComponent } from '../../components/view-toggle/view-toggle.component';
@@ -11,8 +12,6 @@ import { ViewDateToggleComponent } from '../../components/view-date-toggle/view-
 import { AddComponent } from '../../components/add/add.component';
 import { EventDialogComponent } from '../../components/event-dialog/event-dialog.component';
 import { ViewDateComponent } from '../../components/view-date/view-date.component';
-
-import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { ScheduleEvent } from '@jhh/shared/domain';
 
@@ -36,13 +35,13 @@ export class JhhClientDashboardScheduleComponent implements OnInit {
     inject(BreakpointService);
   private readonly scheduleFacade: ScheduleFacade = inject(ScheduleFacade);
 
-  events$: Observable<ScheduleEvent[]>;
-  clickedEventId$: Subject<string | null> = new Subject<string | null>();
-  breakpoint$: Observable<string>;
-
   view: CalendarView = CalendarView.Month;
   isActiveDayOpen: boolean = true;
   viewDate: Date = new Date();
+
+  events$: Observable<ScheduleEvent[]>;
+  clickedEventId$: Subject<string | null> = new Subject<string | null>();
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.events$ = this.scheduleFacade.events$;
