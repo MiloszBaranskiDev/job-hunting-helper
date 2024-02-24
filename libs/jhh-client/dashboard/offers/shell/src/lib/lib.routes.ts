@@ -2,9 +2,9 @@ import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-
 import { JhhClientDashboardOffersShellComponent } from './containers/shell/jhh-client-dashboard-offers-shell.component';
+
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import {
   OFFERS_STATE_KEY,

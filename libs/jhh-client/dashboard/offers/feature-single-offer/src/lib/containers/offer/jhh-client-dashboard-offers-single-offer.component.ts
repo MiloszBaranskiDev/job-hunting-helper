@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filter, first, Observable, pluck, switchMap, tap } from 'rxjs';
+import { filter, Observable, pluck, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BreadcrumbsService } from '@jhh/jhh-client/dashboard/feature-breadcrumbs';
@@ -51,6 +51,10 @@ export class JhhClientDashboardOffersSingleOfferComponent implements OnInit {
   ngOnInit(): void {
     this.breakpoint$ = this.breakpointService.breakpoint$;
 
+    this.findOffer();
+  }
+
+  private findOffer(): void {
     this.offer$ = this.route.params.pipe(
       pluck('offerSlug'),
       switchMap((slug: string) => this.offersFacade.getOffer$BySlug(slug)),
@@ -68,7 +72,5 @@ export class JhhClientDashboardOffersSingleOfferComponent implements OnInit {
       }),
       filter((offer): offer is Offer => !!offer)
     );
-
-    this.offer$.pipe(first()).subscribe();
   }
 }

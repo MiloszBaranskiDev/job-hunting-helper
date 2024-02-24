@@ -79,12 +79,7 @@ export class AddComponent implements OnInit {
     inject(BreakpointService);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
-
-  addOfferInProgress$: Observable<boolean>;
-  addOfferError$: Observable<string | null>;
-  addOfferSuccess$: Observable<boolean>;
-  breakpoint$: Observable<string>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   readonly formField: typeof OfferField = OfferField;
   readonly fieldLength: typeof OfferFieldLength = OfferFieldLength;
@@ -96,8 +91,14 @@ export class AddComponent implements OnInit {
     Object.values(OfferSalaryCurrency);
   readonly offerStatus: OfferStatus[] = Object.values(OfferStatus);
   readonly offerPriority: OfferPriority[] = Object.values(OfferPriority);
+
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
+
+  addOfferInProgress$: Observable<boolean>;
+  addOfferError$: Observable<string | null>;
+  addOfferSuccess$: Observable<boolean>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.addOfferInProgress$ = this.offersFacade.addOfferInProgress$;
@@ -107,30 +108,7 @@ export class AddComponent implements OnInit {
 
     this.initFormGroup();
     this.handleReset();
-
-    this.formGroup.valueChanges
-      .pipe(
-        map((val) => ({
-          minSalary: val.minSalary,
-          maxSalary: val.maxSalary,
-        })),
-        distinctUntilChanged(
-          (prev, curr) =>
-            prev.minSalary === curr.minSalary &&
-            prev.maxSalary === curr.maxSalary
-        ),
-        tap(({ minSalary, maxSalary }) => {
-          if (
-            minSalary >= this.fieldLength.MinSalaryValue ||
-            maxSalary >= this.fieldLength.MinSalaryValue
-          ) {
-            this.formGroup.get(this.formField.SalaryCurrency)!.enable();
-          } else {
-            this.formGroup.get(this.formField.SalaryCurrency)!.disable();
-          }
-        })
-      )
-      .subscribe();
+    this.toggleCurrencyField();
   }
 
   openDialog(): void {
@@ -176,6 +154,32 @@ export class AddComponent implements OnInit {
         description
       );
     }
+  }
+
+  private toggleCurrencyField(): void {
+    this.formGroup.valueChanges
+      .pipe(
+        map((val) => ({
+          minSalary: val.minSalary,
+          maxSalary: val.maxSalary,
+        })),
+        distinctUntilChanged(
+          (prev, curr) =>
+            prev.minSalary === curr.minSalary &&
+            prev.maxSalary === curr.maxSalary
+        ),
+        tap(({ minSalary, maxSalary }) => {
+          if (
+            minSalary >= this.fieldLength.MinSalaryValue ||
+            maxSalary >= this.fieldLength.MinSalaryValue
+          ) {
+            this.formGroup.get(this.formField.SalaryCurrency)!.enable();
+          } else {
+            this.formGroup.get(this.formField.SalaryCurrency)!.disable();
+          }
+        })
+      )
+      .subscribe();
   }
 
   private handleReset(): void {

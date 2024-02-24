@@ -2,63 +2,56 @@
   <ng-template #dialogContent>
     <h2 mat-dialog-title>Are you sure you want to remove {{offers.length === 1 ? 'a offer' : 'the offers'}}?</h2>
     <mat-dialog-content>
+
       <ul *ngIf="offers.length === 1; else loopOffers">
         <li>
-        <span>
-          <strong>
-            Position:
-          </strong>
-        </span>
+          <span>
+            <strong>
+              Position:
+            </strong>
+          </span>
           <span>{{offers[0].position}}</span>
         </li>
         <li>
-        <span>
-          <strong>
-            Company:
-          </strong>
-        </span>
+          <span>
+            <strong>
+              Company:
+            </strong>
+          </span>
           <span>{{offers[0].company}}</span>
         </li>
         <li>
-        <span>
-          <strong>
-            Location:
-          </strong>
-        </span>
+          <span>
+            <strong>
+              Location:
+            </strong>
+          </span>
           <span>{{offers[0].location}}</span>
         </li>
         <li>
-        <span>
-          <strong>
-            Salary:
-          </strong>
-        </span>
           <span>
-          {{
-            offers[0].minSalary && offers[0].maxSalary ?
-              (offers[0].minSalary | currency:offers[0].salaryCurrency:'symbol':'1.0-0') + ' - ' + (offers[0].maxSalary | currency:offers[0].salaryCurrency:'symbol':'1.0-0') :
-              offers[0].minSalary ?
-                (offers[0].minSalary | currency:offers[0].salaryCurrency:'symbol':'1.0-0') :
-                offers[0].maxSalary ?
-                  (offers[0].maxSalary | currency:offers[0].salaryCurrency:'symbol':'1.0-0') :
-                  '-'
-            }}
-        </span>
+            <strong>
+              Salary:
+            </strong>
+          </span>
+          <span>
+            {{offers[0] | formatOfferSalary}}
+          </span>
         </li>
         <li>
-        <span>
-          <strong>
-            Status:
-          </strong>
-        </span>
+          <span>
+            <strong>
+              Status:
+            </strong>
+          </span>
           <span>{{ offers[0].status }}</span>
         </li>
         <li>
-        <span>
-          <strong>
-            Priority:
-          </strong>
-        </span>
+          <span>
+            <strong>
+              Priority:
+            </strong>
+          </span>
           <span class="offerPriority" [class]="'offerPriority--' + offers[0].priority">{{ offers[0].priority }}</span>
         </li>
       </ul>
@@ -85,6 +78,7 @@
           Remove
         </button>
       </mat-dialog-actions>
+
     </mat-dialog-content>
   </ng-template>
 </ng-container>

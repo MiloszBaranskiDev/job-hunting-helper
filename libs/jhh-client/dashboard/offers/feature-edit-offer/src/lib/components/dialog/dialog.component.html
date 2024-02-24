@@ -5,7 +5,7 @@
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
         <div [ngClass]="['formGrid', breakpoint$ | async]">
-          <mat-form-field class="fullRow" appearance="fill">
+          <mat-form-field appearance="fill">
             <mat-label>{{slugPrefix}}</mat-label>
             <input
               matInput
@@ -45,7 +45,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field class="fullRow" appearance="fill">
             <mat-label>Link</mat-label>
             <input matInput [formControlName]="formField.Link" whitespaceSanitizer required/>
             <mat-error *ngIf="formGroup.get(formField.Link)?.hasError(formErrorKey.Required)">
@@ -215,6 +215,7 @@
             Save
           </button>
         </mat-dialog-actions>
+
       </form>
     </mat-dialog-content>
   </ng-template>

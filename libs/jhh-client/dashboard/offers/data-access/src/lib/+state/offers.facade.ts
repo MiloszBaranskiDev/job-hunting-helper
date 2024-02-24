@@ -73,11 +73,11 @@ export class OffersFacade {
     location: OfferLocation,
     status: OfferStatus,
     priority: OfferPriority,
-    minSalary: number | undefined,
-    maxSalary: number | undefined,
-    salaryCurrency: OfferSalaryCurrency | undefined,
-    email: string | undefined,
-    description: string | undefined
+    minSalary?: number,
+    maxSalary?: number,
+    salaryCurrency?: OfferSalaryCurrency,
+    email?: string,
+    description?: string
   ) {
     return this.actionResolverService.executeAndWatch(
       OffersActions.addOffer({
@@ -111,11 +111,11 @@ export class OffersFacade {
     location: OfferLocation,
     status: OfferStatus,
     priority: OfferPriority,
-    minSalary: number | undefined,
-    maxSalary: number | undefined,
-    salaryCurrency: OfferSalaryCurrency | undefined,
-    email: string | undefined,
-    description: string | undefined
+    minSalary?: number,
+    maxSalary?: number,
+    salaryCurrency?: OfferSalaryCurrency,
+    email?: string,
+    description?: string
   ) {
     return this.actionResolverService.executeAndWatch(
       OffersActions.editOffer({

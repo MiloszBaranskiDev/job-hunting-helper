@@ -8,7 +8,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   MatDialog,
   MatDialogModule,
@@ -23,6 +23,8 @@ import { Observable } from 'rxjs';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { RemoveOffersDialogService } from '../../services/remove-offers-dialog.service';
 
+import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
+
 import { Offer } from '@jhh/shared/domain';
 
 @Component({
@@ -35,7 +37,9 @@ import { Offer } from '@jhh/shared/domain';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatFormFieldModule,
+    FormatOfferSalaryPipe,
   ],
+  providers: [CurrencyPipe],
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
 })
@@ -46,14 +50,13 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     inject(RemoveOffersDialogService);
 
   @Input({ required: true }) offers: Offer[];
-  @ViewChild('dialogContent')
-  private readonly dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+
+  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   removeOffersInProgress$: Observable<boolean>;
   removeOffersError$: Observable<string | null>;
   removeOffersSuccess$: Observable<boolean>;
-
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.removeOffersInProgress$ = this.offersFacade.removeOffersInProgress$;

@@ -85,10 +85,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) offer: Offer;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  editOfferInProgress$: Observable<boolean>;
-  editOfferError$: Observable<string | null>;
-  breakpoint$: Observable<string>;
-
   readonly formField: typeof OfferField = OfferField;
   readonly fieldLength: typeof OfferFieldLength = OfferFieldLength;
   readonly formErrorKey: typeof OfferFormErrorKey = OfferFormErrorKey;
@@ -99,9 +95,14 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     Object.values(OfferSalaryCurrency);
   readonly offerStatus: OfferStatus[] = Object.values(OfferStatus);
   readonly offerPriority: OfferPriority[] = Object.values(OfferPriority);
+
   formGroup: FormGroup;
   dialogRef: MatDialogRef<TemplateRef<any>>;
   slugPrefix: string;
+
+  editOfferInProgress$: Observable<boolean>;
+  editOfferError$: Observable<string | null>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.editOfferInProgress$ = this.offersFacade.editOfferInProgress$;
@@ -114,30 +115,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       '/';
 
     this.initFormGroup();
-
-    this.formGroup.valueChanges
-      .pipe(
-        map((val) => ({
-          minSalary: val.minSalary,
-          maxSalary: val.maxSalary,
-        })),
-        distinctUntilChanged(
-          (prev, curr) =>
-            prev.minSalary === curr.minSalary &&
-            prev.maxSalary === curr.maxSalary
-        ),
-        tap(({ minSalary, maxSalary }) => {
-          if (
-            minSalary >= this.fieldLength.MinSalaryValue ||
-            maxSalary >= this.fieldLength.MinSalaryValue
-          ) {
-            this.formGroup.get(this.formField.SalaryCurrency)!.enable();
-          } else {
-            this.formGroup.get(this.formField.SalaryCurrency)!.disable();
-          }
-        })
-      )
-      .subscribe();
+    this.toggleCurrencyField();
   }
 
   ngAfterViewInit(): void {
@@ -168,8 +146,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
         salaryCurrency,
         description,
       } = formData;
-      const salaryCurrencyValue: OfferSalaryCurrency | undefined =
-        salaryCurrency !== undefined ? salaryCurrency : undefined;
 
       if (this.hasFormChanges()) {
         this.offersFacade.editOffer(
@@ -184,7 +160,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
           priority,
           minSalary,
           maxSalary,
-          salaryCurrencyValue,
+          salaryCurrency,
           email,
           description
         );
@@ -200,6 +176,32 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogRef.afterClosed().subscribe(() => {
       this.editOfferDialogService.clearOfferToEdit();
     });
+  }
+
+  private toggleCurrencyField(): void {
+    this.formGroup.valueChanges
+      .pipe(
+        map((val) => ({
+          minSalary: val.minSalary,
+          maxSalary: val.maxSalary,
+        })),
+        distinctUntilChanged(
+          (prev, curr) =>
+            prev.minSalary === curr.minSalary &&
+            prev.maxSalary === curr.maxSalary
+        ),
+        tap(({ minSalary, maxSalary }) => {
+          if (
+            minSalary >= this.fieldLength.MinSalaryValue ||
+            maxSalary >= this.fieldLength.MinSalaryValue
+          ) {
+            this.formGroup.get(this.formField.SalaryCurrency)!.enable();
+          } else {
+            this.formGroup.get(this.formField.SalaryCurrency)!.disable();
+          }
+        })
+      )
+      .subscribe();
   }
 
   private hasFormChanges(): boolean {

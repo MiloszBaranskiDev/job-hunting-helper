@@ -39,6 +39,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { RemoveOffersDialogService } from '@jhh/jhh-client/dashboard/offers/feature-remove-offers';
 import { OffersFacade } from '@jhh/jhh-client/dashboard/offers/data-access';
 import { QueryParamsService } from '../../services/query-params.service';
+
 import { FormatOfferSalaryPipe } from '@jhh/jhh-client/dashboard/offers/util-format-offer-salary';
 import { GetOfferStatusIcon } from '@jhh/jhh-client/dashboard/offers/util-get-offer-status-icon';
 
@@ -84,19 +85,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
   @Input({ required: true }) offers: Offer[];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  removeOffersInProgress$: Observable<boolean>;
-  removeOffersSuccess$: Observable<boolean>;
-
-  dataSource: MatTableDataSource<OfferWithIcon>;
-  selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
-
-  filterValue: string;
-  paginatorPage: number;
-  paginatorSize: number;
 
   readonly offersTableColumn: typeof OffersTableColumn = OffersTableColumn;
   readonly offersTableColumnValue: OffersTableColumn[] =
@@ -104,7 +94,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   readonly offersPerPageValues: number[] = Object.values(OffersPerPage).filter(
     (value): value is number => typeof value === 'number'
   );
-
   readonly priorityMapping: { [key: string]: number } = {
     [OfferPriority.High]: 3,
     [OfferPriority.Medium]: 2,
@@ -118,6 +107,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     [OfferStatus.Applied]: 2,
     [OfferStatus.NotApplied]: 1,
   };
+
+  dataSource: MatTableDataSource<OfferWithIcon>;
+  selection: SelectionModel<Offer> = new SelectionModel<Offer>(true, []);
+  filterValue: string;
+  paginatorPage: number;
+  paginatorSize: number;
+
+  removeOffersInProgress$: Observable<boolean>;
+  removeOffersSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
     this.updateDataSource();
@@ -271,7 +269,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private handleRemoveSuccess(): void {
     this.removeOffersSuccess$
       .pipe(
-        filter((val) => val),
+        filter((success) => success),
         tap(() => {
           this.selection.clear();
         }),

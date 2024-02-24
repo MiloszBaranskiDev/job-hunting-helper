@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
@@ -55,7 +55,7 @@ export class ControlsComponent implements OnInit {
   private navigateAfterSlugChange(): void {
     this.editOfferSuccess$
       .pipe(
-        filter((val) => val === true),
+        filter((success) => success),
         switchMap(() => this.offersFacade.getOfferSlug$ById(this.offer.id)),
         filter((newSlug) => newSlug !== null && newSlug !== this.offer.slug),
         tap((newSlug) => {
@@ -75,9 +75,6 @@ export class ControlsComponent implements OnInit {
               });
           }
         }),
-        catchError((error) => {
-          return EMPTY;
-        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -86,12 +83,9 @@ export class ControlsComponent implements OnInit {
   private navigateAfterRemove(): void {
     this.removeOffersSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.router.navigate([
-              this.router.url.replace(this.offer.slug, ''),
-            ]);
-          }
+        filter((success) => success),
+        tap(() => {
+          this.router.navigate([this.router.url.replace(this.offer.slug, '')]);
         }),
         takeUntilDestroyed(this.destroyRef)
       )
