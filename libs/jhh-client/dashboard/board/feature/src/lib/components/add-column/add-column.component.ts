@@ -63,7 +63,7 @@ export class AddColumnComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   readonly formField: typeof BoardColumnField = BoardColumnField;
   readonly fieldLength: typeof BoardColumnFieldLength = BoardColumnFieldLength;

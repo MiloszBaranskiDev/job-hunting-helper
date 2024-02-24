@@ -59,7 +59,7 @@ export class ControlsComponent implements OnInit {
   @Input({ required: true }) isPlayMode$: BehaviorSubject<boolean>;
   @Input({ required: true }) isQuizShuffled$: BehaviorSubject<boolean>;
   @Input({ required: true }) questionsLimit$: BehaviorSubject<number>;
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   dialogRef: MatDialogRef<TemplateRef<any>>;
 

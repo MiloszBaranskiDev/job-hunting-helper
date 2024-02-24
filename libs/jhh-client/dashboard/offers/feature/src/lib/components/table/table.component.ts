@@ -85,8 +85,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
   @Input({ required: true }) offers: Offer[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) private readonly sort: MatSort;
 
   readonly offersTableColumn: typeof OffersTableColumn = OffersTableColumn;
   readonly offersTableColumnValue: OffersTableColumn[] =

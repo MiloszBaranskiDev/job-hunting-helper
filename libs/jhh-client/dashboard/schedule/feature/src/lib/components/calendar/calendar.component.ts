@@ -55,7 +55,8 @@ export class CalendarComponent implements OnInit {
   @Input({ required: true }) isActiveDayOpen: boolean;
   @Output() toggleIsActiveDayOpen: EventEmitter<boolean> =
     new EventEmitter<boolean>();
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent', { static: true })
+  private readonly modalContent: TemplateRef<any>;
 
   private _events: ScheduleEvent[];
   readonly CalendarView: typeof CalendarView = CalendarView;

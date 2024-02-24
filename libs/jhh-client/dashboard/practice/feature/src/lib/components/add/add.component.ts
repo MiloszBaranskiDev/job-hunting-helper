@@ -77,7 +77,7 @@ export class AddComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
-  @ViewChild('dialogContent') dialogContent: TemplateRef<any>;
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   readonly formField: typeof QuizField = QuizField;
   readonly formErrorKey: typeof QuizFormErrorKey = QuizFormErrorKey;

@@ -22,7 +22,7 @@ import { QuizItem } from '@jhh/shared/domain';
 })
 export class QuestionsComponent {
   @Input({ required: true }) questions: QuizItem[];
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild(MatAccordion) private readonly accordion: MatAccordion;
 
   isAccordionOpen: boolean = false;
 
