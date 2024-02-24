@@ -100,10 +100,11 @@ export class ColumnsComponent implements OnInit, OnDestroy {
   private readonly horizontalScrollContainer: ElementRef;
   @ViewChildren('columnItemsContainer')
   private readonly columnItemsContainers: QueryList<ElementRef>;
-  @Input() isSaving$: BehaviorSubject<boolean>;
-  @Input() wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
+  @Input({ required: true }) isSaving$: BehaviorSubject<boolean>;
+  @Input({ required: true })
+  wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
 
-  @Input() set columns(value: BoardColumn[]) {
+  @Input({ required: true }) set columns(value: BoardColumn[]) {
     this.originalColumns = value;
     this.mergeWithWorkingData(value);
   }

@@ -22,7 +22,7 @@ import { SelectComponent } from '../../components/select/select.component';
 export class JhhClientDashboardSortingComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  @Input() sortOptionsValues: string[];
+  @Input({ required: true }) sortOptionsValues: string[];
   @Input({ required: true }) defaultSort: string;
   @Input({ required: true }) currentSort$: BehaviorSubject<string>;
   @Output() updateCurrentSort: EventEmitter<string> =

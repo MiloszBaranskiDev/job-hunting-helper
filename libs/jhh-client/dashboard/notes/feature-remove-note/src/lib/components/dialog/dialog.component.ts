@@ -46,7 +46,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     RemoveNoteDialogService
   );
 
-  @Input() noteToRemove: Note;
+  @Input({ required: true }) noteToRemove: Note;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   dialogRef: MatDialogRef<TemplateRef<any>>;

@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
     RemoveNoteDialogService
   );
 
-  @Input() note: Note;
+  @Input({ required: true }) note: Note;
 
   groups$: Observable<NotesGroup[] | null>;
 

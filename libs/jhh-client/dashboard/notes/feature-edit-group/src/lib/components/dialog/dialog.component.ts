@@ -66,7 +66,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
     inject(EditNotesGroupDialogService);
 
-  @Input() groupToEdit: NotesGroup;
+  @Input({ required: true }) groupToEdit: NotesGroup;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;

@@ -11,9 +11,9 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./results.component.scss'],
 })
 export class ResultsComponent {
-  @Input() results: any[];
-  @Input() loading: boolean;
-  @Input() searchStarted: boolean;
+  @Input({ required: true }) results: any[];
+  @Input({ required: true }) loading: boolean;
+  @Input({ required: true }) searchStarted: boolean;
 
   trackByFn(index: number, item: any) {
     return item.id;

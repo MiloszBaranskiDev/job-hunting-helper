@@ -34,7 +34,7 @@ export class RelatedNotesComponent implements OnChanges {
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
 
-  @Input() relatedNotes: Note[] | null;
+  @Input({ required: true }) relatedNotes: Note[] | null;
 
   private swiper: Swiper;
 

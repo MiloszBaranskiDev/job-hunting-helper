@@ -10,5 +10,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./updated-at.component.scss'],
 })
 export class UpdatedAtComponent {
-  @Input() updatedAt: Date;
+  @Input({ required: true }) updatedAt: Date;
 }

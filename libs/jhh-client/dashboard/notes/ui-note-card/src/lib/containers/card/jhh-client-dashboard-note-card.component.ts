@@ -25,5 +25,5 @@ import { UpdatedAtComponent } from '../../components/updated-at/updated-at.compo
 })
 export class JhhClientDashboardNoteCardComponent {
   @Input() slug?: string;
-  @Input() note: Note;
+  @Input({ required: true }) note: Note;
 }

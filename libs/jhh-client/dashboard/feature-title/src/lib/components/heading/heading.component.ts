@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./heading.component.scss'],
 })
 export class HeadingComponent {
-  @Input() heading: string;
+  @Input({ required: true }) heading: string;
 }

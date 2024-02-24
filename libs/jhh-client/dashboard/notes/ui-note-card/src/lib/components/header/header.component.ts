@@ -11,6 +11,6 @@ import { StripHtmlPipe } from '@jhh/jhh-client/shared/pipes';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() name: string;
-  @Input() content: string;
+  @Input({ required: true }) name: string;
+  @Input({ required: true }) content: string;
 }

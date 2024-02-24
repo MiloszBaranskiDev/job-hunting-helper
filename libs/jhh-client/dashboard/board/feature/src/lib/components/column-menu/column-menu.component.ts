@@ -73,7 +73,9 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   @Input({ required: true }) column: BoardColumn;
-  @Input() fetchItems: (columnId: string) => BoardColumnItem[];
+  @Input({ required: true }) fetchItems: (
+    columnId: string
+  ) => BoardColumnItem[];
   @ViewChild('editDialogContent')
   private readonly editDialogContent: TemplateRef<any>;
   @ViewChild('removeDialogContent')

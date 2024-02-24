@@ -35,7 +35,7 @@ export class ControlsComponent implements OnInit {
   );
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  @Input() note: Note;
+  @Input({ required: true }) note: Note;
 
   groups$: Observable<NotesGroup[] | null>;
   editNoteSuccess$: Observable<boolean>;

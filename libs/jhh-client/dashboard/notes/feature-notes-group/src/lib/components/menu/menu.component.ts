@@ -38,7 +38,7 @@ export class MenuComponent implements OnInit {
     inject(RemoveNotesGroupDialogService);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  @Input() group: NotesGroup;
+  @Input({ required: true }) group: NotesGroup;
 
   readonly clientRoute: typeof ClientRoute = ClientRoute;
 

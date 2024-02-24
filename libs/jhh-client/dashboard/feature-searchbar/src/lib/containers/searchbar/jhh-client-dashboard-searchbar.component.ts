@@ -26,7 +26,9 @@ export class JhhClientDashboardSearchbarComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   @Input() placeholder: string = 'Search...';
-  @Input() searchFunction: (query: string) => Observable<any[] | null>;
+  @Input({ required: true }) searchFunction: (
+    query: string
+  ) => Observable<any[] | null>;
 
   query$: Subject<string> = new Subject<string>();
   results$: Observable<any[]>;

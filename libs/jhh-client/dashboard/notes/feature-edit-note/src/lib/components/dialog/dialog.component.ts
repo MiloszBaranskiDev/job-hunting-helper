@@ -77,7 +77,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     EditNoteDialogService
   );
 
-  @Input() noteToEdit: Note;
+  @Input({ required: true }) noteToEdit: Note;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
   @ViewChild('scrollTarget') private readonly scrollTarget: ElementRef;
 

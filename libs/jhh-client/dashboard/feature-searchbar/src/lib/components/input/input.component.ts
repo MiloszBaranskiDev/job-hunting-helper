@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent {
-  @Input() placeholder: string;
+  @Input({ required: true }) placeholder: string;
   @Output() searchChange: EventEmitter<string> = new EventEmitter<string>();
 
   onInputChange(value: string): void {

@@ -11,8 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent {
-  @Input() currentSort: string;
-  @Input() sortOptionsValues: string[];
+  @Input({ required: true }) currentSort: string;
+  @Input({ required: true }) sortOptionsValues: string[];
   @Output() selectionChange: EventEmitter<string> = new EventEmitter<string>();
 
   handleSortChange(newValue: string): void {

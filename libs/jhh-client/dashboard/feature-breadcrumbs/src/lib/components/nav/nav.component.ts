@@ -21,7 +21,7 @@ import { Breadcrumb } from '@jhh/jhh-client/dashboard/domain';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent {
-  @Input() breadcrumbs: Breadcrumb[];
+  @Input({ required: true }) breadcrumbs: Breadcrumb[];
 
   trackByFn(index: number, item: Breadcrumb): string {
     return item.url;

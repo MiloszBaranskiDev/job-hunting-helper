@@ -20,5 +20,5 @@ import { HeaderComponent } from '../../components/header/header.component';
   styleUrls: ['./jhh-client-auth-ui-template.component.scss'],
 })
 export class JhhClientAuthUiTemplateComponent {
-  @Input() heading: string;
+  @Input({ required: true }) heading: string;
 }

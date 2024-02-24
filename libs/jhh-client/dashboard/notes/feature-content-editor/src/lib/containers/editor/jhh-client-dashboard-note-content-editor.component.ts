@@ -12,8 +12,8 @@ import { WysiwygComponent } from '../../components/wysiwyg/wysiwyg.component';
   styleUrls: ['./jhh-client-dashboard-note-content-editor.component.scss'],
 })
 export class JhhClientDashboardNoteContentEditorComponent {
+  @Input({ required: true }) contentControl: FormControl;
   @Output() editorCreated: EventEmitter<any> = new EventEmitter<any>();
-  @Input() contentControl: FormControl;
 
   handleEditorCreated(quillInstance: any): void {
     this.editorCreated.emit(quillInstance);

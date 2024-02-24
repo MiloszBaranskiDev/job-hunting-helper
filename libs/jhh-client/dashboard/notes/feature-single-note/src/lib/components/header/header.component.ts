@@ -14,5 +14,5 @@ import { Note } from '@jhh/shared/domain';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() note: Note;
+  @Input({ required: true }) note: Note;
 }

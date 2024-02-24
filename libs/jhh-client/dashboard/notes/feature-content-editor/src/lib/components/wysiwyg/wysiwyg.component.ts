@@ -31,7 +31,7 @@ import Quill from 'quill';
   ],
 })
 export class WysiwygComponent implements OnInit, ControlValueAccessor {
-  @Input() formControl: FormControl;
+  @Input({ required: true }) formControl: FormControl;
   @Output() editorCreated: EventEmitter<any> = new EventEmitter<any>();
 
   private quillInstance: any;

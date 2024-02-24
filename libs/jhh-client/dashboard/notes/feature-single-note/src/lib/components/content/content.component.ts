@@ -18,7 +18,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class ContentComponent implements OnChanges {
   private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
-  @Input() content: string;
+  @Input({ required: true }) content: string;
 
   sanitizedContent: SafeHtml;
 

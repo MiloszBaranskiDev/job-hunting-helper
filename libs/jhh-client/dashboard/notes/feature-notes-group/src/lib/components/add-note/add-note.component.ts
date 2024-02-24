@@ -74,7 +74,7 @@ export class AddNoteComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
-  @Input() groupId: string;
+  @Input({ required: true }) groupId: string;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
   private dialogRef: MatDialogRef<TemplateRef<any>>;

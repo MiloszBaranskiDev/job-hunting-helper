@@ -27,8 +27,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./controls.component.scss'],
 })
 export class ControlsComponent implements OnChanges {
-  @Input() currentPage: number;
-  @Input() totalPages: number;
+  @Input({ required: true }) currentPage: number;
+  @Input({ required: true }) totalPages: number;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
 
   inputPage: number;
