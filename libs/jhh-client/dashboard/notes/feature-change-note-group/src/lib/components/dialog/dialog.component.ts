@@ -39,11 +39,11 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { Note, NotesGroup } from '@jhh/shared/domain';
-import { NoteFormField } from '@jhh/jhh-client/dashboard/notes/domain';
-
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { ChangeNoteGroupDialogService } from '../../services/change-note-group-dialog.service';
+
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { NoteFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 @Component({
   selector: 'jhh-change-note-group-dialog',
@@ -71,14 +71,15 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() noteToMove: Note;
   @ViewChild('dialogContent') readonly dialogContent: TemplateRef<any>;
 
+  private dialogRef: MatDialogRef<TemplateRef<any>>;
+  readonly formField: typeof NoteFormField = NoteFormField;
+
+  formGroup: FormGroup;
+
   changeNoteGroupInProgress$: Observable<boolean>;
   changeNoteGroupError$: Observable<string | null>;
   filteredGroups$: Observable<any[]> | undefined;
   groups$: Observable<NotesGroup[] | null>;
-
-  private dialogRef: MatDialogRef<TemplateRef<any>>;
-  formGroup: FormGroup;
-  readonly formField: typeof NoteFormField = NoteFormField;
 
   ngOnInit(): void {
     this.changeNoteGroupInProgress$ =

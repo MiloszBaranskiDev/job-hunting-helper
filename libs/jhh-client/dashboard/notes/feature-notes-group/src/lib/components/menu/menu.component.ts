@@ -4,16 +4,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { first, Observable, tap } from 'rxjs';
+import { filter, first, Observable, tap } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { NotesGroup } from '@jhh/shared/domain';
-import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
+
+import { NotesGroup } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-notes-menu',
@@ -40,10 +40,10 @@ export class MenuComponent implements OnInit {
 
   @Input() group: NotesGroup;
 
+  readonly clientRoute: typeof ClientRoute = ClientRoute;
+
   editNotesGroupSuccess$: Observable<boolean>;
   removeNotesGroupSuccess$: Observable<boolean>;
-
-  readonly clientRoute: typeof ClientRoute = ClientRoute;
 
   ngOnInit(): void {
     this.editNotesGroupSuccess$ = this.notesFacade.editNotesGroupSuccess$;
@@ -80,29 +80,28 @@ export class MenuComponent implements OnInit {
     this.editNotesGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          if (val) {
-            this.notesFacade
-              .getGroupSlug$ByGroupId(this.group.id)
-              .pipe(
-                first(),
-                tap((slug) => {
-                  if (slug) {
-                    this.router
-                      .navigateByUrl('', { skipLocationChange: true })
-                      .then(() => {
-                        this.router.navigate(
-                          [`${this.clientRoute.NotesLink}/${slug}`],
-                          { queryParams: currentQueryParams }
-                        );
-                      });
-                  } else {
-                    this.router.navigate([this.clientRoute.NotesLink]);
-                  }
-                })
-              )
-              .subscribe();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.notesFacade
+            .getGroupSlug$ByGroupId(this.group.id)
+            .pipe(
+              first(),
+              tap((slug) => {
+                if (slug) {
+                  this.router
+                    .navigateByUrl('', { skipLocationChange: true })
+                    .then(() => {
+                      this.router.navigate(
+                        [`${this.clientRoute.NotesLink}/${slug}`],
+                        { queryParams: currentQueryParams }
+                      );
+                    });
+                } else {
+                  this.router.navigate([this.clientRoute.NotesLink]);
+                }
+              })
+            )
+            .subscribe();
         })
       )
       .subscribe();
@@ -112,12 +111,9 @@ export class MenuComponent implements OnInit {
     this.removeNotesGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          if (val) {
-            this.router.navigate([
-              this.router.url.replace(this.group.slug, ''),
-            ]);
-          }
+        filter((success) => success),
+        tap(() => {
+          this.router.navigate([this.router.url.replace(this.group.slug, '')]);
         })
       )
       .subscribe();

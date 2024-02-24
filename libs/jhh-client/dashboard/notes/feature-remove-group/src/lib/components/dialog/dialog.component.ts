@@ -50,10 +50,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() groupToRemove: NotesGroup;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
+  dialogRef: MatDialogRef<TemplateRef<any>>;
+
   removeNotesGroupInProgress$: Observable<boolean>;
   removeNotesGroupError$: Observable<string | null>;
-
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.removeNotesGroupInProgress$ =

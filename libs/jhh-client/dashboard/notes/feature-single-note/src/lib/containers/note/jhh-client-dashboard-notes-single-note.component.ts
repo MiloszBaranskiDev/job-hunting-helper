@@ -16,6 +16,7 @@ import { ControlsComponent } from '../../components/controls/controls.component'
 import { JhhClientDashboardRemoveNoteComponent } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { JhhClientDashboardEditNoteComponent } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
 import { JhhClientDashboardChangeNoteGroupComponent } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
+
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
@@ -42,9 +43,9 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
     inject(BreadcrumbsService);
   private readonly titleService: TitleService = inject(TitleService);
 
-  note$: Observable<Note>;
-
   relatedNotes: Note[] | null;
+
+  note$: Observable<Note>;
 
   ngOnInit(): void {
     this.loadNoteAndSetData();

@@ -6,12 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { NotesGroup } from '@jhh/shared/domain';
-
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
 import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
+
+import { NotesGroup } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-notes-groups-list',

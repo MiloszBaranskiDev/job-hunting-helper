@@ -53,16 +53,17 @@ export class JhhClientDashboardNotesGroupsComponent
   private readonly queryParamsService: QueryParamsService =
     inject(QueryParamsService);
 
+  readonly sortOptionsValues: string[] = Object.values(NotesGroupsSort);
+  readonly groupsPerPage: number = 20;
+
+  defaultPage: number;
+  defaultSort: string;
+  totalPages: number;
+
   notesGroups$: Observable<NotesGroup[] | null>;
   sortedNotesGroups$: Observable<NotesGroup[] | null>;
   currentPage$: BehaviorSubject<number>;
   currentSort$: BehaviorSubject<string>;
-
-  readonly sortOptionsValues: string[] = Object.values(NotesGroupsSort);
-  readonly groupsPerPage: number = 20;
-  defaultPage: number;
-  defaultSort: string;
-  totalPages: number;
 
   ngOnInit(): void {
     this.notesGroups$ = this.notesFacade.notesGroups$;

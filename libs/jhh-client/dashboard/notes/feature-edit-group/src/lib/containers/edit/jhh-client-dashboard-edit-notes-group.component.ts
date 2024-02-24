@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Observable, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NotesGroup } from '@jhh/shared/domain';
-
 import { EditNotesGroupDialogService } from '../../services/edit-notes-group-dialog.service';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
+
+import { NotesGroup } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-edit-notes-group',
@@ -27,8 +27,8 @@ export class JhhClientDashboardEditNotesGroupComponent implements OnInit {
     this.editNotesGroupDialogService.notesGroupToEdit$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          this.notesGroupToEdit$ = of(val);
+        tap((group) => {
+          this.notesGroupToEdit$ = of(group);
         })
       )
       .subscribe();

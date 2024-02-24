@@ -20,10 +20,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { Note } from '@jhh/shared/domain';
-
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 import { RemoveNoteDialogService } from '../../services/remove-note-dialog.service';
+
+import { Note } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-note-dialog',
@@ -49,10 +49,10 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() noteToRemove: Note;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
+  dialogRef: MatDialogRef<TemplateRef<any>>;
+
   removeNoteInProgress$: Observable<boolean>;
   removeNoteError$: Observable<string | null>;
-
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.removeNoteInProgress$ = this.notesFacade.removeNoteInProgress$;

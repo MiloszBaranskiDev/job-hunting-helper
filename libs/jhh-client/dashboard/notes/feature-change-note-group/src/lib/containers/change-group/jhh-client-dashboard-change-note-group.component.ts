@@ -26,8 +26,8 @@ export class JhhClientDashboardChangeNoteGroupComponent implements OnInit {
     this.changeNoteGroupDialogService.noteToMove$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          this.noteToMove$ = of(val);
+        tap((note) => {
+          this.noteToMove$ = of(note);
         })
       )
       .subscribe();

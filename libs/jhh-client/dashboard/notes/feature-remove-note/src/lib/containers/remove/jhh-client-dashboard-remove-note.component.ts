@@ -28,8 +28,8 @@ export class JhhClientDashboardRemoveNoteComponent implements OnInit {
     this.removeNoteDialogService.noteToRemove$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          this.noteToRemove$ = of(val);
+        tap((note) => {
+          this.noteToRemove$ = of(note);
         })
       )
       .subscribe();

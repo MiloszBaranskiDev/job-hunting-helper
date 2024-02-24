@@ -35,6 +35,7 @@ export class WysiwygComponent implements OnInit, ControlValueAccessor {
   @Output() editorCreated: EventEmitter<any> = new EventEmitter<any>();
 
   private quillInstance: any;
+
   editorModules: object;
 
   ngOnInit(): void {

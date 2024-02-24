@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-
-import { Note, NotesGroup } from '@jhh/shared/domain';
-import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
 import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 @Component({
   selector: 'jhh-note-controls',
@@ -73,7 +73,7 @@ export class ControlsComponent implements OnInit {
     this.editNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter((val) => val === true),
+        filter((success) => success),
         switchMap(() =>
           this.notesFacade.getNoteSlug$ByIds(this.note.id, this.note.groupId)
         ),
@@ -94,9 +94,6 @@ export class ControlsComponent implements OnInit {
                 this.router.navigate([newNoteLink]);
               });
           }
-        }),
-        catchError((error) => {
-          return EMPTY;
         })
       )
       .subscribe();
@@ -106,7 +103,7 @@ export class ControlsComponent implements OnInit {
     this.changeNoteGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter((val) => val === true),
+        filter((success) => success),
         switchMap(() => this.notesFacade.getGroupSlug$ByNoteId(this.note.id)),
         tap((newGroupSlug) => {
           const currentUrlSegments: string[] = this.router.url.split('/');
@@ -128,13 +125,9 @@ export class ControlsComponent implements OnInit {
     this.removeNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter((val) => val === true),
-        switchMap(() =>
-          this.notesFacade.getNoteSlug$ByIds(this.note.id, this.note.groupId)
-        ),
-        catchError((error) => {
+        filter((success) => success),
+        tap(() => {
           this.router.navigate([this.router.url.replace(this.note.slug, '')]);
-          return EMPTY;
         })
       )
       .subscribe();

@@ -17,7 +17,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
-import { first, Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import {
   FormBuilder,
   FormGroup,
@@ -27,6 +27,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 
+import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
 import { NotesGroupFieldLength } from '@jhh/shared/domain';
@@ -34,7 +36,6 @@ import {
   NotesGroupFormErrorKey,
   NotesGroupFormField,
 } from '@jhh/jhh-client/dashboard/notes/domain';
-import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
 
 @Component({
   selector: 'jhh-add-notes-group',
@@ -60,18 +61,18 @@ export class AddGroupComponent implements OnInit {
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   private readonly notesFacade: NotesFacade = inject(NotesFacade);
 
+  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+
   readonly fieldLength: typeof NotesGroupFieldLength = NotesGroupFieldLength;
   readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
   readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
-  @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
+  formGroup: FormGroup;
+  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   addNotesGroupInProgress$: Observable<boolean>;
   addNotesGroupError$: Observable<string | null>;
   addNotesGroupSuccess$: Observable<boolean>;
-
-  formGroup: FormGroup;
-  dialogRef: MatDialogRef<TemplateRef<any>>;
 
   ngOnInit(): void {
     this.addNotesGroupInProgress$ = this.notesFacade.addNotesGroupInProgress$;
@@ -92,7 +93,7 @@ export class AddGroupComponent implements OnInit {
   onSubmit(): void {
     if (this.formGroup.valid) {
       const name = this.formGroup.get(this.formField.Name)?.value;
-      this.notesFacade.addNotesGroup(name).pipe(first());
+      this.notesFacade.addNotesGroup(name);
     }
   }
 
@@ -100,11 +101,10 @@ export class AddGroupComponent implements OnInit {
     this.addNotesGroupSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          if (val) {
-            this.formGroup?.reset();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.formGroup?.reset();
+          this.dialogRef?.close();
         })
       )
       .subscribe();

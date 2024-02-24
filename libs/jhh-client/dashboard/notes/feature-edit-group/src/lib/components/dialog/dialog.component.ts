@@ -27,18 +27,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { Observable } from 'rxjs';
 
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { EditNotesGroupDialogService } from '../../services/edit-notes-group-dialog.service';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
+
+import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
+
 import { NotesGroup, NotesGroupFieldLength } from '@jhh/shared/domain';
 import {
   NotesGroupFormErrorKey,
   NotesGroupFormField,
 } from '@jhh/jhh-client/dashboard/notes/domain';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-
-import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
-import { EditNotesGroupDialogService } from '../../services/edit-notes-group-dialog.service';
-
-import { WhitespaceSanitizerDirective } from '@jhh/jhh-client/shared/util-whitespace-sanitizer';
-import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 @Component({
   selector: 'jhh-edit-notes-group-dialog',
@@ -69,17 +69,17 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() groupToEdit: NotesGroup;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  editNotesGroupInProgress$: Observable<boolean>;
-  editNotesGroupError$: Observable<string | null>;
-  breakpoint$: Observable<string>;
-
+  private dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof NotesGroupFormField = NotesGroupFormField;
   readonly fieldLength: typeof NotesGroupFieldLength = NotesGroupFieldLength;
   readonly formErrorKey: typeof NotesGroupFormErrorKey = NotesGroupFormErrorKey;
 
-  private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
   slugPrefix: string;
+
+  editNotesGroupInProgress$: Observable<boolean>;
+  editNotesGroupError$: Observable<string | null>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.editNotesGroupInProgress$ = this.notesFacade.editNotesGroupInProgress$;

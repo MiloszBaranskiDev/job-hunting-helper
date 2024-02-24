@@ -2,12 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Note, NotesGroup } from '@jhh/shared/domain';
-
 import * as NotesActions from './notes.actions';
 import * as NotesSelectors from './notes.selectors';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+
+import { Note, NotesGroup } from '@jhh/shared/domain';
 
 @Injectable({
   providedIn: 'root',

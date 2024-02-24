@@ -28,8 +28,8 @@ export class JhhClientDashboardEditNoteComponent implements OnInit {
     this.editNoteDialogService.noteToEdit$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          this.noteToEdit$ = of(val);
+        tap((note) => {
+          this.noteToEdit$ = of(note);
         })
       )
       .subscribe();

@@ -81,19 +81,19 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
   @ViewChild('scrollTarget') private readonly scrollTarget: ElementRef;
 
-  editNoteInProgress$: Observable<boolean>;
-  editNoteError$: Observable<string | null>;
-  breakpoint$: Observable<string>;
-
+  private quillInstance: any;
+  private dialogRef: MatDialogRef<TemplateRef<any>>;
   readonly formField: typeof NoteFormField = NoteFormField;
   readonly fieldLength: typeof NoteFieldLength = NoteFieldLength;
   readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
-  private quillInstance: any;
-  private dialogRef: MatDialogRef<TemplateRef<any>>;
   formGroup: FormGroup;
   slugPrefix: string;
+
+  editNoteInProgress$: Observable<boolean>;
+  editNoteError$: Observable<string | null>;
+  breakpoint$: Observable<string>;
 
   ngOnInit(): void {
     this.editNoteInProgress$ = this.notesFacade.editNoteInProgress$;

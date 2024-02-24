@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
-import { Observable, tap } from 'rxjs';
+import { filter, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import DOMPurify from 'dompurify';
 
@@ -37,15 +37,15 @@ import { BytesToMbPipe } from '@jhh/jhh-client/shared/pipes';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
+import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
+
+import { JhhClientDashboardNoteContentEditorComponent } from '@jhh/jhh-client/dashboard/notes/feature-content-editor';
+
 import { NoteFieldLength, NoteSize } from '@jhh/shared/domain';
 import {
   NoteFormErrorKey,
   NoteFormField,
 } from '@jhh/jhh-client/dashboard/notes/domain';
-
-import { domPurifyConfig } from '@jhh/shared/dom-purify-config';
-
-import { JhhClientDashboardNoteContentEditorComponent } from '@jhh/jhh-client/dashboard/notes/feature-content-editor';
 
 @Component({
   selector: 'jhh-add-note',
@@ -77,18 +77,18 @@ export class AddNoteComponent implements OnInit {
   @Input() groupId: string;
   @ViewChild('dialogContent') private readonly dialogContent: TemplateRef<any>;
 
-  addNoteInProgress$: Observable<boolean>;
-  addNoteError$: Observable<string | null>;
-  addNoteSuccess$: Observable<boolean>;
-
+  private dialogRef: MatDialogRef<TemplateRef<any>>;
+  private quillInstance: any;
   readonly formField: typeof NoteFormField = NoteFormField;
   readonly fieldLength: typeof NoteFieldLength = NoteFieldLength;
   readonly formErrorKey: typeof NoteFormErrorKey = NoteFormErrorKey;
   readonly noteSize: typeof NoteSize = NoteSize;
 
-  private dialogRef: MatDialogRef<TemplateRef<any>>;
-  private quillInstance: any;
   formGroup: FormGroup;
+
+  addNoteInProgress$: Observable<boolean>;
+  addNoteError$: Observable<string | null>;
+  addNoteSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
     this.addNoteInProgress$ = this.notesFacade.addNoteInProgress$;
@@ -133,11 +133,10 @@ export class AddNoteComponent implements OnInit {
     this.addNoteSuccess$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          if (val) {
-            this.formGroup?.reset();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.formGroup?.reset();
+          this.dialogRef?.close();
         })
       )
       .subscribe();

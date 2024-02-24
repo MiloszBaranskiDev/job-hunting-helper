@@ -2,8 +2,6 @@ import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 
-import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-
 import { JhhClientDashboardNotesShellComponent } from './containers/shell/jhh-client-dashboard-notes-shell.component';
 
 import {
@@ -11,6 +9,8 @@ import {
   NotesEffects,
   notesReducer,
 } from '@jhh/jhh-client/dashboard/notes/data-access';
+
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 export const JhhClientDashboardNotesShellRoutes: Route = {
   path: '',

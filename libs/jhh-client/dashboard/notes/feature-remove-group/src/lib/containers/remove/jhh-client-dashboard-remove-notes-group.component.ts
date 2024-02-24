@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Observable, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NotesGroup } from '@jhh/shared/domain';
-
 import { RemoveNotesGroupDialogService } from '../../services/remove-notes-group-dialog.service';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
+
+import { NotesGroup } from '@jhh/shared/domain';
 
 @Component({
   selector: 'jhh-remove-notes-group',
@@ -27,8 +27,8 @@ export class JhhClientDashboardRemoveNotesGroupComponent implements OnInit {
     this.removeNotesGroupDialogService.notesGroupToRemove$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((val) => {
-          this.notesGroupToRemove$ = of(val);
+        tap((group) => {
+          this.notesGroupToRemove$ = of(group);
         })
       )
       .subscribe();
