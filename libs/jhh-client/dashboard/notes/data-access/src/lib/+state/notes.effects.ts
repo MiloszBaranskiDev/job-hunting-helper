@@ -183,8 +183,12 @@ export class NotesEffects {
               this.snackbarService.open('Note duplicated successfully!');
             })
           ),
-        onError: (action, error) =>
-          NotesActions.duplicateNoteFail({ payload: error }),
+        onError: (action, error) => {
+          this.snackbarService.open(
+            'Something went wrong when duplicating an note. Try it again'
+          );
+          return NotesActions.duplicateNoteFail({ payload: error });
+        },
       })
     )
   );
