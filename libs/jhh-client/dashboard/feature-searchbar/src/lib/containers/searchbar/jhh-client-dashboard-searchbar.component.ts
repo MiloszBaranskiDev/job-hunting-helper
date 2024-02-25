@@ -48,7 +48,6 @@ export class JhhClientDashboardSearchbarComponent implements OnInit {
 
   handleQuery(): void {
     this.results$ = this.query$.pipe(
-      takeUntilDestroyed(this.destroyRef),
       debounceTime(250),
       distinctUntilChanged(),
       tap(() => (this.loading = true)),
@@ -61,7 +60,8 @@ export class JhhClientDashboardSearchbarComponent implements OnInit {
           );
         }
       }),
-      tap(() => (this.loading = false))
+      tap(() => (this.loading = false)),
+      takeUntilDestroyed(this.destroyRef)
     );
   }
 }

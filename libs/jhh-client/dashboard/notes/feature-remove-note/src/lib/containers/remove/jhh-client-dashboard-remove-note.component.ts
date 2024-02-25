@@ -27,10 +27,10 @@ export class JhhClientDashboardRemoveNoteComponent implements OnInit {
   ngOnInit(): void {
     this.removeNoteDialogService.noteToRemove$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((note) => {
           this.noteToRemove$ = of(note);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

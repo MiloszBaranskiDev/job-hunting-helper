@@ -25,10 +25,10 @@ export class JhhClientDashboardChangeNoteGroupComponent implements OnInit {
   ngOnInit(): void {
     this.changeNoteGroupDialogService.noteToMove$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((note) => {
           this.noteToMove$ = of(note);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

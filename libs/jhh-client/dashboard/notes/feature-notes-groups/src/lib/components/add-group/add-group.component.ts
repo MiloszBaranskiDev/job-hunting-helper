@@ -100,12 +100,12 @@ export class AddGroupComponent implements OnInit {
   private handleReset(): void {
     this.addNotesGroupSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.formGroup?.reset();
           this.dialogRef?.close();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

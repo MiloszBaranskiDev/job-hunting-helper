@@ -32,12 +32,12 @@ export class JhhClientDashboardPaginationComponent implements OnInit {
   ngOnInit(): void {
     this.currentPage$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((page) => {
           if (!this.isValidPage(page)) {
             this.updateCurrentPage.emit(this.defaultPage);
           }
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

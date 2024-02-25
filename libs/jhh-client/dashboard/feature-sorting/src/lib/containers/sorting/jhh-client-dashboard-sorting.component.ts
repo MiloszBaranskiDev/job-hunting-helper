@@ -31,12 +31,12 @@ export class JhhClientDashboardSortingComponent implements OnInit {
   ngOnInit(): void {
     this.currentSort$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((sort) => {
           if (!this.isValidSort(sort)) {
             this.updateCurrentSort.emit(this.defaultSort);
           }
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

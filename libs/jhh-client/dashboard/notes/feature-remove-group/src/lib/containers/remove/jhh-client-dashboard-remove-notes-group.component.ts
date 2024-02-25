@@ -26,10 +26,10 @@ export class JhhClientDashboardRemoveNotesGroupComponent implements OnInit {
   ngOnInit(): void {
     this.removeNotesGroupDialogService.notesGroupToRemove$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((group) => {
           this.notesGroupToRemove$ = of(group);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

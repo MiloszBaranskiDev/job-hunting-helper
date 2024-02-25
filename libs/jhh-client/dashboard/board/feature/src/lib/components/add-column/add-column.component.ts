@@ -121,14 +121,14 @@ export class AddColumnComponent implements OnInit {
   private handleReset(): void {
     this.addBoardColumnSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.formGroup.reset({
             [this.formField.Color]: this.defaultColor.SkyBlue,
           });
           this.dialogRef?.close();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

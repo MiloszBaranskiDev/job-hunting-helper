@@ -79,7 +79,6 @@ export class MenuComponent implements OnInit {
 
     this.editNotesGroupSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.notesFacade
@@ -102,7 +101,8 @@ export class MenuComponent implements OnInit {
               })
             )
             .subscribe();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -110,11 +110,11 @@ export class MenuComponent implements OnInit {
   private navigateAfterRemove(): void {
     this.removeNotesGroupSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.router.navigate([this.router.url.replace(this.group.slug, '')]);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

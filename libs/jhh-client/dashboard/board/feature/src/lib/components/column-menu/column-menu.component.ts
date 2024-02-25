@@ -171,7 +171,6 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   private handleReset(): void {
     this.editBoardColumnSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.formGroup?.reset({
@@ -179,7 +178,8 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
             [this.formField.Color]: this.column.color,
           });
           this.dialogRef?.close();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

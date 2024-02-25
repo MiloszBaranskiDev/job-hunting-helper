@@ -26,10 +26,10 @@ export class JhhClientDashboardEditNotesGroupComponent implements OnInit {
   ngOnInit(): void {
     this.editNotesGroupDialogService.notesGroupToEdit$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((group) => {
           this.notesGroupToEdit$ = of(group);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

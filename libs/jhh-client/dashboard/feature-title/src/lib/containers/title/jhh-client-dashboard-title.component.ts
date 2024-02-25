@@ -26,14 +26,14 @@ export class JhhClientDashboardTitleComponent implements OnInit {
   ngOnInit(): void {
     this.titleSubscription = this.titleService.title$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((newTitle) => {
           if (newTitle !== null) {
             this.currentRouteTitle = newTitle;
           } else {
             this.setDefaultRouteTitle();
           }
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

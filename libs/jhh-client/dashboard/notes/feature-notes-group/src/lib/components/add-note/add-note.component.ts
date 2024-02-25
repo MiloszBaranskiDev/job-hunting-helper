@@ -132,12 +132,12 @@ export class AddNoteComponent implements OnInit {
   handleReset(): void {
     this.addNoteSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.formGroup?.reset();
           this.dialogRef?.close();
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

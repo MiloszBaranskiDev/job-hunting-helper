@@ -27,10 +27,10 @@ export class JhhClientDashboardEditNoteComponent implements OnInit {
   ngOnInit(): void {
     this.editNoteDialogService.noteToEdit$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         tap((note) => {
           this.noteToEdit$ = of(note);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

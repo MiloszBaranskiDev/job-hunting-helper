@@ -72,7 +72,6 @@ export class ControlsComponent implements OnInit {
   private navigateAfterSlugChange(): void {
     this.editNoteSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         switchMap(() =>
           this.notesFacade.getNoteSlug$ByIds(this.note.id, this.note.groupId)
@@ -94,7 +93,8 @@ export class ControlsComponent implements OnInit {
                 this.router.navigate([newNoteLink]);
               });
           }
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -102,7 +102,6 @@ export class ControlsComponent implements OnInit {
   private navigateAfterGroupChange(): void {
     this.changeNoteGroupSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         switchMap(() => this.notesFacade.getGroupSlug$ByNoteId(this.note.id)),
         tap((newGroupSlug) => {
@@ -116,7 +115,8 @@ export class ControlsComponent implements OnInit {
           if (shouldNavigate) {
             this.router.navigate([ClientRoute.NotesLink + '/' + newGroupSlug]);
           }
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -124,11 +124,11 @@ export class ControlsComponent implements OnInit {
   private navigateAfterRemove(): void {
     this.removeNoteSuccess$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         filter((success) => success),
         tap(() => {
           this.router.navigate([this.router.url.replace(this.note.slug, '')]);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
