@@ -333,7 +333,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
           filter((success) => success),
           tap(() => {
             this.removedItemIds = [];
-            this.isSaving$.next(false);
             savingSnackBar.dismiss();
           }),
           takeUntilDestroyed(this.destroyRef)
@@ -344,7 +343,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
         .pipe(
           filter((error) => error !== null),
           tap(() => {
-            this.isSaving$.next(false);
             savingSnackBar.dismiss();
             this.snackBar.open(
               'Something went wrong with saving data.',
@@ -353,6 +351,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
                 duration: 7000,
               }
             );
+            this.removedItemIds = [];
             this._columns = JSON.parse(JSON.stringify(this.originalColumns));
           }),
           takeUntilDestroyed(this.destroyRef)

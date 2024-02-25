@@ -15,6 +15,7 @@ import { AddColumnComponent } from '../../components/add-column/add-column.compo
 
 import {
   BoardFacade,
+  updateBoardColumnsFail,
   updateBoardColumnsSuccess,
 } from '@jhh/jhh-client/dashboard/board/data-access';
 
@@ -46,9 +47,14 @@ export class JhhClientDashboardBoardComponent implements OnInit {
 
     this.actions$
       .pipe(
-        ofType(updateBoardColumnsSuccess),
-        tap(() => {
-          this.wasUpdateTriggeredByColumnsComponent$.next(true);
+        ofType(updateBoardColumnsSuccess, updateBoardColumnsFail),
+        tap((action) => {
+          if (action.type === updateBoardColumnsSuccess.type) {
+            this.wasUpdateTriggeredByColumnsComponent$.next(true);
+          } else {
+            this.wasUpdateTriggeredByColumnsComponent$.next(false);
+          }
+          this.isSaving$.next(false);
         }),
         takeUntilDestroyed(this.destroyRef)
       )

@@ -29,12 +29,14 @@ const updateBoardColumns = async (req: any, res: any): Promise<void> => {
       );
     }
 
-    if (removedItemIds) {
-      for (const itemId of removedItemIds) {
-        await prisma.boardColumnItem.delete({
-          where: { id: itemId },
-        });
-      }
+    if (removedItemIds && removedItemIds.length) {
+      await prisma.boardColumnItem.deleteMany({
+        where: {
+          id: {
+            in: removedItemIds,
+          },
+        },
+      });
     }
 
     for (const column of columnsToUpdate) {
