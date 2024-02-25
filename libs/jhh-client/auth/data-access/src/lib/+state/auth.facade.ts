@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 import { ClientRoute } from '@jhh/jhh-client/shared/domain';
-import { User } from '@jhh/shared/domain';
+import { LocalStorageKey, User } from '@jhh/shared/domain';
 
 @Injectable()
 export class AuthFacade {
@@ -98,6 +98,7 @@ export class AuthFacade {
     if (token) {
       this.saveToken(token);
     } else {
+      localStorage.removeItem(LocalStorageKey.UnsavedBoardRequestId);
       this.router.navigate([ClientRoute.LoginLink]);
     }
   }

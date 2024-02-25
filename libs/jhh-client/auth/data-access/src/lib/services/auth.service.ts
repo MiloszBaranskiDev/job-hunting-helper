@@ -67,6 +67,7 @@ export class AuthService {
 
   removeToken(): void {
     localStorage.removeItem(LocalStorageKey.Token);
+    localStorage.removeItem(LocalStorageKey.UnsavedBoardRequestId);
     this.dialog.closeAll();
     this.router.navigate([ClientRoute.LoginLink]);
     window.location.reload();
