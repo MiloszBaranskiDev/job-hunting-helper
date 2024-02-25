@@ -6,9 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -98,8 +96,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
 
   @ViewChild('horizontalScrollContainer')
   private readonly horizontalScrollContainer: ElementRef;
-  @ViewChildren('columnItemsContainer')
-  private readonly columnItemsContainers: QueryList<ElementRef>;
   @Input({ required: true }) isSaving$: BehaviorSubject<boolean>;
   @Input({ required: true })
   wasUpdateTriggeredByColumnsComponent$: BehaviorSubject<boolean>;
@@ -261,7 +257,7 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     this.editableContent[newItem.id] = newItem.content;
 
     this.updateSubject.next();
-    this.scrollItemsToBottom(columnId);
+    setTimeout(() => this.scrollColumnToBottom(columnId), 0);
   }
 
   startEdit(itemId: string, content: string): void {
@@ -506,15 +502,14 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     this.wasUpdateTriggeredByColumnsComponent$.next(false);
   }
 
-  private scrollItemsToBottom(columnId: string): void {
-    setTimeout(() => {
-      const lastItem = this.columnItemsContainers
-        .find((elRef) => elRef.nativeElement.id === `drop-list-${columnId}`)
-        ?.nativeElement.querySelectorAll('.column__item')
-        .item(-1);
-
-      lastItem?.scrollIntoView({ behavior: 'smooth' });
-    });
+  private scrollColumnToBottom(columnId: string): void {
+    const columnElement =
+      this.horizontalScrollContainer.nativeElement.querySelector(
+        `#drop-list-${columnId}`
+      );
+    if (columnElement) {
+      columnElement.scrollTop = columnElement.scrollHeight;
+    }
   }
 
   private scrollHorizontal(event: CdkDragMove): void {
