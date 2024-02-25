@@ -1,7 +1,6 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 
 import { EditNotesGroupDialogService } from '../../services/edit-notes-group-dialog.service';
 
@@ -17,20 +16,12 @@ import { NotesGroup } from '@jhh/shared/domain';
   styleUrls: ['./jhh-client-dashboard-edit-notes-group.component.scss'],
 })
 export class JhhClientDashboardEditNotesGroupComponent implements OnInit {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly editNotesGroupDialogService: EditNotesGroupDialogService =
     inject(EditNotesGroupDialogService);
 
   notesGroupToEdit$: Observable<NotesGroup | undefined>;
 
   ngOnInit(): void {
-    this.editNotesGroupDialogService.notesGroupToEdit$
-      .pipe(
-        tap((group) => {
-          this.notesGroupToEdit$ = of(group);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.notesGroupToEdit$ = this.editNotesGroupDialogService.notesGroupToEdit$;
   }
 }

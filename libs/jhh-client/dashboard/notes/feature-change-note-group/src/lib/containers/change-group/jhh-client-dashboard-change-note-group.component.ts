@@ -1,7 +1,6 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, of, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Note } from '@jhh/shared/domain';
 
@@ -16,20 +15,12 @@ import { ChangeNoteGroupDialogService } from '../../services/change-note-group-d
   styleUrls: ['./jhh-client-dashboard-change-note-group.component.scss'],
 })
 export class JhhClientDashboardChangeNoteGroupComponent implements OnInit {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly changeNoteGroupDialogService: ChangeNoteGroupDialogService =
     inject(ChangeNoteGroupDialogService);
 
   noteToMove$: Observable<Note | undefined>;
 
   ngOnInit(): void {
-    this.changeNoteGroupDialogService.noteToMove$
-      .pipe(
-        tap((note) => {
-          this.noteToMove$ = of(note);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.noteToMove$ = this.changeNoteGroupDialogService.noteToMove$;
   }
 }

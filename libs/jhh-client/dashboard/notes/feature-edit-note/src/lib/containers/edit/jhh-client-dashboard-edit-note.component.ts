@@ -1,7 +1,6 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
@@ -17,7 +16,6 @@ import { Note } from '@jhh/shared/domain';
   styleUrls: ['./jhh-client-dashboard-edit-note.component.scss'],
 })
 export class JhhClientDashboardEditNoteComponent implements OnInit {
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly editNoteDialogService: EditNoteDialogService = inject(
     EditNoteDialogService
   );
@@ -25,13 +23,6 @@ export class JhhClientDashboardEditNoteComponent implements OnInit {
   noteToEdit$: Observable<Note | undefined>;
 
   ngOnInit(): void {
-    this.editNoteDialogService.noteToEdit$
-      .pipe(
-        tap((note) => {
-          this.noteToEdit$ = of(note);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+    this.noteToEdit$ = this.editNoteDialogService.noteToEdit$;
   }
 }
