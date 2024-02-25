@@ -80,20 +80,20 @@ export class AuthEffects {
   saveToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.saveToken),
+      distinctUntilChanged(),
       tap((val) => {
         this.authService.saveToken(val.payload.token);
-      }),
-      distinctUntilChanged()
+      })
     )
   );
 
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
+      distinctUntilChanged(),
       tap(() => {
         this.authService.removeToken();
-      }),
-      distinctUntilChanged()
+      })
     )
   );
 }

@@ -40,7 +40,9 @@ export class SidebarService {
 
     this.breakpoint$ = this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Small])
-      .pipe(distinctUntilChanged());
+      .pipe(
+        distinctUntilChanged((prev, curr) => prev.matches === curr.matches)
+      );
 
     this.handleBreakpoint();
     this.handleRouteChange();

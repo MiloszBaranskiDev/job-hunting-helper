@@ -187,11 +187,11 @@ export class EventDialogComponent implements OnInit {
       .getEvent$ById(id)
       .pipe(
         filter((event) => event !== undefined),
+        distinctUntilChanged(),
         tap((event) => {
           this.event = event!;
           this.initFormGroup();
         }),
-        distinctUntilChanged(),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
