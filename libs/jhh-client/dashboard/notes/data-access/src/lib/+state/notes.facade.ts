@@ -240,7 +240,7 @@ export class NotesFacade {
     groupId: string
   ): Observable<string | null> {
     return this.store.pipe(
-      select(NotesSelectors.selectNoteByIds, { noteId, groupId })
+      select(NotesSelectors.selectNoteSlugByIds, { noteId, groupId })
     );
   }
 

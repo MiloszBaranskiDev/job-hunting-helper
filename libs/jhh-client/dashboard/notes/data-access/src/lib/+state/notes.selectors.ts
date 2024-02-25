@@ -159,7 +159,7 @@ export const selectNoteBySlugs = createSelector(
   }
 );
 
-export const selectNoteByIds = createSelector(
+export const selectNoteSlugByIds = createSelector(
   selectAllNotesGroups,
   (notesGroups: NotesGroup[], props: { noteId: string; groupId: string }) => {
     if (!props.noteId || !props.groupId) {
