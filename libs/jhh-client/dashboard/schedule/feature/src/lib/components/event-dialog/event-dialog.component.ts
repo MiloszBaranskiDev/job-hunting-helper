@@ -191,7 +191,8 @@ export class EventDialogComponent implements OnInit {
           this.event = event!;
           this.initFormGroup();
         }),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
 
