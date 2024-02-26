@@ -37,8 +37,12 @@
     <p>No notes groups found.</p>
   </ng-template>
   <div class="seeMore">
-    <a mat-stroked-button [routerLink]="clientRoute.NotesLink">
-      {{groups.length ? 'See more' : 'Add group'}}
+    <a *ngIf="!groups.length" mat-flat-button color="primary" [routerLink]="clientRoute.NotesLink">
+      Add group
+    </a>
+
+    <a *ngIf="groups.length" mat-stroked-button [routerLink]="clientRoute.NotesLink">
+      See more
     </a>
   </div>
 </div>

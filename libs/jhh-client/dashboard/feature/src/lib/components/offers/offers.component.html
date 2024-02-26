@@ -33,8 +33,12 @@
     <p>No offers found.</p>
   </ng-template>
   <div class="seeMore">
-    <a mat-stroked-button [routerLink]="clientRoute.OffersLink">
-      {{extendedOffers.length ? 'See more' : 'Add offer'}}
+    <a mat-flat-button color="primary" *ngIf="!extendedOffers.length" [routerLink]="clientRoute.OffersLink">
+      Add offer
+    </a>
+
+    <a mat-stroked-button *ngIf="extendedOffers.length" [routerLink]="clientRoute.OffersLink">
+      See more
     </a>
   </div>
 </div>

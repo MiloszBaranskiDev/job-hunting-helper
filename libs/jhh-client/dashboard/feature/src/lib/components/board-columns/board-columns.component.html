@@ -29,8 +29,12 @@
     No board columns found.
   </ng-template>
   <div class="seeMore">
-    <a mat-stroked-button [routerLink]="clientRoute.BoardLink">
-      {{columns.length ? 'See more' : 'Add column'}}
+    <a *ngIf="!columns.length" mat-flat-button color="primary" [routerLink]="clientRoute.BoardLink">
+      Add column
+    </a>
+
+    <a *ngIf="columns.length" mat-stroked-button [routerLink]="clientRoute.BoardLink">
+      See more
     </a>
   </div>
 </div>

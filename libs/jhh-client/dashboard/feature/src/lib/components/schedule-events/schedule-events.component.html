@@ -25,8 +25,12 @@
     <p>No events found.</p>
   </ng-template>
   <div class="seeMore">
-    <a mat-stroked-button [routerLink]="clientRoute.ScheduleLink">
-      {{events.length ? 'See more' : 'Add event'}}
+    <a *ngIf="!events.length" mat-flat-button color="primary" [routerLink]="clientRoute.ScheduleLink">
+      Add event
+    </a>
+
+    <a *ngIf="events.length" mat-stroked-button [routerLink]="clientRoute.ScheduleLink">
+      See more
     </a>
   </div>
 </div>
