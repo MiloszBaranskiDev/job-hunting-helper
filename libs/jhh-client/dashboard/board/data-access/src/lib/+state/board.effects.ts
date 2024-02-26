@@ -16,6 +16,7 @@ import {
 } from '@jhh/jhh-client/dashboard/board/domain';
 
 import { BoardService } from '../services/board.service';
+import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class BoardEffects {
@@ -67,16 +68,20 @@ export class BoardEffects {
     this.actions$.pipe(
       ofType(BoardActions.duplicateBoardColumn),
       fetch({
-        run: (action) =>
-          this.boardService.duplicateBoardColumn(action.payload).pipe(
+        run: (action) => {
+          const snackbarRef: MatSnackBarRef<SimpleSnackBar> =
+            this.snackbarService.openIndefinite('Duplicating column...');
+          return this.boardService.duplicateBoardColumn(action.payload).pipe(
             mergeMap((res: DuplicateBoardColumnSuccessPayload) => [
               BoardActions.duplicateBoardColumnSuccess({ payload: res }),
               BoardActions.resetDuplicateBoardColumnSuccess(),
             ]),
             tap(() => {
+              snackbarRef.dismiss();
               this.snackbarService.open('Column duplicated successfully!');
             })
-          ),
+          );
+        },
         onError: (action, error) => {
           this.snackbarService.open(
             'Something went wrong when duplicating an board column. Try it again'
