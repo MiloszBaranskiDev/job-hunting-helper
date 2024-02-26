@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
-  delay,
   map,
   mergeMap,
   retryWhen,
@@ -46,14 +45,17 @@ export class DashboardEffects {
             }),
             retryWhen((errors) =>
               errors.pipe(
-                delay(1500),
-                take(10),
-                switchMap((error) => {
-                  if (error.message === 'Board update still pending') {
-                    return timer(1500);
+                switchMap((error, index) => {
+                  const attempt: number = index + 1;
+                  if (attempt >= 10) {
+                    localStorage.removeItem(
+                      LocalStorageKey.UnsavedBoardRequestId
+                    );
+                    window.location.reload();
                   }
-                  return of(error);
-                })
+                  return timer(3000);
+                }),
+                take(10)
               )
             ),
             mergeMap((res) => {
