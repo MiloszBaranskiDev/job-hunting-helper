@@ -39,6 +39,7 @@ import {
   BoardColumn,
   BoardColumnFieldLength,
   BoardColumnItem,
+  LocalStorageKey,
 } from '@jhh/shared/domain';
 import {
   BoardColumnDefaultColor,
@@ -138,7 +139,12 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   }
 
   handleRemove(): void {
-    this.boardFacade.removeBoardColumn(this.column.id);
+    const unsavedBoardRequestId: string = String(Date.now());
+    localStorage.setItem(
+      LocalStorageKey.UnsavedBoardRequestId,
+      unsavedBoardRequestId
+    );
+    this.boardFacade.removeBoardColumn(this.column.id, unsavedBoardRequestId);
   }
 
   selectDefaultColor(color: BoardColumnDefaultColor): void {

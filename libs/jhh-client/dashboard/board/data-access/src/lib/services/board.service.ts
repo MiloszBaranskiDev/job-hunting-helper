@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -79,11 +79,20 @@ export class BoardService {
   removeBoardColumn(
     payload: RemoveBoardColumnPayload
   ): Observable<RemoveBoardColumnSuccessPayload> {
+    let params: HttpParams = new HttpParams().set('columnId', payload.columnId);
+
+    if (payload.unsavedBoardRequestId) {
+      params = params.set(
+        'unsavedBoardRequestId',
+        payload.unsavedBoardRequestId
+      );
+    }
+
     return this.http
       .delete<RemoveBoardColumnSuccessResponse>(
         this.API_DASHBOARD_URL + ApiRoute.RemoveBoardColumn,
         {
-          params: { columnId: payload.columnId },
+          params: params,
         }
       )
       .pipe(map((res: RemoveBoardColumnSuccessResponse) => res.data));

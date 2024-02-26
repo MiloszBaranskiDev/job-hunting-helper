@@ -10,7 +10,7 @@ const removeBoardColumn = async (req: any, res: any): Promise<void> => {
   const prisma: PrismaClient = JhhServerDb();
 
   try {
-    const { columnId } = req.query;
+    const { columnId, unsavedBoardRequestId } = req.query;
     const userId = req.user.id;
 
     if (!columnId) {
@@ -61,6 +61,17 @@ const removeBoardColumn = async (req: any, res: any): Promise<void> => {
     const removedBoardColumn: BoardColumn = await prisma.boardColumn.delete({
       where: { id: columnId },
     });
+
+    if (unsavedBoardRequestId) {
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          unsavedBoardRequestId: unsavedBoardRequestId,
+        },
+      });
+    }
 
     res.status(HttpStatusCode.OK).json({ data: { removedBoardColumn } });
   } catch (error) {

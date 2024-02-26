@@ -8,7 +8,10 @@ import * as BoardSelectors from './board.selectors';
 import * as BoardActions from './board.actions';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
-import { UpdateBoardColumnsPayload } from '@jhh/jhh-client/dashboard/board/domain';
+import {
+  RemoveBoardColumnPayload,
+  UpdateBoardColumnsPayload,
+} from '@jhh/jhh-client/dashboard/board/domain';
 
 @Injectable({
   providedIn: 'root',
@@ -105,10 +108,14 @@ export class BoardFacade {
     );
   }
 
-  removeBoardColumn(columnId: string) {
+  removeBoardColumn(columnId: string, unsavedBoardRequestId?: string) {
+    const payload: RemoveBoardColumnPayload = unsavedBoardRequestId
+      ? { columnId, unsavedBoardRequestId }
+      : { columnId };
+
     return this.actionResolverService.executeAndWatch(
       BoardActions.removeBoardColumn({
-        payload: { columnId: columnId },
+        payload: payload,
       }),
       BoardActions.Type.RemoveBoardColumnSuccess,
       BoardActions.Type.RemoveBoardColumnFail
