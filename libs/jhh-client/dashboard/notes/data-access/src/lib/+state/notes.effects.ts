@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
 import { mergeMap, tap } from 'rxjs/operators';
+import { MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 
 import * as NotesActions from './notes.actions';
 import { NotesService } from '../services/notes.service';
@@ -87,19 +88,23 @@ export class NotesEffects {
     this.actions$.pipe(
       ofType(NotesActions.duplicateNotesGroup),
       fetch({
-        run: (action) =>
-          this.notesService.duplicateNotesGroup(action.payload).pipe(
+        run: (action) => {
+          const snackbarRef: MatSnackBarRef<TextOnlySnackBar> =
+            this.snackbarService.openIndefinite('Duplicating group...');
+          return this.notesService.duplicateNotesGroup(action.payload).pipe(
             mergeMap((res: DuplicateNotesGroupSuccessPayload) => [
               NotesActions.duplicateNotesGroupSuccess({ payload: res }),
               NotesActions.resetDuplicateNotesGroupSuccess(),
             ]),
             tap(() => {
+              snackbarRef.dismiss();
               this.snackbarService.open('Group duplicated successfully!');
             })
-          ),
+          );
+        },
         onError: (action, error) => {
           this.snackbarService.open(
-            'Something went wrong when duplicating an group. Try it again'
+            'Something went wrong when duplicating a group. Try it again'
           );
           return NotesActions.duplicateNotesGroupFail({ payload: error });
         },
@@ -173,19 +178,23 @@ export class NotesEffects {
     this.actions$.pipe(
       ofType(NotesActions.duplicateNote),
       fetch({
-        run: (action) =>
-          this.notesService.duplicateNote(action.payload).pipe(
+        run: (action) => {
+          const snackbarRef: MatSnackBarRef<TextOnlySnackBar> =
+            this.snackbarService.openIndefinite('Duplicating note...');
+          return this.notesService.duplicateNote(action.payload).pipe(
             mergeMap((res: DuplicateNoteSuccessPayload) => [
               NotesActions.duplicateNoteSuccess({ payload: res }),
               NotesActions.resetDuplicateNoteSuccess(),
             ]),
             tap(() => {
+              snackbarRef.dismiss();
               this.snackbarService.open('Note duplicated successfully!');
             })
-          ),
+          );
+        },
         onError: (action, error) => {
           this.snackbarService.open(
-            'Something went wrong when duplicating an note. Try it again'
+            'Something went wrong when duplicating a note. Try it again'
           );
           return NotesActions.duplicateNoteFail({ payload: error });
         },
