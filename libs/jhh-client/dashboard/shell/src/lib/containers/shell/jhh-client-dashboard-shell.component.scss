@@ -1,4 +1,4 @@
-.dataLoader {
+.loading {
   padding: 40px;
   display: flex;
   flex-direction: column;
@@ -8,8 +8,8 @@
   background-color: var(--color__bg--darker);
 
   .mat-mdc-progress-spinner {
-    width: 80px !important;
-    height: 80px !important;
+    max-width: 90px !important;
+    max-height: 90px !important;
   }
 
   p {

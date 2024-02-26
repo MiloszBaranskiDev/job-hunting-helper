@@ -1,5 +1,5 @@
 <ng-container *ngIf="(loadAssignedDataInProgress$ | async) || (loadAssignedDataError$ | async); else dashboard">
-  <div class="dataLoader">
+  <div class="loading">
     <ng-container *ngIf="loadAssignedDataInProgress$ | async; else notLoading">
       <mat-spinner></mat-spinner>
       <p>Loading data...</p>
