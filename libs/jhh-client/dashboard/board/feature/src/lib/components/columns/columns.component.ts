@@ -31,11 +31,7 @@ import {
   tap,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -319,9 +315,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
     if (updatedColumns.length || this.removedItemIds.length) {
       this.isSaving$.next(true);
 
-      const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> =
-        this.snackBar.open('Saving data...', 'Close');
-
       this.boardFacade.updateBoardColumns(updatedColumns, this.removedItemIds);
 
       this.updateBoardColumnsSuccess$
@@ -329,7 +322,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
           filter((success) => success),
           tap(() => {
             this.removedItemIds = [];
-            savingSnackBar.dismiss();
           }),
           takeUntilDestroyed(this.destroyRef)
         )
@@ -339,14 +331,6 @@ export class ColumnsComponent implements OnInit, OnDestroy {
         .pipe(
           filter((error) => error !== null),
           tap(() => {
-            savingSnackBar.dismiss();
-            this.snackBar.open(
-              'Something went wrong with saving data.',
-              'Close',
-              {
-                duration: 7000,
-              }
-            );
             this.removedItemIds = [];
             this._columns = JSON.parse(JSON.stringify(this.originalColumns));
           }),

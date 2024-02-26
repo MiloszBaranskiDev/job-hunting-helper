@@ -116,18 +116,26 @@ export class BoardEffects {
     this.actions$.pipe(
       ofType(BoardActions.updateBoardColumns),
       fetch({
-        run: (action) =>
-          this.boardService.updateBoardColumns(action.payload).pipe(
+        run: (action) => {
+          const snackbarRef: MatSnackBarRef<SimpleSnackBar> =
+            this.snackbarService.openIndefinite('Updating board columns...');
+          return this.boardService.updateBoardColumns(action.payload).pipe(
             mergeMap((res: UpdateBoardColumnsSuccessPayload) => [
               BoardActions.updateBoardColumnsSuccess({ payload: res }),
               BoardActions.resetUpdateBoardColumnsSuccess(),
             ]),
             tap(() => {
-              this.snackbarService.open('Changes saved successfully!');
+              snackbarRef.dismiss();
+              this.snackbarService.open('Board changes saved successfully!');
             })
-          ),
-        onError: (action, error) =>
-          BoardActions.updateBoardColumnsFail({ payload: error }),
+          );
+        },
+        onError: (action, error) => {
+          this.snackbarService.open(
+            'Something went wrong when updating board data. Refresh and try again.'
+          );
+          return BoardActions.updateBoardColumnsFail({ payload: error });
+        },
       })
     )
   );
