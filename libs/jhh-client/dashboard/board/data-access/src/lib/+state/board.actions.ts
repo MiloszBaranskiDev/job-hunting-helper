@@ -37,6 +37,7 @@ export enum Type {
   UpdateBoardColumnsFail = '[Board] Update Board Columns Fail',
   UpdateBoardColumnsSuccess = '[Board] Update Board Columns Success',
   ResetUpdateBoardColumnsSuccess = '[Board] Reset Update Board Columns Success',
+  ResetErrors = '[Board] Reset Errors',
 }
 
 export const setBoard = createAction(
@@ -138,3 +139,5 @@ export const updateBoardColumnsSuccess = createAction(
 export const resetUpdateBoardColumnsSuccess = createAction(
   Type.ResetUpdateBoardColumnsSuccess
 );
+
+export const resetErrors = createAction(Type.ResetErrors);

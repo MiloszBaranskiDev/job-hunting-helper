@@ -145,4 +145,8 @@ export class BoardFacade {
       select(BoardSelectors.selectLimitedColumns, { length })
     );
   }
+
+  resetErrors(): void {
+    this.store.dispatch(BoardActions.resetErrors());
+  }
 }

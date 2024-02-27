@@ -4,14 +4,11 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as BoardActions from './board.actions';
 
 import { BoardColumn } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+
+import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
 export const BOARD_STATE_KEY = 'board';
-
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
 
 export interface BoardState extends EntityState<BoardColumn> {
   addBoardColumn: OperationState;
@@ -265,7 +262,19 @@ const reducer: ActionReducer<BoardState> = createReducer(
       ...state.updateBoardColumns,
       success: false,
     },
-  }))
+  })),
+  on(BoardActions.resetErrors, (state) => {
+    return {
+      ...state,
+      addBoardColumn: ResetOperationStateError(state.addBoardColumn),
+      editBoardColumn: ResetOperationStateError(state.editBoardColumn),
+      duplicateBoardColumn: ResetOperationStateError(
+        state.duplicateBoardColumn
+      ),
+      removeBoardColumn: ResetOperationStateError(state.removeBoardColumn),
+      updateBoardColumns: ResetOperationStateError(state.updateBoardColumns),
+    };
+  })
 );
 
 export function boardReducer(state: BoardState | undefined, action: Action) {

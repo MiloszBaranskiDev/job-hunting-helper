@@ -123,6 +123,7 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
   openEditColumnDialog(): void {
     this.dialogRef = this.dialog.open(this.editDialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.boardFacade.resetErrors();
       this.formGroup?.reset({
         [this.formField.Name]: this.column.name,
         [this.formField.Color]: this.column.color,
@@ -165,10 +166,6 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
       if (name !== this.column.name || color !== this.column.color) {
         this.boardFacade.editBoardColumn(this.column.id, name, color);
       } else {
-        this.formGroup?.reset({
-          [this.formField.Name]: this.column.name,
-          [this.formField.Color]: this.column.color,
-        });
         this.dialogRef?.close();
       }
     }
@@ -179,10 +176,6 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup?.reset({
-            [this.formField.Name]: this.column.name,
-            [this.formField.Color]: this.column.color,
-          });
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)

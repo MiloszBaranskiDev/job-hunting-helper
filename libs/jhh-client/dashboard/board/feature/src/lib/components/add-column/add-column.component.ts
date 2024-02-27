@@ -92,6 +92,7 @@ export class AddColumnComponent implements OnInit {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.boardFacade.resetErrors();
       this.formGroup.reset({
         [this.formField.Color]: this.defaultColor.SkyBlue,
       });
@@ -123,9 +124,6 @@ export class AddColumnComponent implements OnInit {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup.reset({
-            [this.formField.Color]: this.defaultColor.SkyBlue,
-          });
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
