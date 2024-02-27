@@ -110,6 +110,7 @@ export class AddComponent implements OnInit {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.practiceFacade.resetErrors();
       this.formGroup?.reset();
       this.questions?.clear();
     });
@@ -192,8 +193,6 @@ export class AddComponent implements OnInit {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup?.reset();
-          this.questions?.clear();
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)

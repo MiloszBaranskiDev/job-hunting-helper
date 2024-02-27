@@ -74,6 +74,7 @@ export class DialogComponent implements OnInit, AfterViewInit {
   private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.practiceFacade.resetErrors();
       this.removePracticeQuizDialogService.clearQuizToRemove();
     });
   }

@@ -4,14 +4,11 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as PracticeActions from './practice.actions';
 
 import { Quiz } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+
+import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
 export const PRACTICE_STATE_KEY = 'practice';
-
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
 
 export interface PracticeState extends EntityState<Quiz> {
   addQuiz: OperationState;
@@ -203,7 +200,16 @@ const reducer: ActionReducer<PracticeState> = createReducer(
       ...state.addQuizResults,
       success: false,
     },
-  }))
+  })),
+  on(PracticeActions.resetErrors, (state) => {
+    return {
+      ...state,
+      addQuiz: ResetOperationStateError(state.addQuiz),
+      editQuiz: ResetOperationStateError(state.editQuiz),
+      removeQuiz: ResetOperationStateError(state.removeQuiz),
+      addQuizResults: ResetOperationStateError(state.addQuizResults),
+    };
+  })
 );
 
 export function practiceReducer(

@@ -213,8 +213,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
           items
         );
       } else {
-        this.formGroup?.reset();
-        this.questions?.clear();
         this.dialogRef?.close();
       }
     }
@@ -223,6 +221,7 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
   private openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.practiceFacade.resetErrors();
       this.editPracticeQuizDialogService.clearQuizToEdit();
       this.formGroup?.reset();
       this.questions?.clear();
@@ -246,8 +245,6 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup?.reset();
-          this.questions?.clear();
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)

@@ -165,4 +165,8 @@ export class PracticeFacade {
       select(PracticeSelectors.selectSearchQuizzes, { query })
     );
   }
+
+  resetErrors(): void {
+    this.store.dispatch(PracticeActions.resetErrors());
+  }
 }

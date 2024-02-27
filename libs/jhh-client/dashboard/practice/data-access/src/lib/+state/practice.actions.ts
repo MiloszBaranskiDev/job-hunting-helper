@@ -31,6 +31,7 @@ export enum Type {
   AddQuizResultsFail = '[Practice] Add Quiz Results Fail',
   AddQuizResultsSuccess = '[Practice] Add Quiz Results Success',
   ResetAddQuizResultsSuccess = '[Practice] Reset Add Quiz Results Success',
+  ResetErrors = '[Practice] Reset Errors',
 }
 
 export const setPracticeQuizzes = createAction(
@@ -107,3 +108,5 @@ export const addQuizResultsSuccess = createAction(
 export const resetAddQuizResultsSuccess = createAction(
   Type.ResetAddQuizResultsSuccess
 );
+
+export const resetErrors = createAction(Type.ResetErrors);
