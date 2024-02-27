@@ -94,6 +94,7 @@ export class AddComponent implements OnInit {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.scheduleFacade.resetErrors();
       this.clearForm();
     });
   }
@@ -130,7 +131,6 @@ export class AddComponent implements OnInit {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.clearForm();
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)

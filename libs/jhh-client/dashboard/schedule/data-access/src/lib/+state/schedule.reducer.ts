@@ -4,14 +4,11 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as ScheduleActions from './schedule.actions';
 
 import { ScheduleEvent } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+
+import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
 export const SCHEDULE_STATE_KEY = 'schedule';
-
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
 
 export interface ScheduleState extends EntityState<ScheduleEvent> {
   addEvent: OperationState;
@@ -145,7 +142,15 @@ const reducer: ActionReducer<ScheduleState> = createReducer(
       ...state.removeEvent,
       success: false,
     },
-  }))
+  })),
+  on(ScheduleActions.resetErrors, (state) => {
+    return {
+      ...state,
+      addEvent: ResetOperationStateError(state.addEvent),
+      editEvent: ResetOperationStateError(state.editEvent),
+      removeEvent: ResetOperationStateError(state.removeEvent),
+    };
+  })
 );
 
 export function scheduleReducer(

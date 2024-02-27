@@ -25,6 +25,7 @@ export enum Type {
   RemoveEventFail = '[Schedule] Remove Event Fail',
   RemoveEventSuccess = '[Schedule] Remove Event Success',
   ResetRemoveEventSuccess = '[Schedule] Reset Remove Event Success',
+  ResetErrors = '[Schedule] Reset Errors',
 }
 
 export const setScheduleEvents = createAction(
@@ -84,3 +85,5 @@ export const removeEventSuccess = createAction(
 export const resetRemoveEventSuccess = createAction(
   Type.ResetRemoveEventSuccess
 );
+
+export const resetErrors = createAction(Type.ResetErrors);

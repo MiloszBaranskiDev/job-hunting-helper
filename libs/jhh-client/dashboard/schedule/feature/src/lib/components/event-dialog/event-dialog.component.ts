@@ -197,6 +197,7 @@ export class EventDialogComponent implements OnInit {
       .subscribe();
 
     this.dialogRef?.afterClosed().subscribe(() => {
+      this.scheduleFacade.resetErrors();
       this.clearData();
     });
   }
@@ -218,10 +219,9 @@ export class EventDialogComponent implements OnInit {
   private handleReset(): void {
     merge(this.removeEventSuccess$, this.editEventSuccess$)
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.clearData();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.clearData();
         }),
         takeUntilDestroyed(this.destroyRef)
       )

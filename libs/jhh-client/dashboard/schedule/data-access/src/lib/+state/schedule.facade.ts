@@ -123,4 +123,8 @@ export class ScheduleFacade {
       select(ScheduleSelectors.selectLimitedEvents, { length })
     );
   }
+
+  resetErrors(): void {
+    this.store.dispatch(ScheduleActions.resetErrors());
+  }
 }
