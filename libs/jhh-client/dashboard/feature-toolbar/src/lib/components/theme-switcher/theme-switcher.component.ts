@@ -30,8 +30,8 @@ export class ThemeSwitcherComponent implements OnInit {
     this.currentThemeMode$ = this.themeService.currentThemeMode$;
     this.currentThemeMode$
       .pipe(
-        tap((val) => {
-          this.isDarkMode = val === ThemeMode.Dark;
+        tap((themeMode) => {
+          this.isDarkMode = themeMode === ThemeMode.Dark;
         }),
         takeUntilDestroyed(this.destroyRef)
       )
