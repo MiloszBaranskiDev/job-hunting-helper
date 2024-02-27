@@ -2,16 +2,13 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
 import { Note, NotesGroup } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/dashboard/domain';
 
 import * as NotesActions from './notes.actions';
 
-export const NOTES_STATE_KEY = 'notes';
+import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
+export const NOTES_STATE_KEY = 'notes';
 
 export interface NotesState extends EntityState<NotesGroup> {
   addNotesGroup: OperationState;
@@ -499,7 +496,21 @@ const reducer: ActionReducer<NotesState> = createReducer(
       ...state.removeNote,
       success: false,
     },
-  }))
+  })),
+  on(NotesActions.resetErrors, (state) => {
+    return {
+      ...state,
+      addNotesGroup: ResetOperationStateError(state.addNotesGroup),
+      editNotesGroup: ResetOperationStateError(state.editNotesGroup),
+      duplicateNotesGroup: ResetOperationStateError(state.duplicateNotesGroup),
+      removeNotesGroup: ResetOperationStateError(state.removeNotesGroup),
+      addNote: ResetOperationStateError(state.addNote),
+      editNote: ResetOperationStateError(state.editNote),
+      duplicateNote: ResetOperationStateError(state.duplicateNote),
+      changeNoteGroup: ResetOperationStateError(state.changeNoteGroup),
+      removeNote: ResetOperationStateError(state.removeNote),
+    };
+  })
 );
 
 export function notesReducer(state: NotesState | undefined, action: Action) {

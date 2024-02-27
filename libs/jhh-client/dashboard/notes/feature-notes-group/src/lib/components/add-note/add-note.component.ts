@@ -106,6 +106,7 @@ export class AddNoteComponent implements OnInit {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.notesFacade.resetErrors();
       this.formGroup?.reset();
     });
   }
@@ -134,7 +135,6 @@ export class AddNoteComponent implements OnInit {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup?.reset();
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)

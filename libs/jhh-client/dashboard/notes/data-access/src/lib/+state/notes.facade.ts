@@ -293,4 +293,8 @@ export class NotesFacade {
       select(NotesSelectors.selectSearchNotes, { query, groupId })
     );
   }
+
+  resetErrors(): void {
+    this.store.dispatch(NotesActions.resetErrors());
+  }
 }

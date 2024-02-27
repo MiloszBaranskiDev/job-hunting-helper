@@ -61,6 +61,7 @@ export enum Type {
   RemoveNoteFail = '[Notes] Remove Note Fail',
   RemoveNoteSuccess = '[Notes] Remove Note Success',
   ResetRemoveNoteSuccess = '[Notes] Reset Remove Note Success',
+  ResetErrors = '[Notes] Reset Errors',
 }
 
 export const setNotes = createAction(
@@ -232,3 +233,5 @@ export const removeNoteSuccess = createAction(
 );
 
 export const resetRemoveNoteSuccess = createAction(Type.ResetRemoveNoteSuccess);
+
+export const resetErrors = createAction(Type.ResetErrors);

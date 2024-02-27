@@ -235,6 +235,9 @@
       "@jhh/jhh-client/shared/util-ngrx": [
         "libs/jhh-client/shared/util-ngrx/src/index.ts"
       ],
+      "@jhh/jhh-client/shared/util-reset-operation-state-error": [
+        "libs/jhh-client/shared/util-reset-operation-state-error/src/index.ts"
+      ],
       "@jhh/jhh-client/shared/util-snackbar": [
         "libs/jhh-client/shared/util-snackbar/src/index.ts"
       ],

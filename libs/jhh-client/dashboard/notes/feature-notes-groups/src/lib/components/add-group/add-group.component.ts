@@ -87,6 +87,7 @@ export class AddGroupComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
       this.formGroup?.reset();
+      this.notesFacade.resetErrors();
     });
   }
 
@@ -102,7 +103,6 @@ export class AddGroupComponent implements OnInit {
       .pipe(
         filter((success) => success),
         tap(() => {
-          this.formGroup?.reset();
           this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
