@@ -1,5 +1,6 @@
 <div class="box">
   <h2>Offers</h2>
+  
   <ng-container *ngIf="extendedOffers.length; else emptyList">
     <ul>
       <li *ngFor="let offer of extendedOffers">
@@ -29,9 +30,11 @@
       </li>
     </ul>
   </ng-container>
+
   <ng-template #emptyList>
     <p>No offers found.</p>
   </ng-template>
+
   <div class="seeMore">
     <a mat-flat-button color="primary" *ngIf="!extendedOffers.length" [routerLink]="clientRoute.OffersLink">
       Add offer

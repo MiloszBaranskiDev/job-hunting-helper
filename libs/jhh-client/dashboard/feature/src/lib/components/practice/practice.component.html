@@ -1,5 +1,6 @@
 <div class="box">
   <h2>Practice</h2>
+
   <ng-container *ngIf="quizzes.length; else emptyList">
     <ul>
       <li *ngFor="let quiz of quizzes">
@@ -25,9 +26,13 @@
       </li>
     </ul>
   </ng-container>
+
   <ng-template #emptyList>
-    No quizzes found.
+    <p>
+      No quizzes found.
+    </p>
   </ng-template>
+
   <div class="seeMore">
     <a *ngIf="!quizzes.length" mat-flat-button color="primary" [routerLink]="clientRoute.PracticeLink">
       Add quiz

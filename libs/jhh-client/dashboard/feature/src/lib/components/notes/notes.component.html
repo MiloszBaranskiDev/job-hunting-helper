@@ -1,5 +1,6 @@
 <div class="box">
   <h2>Notes</h2>
+
   <ng-container *ngIf="groups.length; else emptyList">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let group of groups">
@@ -33,9 +34,11 @@
       </mat-expansion-panel>
     </mat-accordion>
   </ng-container>
+  
   <ng-template #emptyList>
     <p>No notes groups found.</p>
   </ng-template>
+
   <div class="seeMore">
     <a *ngIf="!groups.length" mat-flat-button color="primary" [routerLink]="clientRoute.NotesLink">
       Add group

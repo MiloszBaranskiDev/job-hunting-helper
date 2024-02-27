@@ -1,5 +1,6 @@
 <div class="box">
   <h2>Board</h2>
+  
   <ng-container *ngIf="columns.length; else emptyList">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let column of columns">
@@ -25,9 +26,13 @@
       </mat-expansion-panel>
     </mat-accordion>
   </ng-container>
+
   <ng-template #emptyList>
-    No board columns found.
+    <p>
+      No board columns found.
+    </p>
   </ng-template>
+
   <div class="seeMore">
     <a *ngIf="!columns.length" mat-flat-button color="primary" [routerLink]="clientRoute.BoardLink">
       Add column

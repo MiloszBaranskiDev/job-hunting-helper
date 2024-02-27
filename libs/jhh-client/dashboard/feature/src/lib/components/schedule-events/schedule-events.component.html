@@ -1,5 +1,6 @@
 <div class="box">
   <h2>Incoming events</h2>
+
   <ng-container *ngIf="events.length; else emptyList">
     <ul>
       <li *ngFor="let event of events">
@@ -21,9 +22,11 @@
       </li>
     </ul>
   </ng-container>
+
   <ng-template #emptyList>
     <p>No events found.</p>
   </ng-template>
+
   <div class="seeMore">
     <a *ngIf="!events.length" mat-flat-button color="primary" [routerLink]="clientRoute.ScheduleLink">
       Add event
