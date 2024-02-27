@@ -97,7 +97,7 @@ export class JhhClientDashboardNotesSingleNoteComponent implements OnInit {
           )
           .subscribe();
       }),
-      map((data) => data.note)
-    ) as Observable<Note>;
+      map((data) => data.note as Note)
+    );
   }
 }

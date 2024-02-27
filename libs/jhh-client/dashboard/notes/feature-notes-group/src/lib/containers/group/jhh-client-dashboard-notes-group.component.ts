@@ -111,7 +111,7 @@ export class JhhClientDashboardNotesGroupComponent
         this.titleService.setTitle(`Notes - ${group.name}`);
       }),
       filter((group): group is NotesGroup => !!group)
-    ) as Observable<NotesGroup>;
+    );
 
     this.queryParamsService.updateQueryParams();
 
