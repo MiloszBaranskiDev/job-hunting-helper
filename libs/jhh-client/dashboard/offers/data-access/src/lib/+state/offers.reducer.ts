@@ -4,14 +4,11 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as OffersActions from './offers.actions';
 
 import { Offer } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+
+import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
 export const OFFERS_STATE_KEY = 'offers';
-
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
 
 export interface OffersState extends EntityState<Offer> {
   addOffer: OperationState;
@@ -147,7 +144,15 @@ const reducer: ActionReducer<OffersState> = createReducer(
       ...state.removeOffers,
       success: false,
     },
-  }))
+  })),
+  on(OffersActions.resetErrors, (state) => {
+    return {
+      ...state,
+      addOffer: ResetOperationStateError(state.addOffer),
+      editOffer: ResetOperationStateError(state.editOffer),
+      removeOffers: ResetOperationStateError(state.removeOffers),
+    };
+  })
 );
 
 export function offersReducer(state: OffersState | undefined, action: Action) {

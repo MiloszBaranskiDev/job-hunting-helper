@@ -26,6 +26,7 @@ export enum Type {
   RemoveOffersFail = '[Offers] Remove Offers Fail',
   RemoveOffersSuccess = '[Offers] Remove Offers Success',
   ResetRemoveOffersSuccess = '[Offers] Reset Remove Offers Success',
+  ResetErrors = '[Offers] Reset Errors',
 }
 
 export const setOffers = createAction(
@@ -85,3 +86,5 @@ export const removeOffersSuccess = createAction(
 export const resetRemoveOffersSuccess = createAction(
   Type.ResetRemoveOffersSuccess
 );
+
+export const resetErrors = createAction(Type.ResetErrors);

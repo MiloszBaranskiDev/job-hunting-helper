@@ -23,7 +23,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { distinctUntilChanged, map, Observable, tap } from 'rxjs';
+import { distinctUntilChanged, filter, map, Observable, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -114,6 +114,7 @@ export class AddComponent implements OnInit {
   openDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
+      this.offersFacade.resetErrors();
       this.clearForm();
     });
   }
@@ -185,11 +186,9 @@ export class AddComponent implements OnInit {
   private handleReset(): void {
     this.addOfferSuccess$
       .pipe(
-        tap((val) => {
-          if (val) {
-            this.clearForm();
-            this.dialogRef?.close();
-          }
+        filter((success) => success),
+        tap(() => {
+          this.dialogRef?.close();
         }),
         takeUntilDestroyed(this.destroyRef)
       )

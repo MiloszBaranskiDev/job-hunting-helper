@@ -166,4 +166,8 @@ export class OffersFacade {
       select(OffersSelectors.selectLimitedOffers, { length })
     );
   }
+
+  resetErrors(): void {
+    this.store.dispatch(OffersActions.resetErrors());
+  }
 }
