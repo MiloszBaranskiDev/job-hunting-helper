@@ -3,14 +3,9 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 
 import { User } from '@jhh/shared/domain';
+import { OperationState } from '@jhh/jhh-client/shared/domain';
 
 export const AUTH_STATE_KEY = 'auth';
-
-export interface OperationState {
-  inProgress: boolean;
-  error: string | null;
-  success?: boolean;
-}
 
 export interface AuthState {
   token: string | null;

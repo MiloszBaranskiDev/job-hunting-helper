@@ -1,4 +1,4 @@
-import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+import { OperationState } from '@jhh/jhh-client/shared/domain';
 
 export function ResetOperationStateError(
   state: OperationState

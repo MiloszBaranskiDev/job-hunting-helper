@@ -4,7 +4,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as BoardActions from './board.actions';
 
 import { BoardColumn } from '@jhh/shared/domain';
-import { OperationState } from '@jhh/jhh-client/dashboard/domain';
+import { OperationState } from '@jhh/jhh-client/shared/domain';
 
 import { ResetOperationStateError } from '@jhh/jhh-client/shared/util-reset-operation-state-error';
 
