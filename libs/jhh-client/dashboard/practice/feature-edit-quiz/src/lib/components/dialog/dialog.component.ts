@@ -34,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import _ from 'lodash';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
@@ -69,6 +70,7 @@ import { ClientRoute } from '@jhh/jhh-client/shared/domain';
     MatInputModule,
     MatCheckboxModule,
     WhitespaceSanitizerDirective,
+    MatTooltipModule,
   ],
   animations: [
     trigger('removeAnimation', [

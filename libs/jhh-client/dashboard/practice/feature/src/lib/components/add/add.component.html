@@ -169,14 +169,20 @@
           >
             Cancel
           </button>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="formGroup.invalid || (addQuizInProgress$ | async)"
+          <span
+            matTooltip="Your form is not valid. Check your questions and answers"
+            [matTooltipDisabled]="!formGroup.invalid"
+            style="margin-left: 8px;"
           >
-            Add
-          </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="formGroup.invalid || (addQuizInProgress$ | async)"
+            >
+              Add
+            </button>
+          </span>
         </mat-dialog-actions>
       </form>
     </mat-dialog-content>

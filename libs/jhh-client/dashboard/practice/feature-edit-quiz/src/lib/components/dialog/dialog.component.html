@@ -183,16 +183,22 @@
 
         <mat-dialog-actions>
           <button mat-stroked-button mat-dialog-close>Cancel</button>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="formGroup.invalid || (editQuizInProgress$ | async)"
+          <span
+            matTooltip="Your form is not valid. Check your questions and answers"
+            [matTooltipDisabled]="!formGroup.invalid"
+            style="margin-left: 8px;"
           >
-            Save
-          </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="formGroup.invalid || (editQuizInProgress$ | async)"
+            >
+              Save
+            </button>
+          </span>
         </mat-dialog-actions>
-        
+
       </form>
     </mat-dialog-content>
   </ng-template>

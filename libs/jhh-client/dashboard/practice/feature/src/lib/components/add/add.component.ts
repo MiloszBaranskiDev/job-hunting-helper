@@ -45,6 +45,7 @@ import {
   QuizFormErrorKey,
 } from '@jhh/jhh-client/dashboard/practice/domain';
 import { QuizFieldLength } from '@jhh/shared/domain';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'jhh-practice-add-quiz',
@@ -62,6 +63,7 @@ import { QuizFieldLength } from '@jhh/shared/domain';
     MatDividerModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   animations: [
     trigger('removeAnimation', [
