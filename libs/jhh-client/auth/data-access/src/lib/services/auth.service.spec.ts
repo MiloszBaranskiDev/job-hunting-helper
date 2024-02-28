@@ -8,10 +8,11 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { AuthService } from './auth.service';
 
-import { ApiRoute, User } from '@jhh/shared/domain';
+import { ApiRoute, LocalStorageKey, User } from '@jhh/shared/domain';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
@@ -33,6 +34,7 @@ const TOKEN: string = 'some-token';
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  const reloadMock = jest.fn();
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -41,14 +43,22 @@ describe('AuthService', () => {
     );
   });
 
+  Object.defineProperty(window, 'location', {
+    value: {
+      reload: reloadMock,
+    },
+    writable: true,
+  });
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthService],
+      imports: [HttpClientTestingModule, MatDialogModule],
+      providers: [AuthService, MatDialog],
     });
 
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
+    reloadMock.mockClear();
   });
 
   afterEach(() => {
@@ -114,19 +124,19 @@ describe('AuthService', () => {
     it('should save token', () => {
       service.saveToken(TOKEN);
       expect(
-        JSON.parse(localStorage.getItem(service.LOCALSTORAGE_KEY) as string)
+        JSON.parse(localStorage.getItem(LocalStorageKey.Token) as string)
       ).toBe(TOKEN);
     });
 
     it('should get token', () => {
-      localStorage.setItem(service.LOCALSTORAGE_KEY, JSON.stringify(TOKEN));
+      localStorage.setItem(LocalStorageKey.Token, JSON.stringify(TOKEN));
       expect(service.getToken()).toBe(TOKEN);
     });
 
     it('should remove token', () => {
-      localStorage.setItem(service.LOCALSTORAGE_KEY, JSON.stringify(TOKEN));
+      localStorage.setItem(LocalStorageKey.Token, JSON.stringify(TOKEN));
       service.removeToken();
-      expect(localStorage.getItem(service.LOCALSTORAGE_KEY)).toBeNull();
+      expect(localStorage.getItem(LocalStorageKey.Token)).toBeNull();
     });
   });
 });

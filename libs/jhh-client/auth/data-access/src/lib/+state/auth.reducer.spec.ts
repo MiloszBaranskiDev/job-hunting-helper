@@ -37,7 +37,7 @@ describe('Auth Reducer', () => {
         payload: { username: 'username', password: 'password' },
       });
       const result: AuthState = authReducer(initialState, action);
-      expect(result.loginInProgress).toBe(true);
+      expect(result.login.inProgress).toBe(true);
     });
 
     it('should set loginInProgress to false and set loginError on loginFail', () => {
@@ -52,8 +52,8 @@ describe('Auth Reducer', () => {
         payload: errorResponse,
       });
       const result: AuthState = authReducer(initialState, action);
-      expect(result.loginInProgress).toBe(false);
-      expect(result.loginError).toBe('Login failed');
+      expect(result.login.inProgress).toBe(false);
+      expect(result.login.error).toBe('Login failed');
     });
 
     it('should set loginInProgress to false and set token and user on loginSuccess', () => {
@@ -67,7 +67,7 @@ describe('Auth Reducer', () => {
         { payload }
       );
       const result: AuthState = authReducer(initialState, action);
-      expect(result.loginInProgress).toBe(false);
+      expect(result.login.inProgress).toBe(false);
       expect(result.token).toBe('some-token');
       expect(result.user).toEqual(dummyUser);
     });
@@ -83,7 +83,7 @@ describe('Auth Reducer', () => {
         },
       });
       const result: AuthState = authReducer(initialState, action);
-      expect(result.registerInProgress).toBe(true);
+      expect(result.register.inProgress).toBe(true);
     });
 
     it('should set registerInProgress to false and set registerError on registerFail', () => {
@@ -98,8 +98,8 @@ describe('Auth Reducer', () => {
         { payload: errorResponse }
       );
       const result: AuthState = authReducer(initialState, action);
-      expect(result.registerInProgress).toBe(false);
-      expect(result.registerError).toBe('Register failed');
+      expect(result.register.inProgress).toBe(false);
+      expect(result.register.error).toBe('Register failed');
     });
 
     it('should set registerInProgress to false and set token and user on registerSuccess', () => {
@@ -112,7 +112,7 @@ describe('Auth Reducer', () => {
       } & TypedAction<AuthActions.Type.RegisterSuccess> =
         AuthActions.registerSuccess({ payload });
       const result: AuthState = authReducer(initialState, action);
-      expect(result.registerInProgress).toBe(false);
+      expect(result.register.inProgress).toBe(false);
       expect(result.token).toBe('some-token');
       expect(result.user).toEqual(dummyUser);
     });

@@ -21,10 +21,18 @@ describe('Auth Selectors', () => {
       auth: {
         token: 'token',
         user: dummyUser,
-        loginError: ERROR_MSG,
-        loginInProgress: false,
-        registerInProgress: false,
-        registerError: ERROR_MSG,
+        login: {
+          error: ERROR_MSG,
+          inProgress: false,
+        },
+        register: {
+          error: ERROR_MSG,
+          inProgress: false,
+        },
+        removeAccount: {
+          error: ERROR_MSG,
+          inProgress: false,
+        },
       },
     };
   });
