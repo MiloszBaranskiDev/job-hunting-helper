@@ -11,7 +11,7 @@ import { AddGroupComponent } from './add-group.component';
 
 import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 
-import { AddNotesGroupFormField } from '../../enums/add-notes-group-form-field';
+import { NotesGroupFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 
 describe('AddGroupComponent', () => {
   let component: AddGroupComponent;
@@ -56,9 +56,9 @@ describe('AddGroupComponent', () => {
   });
 
   it('should initialize the form group with name control', () => {
-    expect(component.formGroup.get(AddNotesGroupFormField.Name)).toBeTruthy();
+    expect(component.formGroup.get(NotesGroupFormField.Name)).toBeTruthy();
     expect(
-      component.formGroup.get(AddNotesGroupFormField.Name)?.validator
+      component.formGroup.get(NotesGroupFormField.Name)?.validator
     ).toBeTruthy();
   });
 });

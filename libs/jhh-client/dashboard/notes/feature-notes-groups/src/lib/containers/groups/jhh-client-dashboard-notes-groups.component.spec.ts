@@ -6,10 +6,8 @@ import {
 import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs';
 
-import {
-  NotesFacade,
-  QueryParamsService,
-} from '@jhh/jhh-client/dashboard/notes/data-access';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
 import { JhhClientDashboardNotesGroupsComponent } from './jhh-client-dashboard-notes-groups.component';
 

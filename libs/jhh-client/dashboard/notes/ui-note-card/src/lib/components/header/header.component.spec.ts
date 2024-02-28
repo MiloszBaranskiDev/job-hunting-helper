@@ -37,7 +37,7 @@ describe('HeaderComponent', () => {
     component.name = testName;
     fixture.detectChanges();
 
-    const nameElement = fixture.nativeElement.querySelector('h2');
+    const nameElement = fixture.nativeElement.querySelector('h3');
     expect(nameElement.textContent).toContain(testName);
   });
 

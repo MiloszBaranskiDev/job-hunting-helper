@@ -4,6 +4,8 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 import { GroupsListComponent } from './groups-list.component';
 
@@ -19,6 +21,7 @@ describe('GroupsListComponent', () => {
   let mockBreakpointService,
     mockEditNotesGroupDialogService: any,
     mockRemoveNotesGroupDialogService: any;
+  const actions$: Observable<any> = of();
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -37,6 +40,8 @@ describe('GroupsListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [GroupsListComponent],
       providers: [
+        provideMockStore(),
+        provideMockActions(() => actions$),
         { provide: BreakpointService, useValue: mockBreakpointService },
         {
           provide: EditNotesGroupDialogService,

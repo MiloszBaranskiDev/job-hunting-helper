@@ -10,10 +10,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { JhhClientDashboardNotesGroupComponent } from './jhh-client-dashboard-notes-group.component';
 
-import {
-  NotesFacade,
-  QueryParamsService,
-} from '@jhh/jhh-client/dashboard/notes/data-access';
+import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
+import { QueryParamsService } from '@jhh/jhh-client/dashboard/data-access';
 
 import { Note, NotesGroup } from '@jhh/shared/domain';
 
