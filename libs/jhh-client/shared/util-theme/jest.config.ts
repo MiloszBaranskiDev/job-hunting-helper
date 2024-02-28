@@ -2,10 +2,16 @@
 export default {
   displayName: 'jhh-client-shared-util-theme',
   preset: '../../../../jest.preset.js',
-  testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   transform: {
-    '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
+    '^.+\\.(ts|mjs|js|html)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+      },
+    ],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   coverageDirectory: '../../../../coverage/libs/jhh-client/shared/util-theme',
 };
