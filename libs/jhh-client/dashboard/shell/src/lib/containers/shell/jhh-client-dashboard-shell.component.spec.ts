@@ -4,10 +4,33 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RouterOutlet } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DebugElement } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
+import { User } from '@jhh/shared/domain';
 
 import { JhhClientDashboardShellComponent } from './jhh-client-dashboard-shell.component';
 import { JhhClientDashboardToolbarComponent } from '@jhh/jhh-client/dashboard/feature-toolbar';
 import { JhhClientDashboardSidebarComponent } from '@jhh/jhh-client/dashboard/feature-sidebar';
+
+import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
+import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
+
+class MockDashboardFacade {
+  loadAssignedDataInProgress$: Observable<boolean> = of(false);
+  loadAssignedDataError$: Observable<string | null> = of(null);
+
+  loadAssignedData(): void {}
+}
+
+class MockAuthFacade {
+  removeAccountInProgress$: Observable<boolean> = of(false);
+  removeAccountError$: Observable<string | null> = of(null);
+  user$: Observable<User | null> = of(null);
+
+  logout(): void {}
+
+  removeAccount(): void {}
+}
 
 describe('JhhClientDashboardShellComponent', () => {
   let component: JhhClientDashboardShellComponent;
@@ -21,6 +44,13 @@ describe('JhhClientDashboardShellComponent', () => {
         JhhClientDashboardShellComponent,
         JhhClientDashboardToolbarComponent,
         JhhClientDashboardSidebarComponent,
+      ],
+      providers: [
+        { provide: DashboardFacade, useClass: MockDashboardFacade },
+        {
+          provide: AuthFacade,
+          useClass: MockAuthFacade,
+        },
       ],
     }).compileComponents();
 
