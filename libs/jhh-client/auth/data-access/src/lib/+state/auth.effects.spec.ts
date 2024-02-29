@@ -38,6 +38,7 @@ describe('AuthEffects', () => {
       register: jest.fn(),
       saveToken: jest.fn(),
       removeToken: jest.fn(),
+      removeAccount: jest.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -177,6 +178,54 @@ describe('AuthEffects', () => {
 
       effects.logout$.subscribe(() => {
         expect(authService.removeToken).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('removeAccount$', () => {
+    it('should dispatch removeAccountSuccess action and remove token on successful account removal', () => {
+      const action = AuthActions.removeAccount();
+      const outcome = AuthActions.removeAccountSuccess();
+
+      authService.removeAccount.mockReturnValue(
+        of({ removedAccountId: 'some_account_id' })
+      );
+
+      actions$ = of(action);
+
+      effects.removeAccount$.subscribe((result) => {
+        expect(result).toEqual(outcome);
+        expect(authService.removeToken).toHaveBeenCalled();
+      });
+    });
+
+    it('should dispatch removeAccountFail action on failed account removal', () => {
+      const errorResponse: HttpErrorResponse = new HttpErrorResponse({
+        error: { message: 'Remove account failed' },
+        status: 400,
+        statusText: 'Bad Request',
+      });
+      const action = AuthActions.removeAccount();
+      const outcome = AuthActions.removeAccountFail({ payload: errorResponse });
+
+      actions$ = of(action);
+      authService.removeAccount.mockReturnValue(throwError(errorResponse));
+
+      effects.removeAccount$.subscribe((result) => {
+        expect(result).toEqual(outcome);
+      });
+    });
+  });
+
+  describe('saveToken$', () => {
+    it('should call saveToken on authService with the correct payload', () => {
+      const token = 'new_token';
+      const action = AuthActions.saveToken({ payload: { token } });
+
+      actions$ = of(action);
+
+      effects.saveToken$.subscribe(() => {
+        expect(authService.saveToken).toHaveBeenCalledWith(token);
       });
     });
   });

@@ -21,7 +21,10 @@ import {
   LoginSuccessResponse,
   RegisterPayload,
   RegisterSuccessResponse,
+  RemoveAccountSuccessResponse,
 } from '@jhh/jhh-client/auth/domain';
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
+import { Router } from '@angular/router';
 
 const dummyUser: User = {
   id: '1337',
@@ -137,6 +140,37 @@ describe('AuthService', () => {
       localStorage.setItem(LocalStorageKey.Token, JSON.stringify(TOKEN));
       service.removeToken();
       expect(localStorage.getItem(LocalStorageKey.Token)).toBeNull();
+    });
+
+    it('should close all dialogs, navigate to login, and reload the page', () => {
+      const dialogSpy = jest.spyOn(TestBed.inject(MatDialog), 'closeAll');
+      const mockRouter = TestBed.inject(Router);
+      jest.spyOn(mockRouter, 'navigate');
+
+      service.removeToken();
+
+      expect(localStorage.getItem(LocalStorageKey.Token)).toBeNull();
+      expect(dialogSpy).toHaveBeenCalled();
+      expect(mockRouter.navigate).toHaveBeenCalledWith([ClientRoute.LoginLink]);
+      expect(reloadMock).toHaveBeenCalled();
+    });
+  });
+
+  describe('removeAccount', () => {
+    it('should make a DELETE request and return the expected response', () => {
+      const dummyResponse: RemoveAccountSuccessResponse = {
+        data: { message: 'Account removed successfully' } as any,
+      };
+
+      service.removeAccount().subscribe((res) => {
+        expect(res).toEqual(dummyResponse.data);
+      });
+
+      const req: TestRequest = httpMock.expectOne(
+        `${environment.apiUrl}${ApiRoute.BaseUser}${ApiRoute.RemoveAccount}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush(dummyResponse);
     });
   });
 });

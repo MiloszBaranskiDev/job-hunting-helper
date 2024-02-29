@@ -134,6 +134,53 @@ describe('Auth Reducer', () => {
       expect(result.token).toBe(null);
       expect(result.user).toBe(null);
     });
+
+    it('should set removeAccount inProgress to true on removeAccount', () => {
+      const action = AuthActions.removeAccount();
+      const result = authReducer(initialState, action);
+      expect(result.removeAccount.inProgress).toBe(true);
+    });
+
+    it('should set removeAccount inProgress to false and error on removeAccountFail', () => {
+      const errorResponse = new HttpErrorResponse({
+        error: { message: 'Remove account failed' },
+        status: 400,
+        statusText: 'Bad Request',
+      });
+      const action = AuthActions.removeAccountFail({ payload: errorResponse });
+      const result = authReducer(initialState, action);
+      expect(result.removeAccount.inProgress).toBe(false);
+      expect(result.removeAccount.error).toBe('Remove account failed');
+    });
+
+    it('should set removeAccount inProgress to false, success to true, and reset token and user on removeAccountSuccess', () => {
+      const action = AuthActions.removeAccountSuccess();
+      const result = authReducer(initialState, action);
+      expect(result.removeAccount.inProgress).toBe(false);
+      expect(result.removeAccount.success).toBe(true);
+      expect(result.token).toBe(null);
+      expect(result.user).toBe(null);
+    });
+
+    it('should reset login success flag on resetLoginSuccess', () => {
+      const modifiedState = {
+        ...initialState,
+        login: { ...initialState.login, success: true },
+      };
+      const action = AuthActions.resetLoginSuccess();
+      const result = authReducer(modifiedState, action);
+      expect(result.login.success).toBe(false);
+    });
+
+    it('should reset register success flag on resetRegisterSuccess', () => {
+      const modifiedState = {
+        ...initialState,
+        register: { ...initialState.register, success: true },
+      };
+      const action = AuthActions.resetRegisterSuccess();
+      const result = authReducer(modifiedState, action);
+      expect(result.register.success).toBe(false);
+    });
   });
 
   describe('unknown action', () => {

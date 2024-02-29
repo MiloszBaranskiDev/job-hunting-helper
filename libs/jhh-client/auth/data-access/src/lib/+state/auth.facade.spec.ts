@@ -4,12 +4,14 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { Router } from '@angular/router';
 
 import { AuthFacade } from './auth.facade';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
-
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
+
+import { ClientRoute } from '@jhh/jhh-client/shared/domain';
 
 describe('AuthFacade', () => {
   let store: MockStore;
@@ -102,6 +104,39 @@ describe('AuthFacade', () => {
     it('should dispatch logout action', () => {
       facade.logout();
       expect(store.dispatch).toHaveBeenCalledWith(AuthActions.logout());
+    });
+  });
+
+  describe('removeAccount', () => {
+    it('should dispatch removeAccount action', () => {
+      facade.removeAccount();
+      expect(mockActionResolverService.executeAndWatch).toHaveBeenCalledWith(
+        AuthActions.removeAccount(),
+        AuthActions.Type.RemoveAccountSuccess,
+        AuthActions.Type.RemoveAccountFail
+      );
+    });
+  });
+
+  describe('loginOrRedirect', () => {
+    it('should save token if token is present', () => {
+      const token = 'valid_token';
+      mockAuthService.getToken.mockReturnValue(token);
+      jest.spyOn(facade, 'saveToken');
+
+      facade.loginOrRedirect();
+
+      expect(facade.saveToken).toHaveBeenCalledWith(token);
+    });
+
+    it('should navigate to login if token is not present', () => {
+      const mockRouter = TestBed.inject(Router);
+      jest.spyOn(mockRouter, 'navigate');
+      mockAuthService.getToken.mockReturnValue('');
+
+      facade.loginOrRedirect();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith([ClientRoute.LoginLink]);
     });
   });
 });
