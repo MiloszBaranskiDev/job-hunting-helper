@@ -13,6 +13,10 @@ import { environment } from '@jhh/jhh-client/shared/config';
 import { NotesService } from './notes.service';
 
 import { ApiRoute } from '@jhh/shared/domain';
+import {
+  DuplicateNotesGroupPayload,
+  DuplicateNotesGroupSuccessPayload,
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 describe('NotesService', () => {
   let service: NotesService;
@@ -68,6 +72,25 @@ describe('NotesService', () => {
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(mockPayload);
     req.flush(mockResponse);
+  });
+
+  it('should duplicate a notes group', () => {
+    const mockPayload: DuplicateNotesGroupPayload = { groupId: '123' };
+    const mockResponse: DuplicateNotesGroupSuccessPayload = {
+      duplicatedGroupId: '456',
+      name: 'Duplicated Group',
+    } as any;
+
+    service.duplicateNotesGroup(mockPayload).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpTestingController.expectOne(
+      `${environment.apiUrl}${ApiRoute.BaseProtected}${ApiRoute.DuplicateNotesGroup}`
+    );
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ groupId: mockPayload.groupId });
+    req.flush({ data: mockResponse });
   });
 
   it('should remove a notes group', () => {

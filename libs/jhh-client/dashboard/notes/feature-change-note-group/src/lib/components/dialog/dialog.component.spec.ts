@@ -46,4 +46,28 @@ describe('DialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open the dialog on ngAfterViewInit', () => {
+    const openSpy = jest.spyOn(component['dialog'], 'open');
+    component.ngAfterViewInit();
+    expect(openSpy).toHaveBeenCalledWith(component['dialogContent']);
+  });
+
+  it('should initialize form group with new group name field', () => {
+    TestBed.runInInjectionContext(() => {
+      component.noteToMove = {
+        id: '1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: 'Note 1',
+        slug: 'note-1',
+        content: 'This is note 1',
+        groupId: 'group-1',
+      };
+      component.ngOnInit();
+      expect(
+        component.formGroup.get(component.formField.NewGroupName)
+      ).toBeDefined();
+    });
+  });
 });

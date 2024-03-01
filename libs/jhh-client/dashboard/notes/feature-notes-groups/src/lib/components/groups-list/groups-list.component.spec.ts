@@ -91,13 +91,13 @@ describe('GroupsListComponent', () => {
     );
   });
 
-  it('trackByFn should return correct item id', () => {
-    const index: number = 0;
-    const item: NotesGroup = {
-      id: '123',
-      name: 'Test',
-      notes: [],
-    } as unknown as NotesGroup;
-    expect(component.trackByFn(index, item)).toBe('123');
+  it('should display "No groups found." when sortedNotesGroups is empty', () => {
+    component.sortedNotesGroups = [];
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('p').textContent).toContain(
+      'No groups found.'
+    );
   });
 });

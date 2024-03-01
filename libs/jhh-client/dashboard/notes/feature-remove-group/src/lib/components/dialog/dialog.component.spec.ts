@@ -60,6 +60,12 @@ describe('DialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should open the dialog on ngAfterViewInit', () => {
+    const openSpy = jest.spyOn(component['dialog'], 'open');
+    component.ngAfterViewInit();
+    expect(openSpy).toHaveBeenCalledWith(component['dialogContent']);
+  });
+
   it('should handle remove correctly', () => {
     const groupId: string = '1';
     component.handleRemove(groupId);

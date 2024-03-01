@@ -14,7 +14,8 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 describe('AddNoteComponent', () => {
   let component: AddNoteComponent;
   let fixture: ComponentFixture<AddNoteComponent>;
-  let mockDialog, mockNotesFacade;
+  let mockDialog: any;
+  let mockNotesFacade: Partial<NotesFacade>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -60,5 +61,28 @@ describe('AddNoteComponent', () => {
     expect(
       component.formGroup.controls[component.formField.Content]
     ).toBeDefined();
+  });
+
+  it('form should be invalid when empty', () => {
+    expect(component.formGroup.valid).toBeFalsy();
+  });
+
+  it('should display spinner when addNoteInProgress$ emits true', (done) => {
+    mockNotesFacade.addNoteInProgress$ = of(true);
+    component.ngOnInit();
+    component.addNoteInProgress$.subscribe((isInProgress) => {
+      expect(isInProgress).toBe(true);
+      done();
+    });
+  });
+
+  it('should display error message when addNoteError$ emits value', (done) => {
+    const errorMessage = 'Error occurred';
+    mockNotesFacade.addNoteError$ = of(errorMessage);
+    component.ngOnInit();
+    component.addNoteError$.subscribe((error) => {
+      expect(error).toBe(errorMessage);
+      done();
+    });
   });
 });

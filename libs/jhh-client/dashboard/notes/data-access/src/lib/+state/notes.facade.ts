@@ -46,14 +46,6 @@ export class NotesFacade {
     select(NotesSelectors.selectEditNotesGroupSuccess)
   );
 
-  duplicateNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
-    select(NotesSelectors.selectDuplicateNotesGroupInProgress)
-  );
-
-  duplicateNotesGroupError$: Observable<string | null> = this.store.pipe(
-    select(NotesSelectors.selectDuplicateNotesGroupError)
-  );
-
   removeNotesGroupInProgress$: Observable<boolean> = this.store.pipe(
     select(NotesSelectors.selectRemoveNotesGroupInProgress)
   );
@@ -159,8 +151,8 @@ export class NotesFacade {
       NotesActions.addNote({
         payload: { name: name, content: content, groupId: groupId },
       }),
-      NotesActions.Type.RemoveNoteSuccess,
-      NotesActions.Type.RemoveNoteFail
+      NotesActions.Type.AddNoteSuccess,
+      NotesActions.Type.AddNoteFail
     );
   }
 

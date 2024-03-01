@@ -28,7 +28,13 @@ describe('DialogComponent', () => {
     mockNotesFacade = {
       editNoteInProgress$: of(false),
       editNoteError$: of(null),
+      editNote: jest.fn(),
     };
+
+    Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+      value: jest.fn(),
+      writable: true,
+    });
 
     await TestBed.configureTestingModule({
       imports: [DialogComponent, NoopAnimationsModule],
@@ -63,5 +69,26 @@ describe('DialogComponent', () => {
     expect(nameControl!.value).toBe('note');
     expect(slugControl!.value).toBe('note-slug');
     expect(contentControl!.value).toBe('content');
+  });
+
+  it('should open the dialog on ngAfterViewInit', () => {
+    const openSpy = jest.spyOn(component['dialog'], 'open');
+    component.ngAfterViewInit();
+    expect(openSpy).toHaveBeenCalledWith(component['dialogContent']);
+  });
+
+  it('should call editNote with correct parameters on form submit', () => {
+    component.formGroup.controls[component.formField.Name].setValue('New Name');
+    component.formGroup.controls[component.formField.Slug].setValue('new-slug');
+    component.formGroup.controls[component.formField.Content].setValue(
+      '<h1>heading</h1>'
+    );
+    component.onSubmit();
+    expect(mockNotesFacade.editNote).toHaveBeenCalledWith(
+      component.noteToEdit.id,
+      'New Name',
+      'new-slug',
+      '<h1>heading</h1'
+    );
   });
 });

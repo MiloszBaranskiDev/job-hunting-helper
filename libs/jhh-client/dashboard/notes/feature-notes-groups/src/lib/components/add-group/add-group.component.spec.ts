@@ -55,10 +55,33 @@ describe('AddGroupComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form group with name control', () => {
+  it('should initialize form group correctly', () => {
     expect(component.formGroup.get(NotesGroupFormField.Name)).toBeTruthy();
     expect(
       component.formGroup.get(NotesGroupFormField.Name)?.validator
     ).toBeTruthy();
+  });
+
+  it('form should be invalid when empty', () => {
+    expect(component.formGroup.valid).toBeFalsy();
+  });
+
+  it('should display spinner when addNotesGroupInProgress$ emits true', (done) => {
+    mockNotesFacade.addNotesGroupInProgress$ = of(true);
+    component.ngOnInit();
+    component.addNotesGroupInProgress$.subscribe((isInProgress) => {
+      expect(isInProgress).toBe(true);
+      done();
+    });
+  });
+
+  it('should display error message when addNotesGroupError$ emits value', (done) => {
+    const errorMessage = 'Error occurred';
+    mockNotesFacade.addNotesGroupError$ = of(errorMessage);
+    component.ngOnInit();
+    component.addNotesGroupError$.subscribe((error) => {
+      expect(error).toBe(errorMessage);
+      done();
+    });
   });
 });

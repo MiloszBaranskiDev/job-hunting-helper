@@ -18,12 +18,12 @@ import { NotesGroup } from '@jhh/shared/domain';
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
-  let mockActivatedRoute,
-    mockRouter,
-    mockDestroyRef,
+  let mockActivatedRoute: any,
+    mockRouter: any,
+    mockDestroyRef: any,
     mockEditNotesGroupDialogService: any,
     mockRemoveNotesGroupDialogService: any,
-    mockNotesFacade;
+    mockNotesFacade: any;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -46,6 +46,7 @@ describe('MenuComponent', () => {
       editNotesGroupSuccess$: of(true),
       removeNotesGroupSuccess$: of(true),
       getGroupSlug$ByGroupId: jest.fn().mockReturnValue(of('slug')),
+      duplicateNotesGroup: jest.fn(),
     };
 
     await TestBed.configureTestingModule({
@@ -68,6 +69,11 @@ describe('MenuComponent', () => {
 
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
+    const group: NotesGroup = {
+      id: 'testId',
+      name: 'group',
+    } as NotesGroup;
+    component.group = group;
     fixture.detectChanges();
   });
 
@@ -75,25 +81,40 @@ describe('MenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should subscribe to editNotesGroupSuccess$ and handle navigation', (done) => {
+    mockNotesFacade.editNotesGroupSuccess$ = of(true);
+    component.ngOnInit();
+    component.editNotesGroupSuccess$.subscribe((success) => {
+      expect(success).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should subscribe to removeNotesGroupSuccess$ and handle navigation', (done) => {
+    mockNotesFacade.removeNotesGroupSuccess$ = of(true);
+    component.ngOnInit();
+    component.removeNotesGroupSuccess$.subscribe((success) => {
+      expect(success).toBeTruthy();
+      done();
+    });
+  });
+
   it('should call openDialog on EditNotesGroupDialogService with the group when openEditNotesGroupDialog is called', () => {
-    const group: NotesGroup = {
-      name: 'group',
-    } as NotesGroup;
-    component.group = group;
     component.openEditNotesGroupDialog();
     expect(mockEditNotesGroupDialogService.openDialog).toHaveBeenCalledWith(
-      group
+      component.group
     );
   });
 
   it('should call openDialog on RemoveNotesGroupDialogService with the group when openRemoveNotesGroupDialog is called', () => {
-    const group: NotesGroup = {
-      name: 'group',
-    } as NotesGroup;
-    component.group = group;
     component.openRemoveNotesGroupDialog();
     expect(mockRemoveNotesGroupDialogService.openDialog).toHaveBeenCalledWith(
-      group
+      component.group
     );
+  });
+
+  it('should call duplicateNotesGroup with the correct group id', () => {
+    component.handleDuplicate();
+    expect(mockNotesFacade.duplicateNotesGroup).toHaveBeenCalledWith('testId');
   });
 });

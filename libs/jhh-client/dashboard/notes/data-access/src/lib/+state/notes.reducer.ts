@@ -187,7 +187,7 @@ const reducer: ActionReducer<NotesState> = createReducer(
   })),
   on(NotesActions.removeNotesGroupFail, (state, { payload }) => ({
     ...state,
-    removeNoteGroup: {
+    removeNotesGroup: {
       ...state.removeNotesGroup,
       inProgress: false,
       error: payload.error.message,
