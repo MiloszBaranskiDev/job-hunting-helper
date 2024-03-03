@@ -1,4 +1,4 @@
-enum PercentageClass {
+export enum PercentageClass {
   High = 'resultsPercentage--High',
   Medium = 'resultsPercentage--Medium',
   Low = 'resultsPercentage--Low',

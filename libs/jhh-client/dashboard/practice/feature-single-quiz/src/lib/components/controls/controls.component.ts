@@ -74,6 +74,11 @@ export class ControlsComponent implements OnInit {
     this.navigateAfterRemove();
   }
 
+  turnPlayMode(): void {
+    this.isPlayMode$.next(true);
+    this.dialogRef.close();
+  }
+
   openPlayDialog(): void {
     this.dialogRef = this.dialog.open(this.dialogContent, { autoFocus: false });
     this.dialogRef.afterClosed().subscribe(() => {
@@ -82,9 +87,12 @@ export class ControlsComponent implements OnInit {
     });
   }
 
-  turnPlayMode(): void {
-    this.isPlayMode$.next(true);
-    this.dialogRef.close();
+  openEditQuizDialog(): void {
+    this.editPracticeQuizDialogService.openDialog(this.quiz);
+  }
+
+  openRemoveQuizDialog(): void {
+    this.removePracticeQuizDialogService.openDialog(this.quiz);
   }
 
   getQuestionLimits(): number[] {
@@ -110,14 +118,6 @@ export class ControlsComponent implements OnInit {
 
   setQuestionLimit(value: number): void {
     this.questionsLimit$.next(value);
-  }
-
-  openEditQuizDialog(): void {
-    this.editPracticeQuizDialogService.openDialog(this.quiz);
-  }
-
-  openRemoveQuizDialog(): void {
-    this.removePracticeQuizDialogService.openDialog(this.quiz);
   }
 
   private navigateAfterSlugChange(): void {
