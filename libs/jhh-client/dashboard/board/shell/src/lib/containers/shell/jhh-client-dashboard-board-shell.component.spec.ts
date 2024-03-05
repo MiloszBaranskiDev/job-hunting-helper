@@ -1,9 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { JhhClientDashboardBoardShellComponent } from 'libs/jhh-client/dashboard/board/shell/src/lib/containers/shell/jhh-client-dashboard-board-shell.component';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
+import { JhhClientDashboardBoardShellComponent } from './jhh-client-dashboard-board-shell.component';
 
 describe('JhhClientDashboardBoardShellComponentComponent', () => {
   let component: JhhClientDashboardBoardShellComponent;
   let fixture: ComponentFixture<JhhClientDashboardBoardShellComponent>;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

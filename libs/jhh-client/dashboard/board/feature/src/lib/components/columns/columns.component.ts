@@ -31,7 +31,6 @@ import {
   tap,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -85,7 +84,6 @@ import {
 export class ColumnsComponent implements OnInit, OnDestroy {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
-  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
   private readonly breakpointService: BreakpointService =
     inject(BreakpointService);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);

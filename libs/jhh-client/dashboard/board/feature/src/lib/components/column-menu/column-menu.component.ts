@@ -116,10 +116,6 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
     this.dialogRef?.close();
   }
 
-  openRemoveColumnDialog(): void {
-    this.dialogRef = this.dialog.open(this.removeDialogContent);
-  }
-
   openEditColumnDialog(): void {
     this.dialogRef = this.dialog.open(this.editDialogContent);
     this.dialogRef.afterClosed().subscribe(() => {
@@ -129,6 +125,10 @@ export class ColumnMenuComponent implements OnInit, OnDestroy {
         [this.formField.Color]: this.column.color,
       });
     });
+  }
+
+  openRemoveColumnDialog(): void {
+    this.dialogRef = this.dialog.open(this.removeDialogContent);
   }
 
   handleDuplicate(): void {
