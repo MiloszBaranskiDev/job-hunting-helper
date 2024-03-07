@@ -12,11 +12,18 @@ jest.mock('@jhh/jhh-server/controller/user', () => {
       register: jest.fn((req, res) =>
         res.status(HttpStatusCode.OK).send('Registration successful')
       ),
+      removeAccount: jest.fn((req, res) =>
+        res.status(HttpStatusCode.OK).send('Remove account successful')
+      ),
     }),
   };
 });
 
-describe('JhhServerRouterUser function', () => {
+jest.mock('jsonwebtoken', () => ({
+  verify: jest.fn().mockReturnValue({ id: 'user123' }),
+}));
+
+describe('JhhServerRouterUser', () => {
   let router: Router;
 
   beforeAll(() => {
@@ -39,5 +46,17 @@ describe('JhhServerRouterUser function', () => {
     const response = await request(app).post(ApiRoute.Register);
     expect(response.status).toBe(HttpStatusCode.OK);
     expect(response.text).toBe('Registration successful');
+  });
+
+  it('should handle DELETE request for remove account', async () => {
+    const app: Express = express();
+    app.use(router);
+
+    const response = await request(app)
+      .delete(ApiRoute.RemoveAccount)
+      .set('Authorization', 'Bearer mockTokenHere');
+
+    expect(response.status).toBe(HttpStatusCode.OK);
+    expect(response.text).toBe('Remove account successful');
   });
 });

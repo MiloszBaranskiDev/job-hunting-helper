@@ -34,8 +34,8 @@ export function JhhServerRouterApi(): Router {
   router.delete(ApiRoute.RemoveNotesGroup, notesController.removeNotesGroup);
 
   router.post(ApiRoute.AddNote, notesController.addNote);
-  router.post(ApiRoute.DuplicateNote, notesController.duplicateNote);
   router.put(ApiRoute.EditNote, notesController.editNote);
+  router.post(ApiRoute.DuplicateNote, notesController.duplicateNote);
   router.patch(ApiRoute.ChangeNoteGroup, notesController.changeNoteGroup);
   router.delete(ApiRoute.RemoveNote, notesController.removeNote);
 
