@@ -1,9 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DescriptionComponent } from 'libs/jhh-client/dashboard/offers/feature-single-offer/src/lib/components/description/description.component';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
-describe('ContentComponent', () => {
+import { DescriptionComponent } from './description.component';
+
+describe('DescriptionComponent', () => {
   let component: DescriptionComponent;
   let fixture: ComponentFixture<DescriptionComponent>;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

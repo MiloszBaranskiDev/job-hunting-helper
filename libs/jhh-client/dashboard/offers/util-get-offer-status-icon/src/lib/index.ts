@@ -9,7 +9,7 @@ enum StatusIcon {
   Cancel = 'cancel',
 }
 
-const statusIconMap: { [key in OfferStatus]: StatusIcon } = {
+export const statusIconMap: { [key in OfferStatus]: StatusIcon } = {
   [OfferStatus.NotApplied]: StatusIcon.Drafts,
   [OfferStatus.Applied]: StatusIcon.AssignmentReturned,
   [OfferStatus.Interviewing]: StatusIcon.Timelapse,

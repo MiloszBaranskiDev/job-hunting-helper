@@ -1,9 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { JhhClientDashboardRemoveOffersComponent } from 'libs/jhh-client/dashboard/offers/feature-remove-offers/src/lib/containers/remove/jhh-client-dashboard-remove-offers.component';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+
+import { JhhClientDashboardRemoveOffersComponent } from './jhh-client-dashboard-remove-offers.component';
 
 describe('JhhClientDashboardRemoveOfferComponent', () => {
   let component: JhhClientDashboardRemoveOffersComponent;
   let fixture: ComponentFixture<JhhClientDashboardRemoveOffersComponent>;
+
+  beforeAll(() => {
+    TestBed.initTestEnvironment(
+      BrowserDynamicTestingModule,
+      platformBrowserDynamicTesting()
+    );
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

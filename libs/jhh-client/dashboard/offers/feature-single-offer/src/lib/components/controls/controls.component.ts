@@ -26,9 +26,8 @@ export class ControlsComponent implements OnInit {
   private readonly editOfferDialogService: EditOfferDialogService = inject(
     EditOfferDialogService
   );
-  private readonly removeOfferDialogService: RemoveOffersDialogService = inject(
-    RemoveOffersDialogService
-  );
+  private readonly removeOffersDialogService: RemoveOffersDialogService =
+    inject(RemoveOffersDialogService);
   private readonly offersFacade: OffersFacade = inject(OffersFacade);
 
   @Input({ required: true }) offer: Offer;
@@ -48,8 +47,8 @@ export class ControlsComponent implements OnInit {
     this.editOfferDialogService.openDialog(this.offer);
   }
 
-  openRemoveOfferDialog(): void {
-    this.removeOfferDialogService.openDialog([this.offer]);
+  openRemoveOffersDialog(): void {
+    this.removeOffersDialogService.openDialog([this.offer]);
   }
 
   private navigateAfterSlugChange(): void {
