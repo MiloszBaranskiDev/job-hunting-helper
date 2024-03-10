@@ -11,33 +11,27 @@ describe('Dashboard Selectors', () => {
     },
   };
 
-  describe('selectDashboardLoadAssignedDataInProgress', () => {
-    it('should select the loadAssignedDataInProgress state', () => {
-      const result =
-        DashboardSelectors.selectDashboardLoadAssignedDataInProgress.projector(
-          initialState.dashboard
-        );
-      expect(result).toBe(false);
-    });
+  it('should select the loadAssignedDataInProgress state', () => {
+    const result =
+      DashboardSelectors.selectDashboardLoadAssignedDataInProgress.projector(
+        initialState.dashboard
+      );
+    expect(result).toBe(false);
   });
 
-  describe('selectDashboardLoadAssignedDataError', () => {
-    it('should select the loadAssignedDataError state', () => {
-      const result =
-        DashboardSelectors.selectDashboardLoadAssignedDataError.projector(
-          initialState.dashboard
-        );
-      expect(result).toBe('Error loading data');
-    });
+  it('should select the loadAssignedDataError state', () => {
+    const result =
+      DashboardSelectors.selectDashboardLoadAssignedDataError.projector(
+        initialState.dashboard
+      );
+    expect(result).toBe('Error loading data');
   });
 
-  describe('selectDashboardLoadAssignedDataSuccess', () => {
-    it('should select the loadAssignedDataSuccess state', () => {
-      const result =
-        DashboardSelectors.selectDashboardLoadAssignedDataSuccess.projector(
-          initialState.dashboard
-        );
-      expect(result).toBe(true);
-    });
+  it('should select the loadAssignedDataSuccess state', () => {
+    const result =
+      DashboardSelectors.selectDashboardLoadAssignedDataSuccess.projector(
+        initialState.dashboard
+      );
+    expect(result).toBe(true);
   });
 });
