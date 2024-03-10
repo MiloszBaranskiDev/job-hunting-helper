@@ -30,111 +30,86 @@ describe('Practice Selectors Full Suite', () => {
     } as any,
   };
 
-  describe('selectAddQuizInProgress', () => {
-    it('should select the addQuiz inProgress state', () => {
-      const result = PracticeSelectors.selectAddQuizInProgress.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(false);
-    });
+  it('should select the addQuiz inProgress state', () => {
+    const result = PracticeSelectors.selectAddQuizInProgress.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(false);
   });
 
-  describe('selectAddQuizError', () => {
-    it('should select the addQuiz error state', () => {
-      const result = PracticeSelectors.selectAddQuizError.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe('Error');
-    });
+  it('should select the addQuiz error state', () => {
+    const result = PracticeSelectors.selectAddQuizError.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe('Error');
   });
 
-  describe('selectAddQuizSuccess', () => {
-    it('should select the addQuiz success state', () => {
-      const result = PracticeSelectors.selectAddQuizSuccess.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(true);
-    });
+  it('should select the addQuiz success state', () => {
+    const result = PracticeSelectors.selectAddQuizSuccess.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(true);
+  });
+  it('should select the editQuiz inProgress state', () => {
+    const result = PracticeSelectors.selectEditQuizInProgress.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(true);
   });
 
-  describe('selectEditQuizInProgress', () => {
-    it('should select the editQuiz inProgress state', () => {
-      const result = PracticeSelectors.selectEditQuizInProgress.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(true);
-    });
+  it('should select the editQuiz error state', () => {
+    const result = PracticeSelectors.selectEditQuizError.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(null);
   });
 
-  describe('selectEditQuizError', () => {
-    it('should select the editQuiz error state', () => {
-      const result = PracticeSelectors.selectEditQuizError.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(null);
-    });
+  it('should select the editQuiz success state', () => {
+    const result = PracticeSelectors.selectEditQuizSuccess.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(false);
   });
 
-  describe('selectEditQuizSuccess', () => {
-    it('should select the editQuiz success state', () => {
-      const result = PracticeSelectors.selectEditQuizSuccess.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(false);
-    });
+  it('should select the removeQuiz inProgress state', () => {
+    const result = PracticeSelectors.selectRemoveQuizInProgress.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(false);
   });
 
-  describe('selectRemoveQuizInProgress', () => {
-    it('should select the removeQuiz inProgress state', () => {
-      const result = PracticeSelectors.selectRemoveQuizInProgress.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(false);
-    });
+  it('should select the removeQuiz error state', () => {
+    const result = PracticeSelectors.selectRemoveQuizError.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe('Error');
   });
 
-  describe('selectRemoveQuizError', () => {
-    it('should select the removeQuiz error state', () => {
-      const result = PracticeSelectors.selectRemoveQuizError.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe('Error');
-    });
+  it('should select the removeQuiz success state', () => {
+    const result = PracticeSelectors.selectRemoveQuizSuccess.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(true);
   });
 
-  describe('selectRemoveQuizSuccess', () => {
-    it('should select the removeQuiz success state', () => {
-      const result = PracticeSelectors.selectRemoveQuizSuccess.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(true);
-    });
+  it('should select the addQuizResults inProgress state', () => {
+    const result = PracticeSelectors.selectAddQuizResultsInProgress.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(false);
   });
 
-  describe('selectAddQuizResultsInProgress', () => {
-    it('should select the addQuizResults inProgress state', () => {
-      const result = PracticeSelectors.selectAddQuizResultsInProgress.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(false);
-    });
+  it('should select the addQuizResults error state', () => {
+    const result = PracticeSelectors.selectAddQuizResultsError.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe('Error');
   });
 
-  describe('selectAddQuizResultsError', () => {
-    it('should select the addQuizResults error state', () => {
-      const result = PracticeSelectors.selectAddQuizResultsError.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe('Error');
-    });
-  });
-
-  describe('selectAddQuizResultsSuccess', () => {
-    it('should select the addQuizResults success state', () => {
-      const result = PracticeSelectors.selectAddQuizResultsSuccess.projector(
-        mockInitialState.practice
-      );
-      expect(result).toBe(true);
-    });
+  it('should select the addQuizResults success state', () => {
+    const result = PracticeSelectors.selectAddQuizResultsSuccess.projector(
+      mockInitialState.practice
+    );
+    expect(result).toBe(true);
   });
 });
