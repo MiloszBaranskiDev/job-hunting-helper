@@ -13,6 +13,7 @@ import {
   EditEventSuccessPayload,
   RemoveEventSuccessPayload,
 } from '@jhh/jhh-client/dashboard/schedule/domain';
+import { MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ScheduleEffects {
@@ -44,18 +45,26 @@ export class ScheduleEffects {
     this.actions$.pipe(
       ofType(ScheduleActions.editEvent),
       fetch({
-        run: (action) =>
-          this.scheduleService.editEvent(action.payload).pipe(
+        run: (action) => {
+          const snackbarRef: MatSnackBarRef<SimpleSnackBar> =
+            this.snackbarService.openIndefinite('Saving event...');
+          return this.scheduleService.editEvent(action.payload).pipe(
             mergeMap((res: EditEventSuccessPayload) => [
               ScheduleActions.editEventSuccess({ payload: res }),
               ScheduleActions.resetEditEventSuccess(),
             ]),
             tap(() => {
+              snackbarRef.dismiss();
               this.snackbarService.open('Schedule event edited successfully!');
             })
-          ),
-        onError: (action, error) =>
-          ScheduleActions.editEventFail({ payload: error }),
+          );
+        },
+        onError: (action, error) => {
+          this.snackbarService.open(
+            'Something went wrong when editing event. Try it again'
+          );
+          return ScheduleActions.editEventFail({ payload: error });
+        },
       })
     )
   );

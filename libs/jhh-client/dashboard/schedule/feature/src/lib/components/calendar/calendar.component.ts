@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filter, Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   CalendarEvent,
   CalendarEventTimesChangedEvent,
@@ -18,12 +18,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  MatSnackBar,
-  MatSnackBarRef,
-  TextOnlySnackBar,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ScheduleFacade } from '@jhh/jhh-client/dashboard/schedule/data-access';
 
@@ -65,13 +60,9 @@ export class CalendarComponent implements OnInit {
   refresh: Subject<void> = new Subject<void>();
 
   editEventInProgress$: Observable<boolean>;
-  editEventError$: Observable<string | null>;
-  editEventSuccess$: Observable<boolean>;
 
   ngOnInit(): void {
     this.editEventInProgress$ = this.scheduleFacade.editEventInProgress$;
-    this.editEventError$ = this.scheduleFacade.editEventError$;
-    this.editEventSuccess$ = this.scheduleFacade.editEventSuccess$;
   }
 
   get events(): ScheduleEvent[] {
@@ -87,7 +78,7 @@ export class CalendarComponent implements OnInit {
   }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
-        (isSameDay(this.viewDate, date) && this.isActiveDayOpen === true) ||
+        (isSameDay(this.viewDate, date) && this.isActiveDayOpen) ||
         events.length === 0
       ) {
         this.toggleIsActiveDayOpen.emit(false);
@@ -119,11 +110,6 @@ export class CalendarComponent implements OnInit {
 
     this.refresh.next();
 
-    const savingSnackBar: MatSnackBarRef<TextOnlySnackBar> = this.snackBar.open(
-      'Saving data...',
-      'Close'
-    );
-
     this.scheduleFacade.editEvent(
       eventToSave.id,
       newStart,
@@ -132,33 +118,6 @@ export class CalendarComponent implements OnInit {
       eventToSave.color,
       eventToSave.description
     );
-
-    this.editEventSuccess$
-      .pipe(
-        filter((success) => success),
-        tap(() => {
-          savingSnackBar.dismiss();
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-
-    this.editEventError$
-      .pipe(
-        filter((error) => error !== null),
-        tap(() => {
-          savingSnackBar.dismiss();
-          this.snackBar.open(
-            'Something went wrong with saving data.',
-            'Close',
-            {
-              duration: 7000,
-            }
-          );
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
   }
 
   private convertToCalendarEvent(event: ScheduleEvent): CalendarEvent {
