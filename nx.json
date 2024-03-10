@@ -7,8 +7,7 @@
         "cacheableOperations": [
           "build",
           "lint",
-          "test",
-          "e2e"
+          "test"
         ],
         "useDaemonProcess": false
       }
@@ -29,12 +28,6 @@
         "default",
         "^production",
         "{workspaceRoot}/jest.preset.js"
-      ]
-    },
-    "e2e": {
-      "inputs": [
-        "default",
-        "^production"
       ]
     },
     "lint": {
@@ -65,8 +58,7 @@
     "@nx/angular:application": {
       "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
+      "unitTestRunner": "jest"
     },
     "@nx/angular:library": {
       "linter": "eslint",
