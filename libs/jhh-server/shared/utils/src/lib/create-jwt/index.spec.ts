@@ -15,7 +15,7 @@ describe('createJWT', () => {
   } as User;
 
   const mockSecret = 'secret';
-  process.env.JWT_SECRET = mockSecret;
+  process.env['JWT_SECRET'] = mockSecret;
 
   beforeEach(() => {
     (jwt.sign as jest.Mock).mockClear();
@@ -37,7 +37,8 @@ describe('createJWT', () => {
         id: mockUser.id,
         username: mockUser.username,
       },
-      mockSecret
+      mockSecret,
+      { expiresIn: '3d' }
     );
   });
 });

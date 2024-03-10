@@ -1,11 +1,11 @@
-import register from './register';
 import login from './login';
+import register from './register';
 import removeAccount from './remove-account';
 
 export function JhhServerControllerUser() {
   return {
-    register,
     login,
+    register,
     removeAccount,
   };
 }

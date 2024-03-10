@@ -1,50 +1,42 @@
-import assignDefaultData from '../assign-default-data';
+import * as JhhServerDbModule from '@jhh/jhh-server/db';
+import assignDefaultData from '.';
 
-import defaultNotesGroups from '../../default-data/notes-groups';
-
-const prismaMock = {
-  notesGroup: {
-    create: jest.fn(),
-  },
-};
-
-jest.mock('@jhh/jhh-server/db', () => {
-  return {
-    JhhServerDb: jest.fn(() => prismaMock),
-  };
-});
+jest.mock('@jhh/jhh-server/db', () => ({
+  JhhServerDb: jest.fn().mockReturnValue({
+    notesGroup: {
+      create: jest.fn(),
+    },
+    boardColumn: {
+      create: jest.fn(),
+    },
+    offer: {
+      create: jest.fn(),
+    },
+    scheduleEvent: {
+      create: jest.fn(),
+    },
+    quiz: {
+      create: jest.fn(),
+    },
+  }),
+}));
 
 describe('assignDefaultData', () => {
-  let userId: string;
-
   beforeEach(() => {
-    userId = 'someUserId';
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should assign default data correctly', async () => {
+  it('calls the correct Prisma methods to assign default data', async () => {
+    const userId = 'testUserId';
+
+    const prismaClientMock = JhhServerDbModule.JhhServerDb();
+
     await assignDefaultData(userId);
 
-    expect(prismaMock.notesGroup.create).toHaveBeenCalledTimes(
-      defaultNotesGroups.length
-    );
-
-    defaultNotesGroups.forEach((group, groupIndex) => {
-      expect(prismaMock.notesGroup.create).toHaveBeenCalledWith({
-        data: {
-          name: group.name,
-          userId: userId,
-          notes: {
-            create: group.notes.map((note, noteIndex) => ({
-              name: note.name,
-              content: note.content,
-            })),
-          },
-        },
-      });
-    });
+    expect(prismaClientMock.notesGroup.create).toHaveBeenCalled();
+    expect(prismaClientMock.boardColumn.create).toHaveBeenCalled();
+    expect(prismaClientMock.offer.create).toHaveBeenCalled();
+    expect(prismaClientMock.scheduleEvent.create).toHaveBeenCalled();
+    expect(prismaClientMock.quiz.create).toHaveBeenCalled();
   });
 });

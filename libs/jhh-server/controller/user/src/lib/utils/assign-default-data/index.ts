@@ -22,13 +22,11 @@ const assignDefaultData = async (userId: string): Promise<void> => {
         slug: defaultNotesGroups[groupIndex].slug,
         userId: userId,
         notes: {
-          create: defaultNotesGroups[groupIndex].notes.map(
-            (note, noteIndex) => ({
-              name: note.name,
-              slug: note.slug,
-              content: note.content,
-            })
-          ),
+          create: defaultNotesGroups[groupIndex].notes.map((note) => ({
+            name: note.name,
+            slug: note.slug,
+            content: note.content,
+          })),
         },
       },
     });
