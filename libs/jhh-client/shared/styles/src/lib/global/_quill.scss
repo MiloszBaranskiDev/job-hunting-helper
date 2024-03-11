@@ -7,7 +7,7 @@
 .ql-container {
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   height: 100%;
   margin: 0px;
   position: relative;
@@ -52,6 +52,10 @@
   cursor: text;
 }
 
+.ql-editor {
+  color: var(--color__text);
+}
+
 .ql-editor p,
 .ql-editor ol,
 .ql-editor ul,
@@ -63,7 +67,7 @@
 .ql-editor h4,
 .ql-editor h5,
 .ql-editor h6 {
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
   counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
 }
@@ -774,9 +778,8 @@
 
 .ql-snow .ql-editor pre {
   white-space: pre-wrap;
-  margin-bottom: 5px;
-  margin-top: 5px;
   padding: 5px 10px;
+  font-size: 1.3rem;
 }
 
 .ql-snow .ql-editor code {
