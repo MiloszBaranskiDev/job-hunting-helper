@@ -74,6 +74,28 @@ export class WysiwygComponent implements OnInit, ControlValueAccessor {
     this.editorCreated.emit(quill);
   }
 
+  writeValue(value: any): void {
+    if (value !== undefined) {
+      this.quillInstance?.setContents(value);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.quillInstance?.on('text-change', () =>
+      fn(this.quillInstance?.getContents())
+    );
+  }
+
+  registerOnTouched(fn: any): void {
+    this.quillInstance?.on('selection-change', (range: any) => {
+      if (range == null) fn();
+    });
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.quillInstance?.enable(!isDisabled);
+  }
+
   private imageHandler(): void {
     const tooltip = this.quillInstance.theme.tooltip;
     const originalSave = tooltip.save;
@@ -87,17 +109,17 @@ export class WysiwygComponent implements OnInit, ControlValueAccessor {
         : null;
       const value: string | null = inputElement ? inputElement.value : null;
 
-      if (value && !value.match(/\.(jpeg|jpg|gif|png)$/i)) {
+      if (value && !value.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i)) {
         alert('Please provide a valid image URL');
         return;
       }
 
-      const selection = this.quillInstance.getSelection();
+      const selection = this.quillInstance.getSelection(true);
       const index = selection
         ? selection.index
         : this.quillInstance.getLength();
 
-      this.quillInstance.insertEmbed(index, 'image', value);
+      this.quillInstance.insertEmbed(index, 'image', value, 'user');
 
       if (inputElement) inputElement.value = '';
       if (imageTooltip) imageTooltip.classList.remove('ql-editing');
@@ -130,27 +152,5 @@ export class WysiwygComponent implements OnInit, ControlValueAccessor {
         return newDelta;
       }
     );
-  }
-
-  writeValue(value: any): void {
-    if (value !== undefined) {
-      this.quillInstance?.setContents(value);
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.quillInstance?.on('text-change', () =>
-      fn(this.quillInstance?.getContents())
-    );
-  }
-
-  registerOnTouched(fn: any): void {
-    this.quillInstance?.on('selection-change', (range: any) => {
-      if (range == null) fn();
-    });
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.quillInstance?.enable(!isDisabled);
   }
 }
