@@ -22,6 +22,8 @@
             </a>
           </li>
         </ul>
+        <p class="andMore" *ngIf="group.notes.length > 10">... and more</p>
+        <p *ngIf="!group.notes.length">No notes found.</p>
         <a
           [routerLink]="clientRoute.NotesLink + '/' + group.slug"
           mat-stroked-button
@@ -29,12 +31,10 @@
         >
           Go to group
         </a>
-        <p class="andMore" *ngIf="group.notes.length > 10">... and more</p>
-        <p *ngIf="!group.notes.length">No notes found.</p>
       </mat-expansion-panel>
     </mat-accordion>
   </ng-container>
-  
+
   <ng-template #emptyList>
     <p>No notes groups found.</p>
   </ng-template>
