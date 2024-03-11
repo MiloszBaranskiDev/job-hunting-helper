@@ -58,6 +58,16 @@
       font-family: sans-serif;
     }
 
+    pre {
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+      color: whitesmoke;
+      background-color: #07090f;
+      white-space: pre-wrap;
+      padding: 8px;
+      border-radius: var(--radius__small);
+    }
+
     iframe.ql-video {
       width: 100%;
       height: auto;

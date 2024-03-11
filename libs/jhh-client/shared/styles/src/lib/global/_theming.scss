@@ -135,6 +135,7 @@ $jhh-dark-theme: mat.define-dark-theme(
   --color__red: #{mat-color($jhh-client-warn)};
   --color__green: #2ecc55;
   --radius__base: 14px;
+  --radius__small: 6px;
 }
 
 .Dark {
