@@ -35,7 +35,6 @@ import { NavigationStart, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
@@ -68,15 +67,6 @@ import {
     MatInputModule,
     ClickOutsideDirective,
     CdkDragHandle,
-  ],
-  animations: [
-    trigger('itemAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [animate('300ms', style({ opacity: 0 }))]),
-    ]),
   ],
   templateUrl: './columns.component.html',
   styleUrls: ['./columns.component.scss'],
