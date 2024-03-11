@@ -1,6 +1,15 @@
-import { Quiz } from '@jhh/shared/domain';
+import { Quiz, QuizResult, QuizResults } from '@jhh/shared/domain';
 
-type DefaultQuiz = Omit<Quiz, 'userId' | 'createdAt' | 'updatedAt' | 'id'>;
+interface DefaultQuizResults
+  extends Pick<QuizResults, 'totalScore' | 'percentage'> {
+  items: QuizResult[];
+}
+
+interface DefaultQuiz
+  extends Pick<Quiz, 'name' | 'slug' | 'description' | 'imageUrl' | 'items'> {
+  results: DefaultQuizResults[];
+}
+
 const defaultPracticeQuizzes: DefaultQuiz[] = [
   {
     name: 'TypeScript',
@@ -152,110 +161,157 @@ const defaultPracticeQuizzes: DefaultQuiz[] = [
     results: [],
   },
   {
-    name: 'CSS',
-    slug: 'css',
+    name: 'SCSS',
+    slug: 'scss',
     description:
-      'This CSS quiz is a way to test and reinforce knowledge on CSS fundamentals, ranging from syntax to styling techniques, suitable for both beginners and experienced web developers.',
+      'This SCSS quiz is designed to test and reinforce knowledge on SCSS fundamentals, covering topics from variables and nesting to mixins and inheritance, suitable for both beginners and experienced front-end developers.',
     imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/1024px-CSS3_logo_and_wordmark.svg.png',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/512px-Sass_Logo_Color.svg.png',
     items: [
       {
-        question: 'What does CSS stand for?',
+        question: 'Which is a feature of SCSS?',
         answers: [
-          { isCorrect: false, text: 'Computer Style Sheets' },
-          { isCorrect: false, text: 'Creative Style Systems' },
-          { isCorrect: true, text: 'Cascading Style Sheets' },
-          { isCorrect: false, text: 'Colorful Style Sheets' },
+          { isCorrect: true, text: 'Variables for reusable values' },
+          { isCorrect: false, text: '<link> tag to include SCSS files' },
+          { isCorrect: false, text: 'Using the @html directive for HTML' },
+          { isCorrect: false, text: 'Automatic browser prefixing' },
         ],
       },
       {
-        question:
-          'Which of the following is the correct syntax for referring to an external style sheet?',
+        question: 'How do you create a mixin in SCSS?',
         answers: [
-          { isCorrect: false, text: '<style src="mystyle.css">' },
-          { isCorrect: false, text: '<stylesheet>mystyle.css</stylesheet>' },
+          { isCorrect: false, text: '@mixin-name { }' },
+          { isCorrect: false, text: '$mixin: mixin-name { }' },
+          { isCorrect: false, text: '++mixin-name { }' },
+          { isCorrect: true, text: '@mixin mixin-name { }' },
+        ],
+      },
+      {
+        question: 'Which syntax is correct for using a variable in SCSS?',
+        answers: [
+          { isCorrect: true, text: 'color: $variableName;' },
+          { isCorrect: false, text: '$variableName' },
+          { isCorrect: false, text: '@variableName' },
+          { isCorrect: false, text: 'var(variableName)' },
+        ],
+      },
+      {
+        question: 'How do you extend a placeholder in SCSS?',
+        answers: [
+          { isCorrect: false, text: '@extend .placeholder;' },
+          { isCorrect: true, text: '@extend %placeholder;' },
+          { isCorrect: false, text: '+placeholder;' },
+          { isCorrect: false, text: '@placeholder;' },
+        ],
+      },
+      {
+        question: 'What is the SCSS syntax for nesting selectors?',
+        answers: [
+          { isCorrect: false, text: '.parent > .child { }' },
+          { isCorrect: false, text: '.parent .child { }' },
+          { isCorrect: true, text: '.parent { .child { } }' },
+          { isCorrect: false, text: '.parent, .child { }' },
+        ],
+      },
+      {
+        question: 'Which is true about SCSS compilation?',
+        answers: [
+          { isCorrect: false, text: 'It can run directly in the browser.' },
+          { isCorrect: false, text: 'SCSS files are smaller than CSS.' },
+          { isCorrect: true, text: 'It needs to be compiled into CSS.' },
+          {
+            isCorrect: false,
+            text: 'Compilation speeds up website performance.',
+          },
+        ],
+      },
+      {
+        question: 'How can you import another SCSS file?',
+        answers: [
+          { isCorrect: false, text: "@import 'filename.css';" },
+          { isCorrect: true, text: "@import 'filename';" },
+          { isCorrect: false, text: "include 'filename.scss';" },
+          { isCorrect: false, text: "use 'filename';" },
+        ],
+      },
+      {
+        question: 'Which of the following is a benefit of using SCSS?',
+        answers: [
+          { isCorrect: true, text: 'Better organization through nesting' },
+          { isCorrect: false, text: 'Automatic refresh without compiling' },
+          { isCorrect: false, text: 'Direct use in HTML without CSS file' },
+          { isCorrect: false, text: 'Faster page load times' },
+        ],
+      },
+      {
+        question: "What does the '&' symbol represent in SCSS?",
+        answers: [
+          { isCorrect: false, text: 'Concatenation operator' },
+          { isCorrect: false, text: 'A CSS variable' },
+          { isCorrect: false, text: 'Start of a comment block' },
+          { isCorrect: true, text: 'Reference to the parent selector' },
+        ],
+      },
+      {
+        question: 'Which statements are true regarding SCSS?',
+        answers: [
           {
             isCorrect: true,
-            text: '<link rel="stylesheet" type="text/css" href="mystyle.css">',
+            text: 'SCSS supports mathematical operations directly within the stylesheet.',
           },
-          { isCorrect: false, text: '<css>mystyle.css</css>' },
-        ],
-      },
-      {
-        question: 'How do you insert a comment in a CSS file?',
-        answers: [
-          { isCorrect: false, text: '// this is a comment' },
-          { isCorrect: false, text: '<!-- this is a comment -->' },
-          { isCorrect: true, text: '/* this is a comment */' },
-          { isCorrect: false, text: '# this is a comment' },
-        ],
-      },
-      {
-        question: 'Which property is used to change the background color?',
-        answers: [
-          { isCorrect: false, text: 'color' },
-          { isCorrect: false, text: 'bgcolor' },
-          { isCorrect: true, text: 'background-color' },
-          { isCorrect: false, text: 'background' },
-        ],
-      },
-      {
-        question: 'How do you select an element with the id "demo"?',
-        answers: [
-          { isCorrect: true, text: '#demo' },
-          { isCorrect: false, text: '.demo' },
-          { isCorrect: false, text: 'demo' },
-          { isCorrect: false, text: '*demo' },
-        ],
-      },
-      {
-        question: 'How do you select elements with the class name "test"?',
-        answers: [
-          { isCorrect: false, text: '#test' },
-          { isCorrect: false, text: 'test' },
-          { isCorrect: true, text: '.test' },
-          { isCorrect: false, text: '*test' },
-        ],
-      },
-      {
-        question: 'What is the default value of the position property?',
-        answers: [
-          { isCorrect: false, text: 'absolute' },
-          { isCorrect: false, text: 'fixed' },
-          { isCorrect: false, text: 'relative' },
-          { isCorrect: true, text: 'static' },
-        ],
-      },
-      {
-        question:
-          'How do you make each word in a text start with a capital letter?',
-        answers: [
-          { isCorrect: true, text: 'text-transform: capitalize' },
-          { isCorrect: false, text: 'text-style: capitalize' },
-          { isCorrect: false, text: 'text-decoration: capitalize' },
-          { isCorrect: false, text: 'font-style: capitalize' },
-        ],
-      },
-      {
-        question: 'Which property is used to change the font of an element?',
-        answers: [
-          { isCorrect: false, text: 'font-weight' },
-          { isCorrect: false, text: 'font-style' },
-          { isCorrect: true, text: 'font-family' },
-          { isCorrect: false, text: 'font-size' },
-        ],
-      },
-      {
-        question: 'How do you select all <p> elements inside a <div> element?',
-        answers: [
-          { isCorrect: false, text: 'div + p' },
-          { isCorrect: true, text: 'div p' },
-          { isCorrect: false, text: 'div.p' },
-          { isCorrect: false, text: 'p > div' },
+          {
+            isCorrect: true,
+            text: 'SCSS allows the use of conditional statements and loops within stylesheets.',
+          },
+          {
+            isCorrect: false,
+            text: 'SCSS files can be used in web pages without being compiled into CSS.',
+          },
+          {
+            isCorrect: false,
+            text: 'Variables in SCSS are globally scoped by default and cannot be overridden within selectors.',
+          },
         ],
       },
     ],
-    results: [],
+    results: [
+      {
+        totalScore: 4,
+        percentage: 80,
+        items: [
+          {
+            question: 'Which is a feature of SCSS?',
+            userAnswers: ['Variables for reusable values'],
+            correctAnswers: ['Variables for reusable values'],
+            isCorrect: true,
+          },
+          {
+            question: 'How do you create a mixin in SCSS?',
+            userAnswers: ['@mixin-name { }'],
+            correctAnswers: ['@mixin mixin-name { }'],
+            isCorrect: false,
+          },
+          {
+            question: 'Which syntax is correct for using a variable in SCSS?',
+            userAnswers: ['color: $variableName;'],
+            correctAnswers: ['color: $variableName;'],
+            isCorrect: true,
+          },
+          {
+            question: 'How do you extend a placeholder in SCSS?',
+            userAnswers: ['@extend %placeholder;'],
+            correctAnswers: ['@extend %placeholder;'],
+            isCorrect: true,
+          },
+          {
+            question: 'What is the SCSS syntax for nesting selectors?',
+            userAnswers: ['.parent { .child { } }'],
+            correctAnswers: ['.parent { .child { } }'],
+            isCorrect: true,
+          },
+        ],
+      },
+    ],
   },
 ];
 
