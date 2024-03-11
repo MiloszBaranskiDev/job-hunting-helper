@@ -69,8 +69,8 @@ export class DialogComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  handleRemove(groupId: string): void {
-    if (groupId) this.notesFacade.removeNotesGroup(groupId);
+  handleRemove(): void {
+    this.notesFacade.removeNotesGroup(this.groupToRemove.id);
   }
 
   private openDialog(): void {

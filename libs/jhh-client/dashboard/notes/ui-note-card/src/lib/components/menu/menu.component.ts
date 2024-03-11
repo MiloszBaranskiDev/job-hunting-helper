@@ -38,7 +38,7 @@ export class MenuComponent implements OnInit {
     this.groups$ = this.notesFacade.getGroups$();
   }
 
-  handleDuplicate() {
+  handleDuplicate(): void {
     this.notesFacade.duplicateNote(this.note.id, this.note.groupId);
   }
 
