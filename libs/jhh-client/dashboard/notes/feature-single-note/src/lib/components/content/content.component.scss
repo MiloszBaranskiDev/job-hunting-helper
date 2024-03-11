@@ -61,8 +61,8 @@
     pre {
       margin-bottom: 12px;
       font-size: 1.3rem;
-      color: whitesmoke;
-      background-color: #07090f;
+      color: var(--color__code);
+      background-color: var(--color__pre);
       white-space: pre-wrap;
       padding: 8px;
       border-radius: var(--radius__small);
