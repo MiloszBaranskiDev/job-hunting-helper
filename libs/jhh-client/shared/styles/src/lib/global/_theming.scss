@@ -126,9 +126,11 @@ $jhh-dark-theme: mat.define-dark-theme(
   --color__bg: white;
   --color__bg--darker: #f9f9f9;
   --color__text: #000000de;
+  --color__code: whitesmoke;
   --color__icon: #a0aec0;
   --color__scroll: #dfe3e8;
   --color__divider: #dfe3e8;
+  --color__pre: #07090f;
   --color__primary: #{mat-color($jhh-client-primary)};
   --color__accent: #{mat-color($jhh-client-accent)};
   --color__warn: #{mat-color($jhh-client-warn)};

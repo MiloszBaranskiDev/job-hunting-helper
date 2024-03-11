@@ -788,8 +788,8 @@
 }
 
 .ql-snow .ql-editor pre.ql-syntax {
-  background-color: #23241f;
-  color: #f8f8f2;
+  background-color: var(--color__pre);
+  color: var(--color__code);
   overflow: visible;
 }
 
