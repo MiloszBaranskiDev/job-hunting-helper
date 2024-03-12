@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/auth/public/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/auth/public",
-        "main": "libs/jhh-client/auth/public/src/index.ts",
-        "tsConfig": "libs/jhh-client/auth/public/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/auth/public/*.md"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": [

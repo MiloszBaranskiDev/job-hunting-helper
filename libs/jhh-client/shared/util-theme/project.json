@@ -4,18 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/util-theme/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/util-theme",
-        "main": "libs/jhh-client/shared/util-theme/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/util-theme/tsconfig.lib.json",
-        "assets": []
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

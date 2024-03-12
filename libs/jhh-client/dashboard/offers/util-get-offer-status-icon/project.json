@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/offers/util-get-offer-status-icon",
-        "main": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/offers/util-get-offer-status-icon/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

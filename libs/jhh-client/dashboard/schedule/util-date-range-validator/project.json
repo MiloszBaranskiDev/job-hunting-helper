@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/schedule/util-date-range-validator/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/schedule/util-date-range-validator",
-        "main": "libs/jhh-client/dashboard/schedule/util-date-range-validator/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/schedule/util-date-range-validator/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/schedule/util-date-range-validator/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

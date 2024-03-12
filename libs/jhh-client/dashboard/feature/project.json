@@ -4,18 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/feature/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/feature",
-        "main": "libs/jhh-client/dashboard/feature/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/feature/tsconfig.lib.json",
-        "assets": []
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/util-whitespace-validator/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/util-whitespace-validator",
-        "main": "libs/jhh-client/shared/util-whitespace-validator/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/util-whitespace-validator/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/util-whitespace-validator/*.md"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": [

@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/util-enum-validator/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/util-enum-validator",
-        "main": "libs/jhh-client/shared/util-enum-validator/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/util-enum-validator/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/util-enum-validator/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

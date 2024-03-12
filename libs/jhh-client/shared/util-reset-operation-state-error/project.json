@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/util-reset-operation-state-error/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/util-reset-operation-state-error",
-        "main": "libs/jhh-client/shared/util-reset-operation-state-error/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/util-reset-operation-state-error/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/util-reset-operation-state-error/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

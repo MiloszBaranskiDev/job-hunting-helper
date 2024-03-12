@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/feature-breadcrumbs/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/feature-breadcrumbs",
-        "main": "libs/jhh-client/dashboard/feature-breadcrumbs/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/feature-breadcrumbs/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/feature-breadcrumbs/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

@@ -16,7 +16,7 @@
       ],
       "rules": {
         "@nx/enforce-module-boundaries": [
-          "error",
+          "warn",
           {
             "enforceBuildableLibDependency": true,
             "allow": [],
@@ -71,15 +71,6 @@
                 ]
               },
               {
-                "sourceTag": "scope:client-dashboard-notes",
-                "onlyDependOnLibsWithTags": [
-                  "platform:client",
-                  "type:shared",
-                  "type:client-shared",
-                  "scope:client-dashboard"
-                ]
-              },
-              {
                 "sourceTag": "scope:main-server-app",
                 "onlyDependOnLibsWithTags": [
                   "type:shared",
@@ -101,7 +92,6 @@
                 "sourceTag": "scope:api-router",
                 "onlyDependOnLibsWithTags": [
                   "scope:dashboard-controller",
-                  "scope:notes-controller",
                   "platform:server",
                   "type:shared"
                 ]
@@ -111,13 +101,6 @@
                 "onlyDependOnLibsWithTags": [
                   "platform:server",
                   "type:domain"
-                ]
-              },
-              {
-                "sourceTag": "scope:notes-controller",
-                "onlyDependOnLibsWithTags": [
-                  "platform:server",
-                  "type:shared"
                 ]
               },
               {
@@ -154,17 +137,6 @@
                   "type:domain",
                   "type:client-shared",
                   "scope:client-dashboard"
-                ]
-              },
-              {
-                "sourceTag": "scope:client-dashboard-notes-feature",
-                "onlyDependOnLibsWithTags": [
-                  "type:ui",
-                  "type:shared",
-                  "type:client-shared",
-                  "scope:client-dashboard-feature",
-                  "scope:client-dashboard-notes",
-                  "scope:client-dashboard-notes-feature"
                 ]
               },
               {

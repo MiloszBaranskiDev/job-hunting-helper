@@ -4,18 +4,6 @@
   "sourceRoot": "libs/jhh-client/feature-not-found/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/feature-not-found",
-        "main": "libs/jhh-client/feature-not-found/src/index.ts",
-        "tsConfig": "libs/jhh-client/feature-not-found/tsconfig.lib.json",
-        "assets": []
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [
