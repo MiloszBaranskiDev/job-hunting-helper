@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of } from 'rxjs';
-import { NotesEffects } from './notes.effects';
-import * as NotesActions from './notes.actions';
-import { NotesService } from '../services/notes.service';
-import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
 import { MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { NotesEffects } from './notes.effects';
+import * as NotesActions from './notes.actions';
+import { NotesService } from '../services/notes.service';
+import { SnackbarService } from '@jhh/jhh-client/shared/util-snackbar';
+import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-group';
 import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';

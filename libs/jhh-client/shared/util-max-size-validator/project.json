@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/util-max-size-validator/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/util-max-size-validator",
-        "main": "libs/jhh-client/shared/util-max-size-validator/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/util-max-size-validator/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/util-max-size-validator/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/pipes/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/pipes",
-        "main": "libs/jhh-client/shared/pipes/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/pipes/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/pipes/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

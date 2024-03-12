@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/shared/config/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/shared/config",
-        "main": "libs/jhh-client/shared/config/src/index.ts",
-        "tsConfig": "libs/jhh-client/shared/config/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/shared/config/*.md"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": [

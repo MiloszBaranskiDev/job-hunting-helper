@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/offers/domain/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/offers/domain",
-        "main": "libs/jhh-client/dashboard/offers/domain/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/offers/domain/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/offers/domain/*.md"
-        ]
-      }
-    }
   },
   "tags": [
     "platform:client",

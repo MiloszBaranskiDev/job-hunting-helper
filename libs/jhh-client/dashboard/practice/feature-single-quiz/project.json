@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/practice/feature-single-quiz/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/practice/feature-single-quiz",
-        "main": "libs/jhh-client/dashboard/practice/feature-single-quiz/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/practice/feature-single-quiz/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/practice/feature-single-quiz/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

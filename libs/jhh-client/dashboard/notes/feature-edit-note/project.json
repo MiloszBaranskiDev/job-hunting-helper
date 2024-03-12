@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/notes/feature-edit-note/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/notes/feature-edit-note",
-        "main": "libs/jhh-client/dashboard/notes/feature-edit-note/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/notes/feature-edit-note/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/notes/feature-edit-note/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

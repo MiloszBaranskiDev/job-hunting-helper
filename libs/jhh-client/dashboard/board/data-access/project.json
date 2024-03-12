@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/board/data-access/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/board/data-access",
-        "main": "libs/jhh-client/dashboard/board/data-access/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/board/data-access/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/board/data-access/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

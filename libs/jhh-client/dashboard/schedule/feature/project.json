@@ -4,20 +4,6 @@
   "sourceRoot": "libs/jhh-client/dashboard/schedule/feature/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/libs/jhh-client/dashboard/schedule/feature",
-        "main": "libs/jhh-client/dashboard/schedule/feature/src/index.ts",
-        "tsConfig": "libs/jhh-client/dashboard/schedule/feature/tsconfig.lib.json",
-        "assets": [
-          "libs/jhh-client/dashboard/schedule/feature/*.md"
-        ]
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [
