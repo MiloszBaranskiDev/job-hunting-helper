@@ -16,7 +16,7 @@
         "format": [
           "cjs"
         ],
-        "bundle": false,
+        "bundle": true,
         "main": "apps/jhh-server/src/main.ts",
         "tsConfig": "apps/jhh-server/tsconfig.app.json",
         "assets": [
