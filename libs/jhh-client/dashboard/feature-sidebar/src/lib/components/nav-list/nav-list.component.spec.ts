@@ -2,14 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavListComponent } from './nav-list.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('NavListComponent', () => {
   let component: NavListComponent;
   let fixture: ComponentFixture<NavListComponent>;
+  let mockActivatedRoute: any;
 
   beforeEach(async () => {
+    mockActivatedRoute = { queryParams: of({}) };
+
     await TestBed.configureTestingModule({
       imports: [NavListComponent],
+      providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavListComponent);
@@ -25,6 +31,6 @@ describe('NavListComponent', () => {
     const sidebarItems: DebugElement[] = fixture.debugElement.queryAll(
       By.css('.sidenav__item')
     );
-    expect(sidebarItems.length).toBe(1);
+    expect(sidebarItems.length).toBe(component.sidebarItems.length);
   });
 });

@@ -5,11 +5,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { JhhClientDashboardSidebarComponent } from './jhh-client-dashboard-sidebar.component';
 
 import { SidebarService } from '../../services/sidebar.service';
+import { ActivatedRoute } from '@angular/router';
 
 describe('JhhClientDashboardSidebarComponent', () => {
   let component: JhhClientDashboardSidebarComponent;
   let fixture: ComponentFixture<JhhClientDashboardSidebarComponent>;
   let mockSidebarService: any;
+  let mockActivatedRoute: any;
 
   beforeEach(() => {
     mockSidebarService = {
@@ -19,9 +21,17 @@ describe('JhhClientDashboardSidebarComponent', () => {
       toggleSidebar: jest.fn(),
     };
 
+    mockActivatedRoute = { queryParams: of({}) };
+
     TestBed.configureTestingModule({
       imports: [JhhClientDashboardSidebarComponent, NoopAnimationsModule],
-      providers: [{ provide: SidebarService, useValue: mockSidebarService }],
+      providers: [
+        { provide: SidebarService, useValue: mockSidebarService },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(JhhClientDashboardSidebarComponent);

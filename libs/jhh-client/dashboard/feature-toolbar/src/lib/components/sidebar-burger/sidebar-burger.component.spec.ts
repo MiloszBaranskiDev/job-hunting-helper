@@ -23,8 +23,13 @@ describe('SidebarBurgerComponent', () => {
   });
 
   it('should call handleClick when button is clicked', () => {
+    jest.spyOn(component, 'handleClick').mockImplementation(() => {});
+
+    fixture.detectChanges();
+
     const button: DebugElement = fixture.debugElement.query(By.css('button'));
     button.triggerEventHandler('click', null);
+
     expect(component.handleClick).toHaveBeenCalled();
   });
 });

@@ -66,8 +66,7 @@ describe('DialogComponent', () => {
   });
 
   it('should handle remove correctly', () => {
-    const noteId: string = '1';
-    component.handleRemove(noteId);
-    expect(mockNotesFacade.removeNote).toHaveBeenCalledWith(noteId);
+    component.handleRemove();
+    expect(mockNotesFacade.removeNote).toHaveBeenCalledWith('1');
   });
 });
