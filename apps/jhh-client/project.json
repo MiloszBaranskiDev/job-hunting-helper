@@ -24,7 +24,8 @@
         "tsConfig": "apps/jhh-client/tsconfig.app.json",
         "assets": [
           "apps/jhh-client/src/favicon.ico",
-          "apps/jhh-client/src/assets"
+          "apps/jhh-client/src/assets",
+          "apps/jhh-client/src/_redirects"
         ],
         "styles": [
           "libs/jhh-client/shared/styles/src/index.scss",
