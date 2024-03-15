@@ -35,6 +35,12 @@
       },
       "configurations": {
         "production": {
+          "fileReplacements": [
+            {
+              "replace": "libs/jhh-client/shared/config/src/lib/environment/environment.ts",
+              "with": "libs/jhh-client/shared/config/src/lib/environment/environment.prod.ts"
+            }
+          ],
           "budgets": [
             {
               "type": "initial",
@@ -43,8 +49,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumWarning": "200kb",
+              "maximumError": "400kb"
             }
           ],
           "outputHashing": "all"

@@ -6,8 +6,9 @@
     "serve:jhh-client": "nx serve jhh-client",
     "serve:jhh-server": "nx serve jhh-server",
     "serve:jhh": "npm run serve:jhh-client & npm run serve:jhh-server",
-    "build:jhh-client:prod": "nx build jhh-client",
-    "build:jhh-server:prod": "nx build jhh-server",
+    "build:jhh-client": "nx build jhh-client",
+    "build:jhh-server": "nx build jhh-server",
+    "build:jhh": "npm run build:jhh-client & npm run build:jhh-server",
     "test:jhh": "nx run-many --all --target=test"
   },
   "private": true,

@@ -29,19 +29,25 @@ import { AuthInterceptor } from '@jhh/jhh-client/auth/shell';
 import { AuthFacade } from '@jhh/jhh-client/auth/data-access';
 import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
 
+import { environment } from '@jhh/jhh-client/shared/config';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     AuthFacade,
     DashboardFacade,
     provideEffects(),
     provideStore(),
-    provideStoreDevtools({
-      maxAge: 25, // Retains last 25 states
-      logOnly: !isDevMode(), // Restrict extension to log-only mode
-      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
-      traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
-    }),
+    ...(environment.production
+      ? []
+      : [
+          provideStoreDevtools({
+            maxAge: 25,
+            logOnly: !isDevMode(),
+            autoPause: true,
+            trace: false,
+            traceLimit: 75,
+          }),
+        ]),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideAnimations(),
     provideHttpClient(withInterceptors([AuthInterceptor])),
