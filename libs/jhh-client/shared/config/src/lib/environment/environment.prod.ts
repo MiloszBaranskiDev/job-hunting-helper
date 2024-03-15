@@ -2,5 +2,5 @@ import { Environment } from './environment.interface';
 
 export const environment: Partial<Environment> = {
   production: true,
-  apiUrl: 'https://jhh-server.onrender.com:10000',
+  apiUrl: 'https://jhh-server.onrender.com',
 };
