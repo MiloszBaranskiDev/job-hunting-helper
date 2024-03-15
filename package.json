@@ -2,6 +2,9 @@
   "name": "@jhh/source",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "18.12.0"
+  },
   "scripts": {
     "serve:jhh-client": "nx serve jhh-client",
     "serve:jhh-server": "nx serve jhh-server",
