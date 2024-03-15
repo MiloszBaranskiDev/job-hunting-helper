@@ -6,14 +6,10 @@ import { JhhServerApp } from '@jhh/jhh-server/app';
 dotenv.config();
 
 const host: string = process.env.HOST ?? 'localhost';
-const port: number | undefined = process.env.PORT
-  ? Number(process.env.PORT)
-  : undefined;
+const port: number = process.env.PORT ? Number(process.env.PORT) : 443;
 
 const app: Express = JhhServerApp();
 
-const baseUrl = `http://${host}${port ? `:${port}` : ''}`;
-
-app.listen(port || undefined, () => {
-  console.log(`Server running on ${baseUrl}`);
+app.listen(port, () => {
+  console.log(`hello on https://${host}:${port}`);
 });
