@@ -1,23 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "dist/apps/jhh-server/main.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "dist/apps/jhh-client/index.html",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "dist/apps/jhh-server/main.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "dist/apps/jhh-client/$1"
+      "dest": "dist/apps/jhh-server/main.js"
     }
   ]
 }
