@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/apps/jhh-server/main.js"
-    }
-  ]
-}
