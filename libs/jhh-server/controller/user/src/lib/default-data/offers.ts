@@ -38,7 +38,7 @@ const defaultOffers: DefaultOffer[] = [
     company: 'Tech Solutions',
     companyType: OfferCompanyType.SoftwareHouse,
     location: OfferLocation.Remote,
-    status: OfferStatus.Applied,
+    status: OfferStatus.Rejected,
     priority: OfferPriority.High,
     minSalary: 9000,
     maxSalary: 16000,
