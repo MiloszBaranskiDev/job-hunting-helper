@@ -13,6 +13,10 @@ import { BoardService } from './board.service';
 import { environment } from '@jhh/jhh-client/shared/config';
 
 import { ApiRoute } from '@jhh/shared/domain';
+import {
+  DuplicateBoardColumnPayload,
+  UpdateBoardColumnsPayload,
+} from '@jhh/jhh-client/dashboard/board/domain';
 
 describe('BoardService', () => {
   let service: BoardService;
@@ -86,7 +90,7 @@ describe('BoardService', () => {
     const mockPayload = {
       columnId: '123',
       items: [{ content: 'Task 1' }],
-    } as any;
+    } as DuplicateBoardColumnPayload;
     const mockResponse = {
       data: {
         duplicatedColumnId: '124',
@@ -94,7 +98,7 @@ describe('BoardService', () => {
         color: '#00FF00',
         items: [{ content: 'Task 1' }],
       },
-    } as any;
+    };
 
     service.duplicateBoardColumn(mockPayload).subscribe((response) => {
       expect(response).toEqual(mockResponse.data);
@@ -130,7 +134,7 @@ describe('BoardService', () => {
       ],
       removedItemIds: ['456'],
       unsavedBoardRequestId: null,
-    } as any;
+    } as unknown as UpdateBoardColumnsPayload;
     const mockResponse = {
       data: { updatedColumns: [{ columnId: '123', order: 2 }] },
     };

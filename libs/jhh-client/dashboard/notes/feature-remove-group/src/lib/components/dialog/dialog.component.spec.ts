@@ -16,7 +16,7 @@ import { NotesGroup } from '@jhh/shared/domain';
 describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
-  let mockNotesFacade: any, mockRemoveNotesGroupDialogService;
+  let mockNotesFacade: Partial<NotesFacade>, mockRemoveNotesGroupDialogService;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(

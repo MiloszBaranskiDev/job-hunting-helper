@@ -1,9 +1,9 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { regex } from '@jhh/shared/regex';
 
 export function ImageUrlValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
+  return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) {
       return null;
     }

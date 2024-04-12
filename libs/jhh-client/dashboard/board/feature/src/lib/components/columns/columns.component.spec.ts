@@ -131,7 +131,7 @@ describe('ColumnsComponent', () => {
         color: '#FF0000',
         order: 1,
       },
-    ] as any;
+    ] as unknown as BoardColumn[];
     fixture.detectChanges();
 
     component.addItem(columnId);
@@ -171,7 +171,7 @@ describe('ColumnsComponent', () => {
         color: '#FF0000',
         order: 1,
       },
-    ] as any;
+    ] as BoardColumn[];
     fixture.detectChanges();
     component.removeItem(testColumnId, testItemId);
 
@@ -195,7 +195,7 @@ describe('ColumnsComponent', () => {
           { id: 'item3', order: 2, content: 'Item 3' },
         ],
       },
-    ] as any;
+    ] as unknown as BoardColumn[];
 
     const column = component._columns.find((col) => col.id === '1');
     if (!column) throw new Error('Column not found');
@@ -217,7 +217,7 @@ describe('ColumnsComponent', () => {
       { id: '1', order: 0, items: [], name: 'Column 1', color: 'red' },
       { id: '2', order: 1, items: [], name: 'Column 2', color: 'blue' },
       { id: '3', order: 2, items: [], name: 'Column 3', color: 'green' },
-    ] as any;
+    ] as unknown as BoardColumn[];
 
     const startOrder = component._columns.map((column) => column.id);
 

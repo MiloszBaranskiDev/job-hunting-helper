@@ -35,7 +35,7 @@ describe('authGuard', () => {
     mockRoute = {} as ActivatedRouteSnapshot;
     mockState = {} as RouterStateSnapshot;
 
-    inject.mockImplementation((token: any) => {
+    inject.mockImplementation((token: unknown) => {
       if (token === Router) {
         return mockRouter;
       } else if (token === AuthFacade) {

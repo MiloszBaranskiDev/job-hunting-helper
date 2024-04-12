@@ -16,7 +16,7 @@ import { NotesGroupFormField } from '@jhh/jhh-client/dashboard/notes/domain';
 describe('AddGroupComponent', () => {
   let component: AddGroupComponent;
   let fixture: ComponentFixture<AddGroupComponent>;
-  let mockDialog: any, mockNotesFacade: any;
+  let mockDialog: jest.Mocked<MatDialog>, mockNotesFacade: Partial<NotesFacade>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -29,7 +29,7 @@ describe('AddGroupComponent', () => {
     mockDialog = {
       open: jest.fn(),
       afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
     mockNotesFacade = {
       addNotesGroupInProgress$: of(false),
       addNotesGroupError$: of(null),

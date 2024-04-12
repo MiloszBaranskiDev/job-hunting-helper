@@ -10,8 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 describe('JhhClientDashboardSidebarComponent', () => {
   let component: JhhClientDashboardSidebarComponent;
   let fixture: ComponentFixture<JhhClientDashboardSidebarComponent>;
-  let mockSidebarService: any;
-  let mockActivatedRoute: any;
+  let mockSidebarService: jest.Mocked<SidebarService>;
+  let mockActivatedRoute: jest.Mocked<ActivatedRoute>;
 
   beforeEach(() => {
     mockSidebarService = {
@@ -19,9 +19,11 @@ describe('JhhClientDashboardSidebarComponent', () => {
       isSidebarOpened$: of(true),
       isSidebarExpanded$: of(true),
       toggleSidebar: jest.fn(),
-    };
+    } as unknown as jest.Mocked<SidebarService>;
 
-    mockActivatedRoute = { queryParams: of({}) };
+    mockActivatedRoute = {
+      queryParams: of({}),
+    } as unknown as jest.Mocked<ActivatedRoute>;
 
     TestBed.configureTestingModule({
       imports: [JhhClientDashboardSidebarComponent, NoopAnimationsModule],

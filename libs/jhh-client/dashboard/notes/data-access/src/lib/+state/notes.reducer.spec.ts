@@ -1,7 +1,11 @@
 import '@angular/compiler';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { initialNotesState, notesReducer, NotesState } from './notes.reducer';
 import * as NotesActions from './notes.actions';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import { Note, NotesGroup } from '@jhh/shared/domain';
+import { Dictionary } from '@ngrx/entity';
 
 describe('NotesReducer', () => {
   const initialStateWithGroup: NotesState = {
@@ -16,9 +20,9 @@ describe('NotesReducer', () => {
             name: 'Original Note',
             content: 'Original Content',
             groupId: 'group1',
-          } as any,
+          } as Note,
         ],
-      } as any,
+      } as NotesGroup,
     },
     ids: ['group1'],
   };
@@ -37,7 +41,7 @@ describe('NotesReducer', () => {
     it('should add a new notes group and set addNotesGroup success to true', () => {
       const newGroup = { id: '1', name: 'New Group', notes: [] };
       const action = NotesActions.addNotesGroupSuccess({
-        payload: { newNotesGroup: newGroup as any },
+        payload: { newNotesGroup: newGroup as unknown as NotesGroup },
       });
       const state: NotesState = notesReducer(initialNotesState, action);
 
@@ -68,7 +72,7 @@ describe('NotesReducer', () => {
       ...initialNotesState,
       entities: {
         [existingGroup.id]: existingGroup,
-      } as any,
+      } as unknown as Dictionary<NotesGroup>,
       ids: [existingGroup.id],
     };
 
@@ -92,7 +96,7 @@ describe('NotesReducer', () => {
     it('should update an existing notes group and set editNotesGroup success to true', () => {
       const updatedGroup = { ...existingGroup, name: 'Updated Group' };
       const action = NotesActions.editNotesGroupSuccess({
-        payload: { editedNotesGroup: updatedGroup as any },
+        payload: { editedNotesGroup: updatedGroup as unknown as NotesGroup },
       });
       const state: NotesState = notesReducer(
         initialStateWithExistingGroup,
@@ -131,7 +135,7 @@ describe('NotesReducer', () => {
       ...initialNotesState,
       entities: {
         [existingGroup.id]: existingGroup,
-      } as any,
+      } as unknown as Dictionary<NotesGroup>,
       ids: [existingGroup.id],
     };
 
@@ -154,7 +158,9 @@ describe('NotesReducer', () => {
         name: 'Existing Group Copy',
       };
       const action = NotesActions.duplicateNotesGroupSuccess({
-        payload: { duplicatedNotesGroup: duplicatedGroup } as any,
+        payload: {
+          duplicatedNotesGroup: duplicatedGroup as unknown as NotesGroup,
+        },
       });
       const state: NotesState = notesReducer(
         initialStateWithExistingGroup,
@@ -192,7 +198,7 @@ describe('NotesReducer', () => {
       ...initialNotesState,
       entities: {
         [existingGroup.id]: existingGroup,
-      } as any,
+      } as unknown as Dictionary<NotesGroup>,
       ids: [existingGroup.id],
     };
 
@@ -210,7 +216,7 @@ describe('NotesReducer', () => {
 
     it('should remove an existing notes group and set removeNotesGroup success to true', () => {
       const action = NotesActions.removeNotesGroupSuccess({
-        payload: { removedNotesGroup: existingGroup as any },
+        payload: { removedNotesGroup: existingGroup as unknown as NotesGroup },
       });
       const state: NotesState = notesReducer(
         initialStateWithExistingGroup,
@@ -261,9 +267,9 @@ describe('NotesReducer', () => {
         name: 'New Note',
         content: 'Note content',
         groupId: 'group1',
-      };
+      } as Note;
       const action = NotesActions.addNoteSuccess({
-        payload: { newNote } as any,
+        payload: { newNote },
       });
       const state = notesReducer(initialStateWithGroup, action);
 
@@ -307,9 +313,9 @@ describe('NotesReducer', () => {
         name: 'Updated Note',
         content: 'Updated Content',
         groupId: 'group1',
-      };
+      } as Note;
       const action = NotesActions.editNoteSuccess({
-        payload: { updatedNote } as any,
+        payload: { updatedNote },
       });
       const state = notesReducer(initialStateWithGroup, action);
 

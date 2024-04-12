@@ -15,7 +15,7 @@ describe('AddColumnComponent', () => {
   let component: AddColumnComponent;
   let fixture: ComponentFixture<AddColumnComponent>;
   let mockBoardFacade: Partial<BoardFacade>;
-  let mockDialog: any;
+  let mockDialog: jest.Mocked<MatDialog>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -28,7 +28,7 @@ describe('AddColumnComponent', () => {
     mockDialog = {
       open: jest.fn(),
       afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
 
     mockBoardFacade = {
       addBoardColumnInProgress$: of(false),

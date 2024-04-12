@@ -1,6 +1,8 @@
 import '@angular/compiler';
 
 import * as NotesSelectors from './notes.selectors';
+import { Dictionary } from '@ngrx/entity';
+import { NotesGroup } from '@jhh/shared/domain';
 
 describe('Notes Selectors Full Suite', () => {
   const mockInitialState = {
@@ -22,7 +24,7 @@ describe('Notes Selectors Full Suite', () => {
           ],
         },
         '2': { id: '2', name: 'Group 2', slug: 'group-2', notes: [] },
-      },
+      } as unknown as Dictionary<NotesGroup>,
       addNotesGroup: { inProgress: false, error: null, success: true },
       editNotesGroup: { inProgress: false, error: 'Error', success: false },
       duplicateNotesGroup: { inProgress: true, error: null },
@@ -40,7 +42,7 @@ describe('Notes Selectors Full Suite', () => {
         error: 'Remove note error',
         success: true,
       },
-    } as any,
+    },
   };
 
   it('should select the editNotesGroup inProgress state', () => {

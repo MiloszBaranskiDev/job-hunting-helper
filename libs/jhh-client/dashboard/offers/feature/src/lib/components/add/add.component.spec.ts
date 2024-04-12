@@ -15,7 +15,7 @@ describe('AddComponent', () => {
   let component: AddComponent;
   let fixture: ComponentFixture<AddComponent>;
   let mockOffersFacade: Partial<OffersFacade>;
-  let mockDialog: any;
+  let mockDialog: jest.Mocked<MatDialog>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -28,7 +28,7 @@ describe('AddComponent', () => {
     mockDialog = {
       open: jest.fn(),
       afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
 
     mockOffersFacade = {
       addOfferInProgress$: of(false),

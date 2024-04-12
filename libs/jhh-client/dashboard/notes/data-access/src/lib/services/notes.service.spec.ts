@@ -13,10 +13,8 @@ import { environment } from '@jhh/jhh-client/shared/config';
 import { NotesService } from './notes.service';
 
 import { ApiRoute } from '@jhh/shared/domain';
-import {
-  DuplicateNotesGroupPayload,
-  DuplicateNotesGroupSuccessPayload,
-} from '@jhh/jhh-client/dashboard/notes/domain';
+import { DuplicateNotesGroupPayload } from '@jhh/jhh-client/dashboard/notes/domain';
+import { DuplicateBoardColumnSuccessPayload } from '@jhh/jhh-client/dashboard/board/domain';
 
 describe('NotesService', () => {
   let service: NotesService;
@@ -76,10 +74,10 @@ describe('NotesService', () => {
 
   it('should duplicate a notes group', () => {
     const mockPayload: DuplicateNotesGroupPayload = { groupId: '123' };
-    const mockResponse: DuplicateNotesGroupSuccessPayload = {
+    const mockResponse = {
       duplicatedGroupId: '456',
       name: 'Duplicated Group',
-    } as any;
+    } as unknown as DuplicateBoardColumnSuccessPayload;
 
     service.duplicateNotesGroup(mockPayload).subscribe((response) => {
       expect(response).toEqual(mockResponse);

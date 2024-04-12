@@ -4,6 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { boardReducer, initialBoardState } from './board.reducer';
 
 import * as BoardActions from './board.actions';
+import {
+  AddBoardColumnSuccessPayload,
+  EditBoardColumnSuccessPayload,
+} from '@jhh/jhh-client/dashboard/board/domain';
+import { Dictionary } from '@ngrx/entity';
+import { BoardColumn } from '@jhh/shared/domain';
 
 describe('BoardReducer', () => {
   describe('addBoardColumn actions', () => {
@@ -26,7 +32,7 @@ describe('BoardReducer', () => {
         items: [],
       };
       const action = BoardActions.addBoardColumnSuccess({
-        payload: { newBoardColumn } as any,
+        payload: { newBoardColumn } as unknown as AddBoardColumnSuccessPayload,
       });
       const state = boardReducer(initialBoardState, action);
 
@@ -71,15 +77,17 @@ describe('BoardReducer', () => {
         items: [],
       };
       const action = BoardActions.editBoardColumnSuccess({
-        payload: { editedBoardColumn } as any,
+        payload: {
+          editedBoardColumn,
+        } as unknown as EditBoardColumnSuccessPayload,
       });
       const initialStateWithColumn = {
         ...initialBoardState,
         entities: {
           '1': { id: '1', name: 'Initial Column', color: '#000000', items: [] },
-        },
+        } as unknown as Dictionary<BoardColumn>,
         ids: ['1'],
-      } as any;
+      };
       const state = boardReducer(initialStateWithColumn, action);
 
       expect(state.entities[editedBoardColumn.id]).toEqual(
@@ -123,9 +131,9 @@ describe('BoardReducer', () => {
         name: 'Duplicated Column',
         items: [],
         color: '#FF0000',
-      };
+      } as unknown as BoardColumn;
       const action = BoardActions.duplicateBoardColumnSuccess({
-        payload: { duplicatedBoardColumn } as any,
+        payload: { duplicatedBoardColumn },
       });
       const state = boardReducer(initialBoardState, action);
 
@@ -166,9 +174,9 @@ describe('BoardReducer', () => {
     });
 
     it('should remove the board column on removeBoardColumnSuccess', () => {
-      const removedBoardColumn = { id: '1' };
+      const removedBoardColumn = { id: '1' } as unknown as BoardColumn;
       const action = BoardActions.removeBoardColumnSuccess({
-        payload: { removedBoardColumn } as any,
+        payload: { removedBoardColumn },
       });
       const state = boardReducer(initialBoardState, action);
 
@@ -211,9 +219,9 @@ describe('BoardReducer', () => {
           order: 1,
           items: [{ id: 'item1', content: 'Updated Item' }],
         },
-      ];
+      ] as unknown as BoardColumn[];
       const action = BoardActions.updateBoardColumnsSuccess({
-        payload: { updatedColumns } as any,
+        payload: { updatedColumns },
       });
       const initialStateWithColumns = {
         ...initialBoardState,
@@ -225,9 +233,9 @@ describe('BoardReducer', () => {
             items: [],
             order: 2,
           },
-        },
+        } as unknown as Dictionary<BoardColumn>,
         ids: ['1'],
-      } as any;
+      };
       const state = boardReducer(initialStateWithColumns, action);
 
       expect(state.entities['1']!.order).toEqual(updatedColumns[0].order);

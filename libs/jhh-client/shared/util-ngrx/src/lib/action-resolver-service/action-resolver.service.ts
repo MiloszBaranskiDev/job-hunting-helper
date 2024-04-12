@@ -12,14 +12,23 @@ import {
   timer,
 } from 'rxjs';
 
+interface ActionWithPayload<T> extends Action {
+  payload: T;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class ActionResolverService {
-  private readonly store: Store = inject(Store);
-  private readonly actions$: Actions = inject(Actions);
+  private readonly store: Store;
+  private readonly actions$: Actions;
 
-  executeAndWatch<T>(
+  constructor() {
+    this.store = inject(Store);
+    this.actions$ = inject(Actions);
+  }
+
+  executeAndWatch<T, ErrorType extends string | undefined>(
     initialAction: Action,
     successActionType: string,
     failureActionType: string,
@@ -31,22 +40,23 @@ export class ActionResolverService {
 
     return this.actions$.pipe(
       filter(
-        (action: Action) =>
+        (action) =>
           action.type === successActionType || action.type === failureActionType
       ),
       first(),
-      switchMap((action: Action) => {
+      switchMap((action) => {
         if (action.type === successActionType) {
-          return [(action as any).payload as T];
+          return [(action as ActionWithPayload<T>).payload];
         }
-        throw (action as any).payload || new Error('Operation failed');
+        const errorPayload = (action as ActionWithPayload<ErrorType>).payload;
+        throw new Error(errorPayload || 'Operation failed');
       }),
       takeUntil(timeout$),
       catchError((error) => {
         if (!error) {
-          return throwError(new Error('Operation timed out'));
+          return throwError(() => new Error('Operation timed out'));
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }

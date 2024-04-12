@@ -16,7 +16,7 @@ import { Note } from '@jhh/shared/domain';
 describe('DialogComponent', () => {
   let component: DialogComponent;
   let fixture: ComponentFixture<DialogComponent>;
-  let mockNotesFacade: any, mockRemoveNoteDialogService;
+  let mockNotesFacade: jest.Mocked<NotesFacade>, mockRemoveNoteDialogService;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -30,7 +30,7 @@ describe('DialogComponent', () => {
       removeNoteInProgress$: of(false),
       removeNoteError$: of(null),
       removeNote: jest.fn(),
-    };
+    } as unknown as jest.Mocked<NotesFacade>;
     mockRemoveNoteDialogService = {
       clearNoteToRemove: jest.fn(),
     };

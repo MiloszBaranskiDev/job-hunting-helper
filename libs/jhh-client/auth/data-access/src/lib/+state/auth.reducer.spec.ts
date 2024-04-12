@@ -13,6 +13,7 @@ import {
   RegisterSuccessPayload,
   SaveTokenPayload,
 } from '@jhh/jhh-client/auth/domain';
+import { Action } from '@ngrx/store';
 
 const dummyUser: User = {
   id: '1337',
@@ -185,7 +186,7 @@ describe('Auth Reducer', () => {
 
   describe('unknown action', () => {
     it('should return the previous state', () => {
-      const action = {} as any;
+      const action = {} as Action;
       const result: AuthState = authReducer(initialState, action);
       expect(result).toBe(initialState);
     });

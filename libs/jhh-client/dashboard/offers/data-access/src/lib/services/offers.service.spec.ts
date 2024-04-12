@@ -12,7 +12,8 @@ import { OffersService } from './offers.service';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
-import { ApiRoute } from '@jhh/shared/domain';
+import { ApiRoute, Offer } from '@jhh/shared/domain';
+import { EditOfferPayload } from '@jhh/jhh-client/dashboard/offers/domain';
 
 describe('OffersService', () => {
   let service: OffersService;
@@ -41,7 +42,7 @@ describe('OffersService', () => {
   it('should add an offer and return success payload', () => {
     const mockPayload = {
       position: 'Developer',
-    } as any;
+    } as Offer;
     const mockResponse = {
       data: {
         addedOffer: {
@@ -67,7 +68,7 @@ describe('OffersService', () => {
     const mockPayload = {
       offerId: '1',
       position: 'Senior Developer',
-    } as any;
+    };
     const mockResponse = {
       data: {
         editedOffer: {
@@ -77,7 +78,7 @@ describe('OffersService', () => {
       },
     };
 
-    service.editOffer(mockPayload).subscribe((response) => {
+    service.editOffer(mockPayload as EditOfferPayload).subscribe((response) => {
       expect(response).toEqual(mockResponse.data);
     });
 

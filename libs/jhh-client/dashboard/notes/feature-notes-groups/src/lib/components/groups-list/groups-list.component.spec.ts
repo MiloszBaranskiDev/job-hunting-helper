@@ -19,8 +19,8 @@ describe('GroupsListComponent', () => {
   let component: GroupsListComponent;
   let fixture: ComponentFixture<GroupsListComponent>;
   let mockBreakpointService,
-    mockEditNotesGroupDialogService: any,
-    mockRemoveNotesGroupDialogService: any;
+    mockEditNotesGroupDialogService: Partial<EditNotesGroupDialogService>,
+    mockRemoveNotesGroupDialogService: Partial<RemoveNotesGroupDialogService>;
   const actions$: Observable<any> = of();
 
   beforeAll(() => {

@@ -18,10 +18,10 @@ import { Note, NotesGroup } from '@jhh/shared/domain';
 describe('JhhClientDashboardNotesGroupComponent', () => {
   let component: JhhClientDashboardNotesGroupComponent;
   let fixture: ComponentFixture<JhhClientDashboardNotesGroupComponent>;
-  let mockNotesFacade: any;
-  let mockQueryParamsService: any;
-  let mockRoute: any;
-  let mockRouter: any;
+  let mockNotesFacade: jest.Mocked<NotesFacade>;
+  let mockQueryParamsService: jest.Mocked<QueryParamsService>;
+  let mockRoute: jest.Mocked<ActivatedRoute>;
+  let mockRouter: jest.Mocked<Router>;
   let mockSortOption$: BehaviorSubject<string>;
   let mockQueryParams$: BehaviorSubject<any>;
 
@@ -38,7 +38,7 @@ describe('JhhClientDashboardNotesGroupComponent', () => {
       removeNotesGroupSuccess$: of(false),
       getNotesGroup$BySlug: jest.fn(),
       searchNotes$ByNameAndGroupId: jest.fn(),
-    };
+    } as unknown as jest.Mocked<NotesFacade>;
 
     mockQueryParamsService = {
       setFromCurrentRoute: jest.fn(),
@@ -46,7 +46,7 @@ describe('JhhClientDashboardNotesGroupComponent', () => {
       clearQueryParams: jest.fn(),
       getCurrentSort$: jest.fn(),
       getCurrentPage$: jest.fn(),
-    };
+    } as unknown as jest.Mocked<QueryParamsService>;
 
     mockSortOption$ = new BehaviorSubject<string>('defaultSortOption');
     mockQueryParams$ = new BehaviorSubject({});
@@ -54,7 +54,7 @@ describe('JhhClientDashboardNotesGroupComponent', () => {
     mockRoute = {
       params: of({ groupSlug: 'test-slug' }),
       queryParams: mockQueryParams$.asObservable(),
-    };
+    } as unknown as jest.Mocked<ActivatedRoute>;
 
     mockRouter = {
       navigate: jest.fn(),
@@ -71,7 +71,7 @@ describe('JhhClientDashboardNotesGroupComponent', () => {
         },
       },
       events: of(new NavigationEnd(0, 'url', 'urlAfterRedirects')),
-    };
+    } as unknown as jest.Mocked<Router>;
 
     await TestBed.configureTestingModule({
       imports: [JhhClientDashboardNotesGroupComponent, RouterTestingModule],
@@ -97,8 +97,8 @@ describe('JhhClientDashboardNotesGroupComponent', () => {
   });
 
   it('should initialize correctly', () => {
-    mockQueryParamsService.setFromCurrentRoute.mockReturnValue(of(null));
-    mockNotesFacade.getNotesGroup$BySlug.mockReturnValue(of({}));
+    mockQueryParamsService.setFromCurrentRoute.mockReturnValue(of(null) as any);
+    mockNotesFacade.getNotesGroup$BySlug.mockReturnValue(of({} as NotesGroup));
 
     component.ngOnInit();
 

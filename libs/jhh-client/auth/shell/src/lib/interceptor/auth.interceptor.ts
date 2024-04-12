@@ -28,7 +28,7 @@ export const AuthInterceptor: HttpInterceptorFn = (
       token = tkn;
     });
 
-  const modifiedReq: HttpRequest<any> = token!
+  const modifiedReq: HttpRequest<unknown> = token!
     ? req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,

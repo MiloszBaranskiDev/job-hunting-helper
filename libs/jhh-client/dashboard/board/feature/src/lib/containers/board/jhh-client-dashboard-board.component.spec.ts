@@ -14,9 +14,9 @@ import { BoardFacade } from '@jhh/jhh-client/dashboard/board/data-access';
 describe('JhhClientDashboardBoardComponent', () => {
   let component: JhhClientDashboardBoardComponent;
   let fixture: ComponentFixture<JhhClientDashboardBoardComponent>;
-  let mockBoardFacade: any;
-  let mockActions$: any;
-  let mockMatSnackBar: any;
+  let mockBoardFacade: Partial<BoardFacade>;
+  let mockActions$;
+  let mockMatSnackBar: jest.Mocked<MatSnackBar>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -32,13 +32,13 @@ describe('JhhClientDashboardBoardComponent', () => {
       boardColumns$: of([
         { id: '1', name: 'Test Column', items: [], color: '#FF0000' },
       ]),
-    };
+    } as unknown as Partial<BoardFacade>;
 
     mockActions$ = of({ type: '[Board] Update Board Columns Success' });
 
     mockMatSnackBar = {
       open: jest.fn(),
-    };
+    } as unknown as jest.Mocked<MatSnackBar>;
 
     await TestBed.configureTestingModule({
       imports: [JhhClientDashboardBoardComponent],

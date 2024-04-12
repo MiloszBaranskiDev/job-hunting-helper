@@ -14,7 +14,7 @@ import { NotesFacade } from '@jhh/jhh-client/dashboard/notes/data-access';
 describe('AddNoteComponent', () => {
   let component: AddNoteComponent;
   let fixture: ComponentFixture<AddNoteComponent>;
-  let mockDialog: any;
+  let mockDialog: jest.Mocked<MatDialog>;
   let mockNotesFacade: Partial<NotesFacade>;
 
   beforeAll(() => {
@@ -28,7 +28,7 @@ describe('AddNoteComponent', () => {
     mockDialog = {
       open: jest.fn(),
       afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
     mockNotesFacade = {
       addNoteInProgress$: of(false),
       addNoteError$: of(null),

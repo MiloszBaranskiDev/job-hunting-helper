@@ -21,9 +21,8 @@ class MatDialogRefMock {
 describe('EventDialogComponent', () => {
   let component: EventDialogComponent;
   let fixture: ComponentFixture<EventDialogComponent>;
-  let mockDialog: any;
-  let mockScheduleFacade: any;
-  let mockClickedEventId$: Subject<string | null>;
+  let mockDialog: jest.Mocked<MatDialog>;
+  let mockScheduleFacade: Partial<ScheduleFacade>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -38,7 +37,7 @@ describe('EventDialogComponent', () => {
     mockDialog = {
       open: jest.fn().mockReturnValue(dialogRefMock),
       afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
 
     mockScheduleFacade = {
       editEventInProgress$: of(false),
@@ -57,7 +56,6 @@ describe('EventDialogComponent', () => {
         })
       ),
     };
-    mockClickedEventId$ = new Subject<string | null>();
 
     await TestBed.configureTestingModule({
       imports: [

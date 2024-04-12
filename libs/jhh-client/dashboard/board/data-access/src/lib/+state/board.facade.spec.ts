@@ -7,14 +7,16 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 import * as BoardActions from './board.actions';
+import { Actions } from '@ngrx/effects';
 
 import { ActionResolverService } from '@jhh/jhh-client/shared/util-ngrx';
 import { BoardFacade } from './board.facade';
+import { BoardColumnItem } from '@jhh/shared/domain';
 
 describe('BoardFacade', () => {
   let store: MockStore;
   let facade: BoardFacade;
-  let actions$: Observable<any>;
+  let actions$: Observable<Actions>;
   let mockActionResolverService: Partial<ActionResolverService>;
 
   beforeAll(() => {
@@ -75,12 +77,15 @@ describe('BoardFacade', () => {
   it('should execute and watch duplicateBoardColumn action', () => {
     const payload = {
       columnId: '123',
-      items: [{ content: 'Task 1' }, { content: 'Task 2' }],
-    } as any;
+      items: [
+        { content: 'Task 1' },
+        { content: 'Task 2' },
+      ] as BoardColumnItem[],
+    };
     facade.duplicateBoardColumn(payload.columnId, payload.items);
 
     expect(mockActionResolverService.executeAndWatch).toHaveBeenCalledWith(
-      BoardActions.duplicateBoardColumn({ payload } as any),
+      BoardActions.duplicateBoardColumn({ payload }),
       BoardActions.Type.DuplicateBoardColumnSuccess,
       BoardActions.Type.DuplicateBoardColumnFail
     );

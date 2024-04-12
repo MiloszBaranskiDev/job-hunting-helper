@@ -3,7 +3,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 
 import { ColumnMenuComponent } from './column-menu.component';
@@ -16,7 +15,6 @@ describe('ColumnMenuComponent', () => {
   let component: ColumnMenuComponent;
   let fixture: ComponentFixture<ColumnMenuComponent>;
   let mockBoardFacade: Partial<BoardFacade>;
-  let mockDialog: Partial<MatDialog>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -32,12 +30,6 @@ describe('ColumnMenuComponent', () => {
       removeBoardColumn: jest.fn(),
     };
 
-    mockDialog = {
-      open: jest.fn().mockReturnValue({
-        afterClosed: () => of(null),
-      }),
-    };
-
     await TestBed.configureTestingModule({
       imports: [ColumnMenuComponent],
       providers: [{ provide: BoardFacade, useValue: mockBoardFacade }],
@@ -50,7 +42,7 @@ describe('ColumnMenuComponent', () => {
       color: '#e55039',
       order: 0,
       items: [{ content: 'Get to work', order: 0 }],
-    } as any;
+    } as BoardColumn;
     fixture.detectChanges();
   });
 
@@ -133,7 +125,7 @@ describe('ColumnMenuComponent', () => {
       const columnMenuComponent = new ColumnMenuComponent();
       columnMenuComponent.column = column;
       // @ts-ignore
-      columnMenuComponent['boardFacade'] = boardFacadeMock as any;
+      columnMenuComponent['boardFacade'] = boardFacadeMock;
 
       columnMenuComponent.handleDuplicate();
 

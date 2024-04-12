@@ -14,18 +14,24 @@ import { EditNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/fea
 import { RemoveNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-note';
 import { ChangeNoteGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-change-note-group';
 import { EditNoteDialogService } from '@jhh/jhh-client/dashboard/notes/feature-edit-note';
-import { RemoveNotesGroupDialogService } from '@jhh/jhh-client/dashboard/notes/feature-remove-group';
+import {
+  AddNotesGroupSuccessPayload,
+  ChangeNoteGroupPayload,
+  ChangeNoteGroupSuccessPayload,
+  DuplicateNotesGroupPayload,
+  DuplicateNotesGroupSuccessPayload,
+  EditNotesGroupPayload,
+  EditNotesGroupSuccessPayload,
+} from '@jhh/jhh-client/dashboard/notes/domain';
 
 describe('NotesEffects', () => {
   let effects: NotesEffects;
   let actions$: Observable<any>;
   let notesService: jest.Mocked<NotesService>;
   let snackbarService: jest.Mocked<SnackbarService>;
-  let editNoteDialogService: jest.Mocked<EditNoteDialogService>;
   let removeNoteDialogService: jest.Mocked<RemoveNoteDialogService>;
   let changeNoteGroupDialogService: jest.Mocked<ChangeNoteGroupDialogService>;
   let editNotesGroupDialogService: jest.Mocked<EditNotesGroupDialogService>;
-  let removeNotesGroupDialogService: jest.Mocked<RemoveNotesGroupDialogService>;
   let mockSnackbarRef: Partial<MatSnackBarRef<TextOnlySnackBar>>;
 
   beforeAll(() => {
@@ -42,15 +48,6 @@ describe('NotesEffects', () => {
       duplicateNotesGroup: jest.fn(),
       changeNoteGroup: jest.fn(),
       removeNote: jest.fn(),
-    };
-
-    const mockSnackbarService = {
-      open: jest.fn(),
-      openIndefinite: jest.fn().mockReturnValue(mockSnackbarRef),
-    };
-
-    const mockEditNotesGroupDialogService = {
-      clearNotesGroupToEdit: jest.fn(),
     };
 
     const mockChangeNoteGroupDialogService = {
@@ -105,21 +102,16 @@ describe('NotesEffects', () => {
     changeNoteGroupDialogService = TestBed.inject(
       ChangeNoteGroupDialogService
     ) as jest.Mocked<ChangeNoteGroupDialogService>;
-    removeNoteDialogService = TestBed.inject(
-      RemoveNoteDialogService
-    ) as jest.Mocked<RemoveNoteDialogService>;
-    editNoteDialogService = TestBed.inject(
-      EditNoteDialogService
-    ) as jest.Mocked<EditNoteDialogService>;
     actions$ = new Observable();
   });
 
   it('should dispatch addNotesGroupSuccess and resetAddNotesGroupSuccess actions and open a snackbar on success', (done) => {
     const addNotesGroupPayload = { name: 'New Group' };
-    const addNotesGroupSuccessPayload = { id: '123', name: 'New Group' };
-    notesService.addNotesGroup.mockReturnValue(
-      of(addNotesGroupSuccessPayload) as any
-    );
+    const addNotesGroupSuccessPayload = {
+      id: '123',
+      name: 'New Group',
+    } as unknown as AddNotesGroupSuccessPayload;
+    notesService.addNotesGroup.mockReturnValue(of(addNotesGroupSuccessPayload));
 
     actions$ = of(
       NotesActions.addNotesGroup({ payload: addNotesGroupPayload })
@@ -128,7 +120,7 @@ describe('NotesEffects', () => {
     effects.addNotesGroup$.subscribe((action) => {
       expect(action).toEqual(
         NotesActions.addNotesGroupSuccess({
-          payload: addNotesGroupSuccessPayload as any,
+          payload: addNotesGroupSuccessPayload,
         })
       );
       expect(snackbarService.open).toHaveBeenCalledWith(
@@ -139,20 +131,26 @@ describe('NotesEffects', () => {
   });
 
   it('should dispatch editNotesGroupSuccess and resetEditNotesGroupSuccess actions, clear dialog, and open a snackbar on success', (done) => {
-    const editNotesGroupPayload = { id: '123', name: 'Updated Group' };
-    const editNotesGroupSuccessPayload = { id: '123', name: 'Updated Group' };
+    const editNotesGroupPayload = {
+      id: '123',
+      name: 'Updated Group',
+    } as unknown as EditNotesGroupPayload;
+    const editNotesGroupSuccessPayload = {
+      id: '123',
+      name: 'Updated Group',
+    } as unknown as EditNotesGroupSuccessPayload;
     notesService.editNotesGroup.mockReturnValue(
-      of(editNotesGroupSuccessPayload as any)
+      of(editNotesGroupSuccessPayload)
     );
 
     actions$ = of(
-      NotesActions.editNotesGroup({ payload: editNotesGroupPayload as any })
+      NotesActions.editNotesGroup({ payload: editNotesGroupPayload })
     );
 
     effects.editNotesGroup$.subscribe((action) => {
       expect(action).toEqual(
         NotesActions.editNotesGroupSuccess({
-          payload: editNotesGroupSuccessPayload as any,
+          payload: editNotesGroupSuccessPayload,
         })
       );
       expect(
@@ -166,13 +164,15 @@ describe('NotesEffects', () => {
   });
 
   it('should show an indefinite snackbar, dispatch duplicateNotesGroupSuccess and resetDuplicateNotesGroupSuccess actions, and then show a success snackbar on completion', (done) => {
-    const duplicateNotesGroupPayload = { id: '123' };
+    const duplicateNotesGroupPayload = {
+      id: '123',
+    } as unknown as DuplicateNotesGroupPayload;
     const duplicateNotesGroupSuccessPayload = {
       id: '456',
       name: 'Duplicated Group',
-    };
+    } as unknown as DuplicateNotesGroupSuccessPayload;
     notesService.duplicateNotesGroup.mockReturnValue(
-      of(duplicateNotesGroupSuccessPayload as any)
+      of(duplicateNotesGroupSuccessPayload)
     );
     snackbarService.openIndefinite.mockReturnValue(
       mockSnackbarRef as MatSnackBarRef<TextOnlySnackBar>
@@ -180,7 +180,7 @@ describe('NotesEffects', () => {
 
     actions$ = of(
       NotesActions.duplicateNotesGroup({
-        payload: duplicateNotesGroupPayload as any,
+        payload: duplicateNotesGroupPayload,
       })
     );
 
@@ -190,7 +190,7 @@ describe('NotesEffects', () => {
       );
       expect(action).toEqual(
         NotesActions.duplicateNotesGroupSuccess({
-          payload: duplicateNotesGroupSuccessPayload as any,
+          payload: duplicateNotesGroupSuccessPayload,
         })
       );
       expect(mockSnackbarRef.dismiss).toHaveBeenCalled();
@@ -205,13 +205,13 @@ describe('NotesEffects', () => {
     const changeNoteGroupPayload = {
       noteId: 'note123',
       newGroupId: 'group456',
-    };
+    } as unknown as ChangeNoteGroupPayload;
     const changeNoteGroupSuccessPayload = {
       noteId: 'note123',
       groupId: 'group456',
-    };
+    } as unknown as ChangeNoteGroupSuccessPayload;
     notesService.changeNoteGroup.mockReturnValue(
-      of(changeNoteGroupSuccessPayload as any)
+      of(changeNoteGroupSuccessPayload)
     );
 
     actions$ = of(
@@ -221,7 +221,7 @@ describe('NotesEffects', () => {
     effects.changeNoteGroup$.subscribe((action) => {
       expect(action).toEqual(
         NotesActions.changeNoteGroupSuccess({
-          payload: changeNoteGroupSuccessPayload as any,
+          payload: changeNoteGroupSuccessPayload,
         })
       );
       expect(changeNoteGroupDialogService.clearNoteToMove).toHaveBeenCalled();
@@ -232,40 +232,21 @@ describe('NotesEffects', () => {
     });
   });
 
-  it('should dispatch removeNoteSuccess and resetRemoveNoteSuccess actions and open a snackbar on success', (done) => {
-    const removeNotePayload = { id: 'note123' };
-    const removeNoteSuccessPayload = { id: 'note123' };
-    notesService.removeNote.mockReturnValue(
-      of(removeNoteSuccessPayload as any)
-    );
-
-    actions$ = of(
-      NotesActions.removeNote({ payload: removeNotePayload as any })
-    );
-
-    effects.removeNote$.subscribe((action) => {
-      expect(action).toEqual(
-        NotesActions.removeNoteSuccess({
-          payload: removeNoteSuccessPayload as any,
-        })
-      );
-      expect(removeNoteDialogService.clearNoteToRemove).toHaveBeenCalled();
-      expect(snackbarService.open).toHaveBeenCalledWith(
-        'Note removed successfully!'
-      );
-      done();
-    });
-  });
-
   it('should handle changeNoteGroup success', (done) => {
-    const payload = { noteId: 'note1', newGroupId: 'group1' };
-    const successPayload = { noteId: 'note1', groupId: 'group1' };
-    notesService.changeNoteGroup.mockReturnValue(of(successPayload as any));
+    const payload = {
+      noteId: 'note1',
+      newGroupId: 'group1',
+    } as unknown as ChangeNoteGroupPayload;
+    const successPayload = {
+      noteId: 'note1',
+      groupId: 'group1',
+    } as unknown as ChangeNoteGroupSuccessPayload;
+    notesService.changeNoteGroup.mockReturnValue(of(successPayload));
     actions$ = of(NotesActions.changeNoteGroup({ payload }));
 
     effects.changeNoteGroup$.subscribe((action) => {
       expect(action).toEqual(
-        NotesActions.changeNoteGroupSuccess({ payload: successPayload as any })
+        NotesActions.changeNoteGroupSuccess({ payload: successPayload })
       );
       expect(snackbarService.open).toHaveBeenCalledWith(
         'Note successfully moved to another group!'

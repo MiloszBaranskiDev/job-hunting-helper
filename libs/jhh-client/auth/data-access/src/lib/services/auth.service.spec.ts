@@ -159,7 +159,7 @@ describe('AuthService', () => {
   describe('removeAccount', () => {
     it('should make a DELETE request and return the expected response', () => {
       const dummyResponse: RemoveAccountSuccessResponse = {
-        data: { message: 'Account removed successfully' } as any,
+        data: { removedAccountId: '1337' },
       };
 
       service.removeAccount().subscribe((res) => {

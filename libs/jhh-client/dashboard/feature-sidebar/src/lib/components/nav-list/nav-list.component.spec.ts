@@ -8,10 +8,12 @@ import { ActivatedRoute } from '@angular/router';
 describe('NavListComponent', () => {
   let component: NavListComponent;
   let fixture: ComponentFixture<NavListComponent>;
-  let mockActivatedRoute: any;
+  let mockActivatedRoute: jest.Mocked<ActivatedRoute>;
 
   beforeEach(async () => {
-    mockActivatedRoute = { queryParams: of({}) };
+    mockActivatedRoute = {
+      queryParams: of({}),
+    } as unknown as jest.Mocked<ActivatedRoute>;
 
     await TestBed.configureTestingModule({
       imports: [NavListComponent],

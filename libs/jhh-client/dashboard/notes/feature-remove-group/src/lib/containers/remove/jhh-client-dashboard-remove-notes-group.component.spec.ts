@@ -15,7 +15,7 @@ import { NotesGroup } from '@prisma/client';
 describe('JhhClientDashboardRemoveNotesGroupComponent', () => {
   let component: JhhClientDashboardRemoveNotesGroupComponent;
   let fixture: ComponentFixture<JhhClientDashboardRemoveNotesGroupComponent>;
-  let mockRemoveNotesGroupDialogService: any;
+  let mockRemoveNotesGroupDialogService: jest.Mocked<RemoveNotesGroupDialogService>;
   let mockNotesFacade;
 
   beforeAll(() => {
@@ -30,7 +30,7 @@ describe('JhhClientDashboardRemoveNotesGroupComponent', () => {
       notesGroupToRemove$: new BehaviorSubject<NotesGroup | undefined>(
         undefined
       ),
-    };
+    } as unknown as jest.Mocked<RemoveNotesGroupDialogService>;
     mockNotesFacade = {};
 
     await TestBed.configureTestingModule({
@@ -62,6 +62,7 @@ describe('JhhClientDashboardRemoveNotesGroupComponent', () => {
       notes: [],
     } as unknown as NotesGroup;
 
+    // @ts-ignore
     mockRemoveNotesGroupDialogService.notesGroupToRemove$.next(mockNotesGroup);
 
     fixture.detectChanges();

@@ -7,10 +7,12 @@ import { BrandComponent } from './brand.component';
 describe('BrandComponent', () => {
   let component: BrandComponent;
   let fixture: ComponentFixture<BrandComponent>;
-  let mockActivatedRoute: any;
+  let mockActivatedRoute: jest.Mocked<ActivatedRoute>;
 
   beforeEach(async () => {
-    mockActivatedRoute = { queryParams: of({}) };
+    mockActivatedRoute = {
+      queryParams: of({}),
+    } as unknown as jest.Mocked<ActivatedRoute>;
 
     await TestBed.configureTestingModule({
       imports: [BrandComponent],

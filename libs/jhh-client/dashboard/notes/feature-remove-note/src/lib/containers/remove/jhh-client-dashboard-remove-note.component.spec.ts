@@ -15,7 +15,7 @@ import { Note } from '@prisma/client';
 describe('JhhClientDashboardRemoveNoteComponent', () => {
   let component: JhhClientDashboardRemoveNoteComponent;
   let fixture: ComponentFixture<JhhClientDashboardRemoveNoteComponent>;
-  let mockRemoveNoteDialogService: any;
+  let mockRemoveNoteDialogService: jest.Mocked<RemoveNoteDialogService>;
   let mockNotesFacade;
 
   beforeAll(() => {
@@ -28,7 +28,7 @@ describe('JhhClientDashboardRemoveNoteComponent', () => {
   beforeEach(async () => {
     mockRemoveNoteDialogService = {
       noteToRemove$: new BehaviorSubject<Note | undefined>(undefined),
-    };
+    } as unknown as jest.Mocked<RemoveNoteDialogService>;
     mockNotesFacade = {};
 
     await TestBed.configureTestingModule({
@@ -57,6 +57,7 @@ describe('JhhClientDashboardRemoveNoteComponent', () => {
       name: 'Test Note',
     } as unknown as Note;
 
+    // @ts-ignore
     mockRemoveNoteDialogService.noteToRemove$.next(mockNote);
 
     fixture.detectChanges();

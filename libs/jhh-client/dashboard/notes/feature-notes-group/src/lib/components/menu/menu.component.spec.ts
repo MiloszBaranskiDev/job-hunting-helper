@@ -18,12 +18,12 @@ import { NotesGroup } from '@jhh/shared/domain';
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
-  let mockActivatedRoute: any,
-    mockRouter: any,
-    mockDestroyRef: any,
-    mockEditNotesGroupDialogService: any,
-    mockRemoveNotesGroupDialogService: any,
-    mockNotesFacade: any;
+  let mockActivatedRoute,
+    mockRouter,
+    mockDestroyRef,
+    mockEditNotesGroupDialogService: Partial<EditNotesGroupDialogService>,
+    mockRemoveNotesGroupDialogService: Partial<RemoveNotesGroupDialogService>,
+    mockNotesFacade: Partial<NotesFacade>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(

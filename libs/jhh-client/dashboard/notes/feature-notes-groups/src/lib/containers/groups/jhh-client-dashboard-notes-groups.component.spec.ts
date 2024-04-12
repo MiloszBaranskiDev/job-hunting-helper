@@ -14,7 +14,9 @@ import { JhhClientDashboardNotesGroupsComponent } from './jhh-client-dashboard-n
 describe('JhhClientDashboardNotesGroupsComponent', () => {
   let component: JhhClientDashboardNotesGroupsComponent;
   let fixture: ComponentFixture<JhhClientDashboardNotesGroupsComponent>;
-  let mockNotesFacade: any, mockQueryParamsService: any, mockCdr;
+  let mockNotesFacade: jest.Mocked<NotesFacade>,
+    mockQueryParamsService: jest.Mocked<QueryParamsService>,
+    mockCdr;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(
@@ -31,14 +33,14 @@ describe('JhhClientDashboardNotesGroupsComponent', () => {
       ]),
       searchNotesGroups$ByName: jest.fn(),
       addNotesGroupSuccess$: of(true),
-    };
+    } as unknown as jest.Mocked<NotesFacade>;
     mockQueryParamsService = {
       setFromCurrentRoute: jest.fn(),
       updateQueryParams: jest.fn(),
       clearQueryParams: jest.fn(),
       getCurrentSort$: jest.fn(),
       getCurrentPage$: jest.fn(),
-    };
+    } as unknown as jest.Mocked<QueryParamsService>;
     mockCdr = { detectChanges: jest.fn() };
 
     await TestBed.configureTestingModule({
@@ -71,7 +73,7 @@ describe('JhhClientDashboardNotesGroupsComponent', () => {
 
   it('should sort groups correctly', () => {
     mockQueryParamsService.getCurrentSort$.mockReturnValue(
-      of('someSortCriteria')
+      of('someSortCriteria') as any
     );
     fixture.detectChanges();
 
@@ -79,7 +81,7 @@ describe('JhhClientDashboardNotesGroupsComponent', () => {
   });
 
   it('should handle pagination correctly', () => {
-    mockQueryParamsService.getCurrentPage$.mockReturnValue(of(2));
+    mockQueryParamsService.getCurrentPage$.mockReturnValue(of(2) as any);
     fixture.detectChanges();
 
     expect(mockQueryParamsService.getCurrentPage$).toHaveBeenCalled();

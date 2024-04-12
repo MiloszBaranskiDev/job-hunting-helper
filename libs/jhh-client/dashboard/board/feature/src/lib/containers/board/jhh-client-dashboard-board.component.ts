@@ -30,7 +30,7 @@ import { BoardColumn } from '@jhh/shared/domain';
 })
 export class JhhClientDashboardBoardComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly actions$: Actions<any> = inject(Actions);
+  private readonly actions$: Actions = inject(Actions);
   private readonly boardFacade: BoardFacade = inject(BoardFacade);
 
   @HostBinding('class.isSaving') get isSavingClass() {

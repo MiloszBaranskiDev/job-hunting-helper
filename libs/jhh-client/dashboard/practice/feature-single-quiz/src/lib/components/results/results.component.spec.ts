@@ -7,12 +7,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ResultsComponent } from './results.component';
 
-import { QuizResult } from '@jhh/shared/domain';
+import { QuizResult, QuizResults } from '@jhh/shared/domain';
 
 describe('ResultsComponent', () => {
   let component: ResultsComponent;
   let fixture: ComponentFixture<ResultsComponent>;
-  let mockDialog: any;
+  let mockDialog: jest.Mocked<MatDialog>;
 
   const mockQuizResults: QuizResult[] = [
     {
@@ -41,7 +41,7 @@ describe('ResultsComponent', () => {
       open: jest.fn().mockReturnThis(),
       afterClosed: jest.fn().mockReturnThis(),
       subscribe: jest.fn().mockImplementation((fn) => fn()),
-    };
+    } as unknown as jest.Mocked<MatDialog>;
 
     await TestBed.configureTestingModule({
       imports: [ResultsComponent],
@@ -55,7 +55,7 @@ describe('ResultsComponent', () => {
         percentage: 50,
         totalScore: 1,
         items: mockQuizResults,
-      } as any,
+      } as QuizResults,
     ];
     fixture.detectChanges();
   });

@@ -1,8 +1,8 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function EnumValidator(enumObj: any): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const values = Object.values(enumObj);
+export function EnumValidator<T>(enumObj: { [key: string]: T }): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const values: T[] = Object.values(enumObj);
     if (values.includes(control.value)) {
       return null;
     }

@@ -19,9 +19,9 @@ describe('MenuComponent', () => {
   let fixture: ComponentFixture<MenuComponent>;
   let mockNotesFacade: Partial<NotesFacade>;
   let mockGroups$: Observable<NotesGroup[] | null>;
-  let mockEditNoteDialogService: any,
-    mockChangeNoteGroupDialogService: any,
-    mockRemoveNoteDialogService: any;
+  let mockEditNoteDialogService: Partial<EditNoteDialogService>,
+    mockChangeNoteGroupDialogService: Partial<ChangeNoteGroupDialogService>,
+    mockRemoveNoteDialogService: Partial<RemoveNoteDialogService>;
 
   beforeAll(() => {
     TestBed.initTestEnvironment(

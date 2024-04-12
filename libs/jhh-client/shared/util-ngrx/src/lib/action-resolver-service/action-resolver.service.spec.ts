@@ -4,7 +4,7 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { Subject } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 
@@ -17,7 +17,6 @@ const inject = require('@angular/core').inject;
 
 describe('ActionResolverService', () => {
   let service: ActionResolverService;
-  let store: MockStore;
   let actions$: Subject<any>;
 
   beforeAll(() => {
@@ -32,7 +31,6 @@ describe('ActionResolverService', () => {
       providers: [provideMockStore()],
     });
     service = TestBed.inject(ActionResolverService);
-    store = TestBed.inject(MockStore);
     actions$ = new Subject();
 
     inject.mockImplementation((token: any) => {
