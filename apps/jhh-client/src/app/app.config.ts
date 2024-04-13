@@ -4,8 +4,11 @@ import {
   isDevMode,
 } from '@angular/core';
 import {
+  InMemoryScrollingFeature,
+  InMemoryScrollingOptions,
   provideRouter,
   withEnabledBlockingInitialNavigation,
+  withInMemoryScrolling,
 } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -31,6 +34,14 @@ import { DashboardFacade } from '@jhh/jhh-client/dashboard/data-access';
 
 import { environment } from '@jhh/jhh-client/shared/config';
 
+const scrollConfig: InMemoryScrollingOptions = {
+  scrollPositionRestoration: 'top',
+  anchorScrolling: 'enabled',
+};
+
+const inMemoryScrollingFeature: InMemoryScrollingFeature =
+  withInMemoryScrolling(scrollConfig);
+
 export const appConfig: ApplicationConfig = {
   providers: [
     AuthFacade,
@@ -48,7 +59,11 @@ export const appConfig: ApplicationConfig = {
             traceLimit: 75,
           }),
         ]),
-    provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
+    provideRouter(
+      appRoutes,
+      withEnabledBlockingInitialNavigation(),
+      inMemoryScrollingFeature
+    ),
     provideAnimations(),
     provideHttpClient(withInterceptors([AuthInterceptor])),
     importProvidersFrom(
