@@ -47,3 +47,20 @@ textarea {
   min-height: 113px;
   line-height: 1.35 !important;
 }
+
+td {
+  white-space: nowrap;
+}
+
+// prevent zoom in on input focus
+@media (max-width: 959px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+
+    &::placeholder {
+      font-size: 12px !important;
+    }
+  }
+}

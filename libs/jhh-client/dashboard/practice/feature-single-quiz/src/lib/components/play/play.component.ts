@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { PracticeFacade } from '@jhh/jhh-client/dashboard/practice/data-access';
+import { BreakpointService } from '@jhh/jhh-client/shared/util-breakpoint';
 
 import { GetPercentageClass } from '@jhh/jhh-client/dashboard/practice/util-get-percentage-class';
 
@@ -32,6 +33,8 @@ import { Quiz, QuizItem, QuizResult } from '@jhh/shared/domain';
   styleUrls: ['./play.component.scss'],
 })
 export class PlayComponent implements OnInit {
+  private readonly breakpointService: BreakpointService =
+    inject(BreakpointService);
   private readonly practiceFacade: PracticeFacade = inject(PracticeFacade);
 
   @Input({ required: true }) quiz: Quiz;
@@ -46,7 +49,10 @@ export class PlayComponent implements OnInit {
   totalScore: number;
   percentage: number;
 
+  breakpoint$: Observable<string>;
+
   ngOnInit(): void {
+    this.breakpoint$ = this.breakpointService.breakpoint$;
     this.shuffledAndLimitedQuestions = [...this.quiz.items];
 
     if (this.isQuizShuffled$.getValue()) {

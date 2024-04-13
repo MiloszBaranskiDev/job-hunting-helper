@@ -1,12 +1,4 @@
-<div class="playContainer">
-  <header>
-    <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
-    <div>
-      <h2>{{ quiz.name }}</h2>
-      <p *ngIf="quiz.description">{{ quiz.description }}</p>
-    </div>
-  </header>
-
+<div [ngClass]="['playContainer', breakpoint$ | async]">
   <ng-container *ngIf="!quizResults || quizResults.length === 0; else results">
     <mat-progress-bar mode="determinate" [value]="progressPercentage"></mat-progress-bar>
 
@@ -25,7 +17,7 @@
       <div *ngIf="shuffledAndLimitedQuestions[currentQuestionIndex] as currentQuestion">
         <h3 class="question">
           <span>
-            {{ currentQuestionIndex + 1 }}/{{shuffledAndLimitedQuestions.length}}
+            {{ currentQuestionIndex + 1 }}/{{ shuffledAndLimitedQuestions.length }}
           </span>
           <span>
             {{ currentQuestion.question }}
@@ -113,8 +105,8 @@
     <div *ngIf="quizResults?.length" class="results">
       <h3>
         Quiz results
-        <span class="resultsScore">{{totalScore}}/{{shuffledAndLimitedQuestions.length}}</span>
-        <span [ngClass]="['resultsPercentage', percentageClass]">{{percentage}}%</span>
+        <span class="resultsScore">{{ totalScore }}/{{ shuffledAndLimitedQuestions.length }}</span>
+        <span [ngClass]="['resultsPercentage', percentageClass]">{{ percentage }}%</span>
       </h3>
       <ul>
         <li *ngFor="let result of quizResults; let i = index">
@@ -122,14 +114,14 @@
             <mat-icon
               [ngClass]="result.isCorrect ? 'true' : 'false'"
             >
-              {{result.isCorrect ? 'check' : 'clear'}}
+              {{ result.isCorrect ? 'check' : 'clear' }}
             </mat-icon>
             <span>
-              {{i + 1}}. {{result.question}}
+              {{ i + 1 }}. {{ result.question }}
             </span>
           </h4>
-          <p><strong>Your answer:</strong> {{result.userAnswers.join(', ')}}</p>
-          <p><strong>Correct answer:</strong> {{result.correctAnswers.join(', ')}}</p>
+          <p><strong>Your answer:</strong> {{ result.userAnswers.join(', ') }}</p>
+          <p><strong>Correct answer:</strong> {{ result.correctAnswers.join(', ') }}</p>
           <mat-divider></mat-divider>
         </li>
       </ul>
@@ -158,6 +150,14 @@
       </div>
     </div>
   </ng-template>
+
+  <header>
+    <img *ngIf="quiz.imageUrl" [src]="quiz.imageUrl" [alt]="quiz.name">
+    <div>
+      <h2>{{ quiz.name }}</h2>
+      <p *ngIf="quiz.description">{{ quiz.description }}</p>
+    </div>
+  </header>
 </div>
 
 
