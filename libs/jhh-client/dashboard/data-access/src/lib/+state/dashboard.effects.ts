@@ -10,13 +10,14 @@ import {
 } from 'rxjs/operators';
 import { fetch } from '@nrwl/angular';
 import { from, of, timer } from 'rxjs';
+import { HttpStatusCode, LocalStorageKey } from '@jhh/shared/domain';
 
 import * as DashboardActions from './dashboard.actions';
 import { DashboardFacade } from './dashboard.facade';
 import { DashboardService } from '../services/dashboard.service';
+import { AuthService } from '@jhh/jhh-client/auth/data-access';
 
 import { LoadAssignedDataSuccessPayload } from '@jhh/jhh-client/dashboard/domain';
-import { LocalStorageKey } from '@jhh/shared/domain';
 
 @Injectable()
 export class DashboardEffects {
@@ -24,6 +25,7 @@ export class DashboardEffects {
   private readonly dashboardService: DashboardService =
     inject(DashboardService);
   private readonly dashboardFacade: DashboardFacade = inject(DashboardFacade);
+  private readonly authService: AuthService = inject(AuthService);
 
   loadAssignedData$ = createEffect(() =>
     this.actions$.pipe(
@@ -47,12 +49,18 @@ export class DashboardEffects {
               errors.pipe(
                 switchMap((error, index) => {
                   const attempt: number = index + 1;
+
+                  if (error?.status === HttpStatusCode.NotFound) {
+                    this.authService.removeToken();
+                  }
+
                   if (attempt >= 10) {
                     localStorage.removeItem(
                       LocalStorageKey.UnsavedBoardRequestId
                     );
                     window.location.reload();
                   }
+
                   return timer(3000);
                 }),
                 take(10)

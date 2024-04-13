@@ -17,13 +17,19 @@ export function JhhServerControllerDashboard() {
     try {
       const userId = req.user.id;
 
-      const user: User | null = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
+      const existingUser: User | null = await prisma.user.findUnique({
+        where: { id: userId },
       });
 
-      const unsavedBoardRequestId = user.unsavedBoardRequestId;
+      if (!existingUser) {
+        return respondWithError(
+          res,
+          HttpStatusCode.NotFound,
+          'User not found.'
+        );
+      }
+
+      const unsavedBoardRequestId = existingUser.unsavedBoardRequestId;
 
       const notesGroups: NotesGroup[] = await prisma.notesGroup.findMany({
         where: {
@@ -73,12 +79,12 @@ export function JhhServerControllerDashboard() {
         },
       });
 
-      const newToken: string = createJWT(user, process.env.JWT_SECRET);
+      const newToken: string = createJWT(existingUser, process.env.JWT_SECRET);
 
-      delete user['password'];
+      delete existingUser['password'];
       res.status(HttpStatusCode.OK).json({
         data: {
-          user,
+          user: existingUser,
           newToken,
           notesGroups,
           boardColumns,
