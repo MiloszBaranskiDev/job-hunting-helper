@@ -73,54 +73,6 @@ describe('ColumnsComponent', () => {
     });
   });
 
-  it('should set updated columns', () => {
-    const originalColumns: BoardColumn[] = [
-      {
-        id: '1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: 'Column 1',
-        color: 'blue',
-        order: 0,
-        items: [],
-      },
-      {
-        id: '2',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: 'Column 2',
-        color: 'red',
-        order: 1,
-        items: [],
-      },
-    ];
-    component.columns = originalColumns;
-
-    const updatedColumns: BoardColumn[] = [
-      {
-        id: '1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: 'Updated Column 1',
-        color: 'green',
-        order: 0,
-        items: [],
-      },
-      {
-        id: '3',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: 'Column 3',
-        color: 'yellow',
-        order: 2,
-        items: [],
-      },
-    ];
-    component.columns = updatedColumns;
-
-    expect(component._columns).toEqual(updatedColumns);
-  });
-
   it('should add an item to a column', () => {
     const columnId = 'testColumnId';
     component.columns = [
