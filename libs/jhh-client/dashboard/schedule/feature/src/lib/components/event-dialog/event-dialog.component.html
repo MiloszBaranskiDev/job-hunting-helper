@@ -3,7 +3,7 @@
     <h2 mat-dialog-title>
       <span [style.background-color]="event.color" class="circle"></span>
       <span>
-        {{event.title}}
+        {{ event.title }}
       </span>
     </h2>
     <mat-dialog-content>
@@ -47,7 +47,7 @@
       <span>{{ event.end | date: 'dd.MM.yy HH:mm' }}</span>
     </div>
     <div class="description" *ngIf="event.description">
-      <p>{{event.description}}</p>
+      <p>{{ event.description }}</p>
     </div>
   </div>
 </ng-template>
@@ -105,10 +105,10 @@
           Title is required
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Title)?.hasError(formErrorKey.MinLength)">
-          Minimum length of title is {{fieldLength.MinTitleLength}} characters
+          Minimum length of title is {{ fieldLength.MinTitleLength }} characters
         </mat-error>
         <mat-error *ngIf="formGroup.get(formField.Title)?.hasError(formErrorKey.MaxLength)">
-          Maximum length of title is {{fieldLength.MaxTitleLength}} characters
+          Maximum length of title is {{ fieldLength.MaxTitleLength }} characters
         </mat-error>
       </mat-form-field>
 
@@ -140,7 +140,7 @@
         >
         </textarea>
         <mat-error *ngIf="formGroup.get(formField.Description)?.hasError(formErrorKey.MaxLength)">
-          Maximum length of description is {{fieldLength.MaxDescriptionLength}} characters
+          Maximum length of description is {{ fieldLength.MaxDescriptionLength }} characters
         </mat-error>
       </mat-form-field>
 
