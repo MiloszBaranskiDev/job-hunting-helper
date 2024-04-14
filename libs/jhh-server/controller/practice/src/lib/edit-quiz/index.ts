@@ -199,7 +199,7 @@ const editQuiz = async (req: any, res: any): Promise<void> => {
     const originalSlug: string = updatedSlug;
 
     while (
-      await prisma.notesGroup.findFirst({
+      await prisma.quiz.findFirst({
         where: {
           slug: updatedSlug,
           userId,
