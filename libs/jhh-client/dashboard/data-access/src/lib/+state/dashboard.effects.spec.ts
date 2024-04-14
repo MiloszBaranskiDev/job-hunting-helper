@@ -5,15 +5,18 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { DashboardEffects } from './dashboard.effects';
 import { DashboardService } from '../services/dashboard.service';
 import { DashboardFacade } from './dashboard.facade';
 import * as DashboardActions from './dashboard.actions';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('DashboardEffects', () => {
   let actions$: Observable<any>;
   let effects: DashboardEffects;
+  let mockDialog: jest.Mocked<MatDialog>;
   let dashboardService: jest.Mocked<DashboardService>;
   let dashboardFacade: jest.Mocked<DashboardFacade>;
 
@@ -25,10 +28,17 @@ describe('DashboardEffects', () => {
   });
 
   beforeEach(() => {
+    mockDialog = {
+      open: jest.fn(),
+      afterClosed: jest.fn().mockReturnValue(of(null)),
+    } as unknown as jest.Mocked<MatDialog>;
+
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
         DashboardEffects,
         provideMockActions(() => actions$),
+        { provide: MatDialog, useValue: mockDialog },
         {
           provide: DashboardService,
           useValue: { loadAssignedData: jest.fn() },
