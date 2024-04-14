@@ -85,5 +85,4 @@ If you have any issues with the application or installation, please [contact me]
 ![2](https://github.com/MiloszBaranskiDev/job-hunting-helper/assets/66494943/0ce13954-5bfe-411a-aa8c-b65bfa8a4447)
 ![3](https://github.com/MiloszBaranskiDev/job-hunting-helper/assets/66494943/2643d0fc-4fb0-4d36-a262-f0a10a164b31)
 ![4](https://github.com/MiloszBaranskiDev/job-hunting-helper/assets/66494943/994ede36-d1bf-4633-aa47-bd679f1a5748)
-![5](https://github.com/MiloszBaranskiDev/job-hunting-helper/assets/66494943/6050ee12-eeef-44f3-9ef8-fae0796ac657)
-
+![5](https://github.com/MiloszBaranskiDev/job-hunting-helper/assets/66494943/b8146bd1-2369-4078-8774-5d1b87cbf625)
