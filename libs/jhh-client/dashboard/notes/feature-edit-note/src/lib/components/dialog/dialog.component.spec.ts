@@ -88,7 +88,8 @@ describe('DialogComponent', () => {
       component.noteToEdit.id,
       'New Name',
       'new-slug',
-      '<h1>heading</h1>'
+      '<h1>heading</h1>',
+      component.noteToEdit.groupId
     );
   });
 });
